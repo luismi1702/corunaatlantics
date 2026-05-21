@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coruña Atlantics | Football Americano</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+    :root {
+      --ink:    #040d12;
+      --deep:   #071520;
+      --surf:   #0d2030;
+      --teal:   #4ECDC8;
+      --teal2:  #3aafab;
+      --gold:   #D4A843;
+      --goldf:  #F0C060;
+      --text:   #EEF4F6;
+      --dim:    rgba(220,240,245,0.72);
+      --muted:  rgba(140,190,210,0.50);
+      --bt:     rgba(78,205,200,0.12);
+      --bg:     rgba(212,168,67,0.12);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    @media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+    body {
+      background: var(--ink);
+      color: var(--text);
+      font-family: 'Barlow', sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    h1,h2,h3 { font-family: 'Anton', sans-serif; letter-spacing: 0.03em; }
+    a { color: inherit; text-decoration: none; }
+
+    /* ── SKIP LINK ── */
+    .skip-link {
+      position: absolute; top: -100%; left: 1rem;
+      background: var(--teal); color: var(--ink);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700; font-size: 0.82rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      padding: 0.6rem 1.2rem; border-radius: 3px; z-index: 9999;
+      transition: top 0.2s;
+    }
+    .skip-link:focus { top: 1rem; }
+
+    /* ── VIDEO BACKGROUND ── */
+    #bg-video {
+      position: fixed; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+
+    #ocean-overlay {
+      position: fixed; inset: 0;
+      background: rgba(4,13,18,0.42);
+      z-index: 2;
+      pointer-events: none;
+    }
+    body > *:not(#bg-video):not(#ocean-overlay) {
+      position: relative; z-index: 3;
+    }
+
+    /* ── HEADER ── */
+    header {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      transition: background 0.3s, border-color 0.3s;
+      border-bottom: 1px solid transparent;
+    }
+    header.scrolled {
+      background: rgba(4,13,18,0.96);
+      backdrop-filter: blur(20px);
+      border-color: rgba(78,205,200,0.10);
+    }
+    .hdr {
+      display: flex; align-items: center; justify-content: space-between;
+      max-width: 1300px; margin: 0 auto;
+      padding: 1.1rem 2rem;
+    }
+    .logo-wrap { display: flex; align-items: center; gap: 0.8rem; }
+    .logo-wrap img { height: 44px; width: auto; }
+    .logo-name {
+      font-family: 'Anton', sans-serif;
+      font-size: 1.05rem; letter-spacing: 0.08em; color: var(--text);
+    }
+    .logo-sub {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.58rem; letter-spacing: 0.2em;
+      text-transform: uppercase; color: var(--muted);
+    }
+    nav { display: flex; align-items: center; gap: 0.3rem; }
+    nav a {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700; font-size: 0.78rem;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      color: var(--dim); padding: 0.4rem 1rem; border-radius: 3px;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: var(--teal); }
+    .nav-cta {
+      background: var(--teal) !important;
+      color: var(--ink) !important;
+      margin-left: 0.4rem;
+    }
+    .nav-cta:hover { background: var(--teal2) !important; }
+    .hamburger {
+      display: none; flex-direction: column; gap: 5px;
+      background: none; border: none; cursor: pointer; padding: 10px;
+    }
+    .hamburger span {
+      display: block; width: 24px; height: 2px;
+      background: var(--dim); border-radius: 2px; transition: all 0.3s;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh; display: flex; align-items: center;
+      position: relative; overflow: hidden;
+    }
+    .hero-inner {
+      max-width: 1300px; margin: 0 auto;
+      padding: 9rem 2rem 6rem; width: 100%;
+      display: grid; grid-template-columns: 1fr 1.3fr;
+      align-items: center; gap: 2rem;
+    }
+    .hero-kicker {
+      display: flex; align-items: center; gap: 0.6rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700; font-size: 0.72rem;
+      letter-spacing: 0.24em; text-transform: uppercase;
+      color: var(--teal); margin-bottom: 1.2rem;
+    }
+    .hero-kicker::before { content: ''; width: 32px; height: 2px; background: var(--teal); }
+    .hero-title {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(4rem, 9vw, 8.5rem);
+      line-height: 0.9; letter-spacing: 0.01em;
+      color: var(--text); margin-bottom: 1.2rem;
+    }
+    .hero-title .t { color: var(--teal); }
+    .hero-title .g { color: var(--gold); }
+    .hero-tag {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700; font-size: 1.15rem;
+      letter-spacing: 0.06em; color: var(--gold);
+      text-transform: uppercase; margin-bottom: 2rem;
+      line-height: 1.3;
+    }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    .hero-mascot {
+      display: flex; justify-content: center; align-items: flex-end;
+      position: relative; transform: translateX(-40px);
+    }
+    .hero-mascot::before {
+      content: '';
+      position: absolute; bottom: -20px; left: 50%;
+      transform: translateX(-50%);
+      width: 55%; height: 30px;
+      background: radial-gradient(ellipse, rgba(78,205,200,0.45) 0%, transparent 70%);
+      filter: blur(18px);
+    }
+    .hero-mascot img {
+      height: min(90vh, 900px); width: auto; max-width: none;
+      filter: drop-shadow(0 0 70px rgba(78,205,200,0.30)) drop-shadow(0 40px 60px rgba(0,0,0,0.7));
+      animation: float 7s ease-in-out infinite;
+      position: relative; z-index: 1;
+      mix-blend-mode: multiply;
+    }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-18px)} }
+
+    .hero-scroll {
+      position: absolute; bottom: 2.5rem; left: 50%;
+      transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: 0.4rem;
+      color: var(--muted);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
+    }
+    .scroll-line {
+      width: 1px; height: 40px;
+      background: linear-gradient(to bottom, var(--teal), transparent);
+      animation: sl 2s ease-in-out infinite;
+    }
+    @keyframes sl {
+      0%  { transform:scaleY(0); transform-origin:top; }
+      50% { transform:scaleY(1); transform-origin:top; }
+      51% { transform:scaleY(1); transform-origin:bottom; }
+      100%{ transform:scaleY(0); transform-origin:bottom; }
+    }
+
+    /* ── BUTTONS ── */
+    .btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.8rem 1.8rem; border-radius: 3px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700; font-size: 0.88rem;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      cursor: pointer; transition: all 0.2s; border: none;
+    }
+    .btn-primary { background: var(--teal); color: var(--ink); }
+    .btn-primary:hover { background: var(--teal2); transform: translateY(-2px); }
+    .btn-outline {
+      background: transparent; color: var(--text);
+      border: 1.5px solid rgba(78,205,200,0.35);
+    }
+    .btn-outline:hover { border-color: var(--teal); color: var(--teal); transform: translateY(-2px); }
+    .btn-gold { background: var(--gold); color: var(--ink); }
+    .btn-gold:hover { background: var(--goldf); transform: translateY(-2px); }
+    .btn-outline-gold {
+      border-color: rgba(212,168,67,0.45); color: var(--gold);
+    }
+    .btn-outline-gold:hover { border-color: var(--gold); color: var(--goldf); }
+    .btn:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+
+    /* ── DIVIDER ── */
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(78,205,200,0.20) 20%, rgba(212,168,67,0.45) 50%, rgba(78,205,200,0.20) 80%, transparent);
+    }
+
+    /* ── SECTIONS ── */
+    .section { padding: 6rem 2rem; }
+    .container { max-width: 1300px; margin: 0 auto; }
+
+    .sec-label {
+      display: flex; align-items: center; gap: 0.8rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700; font-size: 0.7rem;
+      letter-spacing: 0.24em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 0.9rem;
+    }
+    .sec-label::before { content: ''; width: 30px; height: 1.5px; background: var(--gold); }
+    .sec-title {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      letter-spacing: 0.02em; color: var(--text); line-height: 1;
+      margin-bottom: 1rem;
+    }
+    .sec-title .t { color: var(--teal); }
+    .sec-title .g { color: var(--gold); }
+
+    /* ── ÚNETE ── */
+    .unete { background: var(--ink); position: relative; overflow: hidden; }
+    .unete-bg {
+      position: absolute; left: -20%; top: -18%; bottom: 0;
+      width: 96%; opacity: 0.05;
+      pointer-events: none;
+      object-fit: contain; object-position: left center;
+    }
+    .unete-grid {
+      display: grid; grid-template-columns: 1fr 420px;
+      gap: 5rem; align-items: start;
+      margin-top: 3rem; position: relative;
+    }
+    .perks { display: flex; flex-direction: column; gap: 1rem; margin-top: 2rem; }
+    .perk {
+      display: flex; gap: 1rem; align-items: flex-start;
+      padding: 1.2rem 1.4rem;
+      background: rgba(13,32,48,0.70);
+      border: 1px solid rgba(212,168,67,0.12);
+      border-radius: 6px;
+      transition: border-color 0.25s, transform 0.25s;
+    }
+    .perk:hover { border-color: rgba(212,168,67,0.32); transform: translateY(-2px); }
+    .perk-check { color: var(--gold); font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+    .perk-text { font-size: 0.9rem; color: var(--dim); line-height: 1.55; }
+
+    .form-card {
+      background: rgba(13,32,48,0.92);
+      border: 1px solid rgba(78,205,200,0.14);
+      border-radius: 10px; overflow: hidden;
+    }
+    .form-head {
+      padding: 1.4rem 1.8rem 1.2rem;
+      border-bottom: 1px solid rgba(78,205,200,0.10);
+      background: rgba(6,20,28,0.80);
+    }
+    .form-head h3 { font-family: 'Anton', sans-serif; font-size: 1.4rem; letter-spacing: 0.04em; }
+    .form-head p { font-size: 0.78rem; color: var(--muted); margin-top: 3px; }
+    .form-body { padding: 1.6rem 1.8rem; }
+    .field { margin-bottom: 1rem; }
+    .field label {
+      display: block;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.64rem; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 0.35rem;
+    }
+    .field input, .field select, .field textarea {
+      width: 100%;
+      background: rgba(6,20,28,0.70);
+      border: 1px solid rgba(78,205,200,0.20);
+      color: var(--text); font-family: 'Barlow', sans-serif;
+      font-size: 0.88rem; padding: 0.6rem 1rem;
+      border-radius: 4px;
+      transition: border-color 0.2s;
+    }
+    .field input:focus-visible,
+    .field select:focus-visible,
+    .field textarea:focus-visible {
+      border-color: var(--teal);
+      outline: 2px solid var(--teal);
+      outline-offset: 2px;
+    }
+    .field input:focus:not(:focus-visible),
+    .field select:focus:not(:focus-visible),
+    .field textarea:focus:not(:focus-visible) {
+      outline: none;
+    }
+    .field input::placeholder, .field textarea::placeholder { color: rgba(100,150,170,0.45); }
+    .field select option { background: var(--deep); }
+    .field textarea { resize: vertical; min-height: 80px; }
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+    .form-btn {
+      width: 100%; padding: 0.8rem;
+      background: var(--gold); color: var(--ink);
+      border: none; border-radius: 4px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700; font-size: 0.9rem;
+      letter-spacing: 0.14em; text-transform: uppercase;
+      cursor: pointer; transition: background 0.2s, transform 0.15s;
+      margin-top: 0.4rem;
+    }
+    .form-btn:hover { background: var(--goldf); }
+    .form-btn:active { transform: scale(0.98); }
+    .form-btn:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+    .form-msg { font-size: 0.78rem; padding: 0.5rem 0.8rem; border-radius: 4px; margin-top: 0.6rem; display: none; }
+    .form-msg.ok  { background: rgba(78,205,200,0.10); color: var(--teal); display: block; }
+    .form-msg.err { background: rgba(220,60,60,0.10); color: #e06060; display: block; }
+
+    /* ── NOSOTROS ── */
+    .nosotros { background: var(--deep); }
+    .nos-grid {
+      display: grid; grid-template-columns: 1fr 1fr;
+      gap: 5rem; align-items: center; margin-top: 0.5rem;
+    }
+    .nos-logo { display: flex; justify-content: center; align-items: center; }
+    .nos-logo img {
+      width: 100%; max-width: 600px;
+      filter: drop-shadow(0 0 50px rgba(78,205,200,0.18));
+    }
+    .pillars { display: flex; flex-direction: column; gap: 1.6rem; margin-top: 2rem; }
+    .pillar { display: flex; gap: 1.2rem; align-items: flex-start; }
+    .pillar-n {
+      font-family: 'Anton', sans-serif; font-size: 2rem;
+      color: rgba(78,205,200,0.15); line-height: 1;
+      flex-shrink: 0; width: 2.5rem; padding-top: 2px;
+    }
+    .pillar-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700; font-size: 0.88rem;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--text); margin-bottom: 4px;
+    }
+    .pillar-desc { font-size: 0.87rem; color: var(--dim); line-height: 1.6; }
+
+    /* ── ROSTER ── */
+    .roster { background: var(--surf); position: relative; overflow: hidden; }
+    .roster-bg {
+      position: absolute; right: -10%; top: 50%;
+      transform: translateY(-50%);
+      width: 65%; opacity: 0.04;
+      pointer-events: none;
+    }
+
+    /* ── INSTAGRAM ── */
+    .instagram { background: var(--deep); position: relative; overflow: hidden; }
+    .ig-trident-bg {
+      position: absolute; right: -25%; top: 50%;
+      transform: translateY(-50%) rotate(-15deg);
+      width: 110%; opacity: 0.04;
+      pointer-events: none;
+    }
+    .roster-group { margin-top: 2rem; }
+    .roster-group-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.65rem; font-weight: 700;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 0.8rem;
+      display: flex; align-items: center; gap: 0.8rem;
+    }
+    .roster-group-label::before,
+    .roster-group-label::after { content: ''; flex: 1; height: 1px; background: rgba(78,205,200,0.12); }
+    .roster-group.defensa-group .roster-group-label::before,
+    .roster-group.defensa-group .roster-group-label::after { background: rgba(212,168,67,0.12); }
+    .roster-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.2rem;
+    }
+    .player-card {
+      background: rgba(4,13,18,0.70);
+      border: 1px solid rgba(78,205,200,0.12);
+      border-radius: 8px; padding: 1.6rem;
+      position: relative; overflow: hidden;
+      transition: border-color 0.25s, transform 0.25s;
+    }
+    .player-card:hover {
+      border-color: rgba(78,205,200,0.38); transform: translateY(-3px);
+      box-shadow: 0 8px 32px rgba(4,13,18,0.6), 0 2px 8px rgba(78,205,200,0.08);
+    }
+    .player-card::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(78,205,200,0.04) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .player-card.defensa {
+      border-color: rgba(212,168,67,0.12);
+    }
+    .player-card.defensa::after {
+      background: linear-gradient(135deg, rgba(212,168,67,0.04) 0%, transparent 60%);
+    }
+    .player-card.defensa:hover {
+      border-color: rgba(212,168,67,0.38);
+      box-shadow: 0 8px 32px rgba(4,13,18,0.6), 0 2px 8px rgba(212,168,67,0.08);
+    }
+    .p-num {
+      font-family: 'Anton', sans-serif; font-size: 4.5rem; line-height: 1;
+      color: rgba(78,205,200,0.09);
+      position: absolute; top: 0.4rem; right: 1rem;
+      pointer-events: none;
+    }
+    .player-card.defensa .p-num { color: rgba(212,168,67,0.09); }
+    .p-pos {
+      display: inline-block;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.65rem; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--teal);
+      border: 1px solid rgba(78,205,200,0.28);
+      padding: 0.15em 0.7em; border-radius: 2px;
+      margin-bottom: 0.8rem;
+    }
+    .player-card.defensa .p-pos {
+      color: var(--gold);
+      border-color: rgba(212,168,67,0.28);
+    }
+    .p-name {
+      font-family: 'Anton', sans-serif;
+      font-size: 1.38rem; letter-spacing: 0.03em; color: var(--text);
+    }
+
+    /* ── GALLERY ── */
+    .gallery { background: var(--ink); }
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.9rem; margin-top: 2.5rem;
+    }
+    .g-item {
+      border-radius: 6px; overflow: hidden;
+      aspect-ratio: 3/4; position: relative;
+    }
+    .g-item.wide { grid-column: span 2; aspect-ratio: 16/9; }
+    .g-item img {
+      width: 100%; height: 100%;
+      object-fit: cover; display: block;
+      transition: transform 0.4s ease, filter 0.4s ease;
+      filter: brightness(0.88);
+    }
+    .g-item:hover img { transform: scale(1.04); filter: brightness(1); }
+
+    .ig-grid {
+      display: grid; grid-template-columns: 300px 1fr;
+      gap: 4rem; align-items: center; margin-top: 1rem;
+    }
+    .ig-card {
+      background: rgba(13,32,48,0.90);
+      border: 1px solid rgba(78,205,200,0.14);
+      border-radius: 10px; padding: 2rem; text-align: center;
+    }
+    .ig-avatar {
+      width: 160px; height: 160px; border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid rgba(78,205,200,0.35);
+      margin: 0 auto 1rem; display: block;
+      filter: drop-shadow(0 0 14px rgba(78,205,200,0.20));
+    }
+    .ig-handle { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1rem; letter-spacing: 0.06em; margin-bottom: 0.4rem; }
+    .ig-bio { font-size: 0.8rem; color: var(--muted); line-height: 1.55; margin-bottom: 1.4rem; }
+    .ig-btn {
+      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+      width: 100%; padding: 0.6rem 1rem;
+      background: linear-gradient(135deg, #405DE6, #833AB4, #E1306C, #FD1D1D);
+      color: var(--text); border-radius: 4px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700; font-size: 0.8rem;
+      letter-spacing: 0.1em; text-transform: uppercase;
+      transition: opacity 0.2s;
+    }
+    .ig-btn:hover { opacity: 0.85; }
+    .ig-right h3 { font-family: 'Anton', sans-serif; font-size: clamp(1.8rem, 3vw, 2.8rem); line-height: 1.1; margin-bottom: 0.8rem; }
+    .ig-right h3 span { color: var(--teal); }
+    .ig-right p { font-size: 0.92rem; color: var(--dim); line-height: 1.75; max-width: 440px; margin-bottom: 1.6rem; }
+
+    /* ── WEATHER EFFECTS ── */
+    .rain-container {
+      position: fixed; inset: 0; z-index: 999;
+      pointer-events: none; overflow: hidden;
+      transform: rotate(10deg) scale(1.3);
+      transform-origin: center;
+    }
+    .raindrop {
+      position: absolute; top: -20px;
+      background: linear-gradient(to bottom, transparent, rgba(174,194,224,0.5));
+      border-radius: 2px;
+      animation: rain-fall linear infinite;
+    }
+    #lightning-canvas {
+      position: fixed; inset: 0;
+      width: 100%; height: 100%;
+      z-index: 998; pointer-events: none;
+      opacity: 0; mix-blend-mode: screen;
+    }
+    #screen-flash {
+      position: fixed; inset: 0; z-index: 997;
+      pointer-events: none; opacity: 0;
+      background: radial-gradient(circle, rgba(78,205,200,0.12) 0%, transparent 70%);
+    }
+    @keyframes rain-fall {
+      from { transform: translateY(-20px); }
+      to   { transform: translateY(calc(100vh + 20px)); }
+    }
+    @keyframes lightning-flash {
+      0%,100% { opacity: 0; }
+      10%,30% { opacity: 1; }
+      20%     { opacity: 0.3; }
+      40%     { opacity: 0; }
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      background: rgba(4,13,18,0.98);
+      border-top: 1px solid rgba(78,205,200,0.09);
+    }
+    .ftr-main {
+      max-width: 1300px; margin: 0 auto;
+      display: grid; grid-template-columns: 1.6fr 1fr 1fr;
+      gap: 3rem; padding: 3.5rem 2rem 2.5rem;
+    }
+    .ftr-brand-col {}
+    .ftr-logo-row { display: flex; align-items: center; gap: 0.9rem; margin-bottom: 1rem; }
+    .ftr-logo-row img.ftr-badge { height: 40px; }
+    .ftr-logo-row img.ftr-wordmark { height: 18px; opacity: 0.75; }
+    .ftr-tagline {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.7rem; font-weight: 700;
+      letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--muted); margin-bottom: 0.4rem;
+    }
+    .ftr-hashtag {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.75rem; font-weight: 700;
+      letter-spacing: 0.14em; color: rgba(78,205,200,0.50);
+    }
+    .ftr-nav-col h4, .ftr-contact-col h4 {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.64rem; font-weight: 700;
+      letter-spacing: 0.22em; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 1rem;
+    }
+    .ftr-nav-list { display: flex; flex-direction: column; gap: 0.55rem; }
+    .ftr-nav-list a {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.8rem; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--muted);
+      transition: color 0.2s;
+    }
+    .ftr-nav-list a:hover { color: var(--teal); }
+    .ftr-contact-list { display: flex; flex-direction: column; gap: 0.8rem; }
+    .ftr-contact-item {
+      display: flex; align-items: center; gap: 0.7rem;
+      font-size: 0.82rem; color: var(--dim);
+      transition: color 0.2s;
+    }
+    .ftr-contact-item:hover { color: var(--teal); }
+    .ftr-contact-item svg { flex-shrink: 0; opacity: 0.6; }
+    .ftr-bottom {
+      max-width: 1300px; margin: 0 auto;
+      padding: 1.2rem 2rem;
+      border-top: 1px solid rgba(78,205,200,0.07);
+      display: flex; align-items: center;
+      justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+    }
+    .ftr-copy { font-size: 0.72rem; color: var(--muted); }
+    .ftr-legal {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
+      color: rgba(140,190,210,0.35);
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
+    .fade-in { animation: fadeUp 0.65s ease both; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 960px) {
+      .hero-inner { grid-template-columns: 1fr; text-align: center; }
+      .hero-mascot { order: -1; }
+      .hero-mascot img { max-width: 300px; }
+      .hero-actions { justify-content: center; }
+      .nos-grid { grid-template-columns: 1fr; }
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+      .g-item.wide { grid-column: span 2; }
+      .unete-grid { grid-template-columns: 1fr; }
+      .ig-grid { grid-template-columns: 1fr; }
+      .ftr-main { grid-template-columns: 1fr 1fr; }
+      .ftr-brand-col { grid-column: span 2; }
+    }
+    @media (max-width: 600px) {
+      nav { display: none; }
+      nav.open {
+        display: flex; flex-direction: column;
+        position: absolute; top: 100%; left: 0; right: 0;
+        background: rgba(4,13,18,0.98);
+        backdrop-filter: blur(20px);
+        padding: 1rem;
+        border-bottom: 1px solid rgba(78,205,200,0.10);
+      }
+      .hamburger { display: flex; }
+      .section { padding: 4rem 1.5rem; }
+      .hero-inner { padding: 7rem 1.5rem 5rem; }
+      .gallery-grid { grid-template-columns: 1fr; }
+      .g-item.wide { grid-column: span 1; aspect-ratio: 3/4; }
+      .field-row { grid-template-columns: 1fr; }
+      .ftr-main { grid-template-columns: 1fr; padding: 2.5rem 1.5rem 2rem; }
+      .ftr-brand-col { grid-column: span 1; }
+      .ftr-bottom { flex-direction: column; align-items: flex-start; padding: 1rem 1.5rem; }
+    }
+
+    /* ── REDUCIR MOVIMIENTO ── */
+    @media (prefers-reduced-motion: reduce) {
+      .hero-mascot img { animation: none; }
+      .scroll-line { animation: none; }
+      .fade-in { animation: none; transition: none; }
+      .rain-container, #lightning-canvas, #screen-flash { display: none; }
+      #bg-video-a, #bg-video-b { transition: none; }
+    }
+  </style>
+</head>
+<body>
+
+
+  <!-- VIDEO BACKGROUND -->
+  <video id="bg-video" autoplay muted loop playsinline aria-hidden="true">
+    <source src="storm.mp4" type="video/mp4">
+  </video>
+  <div id="ocean-overlay" aria-hidden="true"></div>
+
+
+  <main id="contenido">
+
+  <!-- HERO -->
+  <section class="hero" id="inicio">
+    <div class="hero-inner">
+      <div>
+        <h1 class="hero-title">
+          CORUÑA<br>
+          <span class="t">ATLANTICS</span>
+        </h1>
+        <div class="hero-tag">Listos para competir.<br>Faltas tú.</div>
+        <div class="hero-actions">
+          <a href="#unete" class="btn btn-gold">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+            Únete al equipo
+          </a>
+          <a href="#nosotros" class="btn btn-outline btn-outline-gold">Conoce el proyecto</a>
+        </div>
+      </div>
+      <div class="hero-mascot">
+        <img src="avatar Sin fondo.png" alt="Poseidón — Mascota Coruña Atlantics">
+      </div>
+    </div>
+    <div class="hero-scroll" aria-hidden="true">
+      <div class="scroll-line"></div>
+      Scroll
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ÚNETE — posición 2, hot conversion path -->
+  <section class="section unete" id="unete">
+    <img src="cabeza minimalista sin fondo.png" alt="" aria-hidden="true" class="unete-bg" loading="lazy">
+    <div class="container" style="position:relative;z-index:1;">
+      <div class="sec-label">Buscamos jugadores</div>
+      <h2 class="sec-title">Forma parte del <span class="g">equipo</span></h2>
+      <p style="font-size:0.92rem;color:var(--dim);max-width:520px;">No necesitas experiencia previa. Solo ganas de aprender y competir. Buscamos jugadores para todas las posiciones.</p>
+      <div class="unete-grid">
+        <div>
+          <div class="perks">
+            <div class="perk">
+              <div class="perk-check">✓</div>
+              <div class="perk-text">No se requiere experiencia previa en football americano</div>
+            </div>
+            <div class="perk">
+              <div class="perk-check">✓</div>
+              <div class="perk-text">Entrenamiento y formación incluidos desde el primer día</div>
+            </div>
+            <div class="perk">
+              <div class="perk-check">✓</div>
+              <div class="perk-text">Equipo joven con un ambiente increíble</div>
+            </div>
+          </div>
+        </div>
+        <div class="form-card">
+          <div class="form-head">
+            <h3>Quiero jugar</h3>
+            <p>Te contactamos en 48h para los próximos entrenamientos</p>
+          </div>
+          <div class="form-body">
+            <form id="player-form" novalidate>
+              <div class="field-row">
+                <div class="field">
+                  <label for="p-nombre">Nombre *</label>
+                  <input type="text" id="p-nombre" placeholder="Tu nombre" required>
+                </div>
+                <div class="field">
+                  <label for="p-edad">Edad *</label>
+                  <input type="number" id="p-edad" placeholder="22" min="16" max="60" required>
+                </div>
+              </div>
+              <div class="field">
+                <label for="p-email">Email *</label>
+                <input type="email" id="p-email" placeholder="tucorreo@ejemplo.com" required>
+              </div>
+              <div class="field">
+                <label for="p-exp">Experiencia previa</label>
+                <select id="p-exp">
+                  <option value="ninguna">Ninguna — soy nuevo en el football</option>
+                  <option value="flag">He jugado flag football</option>
+                  <option value="tackle">He jugado tackle football</option>
+                  <option value="otro">Otro deporte de equipo</option>
+                </select>
+              </div>
+              <div class="field">
+                <label for="p-mensaje">¿Algo que quieras contarnos?</label>
+                <textarea id="p-mensaje" placeholder="Motivación, disponibilidad, preguntas..."></textarea>
+              </div>
+              <div class="form-msg" id="form-msg"></div>
+              <button type="submit" class="form-btn">Enviar solicitud</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- NOSOTROS -->
+  <section class="section nosotros" id="nosotros">
+    <div class="container">
+      <div class="nos-grid">
+        <div class="nos-logo">
+          <img src="Coruña Atlantics Football 2 sin fondo.png" alt="Coruña Atlantics Football" loading="lazy">
+        </div>
+        <div>
+          <div class="sec-label">Quiénes somos</div>
+          <h2 class="sec-title">Nacidos en <span class="t">el Atlántico</span></h2>
+          <p style="font-size:0.95rem;color:var(--dim);line-height:1.75;margin-bottom:0.8rem;">
+            Coruña Atlantics nació con una idea simple: llevar el football americano a A Coruña con la misma intensidad con que el océano golpea nuestra costa. Temporada 2026: volvemos a por todo.
+          </p>
+          <p style="font-size:0.95rem;color:var(--dim);line-height:1.75;">
+            No importa si tienes experiencia o si eres nuevo en el football americano. Si tienes ganas, nosotros ponemos el resto: entrenamiento, compañerismo y una camiseta con el tridente.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- ROSTER -->
+  <section class="section roster" id="roster">
+    <img src="Atlantics Balón sin fondo.png" alt="" aria-hidden="true" class="roster-bg" loading="lazy">
+    <div class="container" style="position:relative;z-index:1;">
+      <h2 class="sec-title">El <span class="t">Roster</span></h2>
+      <p style="font-size:0.92rem;color:var(--dim);margin-top:0.3rem;">Los jugadores que visten el tridente. Temporada 2026.</p>
+
+      <div class="roster-group">
+        <div class="roster-group-label">Ataque</div>
+        <div class="roster-grid">
+          <div class="player-card">
+            <div class="p-num">4</div>
+            <div class="p-pos">QB</div>
+            <div class="p-name">Alejandro Varela</div>
+          </div>
+          <div class="player-card">
+            <div class="p-num">88</div>
+            <div class="p-pos">WR</div>
+            <div class="p-name">Diego Iglesias</div>
+          </div>
+          <div class="player-card">
+            <div class="p-num">11</div>
+            <div class="p-pos">WR</div>
+            <div class="p-name">Marcos Sánchez</div>
+          </div>
+          <div class="player-card">
+            <div class="p-num">82</div>
+            <div class="p-pos">WR</div>
+            <div class="p-name">Pablo Otero</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="roster-group defensa-group" style="margin-top:2.5rem;">
+        <div class="roster-group-label">Defensa</div>
+        <div class="roster-grid">
+          <div class="player-card defensa">
+            <div class="p-num">21</div>
+            <div class="p-pos">CB</div>
+            <div class="p-name">Adrián Pose</div>
+          </div>
+          <div class="player-card defensa">
+            <div class="p-num">27</div>
+            <div class="p-pos">CB</div>
+            <div class="p-name">Iván Lamas</div>
+          </div>
+          <div class="player-card defensa">
+            <div class="p-num">29</div>
+            <div class="p-pos">CB</div>
+            <div class="p-name">Carlos Novas</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- INSTAGRAM -->
+  <section class="section instagram" id="instagram">
+    <img src="tridente sin fondo.png" alt="" aria-hidden="true" class="ig-trident-bg" loading="lazy">
+    <div class="container" style="position:relative;z-index:1;">
+      <div class="ig-grid">
+        <div class="ig-card">
+          <img src="AVATAR NUEVO CON FONDO.png" alt="Coruña Atlantics" class="ig-avatar" loading="lazy">
+          <div class="ig-handle">@corunaatlantics</div>
+          <div class="ig-bio">Football Americano en A Coruña 🔱<br>El Atlántico tiene equipo.</div>
+          <a href="https://instagram.com/corunaatlantics" target="_blank" rel="noopener" class="ig-btn">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            Seguir en Instagram
+          </a>
+        </div>
+        <div class="ig-right">
+          <div class="sec-label">Redes sociales</div>
+          <h3>Síguenos en <span>Instagram</span></h3>
+          <p>Entrenamientos, partidos, vida del equipo y todo lo que pasa dentro y fuera del campo. La comunidad Atlantics crece cada día.</p>
+          <a href="https://instagram.com/corunaatlantics" target="_blank" rel="noopener" class="btn btn-primary">
+            Ver @corunaatlantics
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  </main>
+
+  <!-- FOOTER — absorbe Contacto -->
+  <footer>
+    <div class="ftr-main">
+      <div class="ftr-brand-col">
+        <div class="ftr-logo-row">
+          <img src="circular sin fondo.png" alt="Coruña Atlantics" class="ftr-badge" loading="lazy">
+          <img src="atlantics letras logo principal sin fondo.png" alt="Atlantics" class="ftr-wordmark" loading="lazy">
+        </div>
+        <div class="ftr-tagline">Football Americano · A Coruña</div>
+        <div class="ftr-hashtag">#WeAreAtlantics</div>
+      </div>
+      <div class="ftr-nav-col">
+        <h4>Navegación</h4>
+        <nav class="ftr-nav-list" aria-label="Footer">
+          <a href="#nosotros">Nosotros</a>
+          <a href="#roster">Roster</a>
+          <a href="#unete">Únete al equipo</a>
+          <a href="#instagram">Instagram</a>
+        </nav>
+      </div>
+      <div class="ftr-contact-col">
+        <h4>Contacto</h4>
+        <div class="ftr-contact-list">
+          <a href="mailto:atlantics@corunaatlantics.com" class="ftr-contact-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            atlantics@corunaatlantics.com
+          </a>
+          <a href="https://instagram.com/corunaatlantics" target="_blank" rel="noopener" class="ftr-contact-item">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            @corunaatlantics
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="ftr-bottom">
+      <div class="ftr-copy">© 2026 Coruña Atlantics. Todos los derechos reservados.</div>
+      <div class="ftr-legal">Football Americano · A Coruña · Galicia</div>
+    </div>
+  </footer>
+
+  <script>
+    // Form → mailto
+    document.getElementById('player-form').addEventListener('submit', e => {
+      e.preventDefault();
+      const msg = document.getElementById('form-msg');
+      try {
+        const subject = `Solicitud de jugador — ${document.getElementById('p-nombre').value}`;
+        const body = `Nombre: ${document.getElementById('p-nombre').value}\nEdad: ${document.getElementById('p-edad').value}\nEmail: ${document.getElementById('p-email').value}\nExperiencia: ${document.getElementById('p-exp').value}\nMensaje: ${document.getElementById('p-mensaje').value}`;
+        window.location.href = `mailto:atlantics@corunaatlantics.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        msg.textContent = '✓ Abriendo tu cliente de email… Si no se abre, escríbenos a atlantics@corunaatlantics.com';
+        msg.className = 'form-msg ok';
+      } catch(err) {
+        msg.textContent = 'Error. Escríbenos directamente a atlantics@corunaatlantics.com';
+        msg.className = 'form-msg err';
+      }
+    });
+
+    // Scroll reveal
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('fade-in'); observer.unobserve(e.target); }});
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.player-card, .perk, .g-item').forEach(el => observer.observe(el));
+  </script>
+
+
+  <!-- WEATHER EFFECT -->
+  <canvas id="lightning-canvas"></canvas>
+  <div class="rain-container" id="rain-container"></div>
+  <div id="screen-flash"></div>
+
+  <script>
+    (function() {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      // Rain drops
+      const rc = document.getElementById('rain-container');
+      for (let i = 0; i < 50; i++) {
+        const d = document.createElement('div');
+        d.className = 'raindrop';
+        const sz = Math.random() + 1;
+        d.style.left = (Math.random() * 120 - 10) + '%';
+        d.style.width = sz + 'px';
+        d.style.height = (sz * 10) + 'px';
+        d.style.animationDuration = ((Math.random() + 0.5) / 0.2) + 's';
+        d.style.animationDelay = (Math.random() * 2) + 's';
+        d.style.opacity = (Math.random() * 0.6 + 0.2).toFixed(2);
+        rc.appendChild(d);
+      }
+
+      // WebGL Lightning
+      const canvas = document.getElementById('lightning-canvas');
+      const flashEl = document.getElementById('screen-flash');
+      const gl = canvas.getContext('webgl');
+      if (!gl) return;
+
+      const resize = () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        gl.viewport(0, 0, canvas.width, canvas.height);
+      };
+      window.addEventListener('resize', resize);
+      resize();
+
+      function mkShader(src, type) {
+        const s = gl.createShader(type);
+        gl.shaderSource(s, src);
+        gl.compileShader(s);
+        return gl.getShaderParameter(s, gl.COMPILE_STATUS) ? s : null;
+      }
+
+      const vs = `attribute vec2 aPos; void main(){ gl_Position=vec4(aPos,0,1); }`;
+      const fs = `precision mediump float;
+        uniform vec2 iRes; uniform float iT,uH,uX,uS,uI,uSz;
+        #define N 10
+        vec3 hsv(vec3 c){vec3 r=clamp(abs(mod(c.x*6.+vec3(0,4,2),6.)-3.)-1.,0.,1.);return c.z*mix(vec3(1),r,c.y);}
+        float h1(float p){p=fract(p*.1031);p*=p+33.33;p*=p+p;return fract(p);}
+        float h2(vec2 p){vec3 q=fract(vec3(p.xyx)*.1031);q+=dot(q,q.yzx+33.33);return fract((q.x+q.y)*q.z);}
+        mat2 rot(float t){float c=cos(t),s=sin(t);return mat2(c,-s,s,c);}
+        float nz(vec2 p){vec2 i=floor(p),f=fract(p);float a=h2(i),b=h2(i+vec2(1,0)),c=h2(i+vec2(0,1)),d=h2(i+vec2(1,1));vec2 t=smoothstep(0.,1.,f);return mix(mix(a,b,t.x),mix(c,d,t.x),t.y);}
+        float fbm(vec2 p){float v=0.,a=.5;for(int i=0;i<N;i++){v+=a*nz(p);p*=rot(.45);p*=2.;a*=.5;}return v;}
+        void main(){
+          vec2 uv=gl_FragCoord.xy/iRes; uv=2.*uv-1.; uv.x*=iRes.x/iRes.y; uv.x+=uX;
+          uv+=2.*fbm(uv*uSz+.8*iT*uS)-1.;
+          float d=abs(uv.x);
+          vec3 col=hsv(vec3(uH/360.,.7,.8))*pow(mix(0.,.07,h1(iT*uS))/d,1.)*uI;
+          gl_FragColor=vec4(pow(col,vec3(1.)),1.);
+        }`;
+
+      const v = mkShader(vs, gl.VERTEX_SHADER);
+      const f = mkShader(fs, gl.FRAGMENT_SHADER);
+      if (!v || !f) return;
+
+      const prog = gl.createProgram();
+      gl.attachShader(prog, v); gl.attachShader(prog, f); gl.linkProgram(prog); gl.useProgram(prog);
+
+      const buf = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,1,-1,-1,1,-1,1,1,-1,1,1]), gl.STATIC_DRAW);
+      const ap = gl.getAttribLocation(prog, 'aPos');
+      gl.enableVertexAttribArray(ap);
+      gl.vertexAttribPointer(ap, 2, gl.FLOAT, false, 0, 0);
+
+      const uRes = gl.getUniformLocation(prog, 'iRes');
+      const uT   = gl.getUniformLocation(prog, 'iT');
+      const uH   = gl.getUniformLocation(prog, 'uH');
+      const uX   = gl.getUniformLocation(prog, 'uX');
+      const uS_  = gl.getUniformLocation(prog, 'uS');
+      const uI   = gl.getUniformLocation(prog, 'uI');
+      const uSz  = gl.getUniformLocation(prog, 'uSz');
+
+      const t0 = performance.now();
+      let raf = null, flashing = false;
+
+      function draw() {
+        if (!gl.isContextLost()) {
+          gl.uniform2f(uRes, canvas.width, canvas.height);
+          gl.uniform1f(uT, (performance.now() - t0) / 1000);
+          gl.uniform1f(uH, 176);
+          gl.uniform1f(uX, 0);
+          gl.uniform1f(uS_, 1);
+          gl.uniform1f(uI, 1);
+          gl.uniform1f(uSz, 1);
+          gl.drawArrays(gl.TRIANGLES, 0, 6);
+        }
+        raf = requestAnimationFrame(draw);
+      }
+
+      function doFlash() {
+        if (flashing) return;
+        flashing = true;
+        const dur = 200 + Math.random() * 300;
+        canvas.style.opacity = '1';
+        flashEl.style.animation = `lightning-flash ${dur}ms ease-out forwards`;
+        draw();
+        setTimeout(() => {
+          canvas.style.opacity = '0';
+          flashEl.style.animation = '';
+          cancelAnimationFrame(raf);
+          raf = null;
+          flashing = false;
+          setTimeout(doFlash, (4 + Math.random() * 4) * 1000);
+        }, dur);
+      }
+
+      setTimeout(doFlash, Math.random() * 4000 + 1000);
+    })();
+  </script>
+
+
+</body>
+</html>
