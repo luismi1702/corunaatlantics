@@ -602,15 +602,19 @@
 
     /* ── RESPONSIVE ── */
     @media (max-width: 960px) {
-      .hero-inner { grid-template-columns: 1fr; text-align: center; }
-      .hero-mascot { order: -1; }
-      .hero-mascot img { max-width: 300px; }
+      .hero-inner { grid-template-columns: 1fr; text-align: center; padding-top: 6rem; }
+      .hero-mascot { order: -1; transform: none; margin-bottom: 0.5rem; }
+      .hero-mascot img { height: min(45vh, 380px); }
+      .hero-mascot::before { display: none; }
       .hero-actions { justify-content: center; }
-      .nos-grid { grid-template-columns: 1fr; }
+      .nos-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .nos-logo { order: -1; }
+      .nos-logo img { max-width: 320px; }
       .gallery-grid { grid-template-columns: repeat(2, 1fr); }
       .g-item.wide { grid-column: span 2; }
-      .unete-grid { grid-template-columns: 1fr; }
-      .ig-grid { grid-template-columns: 1fr; }
+      .unete-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .ig-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .ig-card { max-width: 320px; margin: 0 auto; }
       .ftr-main { grid-template-columns: 1fr 1fr; }
       .ftr-brand-col { grid-column: span 2; }
     }
@@ -625,11 +629,16 @@
         border-bottom: 1px solid rgba(78,205,200,0.10);
       }
       .hamburger { display: flex; }
-      .section { padding: 4rem 1.5rem; }
-      .hero-inner { padding: 7rem 1.5rem 5rem; }
+      .section { padding: 3.5rem 1.5rem; }
+      .hero-inner { padding: 5rem 1.5rem 3.5rem; }
+      .hero-mascot img { height: min(38vh, 280px); }
+      .hero-tag { font-size: 1rem; }
+      .hero-actions { flex-direction: column; width: 100%; }
+      .hero-actions .btn { width: 100%; justify-content: center; }
       .gallery-grid { grid-template-columns: 1fr; }
       .g-item.wide { grid-column: span 1; aspect-ratio: 3/4; }
       .field-row { grid-template-columns: 1fr; }
+      .roster-grid { grid-template-columns: 1fr; }
       .ftr-main { grid-template-columns: 1fr; padding: 2.5rem 1.5rem 2rem; }
       .ftr-brand-col { grid-column: span 1; }
       .ftr-bottom { flex-direction: column; align-items: flex-start; padding: 1rem 1.5rem; }
