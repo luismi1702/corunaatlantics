@@ -114,24 +114,40 @@ create policy pedidos_cambiar_propio on pedidos
 -- Almacén de las fotos
 --   Bucket público: una foto de una sudadera no es un dato sensible y así se
 --   sirve directa, sin firmar cada URL. Subir y borrar, solo el staff.
+--
+--   Va dentro de un bloque que atrapa cualquier error a propósito. Según cómo
+--   esté configurado el proyecto, el rol del editor SQL puede no tener permiso
+--   para tocar las políticas de `storage.objects`. Como el editor ejecuta todo
+--   el script en una sola transacción, un fallo aquí deshacía TODO lo anterior
+--   y las tablas de arriba no llegaban a crearse.
+--
+--   Si sale el aviso, las tablas quedan creadas igual y el bucket se crea a
+--   mano desde el panel: Storage -> New bucket -> nombre "productos" -> Public.
 -- ---------------------------------------------------------------------------
 
-insert into storage.buckets (id, name, public)
-values ('productos', 'productos', true)
-on conflict (id) do nothing;
+do $bloque$
+begin
+  insert into storage.buckets (id, name, public)
+  values ('productos', 'productos', true)
+  on conflict (id) do nothing;
 
-drop policy if exists productos_foto_ver on storage.objects;
-create policy productos_foto_ver on storage.objects
-  for select to public using (bucket_id = 'productos');
+  execute $p$ drop policy if exists productos_foto_ver on storage.objects $p$;
+  execute $p$ create policy productos_foto_ver on storage.objects
+             for select to public using (bucket_id = 'productos') $p$;
 
-drop policy if exists productos_foto_subir on storage.objects;
-create policy productos_foto_subir on storage.objects
-  for insert to authenticated with check (bucket_id = 'productos' and es_staff());
+  execute $p$ drop policy if exists productos_foto_subir on storage.objects $p$;
+  execute $p$ create policy productos_foto_subir on storage.objects
+             for insert to authenticated with check (bucket_id = 'productos' and es_staff()) $p$;
 
-drop policy if exists productos_foto_cambiar on storage.objects;
-create policy productos_foto_cambiar on storage.objects
-  for update to authenticated using (bucket_id = 'productos' and es_staff());
+  execute $p$ drop policy if exists productos_foto_cambiar on storage.objects $p$;
+  execute $p$ create policy productos_foto_cambiar on storage.objects
+             for update to authenticated using (bucket_id = 'productos' and es_staff()) $p$;
 
-drop policy if exists productos_foto_borrar on storage.objects;
-create policy productos_foto_borrar on storage.objects
-  for delete to authenticated using (bucket_id = 'productos' and es_staff());
+  execute $p$ drop policy if exists productos_foto_borrar on storage.objects $p$;
+  execute $p$ create policy productos_foto_borrar on storage.objects
+             for delete to authenticated using (bucket_id = 'productos' and es_staff()) $p$;
+
+  raise notice 'Almacen de fotos listo.';
+exception when others then
+  raise notice 'No se ha podido configurar el almacen de fotos (%). Las tablas SI se han creado. Crea el bucket "productos" a mano desde Storage y marcalo como Public.', sqlerrm;
+end $bloque$;
