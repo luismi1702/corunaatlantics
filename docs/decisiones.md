@@ -1,5 +1,19 @@
 # Decisiones — Coruña Atlantics
 
+## [2026-09-04] — Los avisos no se contestan
+
+**Decisión:** el tablón es unidireccional. El club publica y el equipo lee; no hay
+respuestas ni comentarios. Lo que sí hay es registro de quién lo ha leído.
+
+**Motivo:** si se pudieran contestar, en dos semanas el tablón sería el grupo de WhatsApp
+otra vez, que es justo de lo que se quiere salir. Y lo que de verdad aporta no es publicar
+—eso ya se hacía— sino saber quién **no** lo ha leído, para perseguir a esos cuatro por
+otro canal en vez de repetir el aviso a los sesenta.
+
+**Alternativas descartadas:** permitir respuestas; pedir al jugador que confirme
+explícitamente la lectura (con un botón de "enterado" el dato deja de ser fiable en una
+semana; marcar al abrir es menos exacto pero mucho más honesto).
+
 ## [2026-09-04] — El dorsal lo elige el jugador, pero solo tras ser aprobado
 
 **Decisión:** cada jugador escoge su número desde Mi ficha; quien lo coge primero se lo

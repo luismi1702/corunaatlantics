@@ -29,12 +29,14 @@ export async function render(ctx, cont) {
   cont.innerHTML = cargando();
 
   const yo = ctx.perfil;
-  const [agenda, mias, cuota, docs, resumen] = await Promise.all([
+  const [agenda, mias, cuota, docs, resumen, tablon, lecturas] = await Promise.all([
     db.eventos(ctx.temporada.id, { desde: hoyISO() }),
     db.misAsistencias(yo.id),
     db.cuotaDe(yo.id, ctx.temporada.id),
     db.documentacionDe(ctx.temporada.id),
-    db.resumenAsistencia(ctx.temporada.id)
+    db.resumenAsistencia(ctx.temporada.id),
+    db.avisos(ctx.temporada.id),
+    db.misLecturas(yo.id)
   ]);
 
   const proximos = agenda.filter(e => !e.cancelado);
@@ -56,6 +58,9 @@ export async function render(ctx, cont) {
   }
   const debe = cuota && !cuota.exento && Number(cuota.importe_pendiente) > 0;
 
+  const leidos = new Set(lecturas.map(l => l.aviso_id));
+  const sinLeer = tablon.filter(a => esDeUnidad(yo.posiciones, a.destinatarios) && !leidos.has(a.id));
+
   const titulo = (e) => e.tipo === 'partido'
     ? (e.rival ? (e.es_local ? 'vs ' : 'en ') + e.rival : 'Partido')
     : 'Entreno';
@@ -73,6 +78,14 @@ export async function render(ctx, cont) {
         ${miUnidad ? crudo(html`<span class="chapa-unidad">${NOMBRE_UNIDAD[miUnidad]}</span>`) : ''}
       </p>
     </header>
+
+    ${sinLeer.length ? crudo(html`
+      <a class="banda-avisos ${sinLeer.some(a => a.prioridad === 'urgente') ? 'urgente' : ''}"
+         href="#/avisos">
+        <span class="n">${sinLeer.length}</span>
+        <span>${sinLeer.length === 1 ? 'aviso sin leer' : 'avisos sin leer'}</span>
+        <span class="ir">Ver →</span>
+      </a>`) : ''}
 
     ${evento ? crudo(html`
       <article class="entrada ${evento.tipo === 'partido' ? 'partido' : ''}">

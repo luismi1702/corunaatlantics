@@ -51,6 +51,11 @@
 - Sustituido el error técnico de "tu cuenta no tiene ficha asociada" por una pantalla que explica qué ha pasado y a quién dirigirse
 - Documentado en el README el borrado completo para una petición de RGPD: la ficha desde la app y la cuenta desde el panel de Supabase
 
+- Añadido el tablón de avisos (`app/db/09_avisos.sql`): publicación desde el staff, dirigible a una unidad, urgentes fijados arriba, y registro de quién lo ha leído con la lista de quién no
+- Añadido el inventario de material (`app/db/10_material.sql`): piezas por tipo, entregas y devoluciones con estado y fianza, y aviso de lo que está en manos de gente que causó baja
+- Añadido un QR del enlace de la app en Solicitudes, para repartirla en un entreno de una vez
+- La pantalla Hoy del jugador abre con una franja de avisos sin leer, por encima del próximo entreno
+
 **Archivos nuevos:**
 - `app/` completo (HTML, CSS, JS, SQL, iconos, README)
 - `docs/app-plan.md`

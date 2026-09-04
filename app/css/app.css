@@ -361,6 +361,47 @@ button.fila:active { transform: scale(.995); }
   max-width: 32ch; margin: 0 0 1rem;
 }
 
+/* --- Avisos ---------------------------------------------------------------- */
+
+.aviso-fila.urgente { border-left: 3px solid var(--bad); }
+.aviso-fila .chincha { font-size: .9em; }
+
+/* Sin leer: el borde de color y el punto hacen el trabajo, no un fondo distinto
+   que ensuciaría la lista entera. */
+.aviso-fila.sinleer { border-color: var(--teal-d); }
+.aviso-fila.sinleer .nom { font-weight: 700; }
+
+.punto-nuevo {
+  flex: 0 0 9px; width: 9px; height: 9px; border-radius: 50%;
+  background: var(--teal); margin-top: .45rem;
+}
+
+/* El cuerpo del aviso solo se despliega al tocarlo: la lista tiene que poder
+   leerse de un vistazo. */
+.aviso-cuerpo {
+  margin: .5rem 0 0; line-height: 1.55; white-space: pre-wrap;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  overflow: hidden; color: var(--muted); font-size: .92rem;
+}
+.aviso-fila.abierto .aviso-cuerpo { -webkit-line-clamp: unset; color: var(--text); }
+
+/* --- Código QR -------------------------------------------------------------- */
+
+.qr {
+  display: grid; place-items: center;
+  width: min(72vw, 260px); margin: 0 auto;
+  padding: .8rem; border-radius: 14px;
+  background: #fff;                      /* un QR necesita fondo claro para leerse */
+}
+.qr svg { width: 100%; height: auto; display: block; }
+
+.enlace-app {
+  margin: .8rem 0 0;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: .95rem; letter-spacing: .06em;
+  color: var(--teal); word-break: break-all;
+}
+
 /* --- Elegir dorsal --------------------------------------------------------- */
 /* Cien números tienen que caber sin hacer scroll infinito ni obligar a apuntar
    con precisión: rejilla apretada, pero cada casilla sigue siendo tocable. */
@@ -619,6 +660,26 @@ body.jugador .opcion { background: rgba(6,17,25,.82); }
   border: 1px solid var(--line); color: var(--teal);
   font-size: .74rem;
 }
+
+/* Franja de avisos sin leer: por encima de la entrada, porque si el club ha
+   dicho algo, eso va antes que cualquier otra cosa. */
+.banda-avisos {
+  display: flex; align-items: center; gap: .7rem;
+  margin-bottom: .8rem; padding: .7rem .9rem;
+  border-radius: 12px;
+  border: 1px solid var(--teal-d);
+  background: rgba(78,205,200,.12);
+  text-decoration: none; color: var(--text);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1rem; letter-spacing: .04em; text-transform: uppercase;
+}
+.banda-avisos.urgente { border-color: var(--bad); background: rgba(242,85,90,.13); }
+.banda-avisos .n {
+  font-family: 'Anton', sans-serif; font-size: 1.4rem; line-height: 1;
+  color: var(--teal); font-variant-numeric: tabular-nums;
+}
+.banda-avisos.urgente .n { color: var(--bad); }
+.banda-avisos .ir { margin-left: auto; color: var(--muted); font-size: .85rem; }
 
 /* --- La entrada al campo -------------------------------------------------- */
 /* El próximo evento como una entrada: raíl con la fecha arriba, línea de corte

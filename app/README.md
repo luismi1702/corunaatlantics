@@ -38,6 +38,8 @@ una pegada. Los sueltos siguen ahí para leerlos por partes:
 | `06_jugador.sql` | Confirmaciones y vista de compañeros |
 | `07_registro.sql` | Registro de jugadores con aprobación |
 | `08_dorsales.sql` | El jugador elige su dorsal |
+| `09_avisos.sql` | Tablón de avisos y registro de lecturas |
+| `10_material.sql` | Inventario del club y préstamos |
 
 `00_instalar.sql` está **generado**: si tocas un archivo suelto, vuelve a
 generarlo con `python generar_instalador.py` desde `app/db`.
@@ -176,7 +178,21 @@ segunda.
 **Sobre los mensajes:** la app abre WhatsApp con el texto ya escrito, pero el
 envío lo haces tú. No manda nada por su cuenta.
 
-**Todavía no:** avisos y playbook. Son las fases siguientes.
+**Avisos:** el club publica, el equipo lee, y tú ves quién **no** lo ha leído
+para perseguir a esos cuatro por otro canal en vez de repetirlo al grupo. Son
+unidireccionales a propósito: si se pudieran contestar, en dos semanas serían el
+grupo de WhatsApp otra vez.
+
+**Material:** inventario por tipo, quién tiene cada pieza y desde cuándo. Avisa
+de lo que está en manos de gente que ya causó baja, que es lo primero que hay
+que reclamar. Una pieza solo puede estar prestada a una persona a la vez, y eso
+lo garantiza un índice único.
+
+**Repartir la app:** en Solicitudes hay un QR del enlace para enseñarlo en un
+entreno. El generador se carga de internet solo al abrir esa pantalla; sin
+conexión no sale el código, pero el enlace sigue ahí.
+
+**Todavía no:** playbook y notificaciones push.
 
 ## Sacar a alguien del equipo
 

@@ -286,3 +286,60 @@ export const resolverSolicitud = (jugadorId, aprobar, motivo = null) =>
 export const entregarSolicitud = (jugadorId, datos) =>
   sb.from('perfiles').update({ ...datos, acceso: 'pendiente' })
     .eq('id', jugadorId).select().single().then(ok);
+
+// --- Avisos ---------------------------------------------------------------
+// Unidireccionales a propósito: el club publica y el equipo lee.
+
+export const avisos = (temporadaId) =>
+  sb.from('avisos').select('*')
+    .eq('temporada_id', temporadaId)
+    .order('fijado', { ascending: false })
+    .order('creado_en', { ascending: false })
+    .then(ok);
+
+export const crearAviso = (datos) =>
+  sb.from('avisos').insert(datos).select().single().then(ok);
+
+export const guardarAviso = (id, cambios) =>
+  sb.from('avisos').update(cambios).eq('id', id).select().single().then(ok);
+
+export const borrarAviso = (id) =>
+  sb.from('avisos').delete().eq('id', id).then(ok);
+
+export const lecturasDe = (avisoId) =>
+  sb.from('lecturas_aviso').select('*').eq('aviso_id', avisoId).then(ok);
+
+export const misLecturas = (jugadorId) =>
+  sb.from('lecturas_aviso').select('aviso_id').eq('jugador_id', jugadorId).then(ok);
+
+// Marcar como leído no debe fallar si ya estaba marcado: se ignora el duplicado.
+export const marcarLeido = (avisoId, jugadorId) =>
+  sb.from('lecturas_aviso')
+    .upsert({ aviso_id: avisoId, jugador_id: jugadorId }, { onConflict: 'aviso_id,jugador_id' })
+    .then(({ error }) => { if (error) throw error; });
+
+// --- Material -------------------------------------------------------------
+
+export const material = () =>
+  sb.from('material_estado').select('*').order('tipo').order('identificador').then(ok);
+
+export const crearMaterial = (datos) =>
+  sb.from('material').insert(datos).select().single().then(ok);
+
+export const guardarMaterial = (id, cambios) =>
+  sb.from('material').update(cambios).eq('id', id).select().single().then(ok);
+
+export const borrarMaterial = (id) =>
+  sb.from('material').delete().eq('id', id).then(ok);
+
+export const entregarMaterial = (datos) =>
+  sb.from('prestamos_material').insert(datos).select().single().then(ok);
+
+export const devolverMaterial = (prestamoId, cambios) =>
+  sb.from('prestamos_material').update({ devuelto_en: new Date().toISOString().slice(0, 10), ...cambios })
+    .eq('id', prestamoId).select().single().then(ok);
+
+export const misPrestamos = (jugadorId) =>
+  sb.from('prestamos_material').select('*, material(*)')
+    .eq('jugador_id', jugadorId).is('devuelto_en', null)
+    .then(ok);

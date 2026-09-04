@@ -111,6 +111,30 @@ export function cuando(iso) {
   return diaSemana(iso) + ' ' + fechaCorta(iso);
 }
 
+// --- Código QR ------------------------------------------------------------
+
+// La librería se carga solo al abrir la pantalla que la necesita, y desde fuera:
+// generar un QR bien es más código del que merece la pena escribir aquí. Si no
+// hay conexión no se puede cargar, así que siempre queda el enlace a mano.
+export async function pintarQR(cont, texto) {
+  try {
+    const { default: qrcode } = await import('https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/+esm');
+    const qr = qrcode(0, 'M');
+    qr.addData(texto);
+    qr.make();
+    cont.innerHTML = qr.createSvgTag({ cellSize: 6, margin: 2, scalable: true });
+    const svg = cont.querySelector('svg');
+    if (svg) { svg.removeAttribute('width'); svg.removeAttribute('height'); }
+    return true;
+  } catch (e) {
+    console.error(e);
+    cont.innerHTML = html`<p class="ayuda" style="text-align:center;line-height:1.6">
+      No se ha podido generar el código (hace falta conexión).<br>El enlace sigue
+      ahí abajo.</p>`;
+    return false;
+  }
+}
+
 // --- Avisos ---------------------------------------------------------------
 
 export function avisar(texto, tipo = '') {

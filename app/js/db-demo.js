@@ -176,6 +176,47 @@ for (const e of EVENTOS) {
   });
 }
 
+// --- Avisos y material -----------------------------------------------------
+
+const AVISOS = [
+  { id: 'av1', temporada_id: 't1', autor_id: 'p0', titulo: 'El jueves entrenamos a las 21:00',
+    cuerpo: 'Nos han movido la hora del campo. Avisad al que no lea esto.',
+    prioridad: 'urgente', destinatarios: 'todos', fijado: true,
+    creado_en: enDias(-1) + 'T19:30:00Z' },
+  { id: 'av2', temporada_id: 't1', autor_id: 'p0', titulo: 'Sesión de vídeo el martes',
+    cuerpo: 'Media hora antes del entreno, repasamos las jugadas de la última jornada.',
+    prioridad: 'normal', destinatarios: 'ataque', fijado: false,
+    creado_en: enDias(-4) + 'T12:00:00Z' },
+  { id: 'av3', temporada_id: 't1', autor_id: 'p0', titulo: 'Quedan sudaderas del pedido',
+    cuerpo: 'Tallas M y L. 25 € por Bizum al de siempre.',
+    prioridad: 'normal', destinatarios: 'todos', fijado: false,
+    creado_en: enDias(-9) + 'T10:15:00Z' }
+];
+
+// Algunas lecturas ya hechas, para que el recuento del staff diga algo.
+const LECTURAS = [];
+nombres.forEach((p, i) => {
+  if (p.estado === 'baja' || i === 1) return;
+  if (i % 2 === 0) LECTURAS.push({ aviso_id: 'av1', jugador_id: p.id, leido_en: enDias(-1) });
+  if (i % 3 === 0) LECTURAS.push({ aviso_id: 'av3', jugador_id: p.id, leido_en: enDias(-8) });
+});
+
+const MATERIAL = [
+  { id: 'm-c1', tipo: 'casco', identificador: 'Casco 01', talla: 'L', estado: 'bueno', coste: 210, fecha_compra: '2026-08-20', notas: null },
+  { id: 'm-c2', tipo: 'casco', identificador: 'Casco 02', talla: 'M', estado: 'bueno', coste: 210, fecha_compra: '2026-08-20', notas: null },
+  { id: 'm-c3', tipo: 'casco', identificador: 'Casco 03', talla: 'XL', estado: 'usado', coste: 180, fecha_compra: '2025-09-10', notas: null },
+  { id: 'm-h1', tipo: 'hombreras', identificador: 'Hombreras H-01', talla: 'L', estado: 'nuevo', coste: 160, fecha_compra: '2026-08-20', notas: null },
+  { id: 'm-h2', tipo: 'hombreras', identificador: 'Hombreras H-02', talla: 'M', estado: 'bueno', coste: 160, fecha_compra: '2026-08-20', notas: null },
+  { id: 'm-b1', tipo: 'balon', identificador: 'Balón entreno 1', talla: null, estado: 'usado', coste: 35, fecha_compra: '2025-09-10', notas: null }
+];
+
+// Un préstamo a alguien que ya causó baja, para que se vea el aviso de reclamar.
+const PRESTAMOS = [
+  { id: 'pr1', material_id: 'm-c1', jugador_id: 'p2', entregado_en: enDias(-40), devuelto_en: null, fianza: 50 },
+  { id: 'pr2', material_id: 'm-h1', jugador_id: 'p3', entregado_en: enDias(-40), devuelto_en: null, fianza: null },
+  { id: 'pr3', material_id: 'm-c3', jugador_id: 'p17', entregado_en: enDias(-120), devuelto_en: null, fianza: 50 }
+];
+
 const demora = (v) => new Promise(r => setTimeout(() => r(structuredClone(v)), 120));
 const noDisponible = () => { throw new Error('En el modo demo no se guarda nada. Los datos son inventados.'); };
 
@@ -385,6 +426,70 @@ export const entregarSolicitud = (_id, datos) => {
   try { localStorage.setItem(CLAVE_ROL, 'pendiente'); } catch { /* da igual */ }
   return demora({ ...RECIEN_LLEGADO, ...datos, acceso: 'pendiente' });
 };
+
+// --- Avisos ----------------------------------------------------------------
+
+export const avisos = () => demora(
+  [...AVISOS].sort((a, b) => (b.fijado - a.fijado) || b.creado_en.localeCompare(a.creado_en)));
+
+export const crearAviso = (datos) => {
+  AVISOS.push({ id: 'av' + (AVISOS.length + 1), creado_en: new Date().toISOString(), ...datos });
+  return demora(null);
+};
+export const guardarAviso = (id, cambios) => {
+  const a = AVISOS.find(x => x.id === id);
+  if (a) Object.assign(a, cambios);
+  return demora(a);
+};
+export const borrarAviso = (id) => {
+  const i = AVISOS.findIndex(x => x.id === id);
+  if (i >= 0) AVISOS.splice(i, 1);
+  return demora(null);
+};
+
+export const lecturasDe = (avisoId) => demora(LECTURAS.filter(l => l.aviso_id === avisoId));
+export const misLecturas = (jugadorId) => demora(LECTURAS.filter(l => l.jugador_id === jugadorId));
+export const marcarLeido = (avisoId, jugadorId) => {
+  if (!LECTURAS.some(l => l.aviso_id === avisoId && l.jugador_id === jugadorId)) {
+    LECTURAS.push({ aviso_id: avisoId, jugador_id: jugadorId, leido_en: new Date().toISOString() });
+  }
+  return demora(null);
+};
+
+// --- Material --------------------------------------------------------------
+
+export const material = () => demora(MATERIAL.map(m => {
+  const p = PRESTAMOS.find(x => x.material_id === m.id && !x.devuelto_en);
+  return { ...m, prestamo_id: p?.id ?? null, jugador_id: p?.jugador_id ?? null,
+           entregado_en: p?.entregado_en ?? null, fianza: p?.fianza ?? null };
+}));
+
+export const crearMaterial = (datos) => {
+  MATERIAL.push({ id: 'm-' + (MATERIAL.length + 1), ...datos });
+  return demora(null);
+};
+export const guardarMaterial = (id, cambios) => {
+  const m = MATERIAL.find(x => x.id === id);
+  if (m) Object.assign(m, cambios);
+  return demora(m);
+};
+export const borrarMaterial = (id) => {
+  const i = MATERIAL.findIndex(x => x.id === id);
+  if (i >= 0) MATERIAL.splice(i, 1);
+  return demora(null);
+};
+export const entregarMaterial = (datos) => {
+  PRESTAMOS.push({ id: 'pr' + (PRESTAMOS.length + 1), devuelto_en: null, ...datos });
+  return demora(null);
+};
+export const devolverMaterial = (prestamoId, cambios) => {
+  const p = PRESTAMOS.find(x => x.id === prestamoId);
+  if (p) Object.assign(p, { devuelto_en: new Date().toISOString().slice(0, 10) }, cambios);
+  return demora(null);
+};
+export const misPrestamos = (jugadorId) => demora(
+  PRESTAMOS.filter(p => p.jugador_id === jugadorId && !p.devuelto_en)
+    .map(p => ({ ...p, material: MATERIAL.find(m => m.id === p.material_id) })));
 
 export const documentacionDe = () => demora(DOCS);
 export const asegurarDocumentacion = (jugadorId) => demora(DOCS.find(d => d.jugador_id === jugadorId));
