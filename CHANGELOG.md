@@ -5,7 +5,7 @@
 **Qué se hizo:**
 - Los permisos dejan de ser un rango y pasan a ser una lista: se elige a cualquiera de la plantilla y se le dan, una a una, las secciones que lleva (Tesorería, Roster, Documentos, Calendario, Avisos, Liga, Material, Tienda)
 - Se reparten desde su propia ficha en el Roster, con un toque por sección. Repartir llaves es solo del admin
-- Quien recibe una sección **no cambia de app**: sigue en la del jugador y las secciones le cuelgan de Mi ficha, en un bloque "Del club". Son las mismas pantallas que ve el admin
+- Quien recibe una sección **no cambia de app**: sigue en la del jugador y las secciones le aparecen en su pantalla principal (Hoy), en un bloque "Del club" justo debajo del próximo entreno. Son las mismas pantallas que ve el admin
 - Nueva tabla `permisos` y función `puede(seccion)` (`app/db/17_permisos.sql`): todas las políticas RLS pasan de `es_staff()` / `es_admin()` a la llave que les corresponde
 - El disparador `bloquear_campos_de_club()` deja pasar a quien lleva el roster, pero el **rol sigue siendo solo del admin**: un delegado no puede ascender a nadie, ni a sí mismo
 - `resolver_solicitud()` pasa a pedir la llave del roster; `aplicar_importe_cuota()`, la de tesorería

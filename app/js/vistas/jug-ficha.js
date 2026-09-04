@@ -8,7 +8,7 @@ import * as db from '../db.js';
 import * as cerrojo from '../cerrojo.js';
 import {
   html, crudo, $, euros, fecha, nombreCompleto, tag, TAG_DOC, TAG_JUGADOR,
-  SECCIONES, avisar, fallo, cargando
+  avisar, fallo, cargando
 } from '../ui.js';
 
 export async function render(ctx, cont) {
@@ -117,22 +117,6 @@ export async function render(ctx, cont) {
       </div>
       <div class="dcha"><span class="tag teal">Ver</span></div>
     </a>
-
-    ${ctx.permisos.length ? crudo(html`
-      <p class="eyebrow">Del club</p>
-      <p class="ayuda" style="margin:0 0 .7rem;line-height:1.6">
-        Lo que llevas del equipo. Aquí no eres jugador, eres quien lo gestiona.
-      </p>
-      <div class="lista">
-        ${SECCIONES.filter(s => ctx.permisos.includes(s.clave)).map(s => html`
-          <a class="fila" href="${ctx.enlace(s.ruta)}" style="text-decoration:none;color:inherit">
-            <div class="info">
-              <div class="nom">${s.nombre}</div>
-              <div class="meta">${s.pie}</div>
-            </div>
-            <div class="dcha"><span class="tag teal">Abrir</span></div>
-          </a>`)}
-      </div>`) : ''}
 
     <div id="cerrojo"></div>
 

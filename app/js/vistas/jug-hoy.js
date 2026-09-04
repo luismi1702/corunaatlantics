@@ -8,7 +8,7 @@ import * as db from '../db.js';
 import {
   html, crudo, $, $$, euros, cuando, hora, hoyISO, fechaCorta, diasHasta, DIAS,
   unidadDe, esDeUnidad, NOMBRE_UNIDAD, OPCIONES_ASISTENCIA as OPCIONES, conRespaldo,
-  avisar, fallo, cargando
+  SECCIONES, avisar, fallo, cargando
 } from '../ui.js';
 
 const DICHO = {
@@ -152,6 +152,19 @@ export async function render(ctx, cont) {
         <span class="que">${titulo(siguiente)}</span>
         <span class="cuando">${cuando(siguiente.fecha)}${siguiente.hora ? ' · ' + hora(siguiente.hora) : ''}</span>
       </a>`) : ''}
+
+    ${ctx.permisos.length ? crudo(html`
+      <p class="eyebrow">Del club<span class="cuenta">${ctx.permisos.length}</span></p>
+      <div class="lista">
+        ${SECCIONES.filter(s => ctx.permisos.includes(s.clave)).map(s => html`
+          <a class="fila" href="${ctx.enlace(s.ruta)}" style="text-decoration:none;color:inherit">
+            <div class="info">
+              <div class="nom">${s.nombre}</div>
+              <div class="meta">${s.pie}</div>
+            </div>
+            <div class="dcha"><span class="tag teal">Abrir</span></div>
+          </a>`)}
+      </div>`) : ''}
 
     ${miAsistencia || pendientes.length || debe || alaVenta.length ? crudo(html`
       <div class="tiras">
