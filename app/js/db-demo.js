@@ -243,14 +243,31 @@ const PEDIDOS = [
 
 const COMPETICIONES = [
   { id: 'co-1', temporada_id: 't1', nombre: 'Liga Gallega Flag 2026-27',
-    tipo: 'liga', notas: null, activa: true }
+    tipo: 'liga', notas: null, activa: true, puntos_victoria: 3, puntos_empate: 1 }
 ];
 
-const CLASIFICACION = [
-  { id: 'cl-1', competicion_id: 'co-1', posicion: 1, equipo: 'Vigo Marines',    jugados: 4, ganados: 4, empatados: 0, perdidos: 0, puntos_favor: 112, puntos_contra: 48,  puntos: 12, es_nuestro: false },
-  { id: 'cl-2', competicion_id: 'co-1', posicion: 2, equipo: 'Coruña Atlantics', jugados: 4, ganados: 3, empatados: 0, perdidos: 1, puntos_favor: 96,  puntos_contra: 62,  puntos: 9,  es_nuestro: true  },
-  { id: 'cl-3', competicion_id: 'co-1', posicion: 3, equipo: 'Santiago Black Ravens', jugados: 4, ganados: 1, empatados: 0, perdidos: 3, puntos_favor: 58, puntos_contra: 94, puntos: 3, es_nuestro: false },
-  { id: 'cl-4', competicion_id: 'co-1', posicion: 4, equipo: 'Ourense Bisontes', jugados: 4, ganados: 0, empatados: 0, perdidos: 4, puntos_favor: 40, puntos_contra: 102, puntos: 0, es_nuestro: false }
+const EQUIPOS_COMP = [
+  { id: 'eq1', competicion_id: 'co-1', nombre: 'Vigo Marines',          es_nuestro: false },
+  { id: 'eq2', competicion_id: 'co-1', nombre: 'Coruña Atlantics',      es_nuestro: true  },
+  { id: 'eq3', competicion_id: 'co-1', nombre: 'Santiago Black Ravens', es_nuestro: false },
+  { id: 'eq4', competicion_id: 'co-1', nombre: 'Ourense Bisontes',      es_nuestro: false }
+];
+
+// Todos los partidos de la liga, no solo los nuestros: de aqui sale la tabla.
+// Los dos nuestros apuntan a su entrada del calendario.
+const PARTIDOS_COMP = [
+  { id: 'pc1', competicion_id: 'co-1', jornada: 1, fecha: enDias(-25), hora: '12:00:00', lugar: 'Vigo',
+    local_id: 'eq1', visitante_id: 'eq4', puntos_local: 28, puntos_visitante: 12, evento_id: null },
+  { id: 'pc2', competicion_id: 'co-1', jornada: 2, fecha: enDias(-18), hora: '12:00:00', lugar: 'Vigo',
+    local_id: 'eq1', visitante_id: 'eq3', puntos_local: 21, puntos_visitante: 14, evento_id: null },
+  { id: 'pc3', competicion_id: 'co-1', jornada: 2, fecha: enDias(-18), hora: '17:00:00', lugar: 'Ourense',
+    local_id: 'eq4', visitante_id: 'eq2', puntos_local: 6, puntos_visitante: 32, evento_id: null },
+  { id: 'pc4', competicion_id: 'co-1', jornada: 3, fecha: enDias(-11), hora: '17:00:00', lugar: 'Santiago',
+    local_id: 'eq3', visitante_id: 'eq2', puntos_local: 19, puntos_visitante: 26, evento_id: 'ep2' },
+  { id: 'pc5', competicion_id: 'co-1', jornada: 3, fecha: enDias(-11), hora: '12:00:00', lugar: 'Santiago',
+    local_id: 'eq3', visitante_id: 'eq4', puntos_local: 24, puntos_visitante: 18, evento_id: null },
+  { id: 'pc6', competicion_id: 'co-1', jornada: 4, fecha: enDias(6), hora: '12:00:00', lugar: 'Campo de Elviña',
+    local_id: 'eq2', visitante_id: 'eq1', puntos_local: null, puntos_visitante: null, evento_id: 'ep1' }
 ];
 
 // Numeros del partido ya jugado contra Santiago.
@@ -558,24 +575,96 @@ export const crearCompeticion = (d) => { COMPETICIONES.push({ id: 'co-' + (COMPE
 export const guardarCompeticion = (id, c) => { const x = COMPETICIONES.find(y => y.id === id); if (x) Object.assign(x, c); return demora(x); };
 export const borrarCompeticion = (id) => { const i = COMPETICIONES.findIndex(y => y.id === id); if (i >= 0) COMPETICIONES.splice(i, 1); return demora(null); };
 
-export const clasificacion = (cid) => demora(
-  CLASIFICACION.filter(f => f.competicion_id === cid).sort((a, b) => (a.posicion ?? 99) - (b.posicion ?? 99)));
-export const crearFilaClasificacion = (d) => { CLASIFICACION.push({ id: 'cl-' + (CLASIFICACION.length + 1), ...d }); return demora(null); };
-export const guardarFilaClasificacion = (id, c) => { const x = CLASIFICACION.find(y => y.id === id); if (x) Object.assign(x, c); return demora(x); };
-export const borrarFilaClasificacion = (id) => { const i = CLASIFICACION.findIndex(y => y.id === id); if (i >= 0) CLASIFICACION.splice(i, 1); return demora(null); };
+export const equiposDe = (cid) => demora(
+  EQUIPOS_COMP.filter(e => e.competicion_id === cid)
+    .sort((a, b) => (b.es_nuestro - a.es_nuestro) || a.nombre.localeCompare(b.nombre)));
 
-export const balanceCompeticion = (cid) => {
-  const suyos = EVENTOS.filter(e => e.tipo === 'partido' && e.competicion_id === cid && e.puntos_favor != null);
-  if (!suyos.length) return demora(null);
-  return demora({
-    competicion_id: cid,
-    jugados: suyos.length,
-    ganados: suyos.filter(e => e.puntos_favor > e.puntos_contra).length,
-    empatados: suyos.filter(e => e.puntos_favor === e.puntos_contra).length,
-    perdidos: suyos.filter(e => e.puntos_favor < e.puntos_contra).length,
-    puntos_favor: suyos.reduce((s, e) => s + e.puntos_favor, 0),
-    puntos_contra: suyos.reduce((s, e) => s + e.puntos_contra, 0)
+export const crearEquipoCompeticion = (d) => { EQUIPOS_COMP.push({ id: 'eq-' + Date.now(), ...d }); return demora(null); };
+export const guardarEquipoCompeticion = (id, c) => { const x = EQUIPOS_COMP.find(y => y.id === id); if (x) Object.assign(x, c); return demora(x); };
+export const borrarEquipoCompeticion = (id) => { const i = EQUIPOS_COMP.findIndex(y => y.id === id); if (i >= 0) EQUIPOS_COMP.splice(i, 1); return demora(null); };
+
+export const partidosDe = (cid) => demora(
+  PARTIDOS_COMP.filter(p => p.competicion_id === cid)
+    .sort((a, b) => (a.fecha ?? '').localeCompare(b.fecha ?? '')));
+
+export const crearPartidoCompeticion = (d) => {
+  const nuevo = { id: 'pc-' + Date.now(), evento_id: null, ...d };
+  PARTIDOS_COMP.push(nuevo);
+  return demora(nuevo);
+};
+export const guardarPartidoCompeticion = (id, c) => { const x = PARTIDOS_COMP.find(y => y.id === id); if (x) Object.assign(x, c); return demora(x); };
+export const borrarPartidoCompeticion = (id) => { const i = PARTIDOS_COMP.findIndex(y => y.id === id); if (i >= 0) PARTIDOS_COMP.splice(i, 1); return demora(null); };
+
+export const partidoDeEvento = (eventoId) => demora(PARTIDOS_COMP.find(p => p.evento_id === eventoId) ?? null);
+
+// La misma cuenta que hace la vista de la base de datos, aqui a mano.
+export const clasificacion = (cid) => {
+  const comp = COMPETICIONES.find(c => c.id === cid);
+  const pv = comp?.puntos_victoria ?? 3;
+  const pe = comp?.puntos_empate ?? 1;
+
+  const filas = EQUIPOS_COMP.filter(e => e.competicion_id === cid).map(e => {
+    const suyos = PARTIDOS_COMP.filter(p => p.competicion_id === cid &&
+      p.puntos_local != null && p.puntos_visitante != null &&
+      (p.local_id === e.id || p.visitante_id === e.id));
+
+    const marcadores = suyos.map(p => p.local_id === e.id
+      ? { pf: p.puntos_local, pc: p.puntos_visitante }
+      : { pf: p.puntos_visitante, pc: p.puntos_local });
+
+    const ganados   = marcadores.filter(m => m.pf > m.pc).length;
+    const empatados = marcadores.filter(m => m.pf === m.pc).length;
+    const favor     = marcadores.reduce((s, m) => s + m.pf, 0);
+    const contra    = marcadores.reduce((s, m) => s + m.pc, 0);
+
+    return {
+      competicion_id: cid, equipo_id: e.id, equipo: e.nombre, es_nuestro: e.es_nuestro,
+      jugados: marcadores.length, ganados, empatados,
+      perdidos: marcadores.filter(m => m.pf < m.pc).length,
+      puntos_favor: favor, puntos_contra: contra, diferencia: favor - contra,
+      puntos: ganados * pv + empatados * pe
+    };
   });
+
+  filas.sort((a, b) => b.puntos - a.puntos || b.diferencia - a.diferencia || b.puntos_favor - a.puntos_favor);
+  return demora(filas);
+};
+
+// En la demo el calendario tambien se mueve, para que se vea el enganche.
+export const sincronizarEventoDePartido = (partido, { equipos }) => {
+  const nuestro = equipos.find(e => e.es_nuestro);
+  const enCasa = !!nuestro && partido.local_id === nuestro.id;
+  const fuera  = !!nuestro && partido.visitante_id === nuestro.id;
+  if (!enCasa && !fuera) return demora(null);
+
+  const rival = equipos.find(e => e.id === (enCasa ? partido.visitante_id : partido.local_id));
+  const datos = {
+    temporada_id: 't1', tipo: 'partido', fecha: partido.fecha, hora: partido.hora,
+    lugar: partido.lugar, unidad: 'todos', rival: rival ? rival.nombre : null,
+    es_local: enCasa, notas: null, cancelado: false, horario_id: null,
+    competicion_id: partido.competicion_id,
+    puntos_favor:  enCasa ? partido.puntos_local : partido.puntos_visitante,
+    puntos_contra: enCasa ? partido.puntos_visitante : partido.puntos_local
+  };
+
+  const ya = EVENTOS.find(e => e.id === partido.evento_id);
+  if (ya) { Object.assign(ya, datos); return demora(ya.id); }
+
+  const id = 'ev-' + Date.now();
+  EVENTOS.push({ id, ...datos });
+  EVENTOS.sort((a, b) => a.fecha.localeCompare(b.fecha));
+  const fila = PARTIDOS_COMP.find(p => p.id === partido.id);
+  if (fila) fila.evento_id = id;
+  return demora(id);
+};
+
+export const sincronizarPartidoDeEvento = (evento) => {
+  const partido = PARTIDOS_COMP.find(p => p.evento_id === evento.id);
+  if (!partido) return demora(null);
+  Object.assign(partido, evento.es_local
+    ? { puntos_local: evento.puntos_favor, puntos_visitante: evento.puntos_contra }
+    : { puntos_local: evento.puntos_contra, puntos_visitante: evento.puntos_favor });
+  return demora(partido);
 };
 
 export const estadisticasDe = (eventoId) => demora(ESTADISTICAS_DEMO.filter(x => x.evento_id === eventoId));

@@ -436,23 +436,103 @@ export const guardarCompeticion = (id, cambios) =>
 export const borrarCompeticion = (id) =>
   sb.from('competiciones').delete().eq('id', id).then(ok);
 
-export const clasificacion = (competicionId) =>
-  sb.from('clasificacion').select('*').eq('competicion_id', competicionId)
-    .order('posicion', { nullsFirst: false }).order('puntos', { ascending: false })
+// Los equipos que juegan la competicion. Uno de ellos somos nosotros.
+export const equiposDe = (competicionId) =>
+  sb.from('equipos_competicion').select('*').eq('competicion_id', competicionId)
+    .order('es_nuestro', { ascending: false }).order('nombre').then(ok);
+
+export const crearEquipoCompeticion = (datos) =>
+  sb.from('equipos_competicion').insert(datos).select().single().then(ok);
+
+export const guardarEquipoCompeticion = (id, cambios) =>
+  sb.from('equipos_competicion').update(cambios).eq('id', id).select().single().then(ok);
+
+export const borrarEquipoCompeticion = (id) =>
+  sb.from('equipos_competicion').delete().eq('id', id).then(ok);
+
+// Todos los partidos de la liga, no solo los nuestros: sin los de los demas la
+// clasificacion no sale.
+export const partidosDe = (competicionId) =>
+  sb.from('partidos_competicion').select('*').eq('competicion_id', competicionId)
+    .order('fecha', { ascending: true, nullsFirst: false })
+    .order('jornada', { ascending: true, nullsFirst: false })
     .then(ok);
 
-export const crearFilaClasificacion = (datos) =>
-  sb.from('clasificacion').insert(datos).select().single().then(ok);
+export const crearPartidoCompeticion = (datos) =>
+  sb.from('partidos_competicion').insert(datos).select().single().then(ok);
 
-export const guardarFilaClasificacion = (id, cambios) =>
-  sb.from('clasificacion').update(cambios).eq('id', id).select().single().then(ok);
+export const guardarPartidoCompeticion = (id, cambios) =>
+  sb.from('partidos_competicion').update(cambios).eq('id', id).select().single().then(ok);
 
-export const borrarFilaClasificacion = (id) =>
-  sb.from('clasificacion').delete().eq('id', id).then(ok);
+export const borrarPartidoCompeticion = (id) =>
+  sb.from('partidos_competicion').delete().eq('id', id).then(ok);
 
-export const balanceCompeticion = (competicionId) =>
-  sb.from('balance_competicion').select('*').eq('competicion_id', competicionId)
-    .maybeSingle().then(ok);
+// El partido de liga al que corresponde una entrada del calendario, si la hay.
+export const partidoDeEvento = (eventoId) =>
+  sb.from('partidos_competicion').select('*').eq('evento_id', eventoId).maybeSingle().then(ok);
+
+// La tabla no se teclea: sale de los partidos. Se ordena por puntos y, a
+// igualdad, por diferencia de puntos, que es el desempate habitual.
+export const clasificacion = (competicionId) =>
+  sb.from('clasificacion').select('*').eq('competicion_id', competicionId)
+    .order('puntos', { ascending: false })
+    .order('diferencia', { ascending: false })
+    .order('puntos_favor', { ascending: false })
+    .then(ok);
+
+// Nuestros partidos viven en dos sitios: en la tabla de la liga, que es de
+// donde sale la clasificacion, y en el calendario, que es donde se pasa lista y
+// se meten las estadisticas. Esto mantiene el segundo al dia a partir del
+// primero para que nadie escriba el mismo partido dos veces.
+export async function sincronizarEventoDePartido(partido, { temporadaId, equipos }) {
+  const nuestro = equipos.find(e => e.es_nuestro);
+  const enCasa  = !!nuestro && partido.local_id === nuestro.id;
+  const fuera   = !!nuestro && partido.visitante_id === nuestro.id;
+
+  // Si deja de ser nuestro, el evento que arrastraba sobra.
+  if (!enCasa && !fuera) {
+    if (partido.evento_id) {
+      await guardarPartidoCompeticion(partido.id, { evento_id: null });
+      await borrarEvento(partido.evento_id);
+    }
+    return null;
+  }
+
+  const rival = equipos.find(e => e.id === (enCasa ? partido.visitante_id : partido.local_id));
+  const datos = {
+    temporada_id:   temporadaId,
+    tipo:           'partido',
+    fecha:          partido.fecha,
+    hora:           partido.hora,
+    lugar:          partido.lugar,
+    rival:          rival ? rival.nombre : null,
+    es_local:       enCasa,
+    competicion_id: partido.competicion_id,
+    puntos_favor:   enCasa ? partido.puntos_local : partido.puntos_visitante,
+    puntos_contra:  enCasa ? partido.puntos_visitante : partido.puntos_local
+  };
+
+  if (partido.evento_id) {
+    await guardarEvento(partido.evento_id, datos);
+    return partido.evento_id;
+  }
+  const evento = await crearEvento(datos);
+  await guardarPartidoCompeticion(partido.id, { evento_id: evento.id });
+  return evento.id;
+}
+
+// Y al reves: el marcador tambien se toca desde el partido del calendario, que
+// es donde se esta al acabar. Si ese partido es de una competicion, la tabla
+// tiene que enterarse.
+export async function sincronizarPartidoDeEvento(evento) {
+  const partido = await partidoDeEvento(evento.id);
+  if (!partido) return null;
+
+  const nuestros = { pf: evento.puntos_favor, pc: evento.puntos_contra };
+  return guardarPartidoCompeticion(partido.id, evento.es_local
+    ? { puntos_local: nuestros.pf, puntos_visitante: nuestros.pc }
+    : { puntos_local: nuestros.pc, puntos_visitante: nuestros.pf });
+}
 
 // Estadisticas de un partido, tal cual estan guardadas.
 export const estadisticasDe = (eventoId) =>

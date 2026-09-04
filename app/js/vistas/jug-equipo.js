@@ -74,7 +74,7 @@ export async function render(ctx, cont) {
         <div class="tabla-clas">
           ${tabla.map((f, i) => html`
             <div class="fila-clas ${f.es_nuestro ? 'nuestro' : ''}">
-              <span class="pos">${f.posicion ?? i + 1}</span>
+              <span class="pos">${i + 1}</span>
               <span class="equipo">${f.equipo}</span>
               <span class="dato">${f.jugados}</span>
               <span class="dato">${f.ganados}</span>
@@ -83,7 +83,7 @@ export async function render(ctx, cont) {
             </div>`)}
         </div>
         <p class="leyenda-clas"><span>Pos</span><span>Equipo</span><span>J</span><span>G</span><span>P</span><span>Pts</span></p>`)
-        : vacio('La clasificación todavía no está puesta.')}`;
+        : vacio('Todavía no hay resultados en esta competición.')}`;
 
   // De filas sueltas a una por jugador, con todos sus conceptos juntos.
   const agrupados = (() => {

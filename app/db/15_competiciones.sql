@@ -1,20 +1,24 @@
 -- Coruña Atlantics — Competiciones, clasificación y estadísticas
 -- Ejecutar DESPUÉS de 14_tienda.sql.
 --
--- Dos cosas que conviene tener claras antes de leer el modelo:
+-- La clasificación NO se teclea: se calcula. Metiendo todos los partidos de la
+-- liga —los nuestros y los de los demás entre ellos— la tabla sale sola y no
+-- puede desactualizarse ni contradecir a los resultados.
 --
--- 1. La clasificación se teclea. La app solo conoce vuestros partidos, así que
---    no puede calcular una tabla de liga: no sabe cómo han quedado los demás
---    equipos entre ellos. Se copia de la federación y se edita.
---
--- 2. Las estadísticas van en filas, no en columnas. Una fila por partido,
---    jugador y concepto. Así, añadir un concepto nuevo el año que viene es
---    escribir una línea en la app, no migrar la base de datos. Y el histórico
---    acumulado es una suma.
+-- Las estadísticas van en filas, no en columnas: una por partido, jugador y
+-- concepto. Añadir un concepto nuevo es editar una lista en la app, no migrar
+-- la base de datos. Y el histórico acumulado es una suma.
 
 do $$ begin
   create type tipo_competicion as enum ('liga', 'torneo', 'amistoso');
 exception when duplicate_object then null; end $$;
+
+-- Sobra de la primera version, cuando la tabla se tecleaba a mano. Y la vista
+-- que la sustituye se tira antes de rehacerla porque `create or replace view`
+-- no admite que cambien las columnas.
+drop table if exists clasificacion cascade;
+drop view  if exists clasificacion cascade;
+drop view  if exists balance_competicion cascade;
 
 create table if not exists competiciones (
   id            uuid primary key default gen_random_uuid(),
@@ -23,44 +27,104 @@ create table if not exists competiciones (
   tipo          tipo_competicion not null default 'liga',
   notas         text,
   activa        boolean not null default true,
+  -- Cada federación puntúa a su manera; en flag no siempre son tres por victoria.
+  puntos_victoria int not null default 3,
+  puntos_empate   int not null default 1,
   creado_en     timestamptz not null default now()
 );
 
 create index if not exists competiciones_temporada_idx on competiciones (temporada_id);
 
--- Una fila por equipo de la tabla, tal cual la publica la federación.
-create table if not exists clasificacion (
+-- ---------------------------------------------------------------------------
+-- Los equipos que la juegan
+-- ---------------------------------------------------------------------------
+
+create table if not exists equipos_competicion (
   id              uuid primary key default gen_random_uuid(),
   competicion_id  uuid not null references competiciones(id) on delete cascade,
-  posicion        int,
-  equipo          text not null,
-  jugados         int not null default 0,
-  ganados         int not null default 0,
-  empatados       int not null default 0,
-  perdidos        int not null default 0,
-  puntos_favor    int not null default 0,
-  puntos_contra   int not null default 0,
-  puntos          int not null default 0,
+  nombre          text not null,
   es_nuestro      boolean not null default false,
-  actualizado_en  timestamptz not null default now()
+  creado_en       timestamptz not null default now()
 );
 
-create index if not exists clasificacion_comp_idx on clasificacion (competicion_id, posicion);
+create unique index if not exists equipos_competicion_nombre
+  on equipos_competicion (competicion_id, lower(nombre));
 
-drop trigger if exists clasificacion_actualizado on clasificacion;
-create trigger clasificacion_actualizado before update on clasificacion
-  for each row execute function tocar_actualizado_en();
+-- Solo uno puede ser el nuestro en cada competición.
+create unique index if not exists equipos_competicion_nuestro
+  on equipos_competicion (competicion_id) where es_nuestro;
 
--- El resultado de nuestros partidos vive en el propio evento.
+-- ---------------------------------------------------------------------------
+-- Los partidos, todos
+--   evento_id enlaza los nuestros con su entrada del calendario, que es donde
+--   viven la asistencia y las estadísticas. Los de los demás no tienen evento:
+--   solo cuentan para la tabla.
+-- ---------------------------------------------------------------------------
+
+create table if not exists partidos_competicion (
+  id                uuid primary key default gen_random_uuid(),
+  competicion_id    uuid not null references competiciones(id) on delete cascade,
+  jornada           int,
+  fecha             date,
+  hora              time,
+  lugar             text,
+  local_id          uuid not null references equipos_competicion(id) on delete cascade,
+  visitante_id      uuid not null references equipos_competicion(id) on delete cascade,
+  puntos_local      int,
+  puntos_visitante  int,
+  evento_id         uuid references eventos(id) on delete set null,
+  notas             text,
+  creado_en         timestamptz not null default now(),
+  check (local_id <> visitante_id)
+);
+
+create index if not exists partidos_comp_idx on partidos_competicion (competicion_id, fecha);
+create index if not exists partidos_evento_idx on partidos_competicion (evento_id);
+
+-- El calendario guarda a qué competición pertenece cada partido nuestro.
 alter table eventos
   add column if not exists competicion_id uuid references competiciones(id) on delete set null,
   add column if not exists puntos_favor   int,
   add column if not exists puntos_contra  int;
 
 -- ---------------------------------------------------------------------------
+-- La clasificación, calculada
+-- ---------------------------------------------------------------------------
+
+create or replace view clasificacion
+with (security_invoker = on) as
+with jugados as (
+  select competicion_id, local_id as equipo_id,
+         puntos_local as pf, puntos_visitante as pc
+  from partidos_competicion
+  where puntos_local is not null and puntos_visitante is not null
+  union all
+  select competicion_id, visitante_id,
+         puntos_visitante, puntos_local
+  from partidos_competicion
+  where puntos_local is not null and puntos_visitante is not null
+)
+select
+  e.competicion_id,
+  e.id                                                as equipo_id,
+  e.nombre                                            as equipo,
+  e.es_nuestro,
+  count(j.equipo_id)::int                             as jugados,
+  count(*) filter (where j.pf >  j.pc)::int           as ganados,
+  count(*) filter (where j.pf =  j.pc)::int           as empatados,
+  count(*) filter (where j.pf <  j.pc)::int           as perdidos,
+  coalesce(sum(j.pf), 0)::int                         as puntos_favor,
+  coalesce(sum(j.pc), 0)::int                         as puntos_contra,
+  (coalesce(sum(j.pf), 0) - coalesce(sum(j.pc), 0))::int as diferencia,
+  (count(*) filter (where j.pf > j.pc) * c.puntos_victoria
+   + count(*) filter (where j.pf = j.pc) * c.puntos_empate)::int as puntos
+from equipos_competicion e
+join competiciones c on c.id = e.competicion_id
+left join jugados j on j.equipo_id = e.id
+group by e.id, e.competicion_id, e.nombre, e.es_nuestro, c.puntos_victoria, c.puntos_empate;
+
+-- ---------------------------------------------------------------------------
 -- Estadísticas
---   clave es texto libre a propósito: el catálogo vive en la app, así que
---   añadir un concepto no toca la base de datos.
 -- ---------------------------------------------------------------------------
 
 create table if not exists estadisticas (
@@ -75,7 +139,6 @@ create table if not exists estadisticas (
 create index if not exists estadisticas_jugador_idx on estadisticas (jugador_id);
 create index if not exists estadisticas_evento_idx  on estadisticas (evento_id);
 
--- Totales por jugador y temporada: lo que alimenta el histórico.
 create or replace view estadisticas_temporada
 with (security_invoker = on) as
 select
@@ -89,7 +152,6 @@ join eventos e on e.id = s.evento_id
 where s.valor > 0
 group by e.temporada_id, s.jugador_id, s.clave;
 
--- Y el acumulado de siempre, sin separar por temporada.
 create or replace view estadisticas_historico
 with (security_invoker = on) as
 select
@@ -101,31 +163,16 @@ from estadisticas s
 where s.valor > 0
 group by s.jugador_id, s.clave;
 
--- Nuestro balance, que esto sí lo puede calcular la app.
-create or replace view balance_competicion
-with (security_invoker = on) as
-select
-  e.competicion_id,
-  count(*)::int                                                as jugados,
-  count(*) filter (where e.puntos_favor > e.puntos_contra)::int as ganados,
-  count(*) filter (where e.puntos_favor = e.puntos_contra)::int as empatados,
-  count(*) filter (where e.puntos_favor < e.puntos_contra)::int as perdidos,
-  coalesce(sum(e.puntos_favor), 0)::int                        as puntos_favor,
-  coalesce(sum(e.puntos_contra), 0)::int                       as puntos_contra
-from eventos e
-where e.tipo = 'partido' and not e.cancelado
-  and e.puntos_favor is not null and e.puntos_contra is not null
-group by e.competicion_id;
-
 -- ---------------------------------------------------------------------------
 -- Permisos
---   La competición y la clasificación las ve todo el equipo: es información
---   pública de la federación. Las estadísticas, solo el staff.
+--   La competición, los equipos, los partidos y la clasificación los ve todo el
+--   equipo. Las estadísticas también (16), pero escribirlo todo es del staff.
 -- ---------------------------------------------------------------------------
 
-alter table competiciones enable row level security;
-alter table clasificacion enable row level security;
-alter table estadisticas  enable row level security;
+alter table competiciones        enable row level security;
+alter table equipos_competicion  enable row level security;
+alter table partidos_competicion enable row level security;
+alter table estadisticas         enable row level security;
 
 drop policy if exists competiciones_leer on competiciones;
 create policy competiciones_leer on competiciones
@@ -135,12 +182,20 @@ drop policy if exists competiciones_staff on competiciones;
 create policy competiciones_staff on competiciones
   for all to authenticated using (es_staff()) with check (es_staff());
 
-drop policy if exists clasificacion_leer on clasificacion;
-create policy clasificacion_leer on clasificacion
+drop policy if exists equipos_comp_leer on equipos_competicion;
+create policy equipos_comp_leer on equipos_competicion
   for select to authenticated using (es_aprobado() or es_staff());
 
-drop policy if exists clasificacion_staff on clasificacion;
-create policy clasificacion_staff on clasificacion
+drop policy if exists equipos_comp_staff on equipos_competicion;
+create policy equipos_comp_staff on equipos_competicion
+  for all to authenticated using (es_staff()) with check (es_staff());
+
+drop policy if exists partidos_comp_leer on partidos_competicion;
+create policy partidos_comp_leer on partidos_competicion
+  for select to authenticated using (es_aprobado() or es_staff());
+
+drop policy if exists partidos_comp_staff on partidos_competicion;
+create policy partidos_comp_staff on partidos_competicion
   for all to authenticated using (es_staff()) with check (es_staff());
 
 drop policy if exists estadisticas_staff on estadisticas;

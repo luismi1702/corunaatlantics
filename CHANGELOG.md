@@ -1,5 +1,23 @@
 # Changelog — Coruña Atlantics Web
 
+## [2026-09-05] — Liga: la clasificación se calcula sola
+
+**Qué se hizo:**
+- Rehecha la sección de Liga alrededor de dos ideas: primero los equipos que juegan la competición, después los partidos
+- La clasificación deja de teclearse. Se calcula desde los resultados (`clasificacion` pasa de tabla a vista): jugados, ganados, empatados, perdidos, puntos a favor y en contra, diferencia y puntos
+- Se apuntan **todos** los partidos de la liga, no solo los nuestros: sin los de los demás entre ellos la tabla no puede salir
+- Puntos por victoria y por empate configurables por competición, porque no todas las federaciones puntúan igual
+- Nuestros partidos ya no se escriben dos veces: al apuntar uno en el que jugamos, se crea solo en el calendario con rival, campo y local/visitante, y desde ahí siguen funcionando pasar lista y las estadísticas por jugador
+- El marcador se sincroniza en los dos sentidos: se toque en la liga o en la pantalla del partido, la tabla se entera
+- Nueva tabla `equipos_competicion` y `partidos_competicion` (`app/db/15_competiciones.sql`, reescrito); retirada la vista `balance_competicion`, que ahora es la fila de la tabla
+
+**Por qué:**
+Una clasificación escrita a mano envejece: se copia de la federación una vez y a la
+tercera jornada ya contradice a los resultados que la propia app tiene apuntados. Metiendo
+los partidos —que es lo que uno mira igualmente— la tabla no puede estar mal.
+
+**Pendiente en Supabase:** ejecutar `13_permisos_funciones.sql`, `15_competiciones.sql` y `16_estadisticas_visibles.sql`.
+
 ## [2026-09-04] — App del equipo: plan y consola de gestión (fase 1A)
 
 **Qué se hizo:**

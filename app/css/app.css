@@ -475,6 +475,10 @@ button.fila:active { transform: scale(.995); }
   font-size: .92rem;
 }
 .fila-clas.nuestro { border-color: var(--teal); background: rgba(78,205,200,.10); }
+
+/* En la lista de partidos de la liga, los nuestros. */
+.fila.destacada { border-color: rgba(78,205,200,.45); background: rgba(78,205,200,.07); }
+.fila.destacada .nom { color: var(--teal); }
 .fila-clas .pos {
   font-family: 'Anton', sans-serif; color: var(--muted);
   font-variant-numeric: tabular-nums; text-align: center;

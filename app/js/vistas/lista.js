@@ -164,7 +164,10 @@ export async function render(ctx, cont, eventoId) {
     const f = new FormData(e.target);
     const num = (k) => f.get(k) === '' ? null : Number(f.get(k));
     try {
-      await db.guardarEvento(eventoId, { puntos_favor: num('puntos_favor'), puntos_contra: num('puntos_contra') });
+      const guardado = await db.guardarEvento(eventoId,
+        { puntos_favor: num('puntos_favor'), puntos_contra: num('puntos_contra') });
+      // Si el partido es de una competición, el resultado también es de la tabla.
+      await db.sincronizarPartidoDeEvento(guardado);
       avisar('Resultado guardado');
       render(ctx, cont, eventoId);
     } catch (err) { fallo(err); }

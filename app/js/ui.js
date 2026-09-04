@@ -169,7 +169,9 @@ export function avisar(texto, tipo = '') {
 
 export const fallo = (e) => {
   console.error(e);
-  avisar(e?.message || 'Algo ha fallado', 'error');
+  // Acepta tanto un error como un texto nuestro: por dentro casi siempre llega
+  // lo primero, pero una pantalla que valida algo a mano quiere decir lo suyo.
+  avisar(typeof e === 'string' ? e : (e?.message || 'Algo ha fallado'), 'error');
 };
 
 // --- Hoja modal -----------------------------------------------------------

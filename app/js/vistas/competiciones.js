@@ -1,13 +1,16 @@
-// Competiciones — la liga o el torneo que jugamos, y su clasificación.
+// Liga — la competición, sus equipos, sus partidos y la tabla.
 //
-// La clasificación se teclea. La app solo conoce nuestros partidos, así que no
-// puede calcular una tabla de liga: no sabe cómo han quedado los demás equipos
-// entre ellos. Lo que sí calcula es nuestro balance, a partir de los
-// resultados que hayamos apuntado.
+// La clasificación no se teclea: se calcula. Metiendo todos los partidos de la
+// jornada —los nuestros y los de los demás entre ellos— la tabla sale sola y no
+// puede quedarse vieja ni contradecir a los resultados.
+//
+// Y nuestros partidos no se escriben dos veces: al apuntar uno en el que
+// jugamos, se crea solo en el calendario. Ahí es donde se pasa lista y se meten
+// las estadísticas de cada jugador.
 
 import * as db from '../db.js';
 import {
-  html, crudo, $, $$, fecha, hoja, confirmar, avisar, fallo, cargando, vacio
+  html, crudo, $, $$, cuando, hoja, confirmar, avisar, fallo, cargando, vacio
 } from '../ui.js';
 
 const TIPOS = { liga: 'Liga', torneo: 'Torneo', amistoso: 'Amistosos' };
@@ -20,8 +23,7 @@ export async function render(ctx, cont) {
     <div id="lista" class="lista"></div>
     <button class="btn primario ancho" id="nueva" style="margin-top:1rem">+ Añadir competición</button>
     <p class="ayuda" style="text-align:center;margin-top:.5rem;line-height:1.6">
-      La clasificación se copia de la federación. Vuestro balance lo calcula la
-      app con los resultados que apuntes en cada partido.
+      Metes los equipos y luego los partidos. La clasificación la calcula la app.
     </p>
   `;
 
@@ -43,78 +45,115 @@ export async function render(ctx, cont) {
 // --- Una competición ------------------------------------------------------
 
 async function abrirCompeticion(ctx, comp, alGuardar) {
-  const [tabla, balance, agenda] = await Promise.all([
-    db.clasificacion(comp.id),
-    db.balanceCompeticion(comp.id),
-    db.eventos(ctx.temporada.id)
+  const [equipos, partidos, tabla] = await Promise.all([
+    db.equiposDe(comp.id),
+    db.partidosDe(comp.id),
+    db.clasificacion(comp.id)
   ]);
 
-  const partidos = agenda.filter(e => e.tipo === 'partido' && e.competicion_id === comp.id);
+  const nombreDe = (id) => {
+    const e = equipos.find(x => x.id === id);
+    return e ? e.nombre : '—';
+  };
+  const nuestro = equipos.find(e => e.es_nuestro);
+  const esNuestro = (p) => !!nuestro &&
+    (p.local_id === nuestro.id || p.visitante_id === nuestro.id);
+  const jugado = (p) => p.puntos_local != null && p.puntos_visitante != null;
+
+  const nuestraFila = tabla.find(f => f.es_nuestro);
+
+  // Sin equipos no hay nada que hacer: ni partidos ni tabla. Así que la
+  // pantalla empieza pidiendo justo eso y no enseña cajas vacías.
+  const arrancando = equipos.length < 2;
 
   const panel = hoja(comp.nombre, html`
-    ${balance ? crudo(html`
-      <p class="eyebrow">Vuestro balance</p>
+    ${nuestraFila && nuestraFila.jugados ? crudo(html`
       <div class="cifras">
-        <div class="cifra ok"><div class="n">${balance.ganados}</div><div class="l">Ganados</div></div>
-        <div class="cifra bad"><div class="n">${balance.perdidos}</div><div class="l">Perdidos</div></div>
-        <div class="cifra"><div class="n">${balance.puntos_favor}-${balance.puntos_contra}</div><div class="l">Puntos</div></div>
-      </div>`) : crudo(html`
-      <p class="ayuda" style="margin:0 0 1rem;line-height:1.6">
-        Cuando apuntes el resultado de algún partido de esta competición, aquí
-        aparecerá vuestro balance.
-      </p>`)}
+        <div class="cifra ok"><div class="n">${nuestraFila.ganados}</div><div class="l">Ganados</div></div>
+        <div class="cifra bad"><div class="n">${nuestraFila.perdidos}</div><div class="l">Perdidos</div></div>
+        <div class="cifra"><div class="n">${nuestraFila.puntos_favor}-${nuestraFila.puntos_contra}</div><div class="l">Puntos</div></div>
+      </div>`) : ''}
 
-    <p class="eyebrow">Clasificación<span class="cuenta">${tabla.length}</span></p>
-    <div class="tabla-clas">
-      ${tabla.length ? tabla.map((f, i) => html`
-        <button class="fila-clas ${f.es_nuestro ? 'nuestro' : ''}" data-fila="${f.id}">
-          <span class="pos">${f.posicion ?? i + 1}</span>
-          <span class="equipo">${f.equipo}</span>
-          <span class="dato">${f.jugados}</span>
-          <span class="dato">${f.ganados}</span>
-          <span class="dato">${f.perdidos}</span>
-          <span class="dato fuerte">${f.puntos}</span>
-        </button>`) : vacio('Sin clasificación todavía. Cópiala de la federación.')}
-    </div>
-    ${tabla.length ? crudo(html`
-      <p class="leyenda-clas"><span>Pos</span><span>Equipo</span><span>J</span><span>G</span><span>P</span><span>Pts</span></p>`) : ''}
-
-    <button class="btn ancho" id="anadir-equipo" style="margin-top:.8rem">+ Añadir equipo a la tabla</button>
-
-    <p class="eyebrow">Partidos${partidos.length ? crudo(html`<span class="cuenta">${partidos.length}</span>`) : ''}</p>
+    <p class="eyebrow">Equipos<span class="cuenta">${equipos.length}</span></p>
     <div class="lista">
-      ${partidos.length ? partidos.map(e => html`
-        <a class="fila" href="#/lista/${e.id}" style="text-decoration:none;color:inherit">
+      ${equipos.length ? equipos.map(e => html`
+        <button class="fila" data-equipo="${e.id}">
           <div class="info">
-            <div class="nom">${e.rival ? (e.es_local ? 'vs ' : 'en ') + e.rival : 'Partido'}</div>
-            <div class="meta">${fecha(e.fecha)}</div>
+            <div class="nom">${e.nombre}</div>
+            ${e.es_nuestro ? crudo('<div class="meta">Nosotros</div>') : ''}
           </div>
-          <div class="dcha">
-            ${e.puntos_favor != null
-              ? crudo(html`<span class="marcador ${e.puntos_favor > e.puntos_contra ? 'gana'
-                  : e.puntos_favor < e.puntos_contra ? 'pierde' : ''}">${e.puntos_favor}-${e.puntos_contra}</span>`)
-              : crudo('<span class="tag n">Sin jugar</span>')}
-          </div>
-        </a>`) : vacio('Ningún partido asignado a esta competición todavía.')}
+          <div class="dcha">${e.es_nuestro ? crudo('<span class="tag ok">Atlantics</span>') : ''}</div>
+        </button>`) : vacio('Empieza metiendo los equipos que juegan la competición.')}
     </div>
-    <p class="ayuda" style="margin-top:.6rem;line-height:1.6">
-      Los partidos se asignan a la competición desde el calendario, al crearlos
-      o editarlos.
-    </p>
+    <button class="btn ancho" id="anadir-equipo" style="margin-top:.8rem">+ Añadir equipo</button>
+
+    ${arrancando ? '' : crudo(html`
+      <p class="eyebrow">Partidos<span class="cuenta">${partidos.length}</span></p>
+      <div class="lista">
+        ${partidos.length ? partidos.map(p => html`
+          <button class="fila ${esNuestro(p) ? 'destacada' : ''}" data-partido="${p.id}">
+            <div class="info">
+              <div class="nom">${nombreDe(p.local_id)} — ${nombreDe(p.visitante_id)}</div>
+              <div class="meta">
+                ${p.jornada ? 'J' + p.jornada + ' · ' : ''}${p.fecha ? cuando(p.fecha) : 'Sin fecha'}
+              </div>
+            </div>
+            <div class="dcha">
+              ${jugado(p)
+                ? crudo(html`<span class="marcador">${p.puntos_local}-${p.puntos_visitante}</span>`)
+                : crudo('<span class="tag n">Sin jugar</span>')}
+            </div>
+          </button>`) : vacio('Ningún partido apuntado todavía.')}
+      </div>
+      <button class="btn ancho" id="anadir-partido" style="margin-top:.8rem">+ Añadir partido</button>
+
+      <p class="eyebrow">Clasificación</p>
+      ${tabla.length ? crudo(html`
+        <div class="tabla-clas">
+          ${tabla.map((f, i) => html`
+            <div class="fila-clas ${f.es_nuestro ? 'nuestro' : ''}">
+              <span class="pos">${i + 1}</span>
+              <span class="equipo">${f.equipo}</span>
+              <span class="dato">${f.jugados}</span>
+              <span class="dato">${f.ganados}</span>
+              <span class="dato">${f.perdidos}</span>
+              <span class="dato fuerte">${f.puntos}</span>
+            </div>`)}
+        </div>
+        <p class="leyenda-clas"><span>Pos</span><span>Equipo</span><span>J</span><span>G</span><span>P</span><span>Pts</span></p>`)
+        : vacio('La tabla saldrá sola en cuanto apuntes algún resultado.')}`)}
+
+    ${nuestro ? crudo(html`
+      <p class="ayuda" style="margin-top:.9rem;line-height:1.6">
+        Vuestros partidos aparecen solos en el calendario. Desde ahí se pasa
+        lista y se meten las estadísticas de cada jugador.
+      </p>`) : ''}
 
     <div style="display:flex;gap:.6rem;margin-top:1.4rem">
       <button class="btn peligro" id="borrar">Borrar</button>
       <button class="btn primario" style="flex:1" id="editar">Editar</button>
     </div>`);
 
-  $$('[data-fila]', panel).forEach(b => b.addEventListener('click', () => {
+  const recargar = () => abrirCompeticion(ctx, comp, alGuardar);
+
+  $$('[data-equipo]', panel).forEach(b => b.addEventListener('click', () => {
     panel.cerrar();
-    editarFila(comp, tabla.find(f => f.id === b.dataset.fila), () => abrirCompeticion(ctx, comp, alGuardar));
+    editarEquipo(comp, equipos.find(e => e.id === b.dataset.equipo), equipos, recargar);
   }));
 
   $('#anadir-equipo', panel).addEventListener('click', () => {
     panel.cerrar();
-    editarFila(comp, {}, () => abrirCompeticion(ctx, comp, alGuardar));
+    editarEquipo(comp, {}, equipos, recargar);
+  });
+
+  $$('[data-partido]', panel).forEach(b => b.addEventListener('click', () => {
+    panel.cerrar();
+    editarPartido(ctx, comp, partidos.find(p => p.id === b.dataset.partido), equipos, recargar);
+  }));
+
+  $('#anadir-partido', panel)?.addEventListener('click', () => {
+    panel.cerrar();
+    editarPartido(ctx, comp, {}, equipos, recargar);
   });
 
   $('#editar', panel).addEventListener('click', () => {
@@ -124,7 +163,7 @@ async function abrirCompeticion(ctx, comp, alGuardar) {
 
   $('#borrar', panel).addEventListener('click', async () => {
     if (!await confirmar('Borrar la competición',
-      'Se borra con su clasificación. Los partidos se quedan, solo dejan de estar asignados.',
+      'Se borra con sus equipos y sus partidos. Los partidos que ya estén en el calendario se quedan, con su asistencia y sus estadísticas.',
       'Borrar')) return;
     try {
       await db.borrarCompeticion(comp.id);
@@ -135,82 +174,165 @@ async function abrirCompeticion(ctx, comp, alGuardar) {
   });
 }
 
-// --- Una fila de la clasificación ------------------------------------------
+// --- Un equipo -------------------------------------------------------------
 
-function editarFila(comp, fila, alGuardar) {
-  const esNueva = !fila.id;
+function editarEquipo(comp, equipo, equipos, alGuardar) {
+  const esNuevo = !equipo.id;
+  // Solo puede haber unos Atlantics: si ya está marcado otro, no se ofrece.
+  const otroNuestro = equipos.find(e => e.es_nuestro && e.id !== equipo.id);
 
-  const panel = hoja(esNueva ? 'Añadir equipo' : fila.equipo, html`
-    <form id="fila">
-      <div class="dos">
-        <div class="campo"><label>Puesto</label>
-          <input name="posicion" type="number" min="1" inputmode="numeric" value="${fila.posicion ?? ''}"></div>
-        <div class="campo"><label>Equipo</label>
-          <input name="equipo" required value="${fila.equipo ?? ''}"></div>
-      </div>
+  const panel = hoja(esNuevo ? 'Añadir equipo' : equipo.nombre, html`
+    <form id="equipo">
+      <div class="campo"><label>Nombre</label>
+        <input name="nombre" required value="${equipo.nombre ?? ''}"
+               placeholder="Vigo Marines"></div>
 
-      <div class="dos">
-        <div class="campo"><label>Jugados</label>
-          <input name="jugados" type="number" min="0" inputmode="numeric" value="${fila.jugados ?? 0}"></div>
-        <div class="campo"><label>Puntos</label>
-          <input name="puntos" type="number" min="0" inputmode="numeric" value="${fila.puntos ?? 0}"></div>
-      </div>
-
-      <div class="tres">
-        <div class="campo"><label>Ganados</label>
-          <input name="ganados" type="number" min="0" inputmode="numeric" value="${fila.ganados ?? 0}"></div>
-        <div class="campo"><label>Empat.</label>
-          <input name="empatados" type="number" min="0" inputmode="numeric" value="${fila.empatados ?? 0}"></div>
-        <div class="campo"><label>Perdidos</label>
-          <input name="perdidos" type="number" min="0" inputmode="numeric" value="${fila.perdidos ?? 0}"></div>
-      </div>
-
-      <div class="dos">
-        <div class="campo"><label>Puntos a favor</label>
-          <input name="puntos_favor" type="number" min="0" inputmode="numeric" value="${fila.puntos_favor ?? 0}"></div>
-        <div class="campo"><label>En contra</label>
-          <input name="puntos_contra" type="number" min="0" inputmode="numeric" value="${fila.puntos_contra ?? 0}"></div>
-      </div>
-
-      <div class="check">
-        <input type="checkbox" id="nuestro" name="es_nuestro" ${fila.es_nuestro ? crudo('checked') : ''}>
-        <label for="nuestro" style="margin:0;letter-spacing:0;text-transform:none;font-size:1rem;color:var(--text)">
-          Somos nosotros</label>
-      </div>
+      ${otroNuestro ? crudo(html`
+        <p class="ayuda" style="margin:0 0 1rem;line-height:1.6">
+          En esta competición ya sois <strong>${otroNuestro.nombre}</strong>.
+        </p>`) : crudo(html`
+        <div class="check">
+          <input type="checkbox" id="nuestro" name="es_nuestro" ${equipo.es_nuestro ? crudo('checked') : ''}>
+          <label for="nuestro" style="margin:0;letter-spacing:0;text-transform:none;font-size:1rem;color:var(--text)">
+            Somos nosotros</label>
+        </div>`)}
 
       <div style="display:flex;gap:.6rem;margin-top:1.2rem">
-        ${!esNueva ? crudo(html`<button type="button" class="btn peligro" id="borrar-fila">Quitar</button>`) : ''}
+        ${!esNuevo ? crudo(html`<button type="button" class="btn peligro" id="borrar-equipo">Quitar</button>`) : ''}
         <button type="submit" class="btn primario" style="flex:1">Guardar</button>
       </div>
     </form>`);
 
-  $('#fila', panel).addEventListener('submit', async (e) => {
+  $('#equipo', panel).addEventListener('submit', async (e) => {
     e.preventDefault();
     const f = new FormData(e.target);
-    const num = (k) => Number(f.get(k)) || 0;
     const datos = {
       competicion_id: comp.id,
-      posicion: f.get('posicion') ? Number(f.get('posicion')) : null,
-      equipo: f.get('equipo'),
-      jugados: num('jugados'), ganados: num('ganados'),
-      empatados: num('empatados'), perdidos: num('perdidos'),
-      puntos_favor: num('puntos_favor'), puntos_contra: num('puntos_contra'),
-      puntos: num('puntos'),
-      es_nuestro: f.get('es_nuestro') === 'on'
+      nombre: f.get('nombre').trim(),
+      es_nuestro: otroNuestro ? false : f.get('es_nuestro') === 'on'
     };
     try {
-      if (esNueva) await db.crearFilaClasificacion(datos);
-      else await db.guardarFilaClasificacion(fila.id, datos);
+      if (esNuevo) await db.crearEquipoCompeticion(datos);
+      else await db.guardarEquipoCompeticion(equipo.id, datos);
       avisar('Guardado');
       panel.cerrar();
       alGuardar();
     } catch (err) { fallo(err); }
   });
 
-  $('#borrar-fila', panel)?.addEventListener('click', async () => {
+  $('#borrar-equipo', panel)?.addEventListener('click', async () => {
+    if (!await confirmar('Quitar el equipo',
+      'Se van con él sus partidos de esta competición.', 'Quitar')) return;
     try {
-      await db.borrarFilaClasificacion(fila.id);
-      avisar('Quitado de la tabla');
+      await db.borrarEquipoCompeticion(equipo.id);
+      avisar('Quitado');
+      panel.cerrar();
+      alGuardar();
+    } catch (err) { fallo(err); }
+  });
+}
+
+// --- Un partido ------------------------------------------------------------
+
+function editarPartido(ctx, comp, partido, equipos, alGuardar) {
+  const esNuevo = !partido.id;
+  const nuestro = equipos.find(e => e.es_nuestro);
+
+  const opciones = (sel) => equipos.map(e => html`
+    <option value="${e.id}" ${sel === e.id ? crudo('selected') : ''}>${e.nombre}</option>`);
+
+  const panel = hoja(esNuevo ? 'Añadir partido' : 'Partido', html`
+    <form id="partido">
+      <div class="campo"><label>Local</label>
+        <select name="local_id" required>
+          <option value="">Elegir…</option>
+          ${opciones(partido.local_id ?? (nuestro ? nuestro.id : ''))}
+        </select></div>
+
+      <div class="campo"><label>Visitante</label>
+        <select name="visitante_id" required>
+          <option value="">Elegir…</option>
+          ${opciones(partido.visitante_id)}
+        </select></div>
+
+      <div class="campo"><label>Fecha</label>
+        <input name="fecha" type="date" required value="${partido.fecha ?? ''}"></div>
+
+      <div class="dos">
+        <div class="campo"><label>Hora</label>
+          <input name="hora" type="time" value="${(partido.hora ?? '').slice(0, 5)}"></div>
+        <div class="campo"><label>Jornada</label>
+          <input name="jornada" type="number" min="1" inputmode="numeric" value="${partido.jornada ?? ''}"></div>
+      </div>
+
+      <div class="campo"><label>Campo</label>
+        <input name="lugar" value="${partido.lugar ?? ''}" placeholder="Elviña"></div>
+
+      <p class="eyebrow">Resultado</p>
+      <p class="ayuda" style="margin:0 0 .7rem;line-height:1.6">
+        Déjalo en blanco si aún no se ha jugado. En cuanto lo pongas, cuenta
+        para la clasificación.
+      </p>
+      <div class="dos">
+        <div class="campo"><label>Local</label>
+          <input name="puntos_local" type="number" min="0" inputmode="numeric"
+                 value="${partido.puntos_local ?? ''}"></div>
+        <div class="campo"><label>Visitante</label>
+          <input name="puntos_visitante" type="number" min="0" inputmode="numeric"
+                 value="${partido.puntos_visitante ?? ''}"></div>
+      </div>
+
+      <div style="display:flex;gap:.6rem;margin-top:1.2rem">
+        ${!esNuevo ? crudo(html`<button type="button" class="btn peligro" id="borrar-partido">Borrar</button>`) : ''}
+        <button type="submit" class="btn primario" style="flex:1">Guardar</button>
+      </div>
+    </form>`);
+
+  $('#partido', panel).addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const f = new FormData(e.target);
+    const cifra = (k) => f.get(k) === '' ? null : Number(f.get(k));
+
+    if (f.get('local_id') === f.get('visitante_id')) {
+      return fallo('Un equipo no puede jugar contra sí mismo.');
+    }
+
+    const datos = {
+      competicion_id: comp.id,
+      local_id: f.get('local_id'),
+      visitante_id: f.get('visitante_id'),
+      fecha: f.get('fecha'),
+      hora: f.get('hora') || null,
+      jornada: cifra('jornada'),
+      lugar: f.get('lugar') || null,
+      puntos_local: cifra('puntos_local'),
+      puntos_visitante: cifra('puntos_visitante')
+    };
+
+    try {
+      const guardado = esNuevo
+        ? await db.crearPartidoCompeticion(datos)
+        : await db.guardarPartidoCompeticion(partido.id, datos);
+
+      // Si jugamos nosotros, el partido baja al calendario con su marcador.
+      const eventoId = await db.sincronizarEventoDePartido(guardado,
+        { temporadaId: ctx.temporada.id, equipos });
+
+      avisar(eventoId && esNuevo ? 'Guardado y añadido al calendario' : 'Guardado');
+      panel.cerrar();
+      alGuardar();
+    } catch (err) { fallo(err); }
+  });
+
+  $('#borrar-partido', panel)?.addEventListener('click', async () => {
+    const conEvento = !!partido.evento_id;
+    if (!await confirmar('Borrar el partido',
+      conEvento ? 'Se borra también del calendario, con su lista y sus estadísticas.'
+                : 'Deja de contar para la clasificación.', 'Borrar')) return;
+    try {
+      await db.borrarPartidoCompeticion(partido.id);
+      if (conEvento) await db.borrarEvento(partido.evento_id);
+      avisar('Borrado');
       panel.cerrar();
       alGuardar();
     } catch (err) { fallo(err); }
@@ -234,6 +356,15 @@ function editarCompeticion(ctx, comp, alGuardar) {
             <option value="${v}" ${(comp.tipo ?? 'liga') === v ? crudo('selected') : ''}>${t}</option>`)}
         </select></div>
 
+      <div class="dos">
+        <div class="campo"><label>Puntos por victoria</label>
+          <input name="puntos_victoria" type="number" min="0" inputmode="numeric"
+                 value="${comp.puntos_victoria ?? 3}"></div>
+        <div class="campo"><label>Por empate</label>
+          <input name="puntos_empate" type="number" min="0" inputmode="numeric"
+                 value="${comp.puntos_empate ?? 1}"></div>
+      </div>
+
       <div class="campo"><label>Notas</label>
         <textarea name="notas">${comp.notas ?? ''}</textarea></div>
 
@@ -253,6 +384,8 @@ function editarCompeticion(ctx, comp, alGuardar) {
       temporada_id: ctx.temporada.id,
       nombre: f.get('nombre'),
       tipo: f.get('tipo'),
+      puntos_victoria: Number(f.get('puntos_victoria')) || 0,
+      puntos_empate: Number(f.get('puntos_empate')) || 0,
       notas: f.get('notas') || null,
       activa: f.get('activa') === 'on'
     };
