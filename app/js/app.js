@@ -8,36 +8,36 @@ import * as cerrojo from './cerrojo.js';
 // ve el staff no se parece en nada a lo que ve un jugador, y no es cuestión de
 // esconder botones sino de que son dos aplicaciones distintas.
 //
-// `tab: false` deja la vista fuera de la barra inferior. Con seis pestañas los
-// objetivos se quedan en 60 px en un móvil estrecho, así que Ajustes vive en el
-// engranaje de la cabecera.
+// Que una vista este aqui no significa que salga en la barra de abajo: eso lo
+// decide TABS_STAFF / TABS_JUGADOR, mas abajo.
 const VISTAS_STAFF = {
   '/':              { titulo: 'Atlantics',     cargar: () => import('./vistas/menu.js') },
-  '/panel':         { titulo: 'Resumen',       cargar: () => import('./vistas/panel.js'), tab: false },
   '/calendario':    { titulo: 'Calendario',    cargar: () => import('./vistas/calendario.js') },
-  '/lista':         { titulo: 'Pasar lista',   cargar: () => import('./vistas/lista.js'), tab: false },
-  '/disponibilidad':{ titulo: 'Disponibilidad',cargar: () => import('./vistas/disponibilidad.js'), tab: false },
-  '/roster':        { titulo: 'Roster',        cargar: () => import('./vistas/roster.js') },
-  '/cuotas':        { titulo: 'Cuotas',        cargar: () => import('./vistas/cuotas.js') },
-  '/tesoreria':     { titulo: 'Tesorería',     cargar: () => import('./vistas/tesoreria.js'), tab: false },
+  '/lista':         { titulo: 'Partido',       cargar: () => import('./vistas/lista.js') },
+  '/roster':        { titulo: 'Roster',        cargar: () => import('./vistas/personas.js') },
+  '/dinero':        { titulo: 'Dinero',        cargar: () => import('./vistas/dinero.js') },
   '/documentacion': { titulo: 'Papeles',       cargar: () => import('./vistas/documentacion.js') },
-  '/avisos':        { titulo: 'Avisos',        cargar: () => import('./vistas/avisos.js'), tab: false },
-  '/material':      { titulo: 'Material',      cargar: () => import('./vistas/material.js'), tab: false },
-  '/tienda':        { titulo: 'Equipación',    cargar: () => import('./vistas/tienda.js'), tab: false },
-  '/competiciones': { titulo: 'Competiciones', cargar: () => import('./vistas/competiciones.js'), tab: false },
-  '/estadisticas':  { titulo: 'Estadísticas',  cargar: () => import('./vistas/estadisticas.js'), tab: false },
-  '/solicitudes':   { titulo: 'Solicitudes',   cargar: () => import('./vistas/solicitudes.js'), tab: false },
-  '/ajustes':       { titulo: 'Ajustes',       cargar: () => import('./vistas/ajustes.js'), tab: false }
+  '/avisos':        { titulo: 'Avisos',        cargar: () => import('./vistas/avisos.js') },
+  '/liga':          { titulo: 'Liga',          cargar: () => import('./vistas/liga.js') },
+  '/material':      { titulo: 'Material',      cargar: () => import('./vistas/material.js') },
+  '/tienda':        { titulo: 'Equipación',    cargar: () => import('./vistas/tienda.js') },
+  '/ajustes':       { titulo: 'Ajustes',       cargar: () => import('./vistas/ajustes.js') }
 };
+
+// La barra de abajo, en su orden. Lo que no este aqui vive en el menu, a un
+// toque igual. Cinco es el maximo que cabe sin que se corten las etiquetas.
+const TABS_STAFF = ['/', '/avisos', '/dinero', '/liga', '/ajustes'];
 
 const VISTAS_JUGADOR = {
   '/':        { titulo: 'Hoy',      cargar: () => import('./vistas/jug-hoy.js') },
   '/avisos':  { titulo: 'Avisos',   cargar: () => import('./vistas/jug-avisos.js') },
   '/agenda':  { titulo: 'Agenda',   cargar: () => import('./vistas/jug-agenda.js') },
   '/equipo':  { titulo: 'Equipo',   cargar: () => import('./vistas/jug-equipo.js') },
-  '/tienda':  { titulo: 'Equipación', cargar: () => import('./vistas/jug-tienda.js'), tab: false },
+  '/tienda':  { titulo: 'Equipación', cargar: () => import('./vistas/jug-tienda.js') },
   '/mificha': { titulo: 'Mi ficha', cargar: () => import('./vistas/jug-ficha.js') }
 };
+
+const TABS_JUGADOR = ['/', '/avisos', '/agenda', '/equipo', '/mificha'];
 
 const ICONOS = {
   '/':              '<rect x="3.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.6"/>',
@@ -46,13 +46,13 @@ const ICONOS = {
   '/lista':         '<path d="M9 6h11M9 12h11M9 18h11" stroke-linecap="round"/><path d="M4 6l1.2 1.2L7.5 4.8M4 12l1.2 1.2L7.5 10.8M4 18l1.2 1.2L7.5 16.8" stroke-linecap="round" stroke-linejoin="round"/>',
   '/disponibilidad':'<path d="M12 3.5l7 3v5c0 4.2-2.9 7.4-7 9-4.1-1.6-7-4.8-7-9v-5z" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/>',
   '/roster':        '<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-5 6-5s6 1.7 6 5" stroke-linecap="round"/><path d="M17 11.5a2.6 2.6 0 100-5.2M17.5 20c0-2.4-1-4-2.5-4.6" stroke-linecap="round"/>',
-  '/cuotas':        '<rect x="2.5" y="6" width="19" height="12" rx="2.5"/><circle cx="12" cy="12" r="2.6"/>',
+  '/dinero':        '<rect x="2.5" y="6" width="19" height="12" rx="2.5"/><circle cx="12" cy="12" r="2.6"/>',
   '/tesoreria':     '<path d="M4 20V9M9 20V5M14 20v-8M19 20V7" stroke-linecap="round"/>',
   '/documentacion': '<path d="M6 3h8l4 4v14H6z" stroke-linejoin="round"/><path d="M14 3v4h4M9 12h6M9 16h6" stroke-linecap="round"/>',
   '/ajustes':       '<circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M21.5 12h-3M5.5 12h-3M18.7 5.3l-2.1 2.1M7.4 16.6l-2.1 2.1M18.7 18.7l-2.1-2.1M7.4 7.4L5.3 5.3" stroke-linecap="round"/>',
   '/agenda':        '<rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4" stroke-linecap="round"/>',
   '/equipo':        '<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-5 6-5s6 1.7 6 5" stroke-linecap="round"/><path d="M17 11.5a2.6 2.6 0 100-5.2M17.5 20c0-2.4-1-4-2.5-4.6" stroke-linecap="round"/>',
-  '/competiciones': '<path d="M7 4h10v4a5 5 0 01-10 0z" stroke-linejoin="round"/><path d="M7 5.5H4.5v1.5a3 3 0 003 3M17 5.5h2.5v1.5a3 3 0 01-3 3" stroke-linecap="round"/><path d="M12 13v4M9 20h6" stroke-linecap="round"/>',
+  '/liga':          '<path d="M7 4h10v4a5 5 0 01-10 0z" stroke-linejoin="round"/><path d="M7 5.5H4.5v1.5a3 3 0 003 3M17 5.5h2.5v1.5a3 3 0 01-3 3" stroke-linecap="round"/><path d="M12 13v4M9 20h6" stroke-linecap="round"/>',
   '/estadisticas':  '<path d="M4 20V10M9.3 20V4M14.7 20v-7M20 20V7" stroke-linecap="round"/>',
   '/mificha':       '<circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.6 3.1-5.6 7-5.6s7 2 7 5.6" stroke-linecap="round"/>',
   '/avisos':        '<path d="M12 3.5a5.5 5.5 0 015.5 5.5c0 5 2 6.5 2 6.5H4.5s2-1.5 2-6.5A5.5 5.5 0 0112 3.5z" stroke-linejoin="round"/><path d="M10 19.5a2 2 0 004 0" stroke-linecap="round"/>',
@@ -116,7 +116,9 @@ async function iniciar() {
   document.documentElement.style.setProperty('--dorsal',
     !esStaff && perfil.dorsal != null ? JSON.stringify(String(perfil.dorsal)) : '""');
   const ctx = { perfil, temporada, esStaff, recargar: iniciar };
-  pantallaApp(app, ctx, esStaff ? VISTAS_STAFF : VISTAS_JUGADOR);
+  pantallaApp(app, ctx,
+    esStaff ? VISTAS_STAFF : VISTAS_JUGADOR,
+    esStaff ? TABS_STAFF : TABS_JUGADOR);
 }
 
 // --- Pantallas de estado ---------------------------------------------------
@@ -290,21 +292,21 @@ function pantallaCerrojo(app, perfil, db) {
 
 // --- App -------------------------------------------------------------------
 
-function pantallaApp(app, ctx, vistas) {
+function pantallaApp(app, ctx, vistas, tabs) {
   app.innerHTML = html`
     <header class="topbar">
       <div id="cabecera"></div>
       <span class="spacer"></span>
-      ${vistas['/ajustes'] ? crudo(html`
+      ${vistas['/ajustes'] && !tabs.includes('/ajustes') ? crudo(html`
         <a class="btn-icono" href="#/ajustes" aria-label="Ajustes">
           <svg viewBox="0 0 24 24">${crudo(ICONOS['/ajustes'])}</svg>
         </a>`) : ''}
     </header>
     <nav class="tabbar">
-      ${Object.entries(vistas).filter(([, v]) => v.tab !== false).map(([r, v]) => html`
+      ${tabs.map((r) => html`
         <a href="#${r}" data-ruta="${r}">
           <svg viewBox="0 0 24 24">${crudo(ICONOS[r])}</svg>
-          <span>${v.titulo}</span>
+          <span>${vistas[r].titulo}</span>
         </a>`)}
     </nav>
     <main class="vista" id="vista"></main>`;

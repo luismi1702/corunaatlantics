@@ -81,6 +81,9 @@
 
 - Recortado el catalogo de estadisticas a cinco conceptos: TD, pases de TD, intercepciones, sacks y TD defensivos
 
+- Depurada la consola de quince pantallas a nueve: Resumen se funde con el menu, Cuotas y Tesoreria pasan a ser Dinero, Competiciones y Estadisticas pasan a ser Liga, Solicitudes entra dentro de Roster y la disponibilidad se consulta desde el propio partido
+- La barra de abajo pasa a definirse en una lista propia (TABS_STAFF / TABS_JUGADOR) en vez de deducirse del orden del mapa de rutas
+
 **Archivos nuevos:**
 - `app/` completo (HTML, CSS, JS, SQL, iconos, README)
 - `docs/app-plan.md`

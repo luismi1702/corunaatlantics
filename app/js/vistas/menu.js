@@ -3,9 +3,13 @@
 // La preside el logotipo principal del club, no una marca de agua: es la cara
 // de la app y lo primero que se ve al abrirla.
 //
+// Absorbe lo que antes era la pantalla "Resumen". Tener un sitio que enseñaba
+// "lo que requiere acción" y otro con chinchetas que decían lo mismo era una
+// duplicación; ahora lo urgente está aquí, encima de las baldosas.
+//
 // Deliberadamente sin cifras de dinero: es la pantalla que queda abierta en el
-// móvil y la que ve de reojo quien tengas al lado en el campo. El saldo y lo
-// que debe cada uno están a un toque, pero no de entrada.
+// móvil y la que ve de reojo quien tengas al lado en el campo. Lo que hay en
+// caja y lo que debe cada uno están a un toque, pero no de entrada.
 
 import * as db from '../db.js';
 import { DIAS_AVISO_CADUCIDAD } from '../config.js';
@@ -13,33 +17,27 @@ import { html, crudo, diasHasta, cuando, hoyISO, conRespaldo, cargando } from '.
 
 const ICONOS = {
   calendario:'<rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4" stroke-linecap="round"/>',
-  disponible:'<path d="M12 3.5l7 3v5c0 4.2-2.9 7.4-7 9-4.1-1.6-7-4.8-7-9v-5z" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/>',
+  roster:    '<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-5 6-5s6 1.7 6 5" stroke-linecap="round"/><path d="M17 11.5a2.6 2.6 0 100-5.2M17.5 20c0-2.4-1-4-2.5-4.6" stroke-linecap="round"/>',
+  dinero:    '<rect x="2.5" y="6" width="19" height="12" rx="2.5"/><circle cx="12" cy="12" r="2.6"/>',
+  papeles:   '<path d="M6 3h8l4 4v14H6z" stroke-linejoin="round"/><path d="M14 3v4h4M9 12h6M9 16h6" stroke-linecap="round"/>',
   avisos:    '<path d="M12 3.5a5.5 5.5 0 015.5 5.5c0 5 2 6.5 2 6.5H4.5s2-1.5 2-6.5A5.5 5.5 0 0112 3.5z" stroke-linejoin="round"/><path d="M10 19.5a2 2 0 004 0" stroke-linecap="round"/>',
+  liga:      '<path d="M7 4h10v4a5 5 0 01-10 0z" stroke-linejoin="round"/><path d="M7 5.5H4.5v1.5a3 3 0 003 3M17 5.5h2.5v1.5a3 3 0 01-3 3" stroke-linecap="round"/><path d="M12 13v4M9 20h6" stroke-linecap="round"/>',
   material:  '<path d="M12 3.5l7.5 3.2v5.6c0 4.3-3 7.3-7.5 8.2-4.5-.9-7.5-3.9-7.5-8.2V6.7z" stroke-linejoin="round"/><path d="M4.5 10h15" stroke-linecap="round"/>',
-  competiciones: '<path d="M7 4h10v4a5 5 0 01-10 0z" stroke-linejoin="round"/><path d="M7 5.5H4.5v1.5a3 3 0 003 3M17 5.5h2.5v1.5a3 3 0 01-3 3" stroke-linecap="round"/><path d="M12 13v4M9 20h6" stroke-linecap="round"/>',
-  estadisticas:  '<path d="M4 20V10M9.3 20V4M14.7 20v-7M20 20V7" stroke-linecap="round"/>',
   tienda:    '<path d="M4.5 8h15l-1.2 11.5a1.5 1.5 0 01-1.5 1.3H7.2a1.5 1.5 0 01-1.5-1.3z" stroke-linejoin="round"/><path d="M8.8 8V6.2a3.2 3.2 0 016.4 0V8" stroke-linecap="round"/>',
-  solicitudes:'<circle cx="10" cy="8" r="3.4"/><path d="M3.5 20c0-3.5 2.9-5.4 6.5-5.4 1.3 0 2.5.25 3.5.7" stroke-linecap="round"/><path d="M15.5 17.5h6M18.5 14.5v6" stroke-linecap="round"/>',
-  panel:    '<path d="M4 13h6V4H4zM14 20h6v-9h-6zM4 20h6v-4H4zM14 8h6V4h-6z" stroke-linejoin="round"/>',
-  roster:   '<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-5 6-5s6 1.7 6 5" stroke-linecap="round"/><path d="M17 11.5a2.6 2.6 0 100-5.2M17.5 20c0-2.4-1-4-2.5-4.6" stroke-linecap="round"/>',
-  cuotas:   '<rect x="2.5" y="6" width="19" height="12" rx="2.5"/><circle cx="12" cy="12" r="2.6"/>',
-  tesoreria:'<path d="M4 20V9M9 20V5M14 20v-8M19 20V7" stroke-linecap="round"/>',
-  papeles:  '<path d="M6 3h8l4 4v14H6z" stroke-linejoin="round"/><path d="M14 3v4h4M9 12h6M9 16h6" stroke-linecap="round"/>',
-  ajustes:  '<circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M21.5 12h-3M5.5 12h-3M18.7 5.3l-2.1 2.1M7.4 16.6l-2.1 2.1M18.7 18.7l-2.1-2.1M7.4 7.4L5.3 5.3" stroke-linecap="round"/>'
+  ajustes:   '<circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M21.5 12h-3M5.5 12h-3M18.7 5.3l-2.1 2.1M7.4 16.6l-2.1 2.1M18.7 18.7l-2.1-2.1M7.4 7.4L5.3 5.3" stroke-linecap="round"/>'
 };
 
 export async function render(ctx, cont) {
   cont.innerHTML = cargando();
 
-  // Cada consulta con su respaldo: si una falla, esa baldosa sale sin numero y
-  // el menu se pinta igual.
-  const [plantilla, cuotas, docs, agenda, apt, pendientes, tablon, piezas,
+  // Cada consulta con su respaldo: si una falla, esa baldosa sale sin número y
+  // el menú se pinta igual.
+  const [plantilla, cuotas, docs, agenda, pendientes, tablon, piezas,
          catalogo, encargos, ligas] = await Promise.all([
     conRespaldo(db.roster(), []),
     conRespaldo(db.cuotasDe(ctx.temporada.id), []),
     conRespaldo(db.documentacionDe(ctx.temporada.id), []),
     conRespaldo(db.eventos(ctx.temporada.id, { desde: hoyISO() }), []),
-    conRespaldo(db.aptitud(ctx.temporada.id), []),
     conRespaldo(db.solicitudes(), []),
     conRespaldo(db.avisos(ctx.temporada.id), []),
     conRespaldo(db.material(), []),
@@ -48,25 +46,18 @@ export async function render(ctx, cont) {
     conRespaldo(db.competiciones(ctx.temporada.id), [])
   ]);
 
-
   const proximo = agenda.find(e => !e.cancelado);
-  const noPuedenJugar = apt.filter(a => a.apto === 'no').length;
-
   const porId = new Map(plantilla.map(p => [p.id, p]));
   const vivo = (id) => porId.get(id) && porId.get(id).estado !== 'baja';
 
-  // Material en manos de gente que ya no está: lo primero que hay que reclamar.
+  const activos = plantilla.filter(p => p.estado === 'activo').length;
+  const morosos = cuotas.filter(c => vivo(c.jugador_id) && !c.exento && Number(c.importe_pendiente) > 0).length;
   const enBajas = piezas.filter(m => m.jugador_id && !vivo(m.jugador_id)).length;
   const sinCobrar = encargos.filter(p => p.estado !== 'cancelado' && !p.pagado).length;
 
-  const activos = plantilla.filter(p => p.estado === 'activo').length;
-  const morosos = cuotas.filter(c => vivo(c.jugador_id) && !c.exento && Number(c.importe_pendiente) > 0).length;
-
   const papelesPendientes = docs.filter(d => vivo(d.jugador_id) && (
-    d.licencia_estado !== 'validado' ||
-    d.seguro_estado !== 'validado' ||
-    d.reconocimiento_estado !== 'validado' ||
-    !d.dni_entregado
+    d.licencia_estado !== 'validado' || d.seguro_estado !== 'validado' ||
+    d.reconocimiento_estado !== 'validado' || !d.dni_entregado
   )).length;
 
   const caducan = docs.filter(d => vivo(d.jugador_id) &&
@@ -78,9 +69,21 @@ export async function render(ctx, cont) {
   const fichasAMedias = plantilla.filter(p => p.estado !== 'baja' &&
     (!p.telefono || !p.fecha_nacimiento)).length;
 
-  const avisos = morosos + caducan + fichasAMedias;
+  // Lo urgente, en cuentas y nunca en euros.
+  const urgente = [
+    pendientes.length && { que: pendientes.length === 1 ? 'Una solicitud por resolver'
+                                : pendientes.length + ' solicitudes por resolver', a: '#/roster' },
+    caducan && { que: caducan === 1 ? 'Un documento caduca pronto'
+                     : caducan + ' documentos caducan pronto', a: '#/documentacion' },
+    morosos && { que: morosos === 1 ? 'Uno sin pagar la cuota'
+                     : morosos + ' sin pagar la cuota', a: '#/dinero' },
+    enBajas && { que: enBajas === 1 ? 'Una pieza de material en una baja'
+                     : enBajas + ' piezas de material en bajas', a: '#/material' },
+    fichasAMedias && { que: fichasAMedias === 1 ? 'Una ficha a medias'
+                          : fichasAMedias + ' fichas a medias', a: '#/roster' },
+    ctx.temporada.importe_cuota <= 0 && { que: 'Falta fijar el importe de la cuota', a: '#/ajustes' }
+  ].filter(Boolean);
 
-  // El área tiñe la baldosa: oro para dinero, teal para personas y papeles.
   const baldosa = (ruta, icono, titulo, pie, alerta = 0, area = 'equipo') => html`
     <a class="baldosa" data-area="${area}" href="#${ruta}">
       <svg viewBox="0 0 24 24" aria-hidden="true">${crudo(ICONOS[icono])}</svg>
@@ -98,38 +101,41 @@ export async function render(ctx, cont) {
       <div class="menu-saludo">
         <p class="eyebrow" style="margin:0">Temporada ${ctx.temporada.nombre}</p>
         <p class="frase">
-          ${avisos === 0 ? 'Nada pendiente hoy.'
-            : avisos === 1 ? 'Hay 1 cosa que mirar.'
-            : 'Hay ' + avisos + ' cosas que mirar.'}
+          ${urgente.length === 0 ? 'Nada pendiente hoy.'
+            : urgente.length === 1 ? 'Hay 1 cosa que mirar.'
+            : 'Hay ' + urgente.length + ' cosas que mirar.'}
         </p>
       </div>
+
+      ${urgente.length ? crudo(html`
+        <div class="pendiente">
+          ${urgente.map(u => html`
+            <a class="pendiente-fila" href="${u.a}">
+              <span>${u.que}</span>
+              <span class="flecha">→</span>
+            </a>`)}
+        </div>`) : ''}
 
       <div class="rejilla">
         ${baldosa('/calendario', 'calendario', 'Calendario',
           proximo ? cuando(proximo.fecha) + (proximo.tipo === 'partido' ? ' · partido' : ' · entreno')
                   : 'Sin nada programado')}
+        ${baldosa('/roster', 'roster', 'Roster',
+          activos + (activos === 1 ? ' activo' : ' activos'), pendientes.length)}
+        ${baldosa('/dinero', 'dinero', 'Dinero',
+          morosos ? morosos + ' sin pagar' : 'Cuotas y tesorería', morosos, 'dinero')}
+        ${baldosa('/documentacion', 'papeles', 'Papeles',
+          papelesPendientes ? papelesPendientes + ' con algo pendiente' : 'Todo en regla', caducan)}
         ${baldosa('/avisos', 'avisos', 'Avisos',
           tablon.length ? 'Último: ' + tablon[0].titulo : 'Nada publicado')}
-        ${baldosa('/panel', 'panel', 'Resumen', avisos ? 'Lo que requiere acción' : 'Todo al día', avisos)}
-        ${baldosa('/roster', 'roster', 'Roster', activos + (activos === 1 ? ' activo' : ' activos'))}
-        ${baldosa('/disponibilidad', 'disponible', 'Disponibilidad',
-          noPuedenJugar ? noPuedenJugar + ' no pueden jugar' : 'Todos listos')}
-        ${baldosa('/cuotas', 'cuotas', 'Cuotas', morosos ? morosos + ' sin pagar' : 'Todas al día', morosos, 'dinero')}
-        ${baldosa('/tesoreria', 'tesoreria', 'Tesorería', 'Ingresos y gastos', 0, 'dinero')}
+        ${baldosa('/liga', 'liga', 'Liga',
+          ligas.length ? (ligas.find(l => l.activa)?.nombre ?? ligas[0].nombre) : 'Ninguna añadida')}
         ${baldosa('/material', 'material', 'Material',
           piezas.length ? piezas.filter(m => m.jugador_id).length + ' de ' + piezas.length + ' prestadas'
                         : 'Sin inventariar', enBajas)}
-        ${baldosa('/competiciones', 'competiciones', 'Competiciones',
-          ligas.length ? (ligas.find(l => l.activa)?.nombre ?? ligas[0].nombre) : 'Ninguna añadida')}
-        ${baldosa('/estadisticas', 'estadisticas', 'Estadísticas', 'TD, intercepciones y demás')}
         ${baldosa('/tienda', 'tienda', 'Equipación',
           catalogo.length ? (sinCobrar ? sinCobrar + ' sin cobrar' : 'Todo cobrado')
                           : 'Nada a la venta', sinCobrar, 'dinero')}
-        ${baldosa('/documentacion', 'papeles', 'Papeles',
-          papelesPendientes ? papelesPendientes + ' con algo pendiente' : 'Todo en regla', caducan)}
-        ${baldosa('/solicitudes', 'solicitudes', 'Solicitudes',
-          pendientes.length ? (pendientes.length === 1 ? 'Uno quiere entrar' : pendientes.length + ' quieren entrar')
-                            : 'Nadie esperando', pendientes.length)}
         ${baldosa('/ajustes', 'ajustes', 'Ajustes', 'Temporada y cuenta', 0, 'ajuste')}
       </div>
 

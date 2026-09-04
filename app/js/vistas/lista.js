@@ -10,6 +10,7 @@ import {
   hoja, avisar, fallo, cargando, vacio
 } from '../ui.js';
 import { abrirEvento } from './calendario.js';
+import { render as renderDisponibilidad } from './disponibilidad.js';
 
 const CICLO = { null: 'presente', presente: 'ausente', ausente: 'justificado', justificado: null };
 
@@ -71,7 +72,10 @@ export async function render(ctx, cont, eventoId) {
         </div>
         <button class="btn primario" type="submit">Guardar</button>
       </form>
-      <button class="btn ancho" id="stats" style="margin-top:.7rem">Estadísticas del partido</button>`) : ''}
+      <div style="display:flex;gap:.6rem;margin-top:.7rem">
+        <button class="btn" style="flex:1" id="quien-juega">¿Quién puede jugar?</button>
+        <button class="btn" style="flex:1" id="stats">Estadísticas</button>
+      </div>`) : ''}
 
     <div class="cifras" id="marcador"></div>
 
@@ -167,6 +171,13 @@ export async function render(ctx, cont, eventoId) {
   });
 
   $('#stats')?.addEventListener('click', () => abrirEstadisticas(ctx, ev, convocados));
+
+  // La pregunta "¿quien puede jugar?" surge mirando un partido, no navegando
+  // por un menu: su sitio es este.
+  $('#quien-juega')?.addEventListener('click', () => {
+    const panel = hoja('¿Quién puede jugar?', '<div id="apto"></div>');
+    renderDisponibilidad(ctx, $('#apto', panel));
+  });
 
   pintar();
   marcador();
