@@ -12,6 +12,7 @@ import * as db from '../db.js';
 import {
   html, crudo, $, $$, cuando, hoja, confirmar, avisar, fallo, cargando, vacio
 } from '../ui.js';
+import { abrirEstadisticas } from './stats-partido.js';
 
 const TIPOS = { liga: 'Liga', torneo: 'Torneo', amistoso: 'Amistosos' };
 
@@ -282,11 +283,18 @@ function editarPartido(ctx, comp, partido, equipos, alGuardar) {
                  value="${partido.puntos_visitante ?? ''}"></div>
       </div>
 
+      ${partido.evento_id ? crudo(html`
+        <button type="button" class="btn ancho" id="stats" style="margin-top:.4rem">
+          Estadísticas de los jugadores
+        </button>`) : ''}
+
       <div style="display:flex;gap:.6rem;margin-top:1.2rem">
         ${!esNuevo ? crudo(html`<button type="button" class="btn peligro" id="borrar-partido">Borrar</button>`) : ''}
         <button type="submit" class="btn primario" style="flex:1">Guardar</button>
       </div>
     </form>`);
+
+  $('#stats', panel)?.addEventListener('click', () => numerosDelPartido(partido.evento_id));
 
   $('#partido', panel).addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -321,6 +329,14 @@ function editarPartido(ctx, comp, partido, equipos, alGuardar) {
       avisar(eventoId && esNuevo ? 'Guardado y añadido al calendario' : 'Guardado');
       panel.cerrar();
       alGuardar();
+
+      // Apuntar el resultado y apuntar quién lo hizo es el mismo gesto: si el
+      // partido es nuestro y acaba de tener marcador, se abren los números sin
+      // pasar por el calendario. Si ya los tenía, no se estorba.
+      if (eventoId && datos.puntos_local != null && datos.puntos_visitante != null) {
+        const yaHay = await db.estadisticasDe(eventoId);
+        if (!yaHay.length) await numerosDelPartido(eventoId);
+      }
     } catch (err) { fallo(err); }
   });
 
@@ -337,6 +353,14 @@ function editarPartido(ctx, comp, partido, equipos, alGuardar) {
       alGuardar();
     } catch (err) { fallo(err); }
   });
+}
+
+// Los numeros del partido: la plantilla, sin las bajas, sobre su evento.
+async function numerosDelPartido(eventoId) {
+  try {
+    const [ev, plantilla] = await Promise.all([db.evento(eventoId), db.roster()]);
+    await abrirEstadisticas(ev, plantilla.filter(p => p.estado !== 'baja'));
+  } catch (err) { fallo(err); }
 }
 
 // --- Alta y edición de la competición --------------------------------------

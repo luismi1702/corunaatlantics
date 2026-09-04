@@ -4,7 +4,7 @@
 // datos: una lista de cuotas guardada de la semana pasada sería peor que no
 // tener nada, porque parecería actual. Sin conexión, la app abre y avisa.
 
-const VERSION = 'atlantics-gestion-v19';
+const VERSION = 'atlantics-gestion-v20';
 
 const ARMAZON = [
   './',
@@ -28,6 +28,7 @@ const ARMAZON = [
   './js/vistas/estadisticas.js',
   './js/vistas/calendario.js',
   './js/vistas/lista.js',
+  './js/vistas/stats-partido.js',
   './js/vistas/disponibilidad.js',
   './js/vistas/roster.js',
   './js/vistas/cuotas.js',

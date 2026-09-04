@@ -6,11 +6,12 @@
 
 import * as db from '../db.js';
 import {
-  html, crudo, $, $$, cuando, hora, nombreCompleto, ESTADISTICAS,
+  html, crudo, $, $$, cuando, hora, nombreCompleto,
   hoja, avisar, fallo, cargando, vacio
 } from '../ui.js';
 import { abrirEvento } from './calendario.js';
 import { render as renderDisponibilidad } from './disponibilidad.js';
+import { abrirEstadisticas } from './stats-partido.js';
 
 const CICLO = { null: 'presente', presente: 'ausente', ausente: 'justificado', justificado: null };
 
@@ -173,7 +174,7 @@ export async function render(ctx, cont, eventoId) {
     } catch (err) { fallo(err); }
   });
 
-  $('#stats')?.addEventListener('click', () => abrirEstadisticas(ctx, ev, convocados));
+  $('#stats')?.addEventListener('click', () => abrirEstadisticas(ev, convocados));
 
   // La pregunta "¿quien puede jugar?" surge mirando un partido, no navegando
   // por un menu: su sitio es este.
@@ -184,75 +185,4 @@ export async function render(ctx, cont, eventoId) {
 
   pintar();
   marcador();
-}
-
-// --- Estadisticas del partido ---------------------------------------------
-
-async function abrirEstadisticas(ctx, ev, plantilla) {
-  const filas = await db.estadisticasDe(ev.id);
-
-  // De filas sueltas a { jugadorId: { clave: valor } }
-  const porJugador = {};
-  for (const f of filas) {
-    (porJugador[f.jugador_id] ??= {})[f.clave] = f.valor;
-  }
-
-  const resumen = (id) => ESTADISTICAS
-    .filter(e => (porJugador[id]?.[e.clave] ?? 0) > 0)
-    .map(e => porJugador[id][e.clave] + ' ' + e.corto)
-    .join(' · ');
-
-  const panel = hoja('Estadísticas', html`
-    <p class="ayuda" style="margin:0 0 1rem;line-height:1.6">
-      Toca un jugador y apunta lo suyo. Lo que quede a cero no se guarda.
-    </p>
-    <div class="lista" id="jugadores">
-      ${plantilla.map(p => html`
-        <button class="fila" data-id="${p.id}">
-          <div class="dorsal ${p.dorsal == null ? 'sin' : ''}">${p.dorsal ?? '—'}</div>
-          <div class="info">
-            <div class="nom">${nombreCompleto(p)}</div>
-            <div class="meta">${resumen(p.id) || 'Sin apuntar'}</div>
-          </div>
-          <div class="dcha">${resumen(p.id) ? crudo('<span class="tag ok">✓</span>') : ''}</div>
-        </button>`)}
-    </div>`);
-
-  $$('#jugadores .fila', panel).forEach(b => b.addEventListener('click', () => {
-    const jugador = plantilla.find(p => p.id === b.dataset.id);
-    abrirJugador(ev, jugador, porJugador[jugador.id] ?? {}, () => {
-      panel.cerrar();
-      abrirEstadisticas(ctx, ev, plantilla);
-    });
-  }));
-}
-
-function abrirJugador(ev, jugador, valores, alGuardar) {
-  const panel = hoja(nombreCompleto(jugador), html`
-    <form id="stats-jugador">
-      ${['ataque', 'defensa'].map(area => html`
-        <p class="eyebrow">${area === 'ataque' ? 'Ataque' : 'Defensa'}</p>
-        <div class="rejilla-stats">
-          ${ESTADISTICAS.filter(e => e.area === area).map(e => html`
-            <div class="campo" style="margin:0">
-              <label>${e.nombre}</label>
-              <input name="${e.clave}" type="number" min="0" inputmode="numeric"
-                     value="${valores[e.clave] ?? ''}" placeholder="0">
-            </div>`)}
-        </div>`)}
-
-      <button class="btn primario ancho" type="submit" style="margin-top:1.2rem">Guardar</button>
-    </form>`);
-
-  $('#stats-jugador', panel).addEventListener('submit', async (e) => {
-    e.preventDefault();
-    const f = new FormData(e.target);
-    const datos = Object.fromEntries(ESTADISTICAS.map(x => [x.clave, Number(f.get(x.clave)) || 0]));
-    try {
-      await db.guardarEstadisticas(ev.id, jugador.id, datos);
-      avisar('Apuntado');
-      panel.cerrar();
-      alGuardar();
-    } catch (err) { fallo(err); }
-  });
 }
