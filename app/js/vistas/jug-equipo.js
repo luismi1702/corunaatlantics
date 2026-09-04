@@ -36,7 +36,7 @@ export async function render(ctx, cont) {
     <div class="filtros" id="vistas">
       <button data-v="plantilla"     aria-pressed="${vista === 'plantilla'}">Plantilla</button>
       <button data-v="clasificacion" aria-pressed="${vista === 'clasificacion'}">Clasificación</button>
-      <button data-v="numeros"       aria-pressed="${vista === 'numeros'}">Números</button>
+      <button data-v="numeros"       aria-pressed="${vista === 'numeros'}">Estadísticas</button>
     </div>
     <div id="cuerpo"></div>
   `;
