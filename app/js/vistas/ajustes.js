@@ -40,11 +40,17 @@ export async function render(ctx, cont) {
 
     <div class="card">
       <p style="margin:0 0 .8rem;line-height:1.6" class="muted">
-        Aplicar el importe actual (<strong>${euros(ctx.temporada.importe_cuota)}</strong>)
-        a toda la plantilla activa que aún no tenga cuota abierta en esta temporada.
-        A quien ya tenga una, no se le toca.
+        Poner la cuota de esta temporada a <strong>${euros(ctx.temporada.importe_cuota)}</strong>
+        a toda la plantilla: abre la de quien no la tenga y pone al día las que
+        se quedaran a cero. No toca las que ya tienen pagos, un importe propio o
+        exención.
       </p>
-      <button class="btn ancho" id="aplicar">Preparar cuotas de la plantilla</button>
+      <button class="btn ancho" id="aplicar">Aplicar el importe a la plantilla</button>
+      <p class="ayuda" style="margin-top:.6rem;line-height:1.6">
+        Úsalo cuando fijes el precio después de que la gente ya se haya
+        registrado: cambiar el importe aquí arriba no toca las cuotas ya
+        abiertas.
+      </p>
     </div>
 
     <p class="eyebrow">Horario de entrenos</p>
@@ -128,13 +134,15 @@ export async function render(ctx, cont) {
   });
 
   $('#aplicar').addEventListener('click', async () => {
-    if (!await confirmar('Preparar cuotas',
-      'Se abre la cuota de esta temporada a todos los jugadores que no la tengan, ' +
-      'con el importe actual. A quien ya tenga cuota no se le cambia nada.',
-      'Preparar')) return;
+    if (!await confirmar('Aplicar el importe',
+      'Se abre la cuota a quien no la tenga y se pone al importe actual a quien la ' +
+      'tenga a cero. Las que ya tienen pagos, un importe distinto o exención se ' +
+      'quedan como están.', 'Aplicar')) return;
     try {
       await db.abrirTemporada(ctx.temporada.id);
-      avisar('Cuotas preparadas');
+      const n = await db.aplicarImporteCuota(ctx.temporada.id);
+      avisar(n ? n + (n === 1 ? ' cuota actualizada' : ' cuotas actualizadas')
+               : 'Cuotas al día');
     } catch (err) { fallo(err); }
   });
 

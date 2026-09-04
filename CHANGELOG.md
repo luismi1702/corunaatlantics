@@ -56,6 +56,8 @@
 - Añadido un QR del enlace de la app en Solicitudes, para repartirla en un entreno de una vez
 - La pantalla Hoy del jugador abre con una franja de avisos sin leer, por encima del próximo entreno
 
+- Añadido `aplicar_importe_cuota` (`app/db/11_importe_cuota.sql`): permite fijar el precio de la cuota después de que la gente ya se haya registrado, poniendo al día las cuotas que quedaron a cero sin tocar las que tienen pagos, importe propio o exención
+
 **Archivos nuevos:**
 - `app/` completo (HTML, CSS, JS, SQL, iconos, README)
 - `docs/app-plan.md`

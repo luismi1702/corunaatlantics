@@ -248,6 +248,7 @@ export const temporadas = () => demora([TEMPORADA]);
 export const guardarTemporada = () => noDisponible();
 export const crearTemporada = () => noDisponible();
 export const abrirTemporada = () => noDisponible();
+export const aplicarImporteCuota = () => noDisponible();
 
 export const roster = () => demora(nombres);
 export const jugador = (id) => demora(nombres.find(p => p.id === id));

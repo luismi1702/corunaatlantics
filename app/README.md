@@ -17,6 +17,11 @@ guardar avisa de que está en modo demo.
 
 ## Montarla de verdad
 
+**No hace falta saber el importe de la cuota ni el horario de entrenos para
+montar todo esto.** La temporada arranca con la cuota a 0 y sin horario; cuando
+lo sepas, lo pones en Ajustes y le das a *Aplicar el importe a la plantilla*,
+que pone al día las cuotas que se quedaron a cero.
+
 ### 1. Crear el proyecto en Supabase
 
 En <https://supabase.com>, plan Free. **Elegir la región de Fráncfort**: los
@@ -40,6 +45,7 @@ una pegada. Los sueltos siguen ahí para leerlos por partes:
 | `08_dorsales.sql` | El jugador elige su dorsal |
 | `09_avisos.sql` | Tablón de avisos y registro de lecturas |
 | `10_material.sql` | Inventario del club y préstamos |
+| `11_importe_cuota.sql` | Aplicar el precio de la cuota a posteriori |
 
 `00_instalar.sql` está **generado**: si tocas un archivo suelto, vuelve a
 generarlo con `python generar_instalador.py` desde `app/db`.

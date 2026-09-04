@@ -56,6 +56,11 @@ export const crearTemporada = (datos) =>
 export const abrirTemporada = (id) =>
   sb.rpc('abrir_temporada', { p_temporada: id }).then(ok);
 
+// Pone al importe vigente las cuotas que se quedaron a cero, para cuando el
+// precio se fija después de que la gente ya se haya registrado.
+export const aplicarImporteCuota = (id) =>
+  sb.rpc('aplicar_importe_cuota', { p_temporada: id }).then(ok);
+
 // --- Roster ---------------------------------------------------------------
 
 // Las solicitudes sin resolver no son plantilla y no salen aquí. Quien tiene el
