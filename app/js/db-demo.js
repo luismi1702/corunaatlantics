@@ -486,7 +486,7 @@ export const entregarMaterial = (datos) => {
 };
 export const devolverMaterial = (prestamoId, cambios) => {
   const p = PRESTAMOS.find(x => x.id === prestamoId);
-  if (p) Object.assign(p, { devuelto_en: new Date().toISOString().slice(0, 10) }, cambios);
+  if (p) Object.assign(p, { devuelto_en: enDias(0) }, cambios);
   return demora(null);
 };
 export const misPrestamos = (jugadorId) => demora(

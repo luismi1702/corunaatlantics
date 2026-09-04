@@ -5,9 +5,7 @@
 // juega y quién debe la cuota son dos conversaciones separadas.
 
 import * as db from '../db.js';
-import {
-  html, crudo, $, $$, nombreCompleto, hoja, avisar, cargando, vacio
-} from '../ui.js';
+import { html, $, nombreCompleto, hoja, avisar, cargando, vacio } from '../ui.js';
 
 const GRUPOS = [
   { clave: 'si',   titulo: 'Puede jugar',  clase: 'ok'   },

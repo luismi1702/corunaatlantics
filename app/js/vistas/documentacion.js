@@ -6,7 +6,7 @@
 import * as db from '../db.js';
 import { DIAS_AVISO_CADUCIDAD } from '../config.js';
 import {
-  html, crudo, $, $$, fecha, diasHasta, nombreCompleto, tag, TAG_DOC,
+  html, crudo, $, $$, fecha, diasHasta, nombreCompleto, TAG_DOC,
   hoja, avisar, fallo, cargando, vacio
 } from '../ui.js';
 

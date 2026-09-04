@@ -62,6 +62,11 @@
 
 - Simplificada la puesta en marcha (`app/db/12_arranque_automatico.sql`): el instalador crea ya una temporada y la primera cuenta que entra en la app se convierte en administradora, así que sobra el paso manual de nombrarse admin desde el editor SQL
 
+- Revisión exhaustiva del proyecto. Corregido que `hoyISO()` calculara la fecha en UTC: en España, entre medianoche y las dos, el entreno del propio día se contaba como pasado y desaparecía de "próximos"
+- Cerradas dos funciones que quedaban expuestas como llamada remota sin comprobar quién llamaba (`app/db/13_permisos_funciones.sql`)
+- Endurecidos otros dos sitios donde el ancho podía apretar: las tiras de la pantalla del jugador y las etiquetas de la barra de pestañas en pantallas estrechas
+- Quitadas cuatro importaciones sin usar
+
 **Archivos nuevos:**
 - `app/` completo (HTML, CSS, JS, SQL, iconos, README)
 - `docs/app-plan.md`

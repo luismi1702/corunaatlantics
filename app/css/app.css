@@ -115,6 +115,12 @@ button { cursor: pointer; }
   font-size: .72rem; letter-spacing: .08em; text-transform: uppercase;
 }
 .tabbar a svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+.tabbar a span { max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* En pantallas estrechas cinco pestañas con etiquetas largas se cortan. */
+@media (max-width: 360px) {
+  .tabbar a { font-size: .64rem; letter-spacing: .04em; padding-inline: .1rem; }
+}
 .tabbar a { position: relative; }
 .tabbar a[aria-current="page"] { color: var(--teal); }
 .tabbar a[aria-current="page"]::before {
@@ -835,7 +841,8 @@ body.jugador .opcion { background: rgba(6,17,25,.82); }
   font-family: 'Barlow Condensed', sans-serif;
   font-size: .76rem; letter-spacing: .16em; text-transform: uppercase; color: var(--muted);
 }
-.tira .pie { font-size: .88rem; color: var(--text); opacity: .85; }
+.tira .pie { font-size: .88rem; color: var(--text); opacity: .85; min-width: 0; overflow-wrap: anywhere; }
+.tira .cifra-grande { overflow-wrap: anywhere; }
 
 .otra-unidad {
   margin: 0 1.1rem; padding: .6rem .8rem;

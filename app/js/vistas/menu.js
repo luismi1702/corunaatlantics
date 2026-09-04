@@ -9,7 +9,7 @@
 
 import * as db from '../db.js';
 import { DIAS_AVISO_CADUCIDAD } from '../config.js';
-import { html, crudo, diasHasta, cuando, cargando } from '../ui.js';
+import { html, crudo, diasHasta, cuando, hoyISO, cargando } from '../ui.js';
 
 const ICONOS = {
   calendario:'<rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4" stroke-linecap="round"/>',
@@ -32,7 +32,7 @@ export async function render(ctx, cont) {
     db.roster(),
     db.cuotasDe(ctx.temporada.id),
     db.documentacionDe(ctx.temporada.id),
-    db.eventos(ctx.temporada.id, { desde: new Date().toISOString().slice(0, 10) }),
+    db.eventos(ctx.temporada.id, { desde: hoyISO() }),
     db.aptitud(ctx.temporada.id),
     db.solicitudes(),
     db.avisos(ctx.temporada.id),

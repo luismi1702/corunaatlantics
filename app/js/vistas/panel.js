@@ -4,7 +4,7 @@
 
 import * as db from '../db.js';
 import { DIAS_AVISO_CADUCIDAD } from '../config.js';
-import { html, crudo, euros, diasHasta, nombreCompleto, cargando, $ } from '../ui.js';
+import { html, crudo, euros, diasHasta, nombreCompleto, cargando } from '../ui.js';
 
 export async function render(ctx, cont) {
   cont.innerHTML = cargando();

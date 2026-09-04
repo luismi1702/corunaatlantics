@@ -3,7 +3,7 @@
 import * as db from '../db.js';
 import {
   html, crudo, $, $$, euros, fecha, nombreCompleto, tag, TAG_JUGADOR, TAG_CUOTA,
-  POSICIONES, UNIDADES, hoja, confirmar, avisar, fallo, cargando, vacio,
+  POSICIONES, UNIDADES, hoyISO, hoja, confirmar, avisar, fallo, cargando, vacio,
   enlaceLlamada, enlaceWhatsApp
 } from '../ui.js';
 
@@ -241,7 +241,7 @@ async function abrirFicha(ctx, id, alGuardar) {
                      'apellidos','notas_staff']) {
       if (datos[k] === '') datos[k] = null;
     }
-    if (datos.estado === 'baja' && p.estado !== 'baja') datos.baja_en = new Date().toISOString().slice(0, 10);
+    if (datos.estado === 'baja' && p.estado !== 'baja') datos.baja_en = hoyISO();
     if (datos.estado !== 'baja') datos.baja_en = null;
 
     try {

@@ -45,7 +45,19 @@ export const fecha = (iso) =>
   iso ? new Intl.DateTimeFormat('es-ES', { day: '2-digit', month: 'short', year: 'numeric' })
     .format(new Date(iso + (iso.length === 10 ? 'T12:00:00' : ''))) : '—';
 
-export const hoyISO = () => new Date().toISOString().slice(0, 10);
+// La fecha de HOY en el huso del móvil, no en UTC.
+//
+// toISOString() convierte a UTC, así que en España entre medianoche y las dos
+// de la mañana devolvía el día anterior: a las 00:30 de un martes, el entreno
+// de ese martes se contaba como pasado y desaparecía de "próximos". Dos horas
+// al día de comportamiento equivocado, justo cuando alguien mira el móvil
+// después de un partido.
+export const hoyISO = (d = new Date()) =>
+  [d.getFullYear(),
+   String(d.getMonth() + 1).padStart(2, '0'),
+   String(d.getDate()).padStart(2, '0')].join('-');
+
+export const enDiasISO = (n) => hoyISO(new Date(Date.now() + n * 864e5));
 
 export function diasHasta(iso) {
   if (!iso) return null;

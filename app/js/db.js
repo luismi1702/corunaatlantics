@@ -3,6 +3,7 @@
 
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
 import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js';
+import { hoyISO } from './ui.js';
 
 export const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
   auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
@@ -368,7 +369,7 @@ export const entregarMaterial = (datos) =>
   sb.from('prestamos_material').insert(datos).select().single().then(ok);
 
 export const devolverMaterial = (prestamoId, cambios) =>
-  sb.from('prestamos_material').update({ devuelto_en: new Date().toISOString().slice(0, 10), ...cambios })
+  sb.from('prestamos_material').update({ devuelto_en: hoyISO(), ...cambios })
     .eq('id', prestamoId).select().single().then(ok);
 
 export const misPrestamos = (jugadorId) =>

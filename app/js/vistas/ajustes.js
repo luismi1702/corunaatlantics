@@ -3,7 +3,7 @@
 import * as db from '../db.js';
 import * as cerrojo from '../cerrojo.js';
 import {
-  html, crudo, $, $$, euros, fecha, nombreCompleto, DIAS, hora,
+  html, crudo, $, $$, euros, fecha, nombreCompleto, DIAS, hora, enDiasISO,
   hoja, confirmar, avisar, fallo, cargando, vacio
 } from '../ui.js';
 
@@ -253,7 +253,7 @@ export async function render(ctx, cont) {
   }));
 
   $('#generar').addEventListener('click', async () => {
-    const hasta = new Date(Date.now() + 56 * 864e5).toISOString().slice(0, 10);
+    const hasta = enDiasISO(56);
     try {
       const n = await db.generarEntrenos(ctx.temporada.id, hasta);
       avisar(n ? n + (n === 1 ? ' entreno creado' : ' entrenos creados') : 'Ya estaban todos creados');
