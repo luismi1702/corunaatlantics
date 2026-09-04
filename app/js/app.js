@@ -126,47 +126,27 @@ function pantallaSinConfigurar(app) {
 }
 
 function pantallaLogin(app, db) {
-  // Dos caminos desde la misma pantalla: el que ya está en el equipo y el que
-  // quiere entrar. Por debajo los dos reciben un enlace por correo; lo que
-  // cambia es lo que se encuentran después.
-  const portada = () => {
-    app.innerHTML = html`
-      <div class="login">
-        <img class="login-marca" src="./img/logo-principal.webp" alt="Coruña Atlantics">
-        <p>La app del equipo: entrenos, partidos y tu ficha.</p>
-        <div style="width:100%;max-width:340px">
-          <button class="btn primario ancho" id="ya">Ya estoy en el equipo</button>
-          <button class="btn ancho" id="nuevo" style="margin-top:.7rem">Quiero unirme</button>
+  // Una sola puerta. Antes había dos botones, "ya estoy en el equipo" y "quiero
+  // unirme", que llevaban al mismo formulario: con enlace por correo el sistema
+  // no necesita saberlo de antemano, lo averigua al entrar. Dos botones que
+  // hacen lo mismo son una elección falsa.
+  app.innerHTML = html`
+    <div class="login">
+      <img class="login-marca" src="./img/logo-principal.webp" alt="Coruña Atlantics">
+      <p>La app del equipo: entrenos, partidos y tu ficha.</p>
+      <form id="entrar">
+        <div class="campo">
+          <label>Email</label>
+          <input type="email" name="email" required autocomplete="email" placeholder="tu@email.com">
         </div>
-      </div>`;
-    $('#ya').addEventListener('click', () => correo(false));
-    $('#nuevo').addEventListener('click', () => correo(true));
-  };
-
-  const correo = (esNuevo) => {
-    app.innerHTML = html`
-      <div class="login">
-        <img class="login-marca" src="./img/logo-principal.webp" alt="Coruña Atlantics">
-        <h1>${esNuevo ? 'Únete' : 'Entrar'}</h1>
-        <p>${esNuevo
-          ? 'Escribe tu email y te mandamos un enlace. Después rellenas tu ficha y el club revisa tu solicitud.'
-          : 'Escribe tu email y te llega un enlace para entrar. No hay contraseña que recordar.'}</p>
-        <form id="entrar">
-          <div class="campo">
-            <label>Email</label>
-            <input type="email" name="email" required autocomplete="email" placeholder="tu@email.com">
-          </div>
-          <button class="btn primario ancho" type="submit">Enviarme el enlace</button>
-          <button class="btn fantasma ancho" type="button" id="atras" style="margin-top:.7rem">Atrás</button>
-        </form>
-      </div>`;
-    $('#atras').addEventListener('click', portada);
-    enganchar();
-  };
-
-  portada();
-
-  function enganchar() {
+        <button class="btn primario ancho" type="submit">Enviarme el enlace</button>
+      </form>
+      <p class="ayuda" style="max-width:34ch;margin-top:1.2rem;line-height:1.6">
+        Te llega un enlace y entras: no hay contraseña que recordar.
+        Si todavía no eres del equipo, rellenarás tu ficha y el club revisará
+        tu solicitud.
+      </p>
+    </div>`;
 
   $('#entrar').addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -178,6 +158,7 @@ function pantallaLogin(app, db) {
       await db.entrar(email);
       app.innerHTML = html`
         <div class="login">
+          <img class="login-marca" src="./img/logo-principal.webp" alt="Coruña Atlantics">
           <h1>Mira tu correo</h1>
           <p>Te hemos enviado un enlace a <strong>${email}</strong>.
              Ábrelo en este mismo móvil y entrarás directo.</p>
@@ -190,29 +171,6 @@ function pantallaLogin(app, db) {
       boton.textContent = 'Enviarme el enlace';
     }
   });
-  }
-}
-
-function pantallaSinTemporada(app, db) {
-  app.innerHTML = html`
-    <div class="login">
-      <h1>Sin temporada</h1>
-      <p>No hay ninguna temporada activa. Créala ejecutando
-         <code>app/db/03_arranque.sql</code> en Supabase, o actívala desde ahí.</p>
-      <button class="btn fantasma" id="salir">Cerrar sesión</button>
-    </div>`;
-  $('#salir').addEventListener('click', async () => { await db.salir(); location.reload(); });
-}
-
-function pantallaError(app, error, db) {
-  console.error(error);
-  app.innerHTML = html`
-    <div class="login">
-      <h1>Algo ha fallado</h1>
-      <p>${error.message}</p>
-      <button class="btn fantasma" id="salir">Cerrar sesión</button>
-    </div>`;
-  $('#salir').addEventListener('click', async () => { await db.salir(); location.reload(); });
 }
 
 // Le pasa a quien tenía ficha y se la borraron: la cuenta sigue existiendo,
