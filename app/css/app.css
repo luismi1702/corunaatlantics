@@ -166,7 +166,14 @@ button { cursor: pointer; }
   background: var(--surf); border: 1px solid var(--line);
   border-radius: var(--r); padding: .9rem .7rem; text-align: center;
 }
-.cifra .n { font-family: 'Anton', sans-serif; font-size: 1.7rem; line-height: 1; font-variant-numeric: tabular-nums; }
+.cifra { min-width: 0; }
+.cifra .n {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(1.15rem, 5.2vw, 1.7rem);   /* "1.234,56 €" cabe igual */
+  line-height: 1.05;
+  font-variant-numeric: tabular-nums;
+  overflow-wrap: anywhere;
+}
 .cifra .l {
   font-family: 'Barlow Condensed', sans-serif; font-size: .72rem;
   letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-top: .35rem;
@@ -210,7 +217,7 @@ button.fila:active { transform: scale(.995); }
   font-size: .82rem; color: var(--muted);
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
-.fila .dcha { margin-left: auto; text-align: right; flex-shrink: 0; }
+.fila .dcha { margin-left: auto; text-align: right; flex-shrink: 0; max-width: 45%; }
 .fila .importe { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1.05rem; font-variant-numeric: tabular-nums; }
 
 /* Contacto rápido: lo primero de la ficha, porque es lo que más se usa. */
@@ -283,7 +290,19 @@ button.fila:active { transform: scale(.995); }
 }
 .campo textarea { min-height: 80px; resize: vertical; }
 .campo .ayuda { font-size: .8rem; color: var(--muted); margin-top: .3rem; }
-.dos { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; }
+
+/* Dos columnas cuando quepan, una cuando no.
+   Los campos de fecha y hora de iOS tienen anchura mínima propia y no se dejan
+   encoger: en dos columnas fijas se desbordaban de su celda y se montaban
+   encima de la de al lado. El min-width:0 es lo que se lo impide, y el auto-fit
+   evita que queden apretados en pantallas estrechas. */
+.dos {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+  gap: .7rem;
+}
+.dos > * { min-width: 0; }
+.campo input, .campo select, .campo textarea { min-width: 0; max-width: 100%; }
 
 .check { display: flex; align-items: center; gap: .6rem; padding: .55rem 0; }
 .check input { width: 22px; height: 22px; accent-color: var(--teal); }
