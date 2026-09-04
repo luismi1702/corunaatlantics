@@ -8,7 +8,7 @@ import * as db from '../db.js';
 import * as cerrojo from '../cerrojo.js';
 import {
   html, crudo, $, $$, euros, fecha, nombreCompleto, tag, TAG_DOC, TAG_JUGADOR,
-  avisar, fallo, cargando
+  hoja, avisar, fallo, cargando
 } from '../ui.js';
 
 export async function render(ctx, cont) {
@@ -45,22 +45,16 @@ export async function render(ctx, cont) {
     </div>
 
     <p class="eyebrow">Tu dorsal</p>
-    <div class="card">
-      <p class="ayuda" style="margin:0 0 .8rem;line-height:1.6">
-        ${yo.dorsal != null
-          ? 'Llevas el ' + yo.dorsal + '. Es tuyo mientras estés en el equipo; nadie más puede cogerlo. Toca otro libre si quieres cambiarlo.'
-          : 'Elige el tuyo. El que cojas queda bloqueado para el resto.'}
-      </p>
-      <div class="dorsales" id="dorsales">
-        ${Array.from({ length: 100 }, (_, n) => {
-          const otro = dueno.get(n);
-          return html`
-            <button type="button" class="num ${otro ? 'pillado' : ''} ${yo.dorsal === n ? 'mio' : ''}"
-              data-n="${n}" ${otro ? crudo('disabled') : ''}
-              title="${otro ? nombreCompleto(otro) : 'Libre'}">${n}</button>`;
-        })}
+    <button class="fila dorsal-resumen" id="abrir-dorsales">
+      <div class="dorsal grande ${yo.dorsal == null ? 'sin' : ''}">${yo.dorsal ?? '—'}</div>
+      <div class="info">
+        <div class="nom">${yo.dorsal == null ? 'Sin dorsal' : 'Llevas el ' + yo.dorsal}</div>
+        <div class="meta">${yo.dorsal == null
+          ? 'Toca para elegir el tuyo'
+          : 'Es tuyo mientras estés en el equipo'}</div>
       </div>
-    </div>
+      <div class="dcha"><span class="tag teal">${yo.dorsal == null ? 'Elegir' : 'Cambiar'}</span></div>
+    </button>
 
     <p class="eyebrow">Tus datos</p>
     <form id="mios" class="card">
@@ -126,15 +120,36 @@ export async function render(ctx, cont) {
     <button class="btn fantasma ancho" id="salir" style="margin-top:1.5rem">Cerrar sesión</button>
   `;
 
-  $$('#dorsales .num').forEach(b => b.addEventListener('click', async () => {
-    const n = Number(b.dataset.n);
-    const nuevo = yo.dorsal === n ? null : n;   // tocar el propio lo libera
-    try {
-      await db.elegirDorsal(yo.id, nuevo);
-      avisar(nuevo == null ? 'Has soltado tu dorsal' : '¡El ' + nuevo + ' es tuyo!');
-      ctx.recargar();
-    } catch (err) { fallo(err); }
-  }));
+  // La rejilla de cien numeros vive en una hoja aparte: se elige una vez y no
+  // tiene por que ocupar la pantalla el resto de la temporada.
+  $('#abrir-dorsales').addEventListener('click', () => {
+    const panel = hoja('Elegir dorsal', html`
+      <p class="ayuda" style="margin:0 0 1rem;line-height:1.6">
+        ${yo.dorsal == null
+          ? 'Los tachados ya los lleva alguien. El que cojas queda bloqueado para el resto.'
+          : 'Llevas el ' + yo.dorsal + '. Toca otro libre para cambiarlo, o el tuyo para soltarlo.'}
+      </p>
+      <div class="dorsales" id="dorsales">
+        ${Array.from({ length: 100 }, (_, n) => {
+          const otro = dueno.get(n);
+          return html`
+            <button type="button" class="num ${otro ? 'pillado' : ''} ${yo.dorsal === n ? 'mio' : ''}"
+              data-n="${n}" ${otro ? crudo('disabled') : ''}
+              title="${otro ? nombreCompleto(otro) : 'Libre'}">${n}</button>`;
+        })}
+      </div>`);
+
+    $$('#dorsales .num', panel).forEach(b => b.addEventListener('click', async () => {
+      const n = Number(b.dataset.n);
+      const nuevo = yo.dorsal === n ? null : n;   // tocar el propio lo libera
+      try {
+        await db.elegirDorsal(yo.id, nuevo);
+        avisar(nuevo == null ? 'Has soltado tu dorsal' : '¡El ' + nuevo + ' es tuyo!');
+        panel.cerrar();
+        ctx.recargar();
+      } catch (err) { fallo(err); }
+    }));
+  });
 
   cerrojo.pintarAjuste($('#cerrojo'), yo);
 

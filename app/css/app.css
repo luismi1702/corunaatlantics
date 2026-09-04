@@ -539,9 +539,12 @@ button.fila:active { transform: scale(.995); }
 
 .dorsales {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));
-  gap: .35rem;
+  grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
+  gap: .3rem;
 }
+
+.dorsal-resumen { text-align: left; }
+.dorsal-resumen .dorsal.grande { flex: 0 0 62px; height: 62px; font-size: 2rem; }
 
 .dorsales .num {
   aspect-ratio: 1;
