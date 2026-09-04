@@ -7,8 +7,8 @@
 import * as db from '../db.js';
 import * as cerrojo from '../cerrojo.js';
 import {
-  html, crudo, $, $$, euros, fecha, nombreCompleto, tag, TAG_DOC, TAG_JUGADOR,
-  hoja, avisar, fallo, cargando
+  html, crudo, $, euros, fecha, nombreCompleto, tag, TAG_DOC, TAG_JUGADOR,
+  avisar, fallo, cargando
 } from '../ui.js';
 
 export async function render(ctx, cont) {
@@ -45,16 +45,19 @@ export async function render(ctx, cont) {
     </div>
 
     <p class="eyebrow">Tu dorsal</p>
-    <button class="fila dorsal-resumen" id="abrir-dorsales">
-      <div class="dorsal grande ${yo.dorsal == null ? 'sin' : ''}">${yo.dorsal ?? '—'}</div>
-      <div class="info">
-        <div class="nom">${yo.dorsal == null ? 'Sin dorsal' : 'Llevas el ' + yo.dorsal}</div>
-        <div class="meta">${yo.dorsal == null
-          ? 'Toca para elegir el tuyo'
-          : 'Es tuyo mientras estés en el equipo'}</div>
+    <form class="card dorsal-elegir" id="dorsal">
+      <div class="dorsal grande ${yo.dorsal == null ? 'sin' : ''}" id="dorsal-actual">${yo.dorsal ?? '—'}</div>
+      <div class="campo" style="margin:0;flex:1">
+        <label>Escribe el que quieras</label>
+        <input name="dorsal" type="number" min="0" max="99" inputmode="numeric"
+               value="${yo.dorsal ?? ''}" placeholder="0-99">
       </div>
-      <div class="dcha"><span class="tag teal">${yo.dorsal == null ? 'Elegir' : 'Cambiar'}</span></div>
-    </button>
+      <button class="btn primario" type="submit">Guardar</button>
+    </form>
+    <p class="ayuda" style="margin-top:.6rem;line-height:1.6">
+      El que cojas queda bloqueado para el resto mientras estés en el equipo.
+      Déjalo en blanco para soltarlo.
+    </p>
 
     <p class="eyebrow">Tus datos</p>
     <form id="mios" class="card">
@@ -122,33 +125,30 @@ export async function render(ctx, cont) {
 
   // La rejilla de cien numeros vive en una hoja aparte: se elige una vez y no
   // tiene por que ocupar la pantalla el resto de la temporada.
-  $('#abrir-dorsales').addEventListener('click', () => {
-    const panel = hoja('Elegir dorsal', html`
-      <p class="ayuda" style="margin:0 0 1rem;line-height:1.6">
-        ${yo.dorsal == null
-          ? 'Los tachados ya los lleva alguien. El que cojas queda bloqueado para el resto.'
-          : 'Llevas el ' + yo.dorsal + '. Toca otro libre para cambiarlo, o el tuyo para soltarlo.'}
-      </p>
-      <div class="dorsales" id="dorsales">
-        ${Array.from({ length: 100 }, (_, n) => {
-          const otro = dueno.get(n);
-          return html`
-            <button type="button" class="num ${otro ? 'pillado' : ''} ${yo.dorsal === n ? 'mio' : ''}"
-              data-n="${n}" ${otro ? crudo('disabled') : ''}
-              title="${otro ? nombreCompleto(otro) : 'Libre'}">${n}</button>`;
-        })}
-      </div>`);
+  $('#dorsal').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const bruto = new FormData(e.target).get('dorsal').trim();
+    const n = bruto === '' ? null : Number(bruto);
 
-    $$('#dorsales .num', panel).forEach(b => b.addEventListener('click', async () => {
-      const n = Number(b.dataset.n);
-      const nuevo = yo.dorsal === n ? null : n;   // tocar el propio lo libera
-      try {
-        await db.elegirDorsal(yo.id, nuevo);
-        avisar(nuevo == null ? 'Has soltado tu dorsal' : '¡El ' + nuevo + ' es tuyo!');
-        panel.cerrar();
-        ctx.recargar();
-      } catch (err) { fallo(err); }
-    }));
+    if (n !== null && (!Number.isInteger(n) || n < 0 || n > 99)) {
+      avisar('El dorsal tiene que ser un número del 0 al 99.', 'error');
+      return;
+    }
+    if (n === yo.dorsal) { avisar('Ese ya es el tuyo'); return; }
+
+    // Si sabemos que está cogido, se dice quién lo lleva sin molestar al
+    // servidor. Si no lo sabemos, el índice único lo rechaza igual.
+    const otro = n !== null ? dueno.get(n) : null;
+    if (otro) {
+      avisar('El ' + n + ' lo lleva ' + nombreCompleto(otro) + '. Elige otro.', 'error');
+      return;
+    }
+
+    try {
+      await db.elegirDorsal(yo.id, n);
+      avisar(n === null ? 'Has soltado tu dorsal' : '¡El ' + n + ' es tuyo!');
+      ctx.recargar();
+    } catch (err) { fallo(err); }
   });
 
   cerrojo.pintarAjuste($('#cerrojo'), yo);

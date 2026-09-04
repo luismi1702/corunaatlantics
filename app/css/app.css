@@ -534,40 +534,16 @@ button.fila:active { transform: scale(.995); }
 }
 
 /* --- Elegir dorsal --------------------------------------------------------- */
-/* Cien números tienen que caber sin hacer scroll infinito ni obligar a apuntar
-   con precisión: rejilla apretada, pero cada casilla sigue siendo tocable. */
+/* Una casilla y a correr. Antes habia una rejilla de cien numeros que ocupaba
+   la pantalla entera de Mi ficha, para algo que se elige una vez. */
 
-.dorsales {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(40px, 1fr));
-  gap: .3rem;
-}
+.dorsal-elegir { display: flex; align-items: flex-end; gap: .8rem; }
+.dorsal-elegir .dorsal.grande { flex: 0 0 62px; height: 62px; font-size: 2rem; }
+.dorsal-elegir .btn { flex: 0 0 auto; }
 
-.dorsal-resumen { text-align: left; }
-.dorsal-resumen .dorsal.grande { flex: 0 0 62px; height: 62px; font-size: 2rem; }
-
-.dorsales .num {
-  aspect-ratio: 1;
-  display: grid; place-items: center;
-  border-radius: 9px;
-  border: 1px solid var(--line);
-  background: var(--deep);
-  color: var(--text);
-  font-family: 'Anton', sans-serif; font-size: 1rem;
-  font-variant-numeric: tabular-nums;
-  transition: transform .1s, background .15s, border-color .15s;
-}
-.dorsales .num:active { transform: scale(.92); }
-
-/* Ocupado por otro: se ve, no se toca. */
-.dorsales .num.pillado {
-  background: transparent; color: var(--line);
-  border-style: dashed; cursor: not-allowed;
-}
-
-.dorsales .num.mio {
-  background: var(--teal); border-color: var(--teal); color: var(--ink);
-  box-shadow: 0 0 0 3px rgba(78,205,200,.22);
+@media (max-width: 400px) {
+  .dorsal-elegir { flex-wrap: wrap; }
+  .dorsal-elegir .btn { width: 100%; }
 }
 
 /* --- Alta de un jugador nuevo --------------------------------------------- */
