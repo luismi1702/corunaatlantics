@@ -1,28 +1,52 @@
-// Equipo — los compañeros, con lo que ya se ve en una camiseta.
+// Equipo — todo lo colectivo, desde el lado del jugador.
 //
-// Nombre, dorsal y posición. Ni teléfonos, ni papeleo, ni cuotas: eso lo
-// impide la vista `companeros` de la base de datos, no esta pantalla.
+// Tres cosas en una pestaña, porque las tres responden a "¿cómo va el equipo?":
+// quién está en la plantilla, cómo va la liga y quién lleva los números. Una
+// pestaña para cada una habría dejado seis abajo, que no caben.
+//
+// De los compañeros solo se ve lo que ya se ve en una camiseta: nombre, dorsal
+// y posición. Eso lo impone la vista `companeros` de la base de datos, no esta
+// pantalla.
 
 import * as db from '../db.js';
 import {
-  html, nombreCompleto, tag, TAG_JUGADOR, unidadDe, NOMBRE_UNIDAD, cargando, vacio
+  html, crudo, $, $$, nombreCompleto, tag, TAG_JUGADOR, unidadDe, NOMBRE_UNIDAD,
+  ESTADISTICAS, ESTADISTICA, conRespaldo, cargando, vacio
 } from '../ui.js';
 
 const GRUPOS = ['ataque', 'defensa', 'especiales', null];
 
+let vista = 'plantilla';
+let orden = 'td';
+
 export async function render(ctx, cont) {
   cont.innerHTML = cargando();
-  const equipo = await db.companeros();
 
-  const de = (unidad) => equipo.filter(p => unidadDe(p.posiciones) === unidad);
+  const [equipo, ligas, numeros] = await Promise.all([
+    db.companeros(),
+    conRespaldo(db.competiciones(ctx.temporada.id), []),
+    conRespaldo(db.estadisticasTemporada(ctx.temporada.id), [])
+  ]);
+
+  const liga = ligas.find(l => l.activa) ?? ligas[0] ?? null;
+  const tabla = liga ? await conRespaldo(db.clasificacion(liga.id), []) : [];
+  const porId = new Map(equipo.map(p => [p.id, p]));
 
   cont.innerHTML = html`
+    <div class="filtros" id="vistas">
+      <button data-v="plantilla"     aria-pressed="${vista === 'plantilla'}">Plantilla</button>
+      <button data-v="clasificacion" aria-pressed="${vista === 'clasificacion'}">Clasificación</button>
+      <button data-v="numeros"       aria-pressed="${vista === 'numeros'}">Números</button>
+    </div>
+    <div id="cuerpo"></div>
+  `;
+
+  const plantilla = () => html`
     <p class="ayuda" style="text-align:center;margin:0 0 1rem">
       ${equipo.length} ${equipo.length === 1 ? 'jugador en la plantilla' : 'jugadores en la plantilla'}
     </p>
-
     ${equipo.length ? GRUPOS.map(unidad => {
-      const items = de(unidad);
+      const items = equipo.filter(p => unidadDe(p.posiciones) === unidad);
       if (!items.length) return '';
       return html`
         <p class="eyebrow">
@@ -40,6 +64,91 @@ export async function render(ctx, cont) {
               <div class="dcha">${p.estado !== 'activo' ? tag(TAG_JUGADOR, p.estado) : ''}</div>
             </div>`)}
         </div>`;
-    }) : vacio('Todavía no hay nadie en la plantilla.')}
-  `;
+    }) : vacio('Todavía no hay nadie en la plantilla.')}`;
+
+  const clasificacion = () => !liga
+    ? vacio('El club no ha añadido ninguna competición todavía.')
+    : html`
+      <p class="eyebrow">${liga.nombre}</p>
+      ${tabla.length ? crudo(html`
+        <div class="tabla-clas">
+          ${tabla.map((f, i) => html`
+            <div class="fila-clas ${f.es_nuestro ? 'nuestro' : ''}">
+              <span class="pos">${f.posicion ?? i + 1}</span>
+              <span class="equipo">${f.equipo}</span>
+              <span class="dato">${f.jugados}</span>
+              <span class="dato">${f.ganados}</span>
+              <span class="dato">${f.perdidos}</span>
+              <span class="dato fuerte">${f.puntos}</span>
+            </div>`)}
+        </div>
+        <p class="leyenda-clas"><span>Pos</span><span>Equipo</span><span>J</span><span>G</span><span>P</span><span>Pts</span></p>`)
+        : vacio('La clasificación todavía no está puesta.')}`;
+
+  // De filas sueltas a una por jugador, con todos sus conceptos juntos.
+  const agrupados = (() => {
+    const mapa = new Map();
+    for (const f of numeros) {
+      const jugador = porId.get(f.jugador_id);
+      if (!jugador) continue;
+      const fila = mapa.get(f.jugador_id) ?? { jugador };
+      fila[f.clave] = (fila[f.clave] ?? 0) + f.total;
+      mapa.set(f.jugador_id, fila);
+    }
+    return [...mapa.values()];
+  })();
+
+  const numerosVista = () => {
+    const filas = agrupados
+      .filter(f => (f[orden] ?? 0) > 0)
+      .sort((a, b) => (b[orden] ?? 0) - (a[orden] ?? 0));
+
+    return html`
+      <p class="eyebrow">Ordenar por</p>
+      <div class="filtros" id="orden" style="flex-wrap:wrap;overflow:visible">
+        ${ESTADISTICAS.map(e => html`
+          <button data-o="${e.clave}" aria-pressed="${orden === e.clave}">${e.nombre}</button>`)}
+      </div>
+
+      <div style="margin-top:.9rem">
+        ${filas.length ? crudo(html`
+          <div class="lista">
+            ${filas.map((f, i) => html`
+              <div class="fila">
+                <div class="puesto">${i + 1}</div>
+                <div class="dorsal ${f.jugador.dorsal == null ? 'sin' : ''}">${f.jugador.dorsal ?? '—'}</div>
+                <div class="info">
+                  <div class="nom">${f.jugador.apodo || nombreCompleto(f.jugador)}</div>
+                  <div class="meta">
+                    ${ESTADISTICAS.filter(e => (f[e.clave] ?? 0) > 0)
+                       .map(e => f[e.clave] + ' ' + e.corto).join(' · ')}
+                  </div>
+                </div>
+                <div class="dcha">
+                  <div class="cifra-stat">${f[orden] ?? 0}</div>
+                  <div class="et-stat">${ESTADISTICA[orden].corto}</div>
+                </div>
+              </div>`)}
+          </div>`) : vacio('Nadie tiene ' + ESTADISTICA[orden].nombre.toLowerCase() + ' todavía.')}
+      </div>`;
+  };
+
+  function pintar() {
+    $('#cuerpo').innerHTML = vista === 'plantilla' ? plantilla()
+      : vista === 'clasificacion' ? clasificacion()
+      : numerosVista();
+
+    $$('#orden button').forEach(b => b.addEventListener('click', () => {
+      orden = b.dataset.o;
+      pintar();
+    }));
+  }
+
+  $$('#vistas button').forEach(b => b.addEventListener('click', () => {
+    vista = b.dataset.v;
+    $$('#vistas button').forEach(o => o.setAttribute('aria-pressed', o === b));
+    pintar();
+  }));
+
+  pintar();
 }
