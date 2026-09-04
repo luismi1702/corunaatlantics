@@ -122,9 +122,9 @@ export async function render(ctx, cont) {
                   : 'Sin nada programado')}
         ${baldosa('/roster', 'roster', 'Roster',
           activos + (activos === 1 ? ' activo' : ' activos'), pendientes.length)}
-        ${baldosa('/dinero', 'dinero', 'Dinero',
-          morosos ? morosos + ' sin pagar' : 'Cuotas y tesorería', morosos, 'dinero')}
-        ${baldosa('/documentacion', 'papeles', 'Papeles',
+        ${baldosa('/dinero', 'dinero', 'Tesorería',
+          morosos ? morosos + ' sin pagar' : 'Cuotas, ingresos y gastos', morosos, 'dinero')}
+        ${baldosa('/documentacion', 'papeles', 'Documentos',
           papelesPendientes ? papelesPendientes + ' con algo pendiente' : 'Todo en regla', caducan)}
         ${baldosa('/avisos', 'avisos', 'Avisos',
           tablon.length ? 'Último: ' + tablon[0].titulo : 'Nada publicado')}
@@ -133,7 +133,7 @@ export async function render(ctx, cont) {
         ${baldosa('/material', 'material', 'Material',
           piezas.length ? piezas.filter(m => m.jugador_id).length + ' de ' + piezas.length + ' prestadas'
                         : 'Sin inventariar', enBajas)}
-        ${baldosa('/tienda', 'tienda', 'Equipación',
+        ${baldosa('/tienda', 'tienda', 'Tienda',
           catalogo.length ? (sinCobrar ? sinCobrar + ' sin cobrar' : 'Todo cobrado')
                           : 'Nada a la venta', sinCobrar, 'dinero')}
         ${baldosa('/ajustes', 'ajustes', 'Ajustes', 'Temporada y cuenta', 0, 'ajuste')}

@@ -177,7 +177,7 @@ export async function render(ctx, cont) {
             <span class="cifra-grande" style="color:${debeEquipacion > 0 ? 'var(--goldf)' : 'var(--teal)'}">
               ${debeEquipacion > 0 ? euros(debeEquipacion) : alaVenta.length}
             </span>
-            <span class="et">Equipación</span>
+            <span class="et">Tienda</span>
             <span class="pie">${debeEquipacion > 0
               ? 'Te queda por pagar'
               : (alaVenta.length === 1 ? 'Hay algo a la venta' : 'Cosas a la venta del club')}</span>

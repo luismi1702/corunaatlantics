@@ -112,7 +112,7 @@ export async function render(ctx, cont) {
 
     <a class="fila" href="#/tienda" style="text-decoration:none;color:inherit;margin-top:1.5rem">
       <div class="info">
-        <div class="nom">Equipación del club</div>
+        <div class="nom">Tienda del club</div>
         <div class="meta">Sudaderas, camisetas y lo que haya a la venta</div>
       </div>
       <div class="dcha"><span class="tag teal">Ver</span></div>

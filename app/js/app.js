@@ -15,12 +15,12 @@ const VISTAS_STAFF = {
   '/calendario':    { titulo: 'Calendario',    cargar: () => import('./vistas/calendario.js') },
   '/lista':         { titulo: 'Partido',       cargar: () => import('./vistas/lista.js') },
   '/roster':        { titulo: 'Roster',        cargar: () => import('./vistas/personas.js') },
-  '/dinero':        { titulo: 'Dinero',        cargar: () => import('./vistas/dinero.js') },
-  '/documentacion': { titulo: 'Papeles',       cargar: () => import('./vistas/documentacion.js') },
+  '/dinero':        { titulo: 'Tesorería',     cargar: () => import('./vistas/dinero.js') },
+  '/documentacion': { titulo: 'Documentos',    cargar: () => import('./vistas/documentacion.js') },
   '/avisos':        { titulo: 'Avisos',        cargar: () => import('./vistas/avisos.js') },
   '/liga':          { titulo: 'Liga',          cargar: () => import('./vistas/liga.js') },
   '/material':      { titulo: 'Material',      cargar: () => import('./vistas/material.js') },
-  '/tienda':        { titulo: 'Equipación',    cargar: () => import('./vistas/tienda.js') },
+  '/tienda':        { titulo: 'Tienda',        cargar: () => import('./vistas/tienda.js') },
   '/ajustes':       { titulo: 'Ajustes',       cargar: () => import('./vistas/ajustes.js') }
 };
 
@@ -33,7 +33,7 @@ const VISTAS_JUGADOR = {
   '/avisos':  { titulo: 'Avisos',   cargar: () => import('./vistas/jug-avisos.js') },
   '/agenda':  { titulo: 'Agenda',   cargar: () => import('./vistas/jug-agenda.js') },
   '/equipo':  { titulo: 'Equipo',   cargar: () => import('./vistas/jug-equipo.js') },
-  '/tienda':  { titulo: 'Equipación', cargar: () => import('./vistas/jug-tienda.js') },
+  '/tienda':  { titulo: 'Tienda', cargar: () => import('./vistas/jug-tienda.js') },
   '/mificha': { titulo: 'Mi ficha', cargar: () => import('./vistas/jug-ficha.js') }
 };
 

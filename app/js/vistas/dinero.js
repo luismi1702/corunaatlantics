@@ -1,4 +1,7 @@
-// Dinero — las cuotas y la tesorería, juntas.
+// Tesorería — las cuotas y la caja, juntas.
+//
+// El fichero se sigue llamando dinero.js: renombrarlo obligaría a tocar el
+// empaquetado y la caché sin que cambie nada de lo que se ve.
 //
 // Estaban en dos pantallas distintas, y no tenía sentido: las cuotas son el
 // ingreso principal del club y se miraban lejos del saldo. Cada mitad sigue
@@ -14,7 +17,7 @@ export async function render(ctx, cont) {
   cont.innerHTML = html`
     <div class="filtros" id="vistas">
       <button data-v="cuotas"    aria-pressed="${vista === 'cuotas'}">Cuotas</button>
-      <button data-v="tesoreria" aria-pressed="${vista === 'tesoreria'}">Tesorería</button>
+      <button data-v="tesoreria" aria-pressed="${vista === 'tesoreria'}">Caja</button>
     </div>
     <div id="cuerpo"></div>`;
 
