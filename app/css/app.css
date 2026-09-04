@@ -72,6 +72,11 @@ button { cursor: pointer; }
 
 #app { min-height: 100dvh; display: flex; flex-direction: column; }
 
+/* Cinturón: por muy larga que sea una palabra o un importe, la página no se
+   desplaza en horizontal. Un desborde asi es siempre un fallo, no un diseño. */
+html, body { overflow-x: hidden; }
+.vista, .hoja-panel { overflow-wrap: anywhere; }
+
 .topbar {
   position: sticky; top: 0; z-index: 20;
   isolation: isolate;
@@ -168,6 +173,7 @@ button { cursor: pointer; }
 .card + .card { margin-top: .7rem; }
 
 .cifras { display: grid; grid-template-columns: repeat(3, 1fr); gap: .6rem; }
+.cifras > * { min-width: 0; }
 .cifra {
   background: var(--surf); border: 1px solid var(--line);
   border-radius: var(--r); padding: .9rem .7rem; text-align: center;
@@ -182,7 +188,8 @@ button { cursor: pointer; }
 }
 .cifra .l {
   font-family: 'Barlow Condensed', sans-serif; font-size: .72rem;
-  letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-top: .35rem;
+  letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-top: .35rem;
+  overflow-wrap: anywhere; hyphens: auto;
 }
 .cifra.ok  .n { color: var(--ok); }
 .cifra.gold .n { color: var(--goldf); }
@@ -784,6 +791,8 @@ body.jugador .opcion { background: rgba(6,17,25,.82); }
 }
 
 .respuesta { display: grid; grid-template-columns: repeat(3, 1fr); gap: .5rem; }
+.respuesta > * { min-width: 0; }
+.opcion span { max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
 
 .opcion {
   display: flex; flex-direction: column; align-items: center; gap: .3rem;
