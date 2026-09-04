@@ -256,13 +256,9 @@ const CLASIFICACION = [
 // Numeros del partido ya jugado contra Santiago.
 const ESTADISTICAS_DEMO = [
   { id: 'st-1', evento_id: 'ep2', jugador_id: 'p1',  clave: 'td', valor: 2 },
-  { id: 'st-2', evento_id: 'ep2', jugador_id: 'p1',  clave: 'recepciones', valor: 5 },
   { id: 'st-3', evento_id: 'ep2', jugador_id: 'p0',  clave: 'td_pase', valor: 3 },
   { id: 'st-4', evento_id: 'ep2', jugador_id: 'p2',  clave: 'td', valor: 1 },
-  { id: 'st-5', evento_id: 'ep2', jugador_id: 'p2',  clave: 'recepciones', valor: 4 },
   { id: 'st-6', evento_id: 'ep2', jugador_id: 'p6',  clave: 'int', valor: 2 },
-  { id: 'st-7', evento_id: 'ep2', jugador_id: 'p6',  clave: 'banderas', valor: 7 },
-  { id: 'st-8', evento_id: 'ep2', jugador_id: 'p5',  clave: 'banderas', valor: 9 },
   { id: 'st-9', evento_id: 'ep2', jugador_id: 'p5',  clave: 'sacks', valor: 2 },
   { id: 'st-10', evento_id: 'ep2', jugador_id: 'p6', clave: 'td_defensivo', valor: 1 }
 ];

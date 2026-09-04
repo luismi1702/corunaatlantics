@@ -79,6 +79,8 @@
 - Los jugadores ya ven la clasificación de la liga y las estadísticas (`app/db/16_estadisticas_visibles.sql`); meterlas sigue siendo cosa del staff
 - La pestaña Equipo del jugador pasa a tener tres vistas —plantilla, clasificación y números— en vez de una sexta pestaña que no cabía abajo
 
+- Recortado el catalogo de estadisticas a cinco conceptos: TD, pases de TD, intercepciones, sacks y TD defensivos
+
 **Archivos nuevos:**
 - `app/` completo (HTML, CSS, JS, SQL, iconos, README)
 - `docs/app-plan.md`

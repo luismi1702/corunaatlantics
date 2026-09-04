@@ -286,14 +286,11 @@ export const OPCIONES_ASISTENCIA = [
 // El catalogo vive aqui a proposito: añadir un concepto es una linea, y la
 // base de datos guarda la clave tal cual sin saber nada de esta lista.
 export const ESTADISTICAS = [
-  { clave: 'td',           nombre: 'Touchdowns',      corto: 'TD',   area: 'ataque'  },
-  { clave: 'td_pase',      nombre: 'Pases de TD',     corto: 'TDp',  area: 'ataque'  },
-  { clave: 'recepciones',  nombre: 'Recepciones',     corto: 'Rec',  area: 'ataque'  },
-  { clave: 'conversiones', nombre: 'Conversiones',    corto: 'Conv', area: 'ataque'  },
-  { clave: 'int',          nombre: 'Intercepciones',  corto: 'INT',  area: 'defensa' },
-  { clave: 'banderas',     nombre: 'Banderas',        corto: 'Ban',  area: 'defensa' },
-  { clave: 'sacks',        nombre: 'Sacks',           corto: 'Sck',  area: 'defensa' },
-  { clave: 'td_defensivo', nombre: 'TD defensivos',   corto: 'TDd',  area: 'defensa' }
+  { clave: 'td',           nombre: 'Touchdowns',     corto: 'TD',  area: 'ataque'  },
+  { clave: 'td_pase',      nombre: 'Pases de TD',    corto: 'TDp', area: 'ataque'  },
+  { clave: 'int',          nombre: 'Intercepciones', corto: 'INT', area: 'defensa' },
+  { clave: 'sacks',        nombre: 'Sacks',          corto: 'Sck', area: 'defensa' },
+  { clave: 'td_defensivo', nombre: 'TD defensivos',  corto: 'TDd', area: 'defensa' }
 ];
 
 export const ESTADISTICA = Object.fromEntries(ESTADISTICAS.map(e => [e.clave, e]));
