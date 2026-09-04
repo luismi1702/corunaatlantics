@@ -1,0 +1,759 @@
+/* Coruña Atlantics — Consola de gestión
+   Pensada para el móvil de pie en el campo: objetivos táctiles grandes,
+   contraste alto y nada de tablas que obliguen a hacer zoom. */
+
+:root {
+  --ink:    #040d12;
+  --deep:   #071520;
+  --surf:   #0d2030;
+  --surf-2: #123044;
+  --line:   #1d4056;
+  --teal:   #4ECDC8;
+  --teal-d: #2a9a96;
+  --gold:   #D4A843;
+  --goldf:  #F0C060;
+  --text:   #EEF4F6;
+  --muted:  #8aa6b4;
+  --ok:     #48c78e;
+  --warn:   #e8b339;
+  --bad:    #f2555a;
+
+  --r:      14px;
+  --safe-b: env(safe-area-inset-bottom, 0px);
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  color: var(--text);
+  font-family: 'Barlow', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior-y: none;
+}
+
+/* El campo, visto desde la banda: líneas de yarda, las de cada cinco más
+   marcadas, y las marcas de hash en el centro.
+
+   Va en una capa fija propia y NO en background-attachment: fixed, que Safari
+   de iPhone ignora y dejaba la pantalla lisa. */
+body { background: linear-gradient(180deg, #061119 0%, var(--ink) 42%); }
+
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: -1;
+  pointer-events: none;
+  background:
+    /* resplandor de los focos */
+    radial-gradient(130% 62% at 50% -12%, rgba(78,205,200,.16), transparent 62%),
+    /* marcas de hash */
+    repeating-linear-gradient(to bottom,
+      transparent 0 42px, rgba(238,244,246,.10) 42px 44px),
+    /* línea de cada cinco yardas */
+    repeating-linear-gradient(to bottom,
+      transparent 0 219px, rgba(238,244,246,.11) 219px 221px),
+    /* línea de yarda */
+    repeating-linear-gradient(to bottom,
+      transparent 0 43px, rgba(238,244,246,.055) 43px 44px);
+  background-size: auto, 26px 100%, auto, auto;
+  background-position: center, center, center, center;
+  background-repeat: no-repeat, repeat-y, repeat, repeat;
+}
+
+h1, h2, h3 { font-family: 'Anton', sans-serif; letter-spacing: .03em; margin: 0; font-weight: 400; }
+
+button, input, select, textarea { font-family: inherit; font-size: 1rem; color: inherit; }
+button { cursor: pointer; }
+
+[hidden] { display: none !important; }
+
+/* --- Estructura ---------------------------------------------------------- */
+
+#app { min-height: 100dvh; display: flex; flex-direction: column; }
+
+.topbar {
+  position: sticky; top: 0; z-index: 20;
+  isolation: isolate;
+  display: flex; align-items: center; gap: .75rem;
+  padding: .9rem 1rem;
+  background: linear-gradient(180deg, var(--deep), rgba(7,21,32,.92));
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(8px);
+}
+.topbar::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px;
+  background: linear-gradient(90deg, var(--gold), var(--teal) 45%, transparent 78%);
+  height: 2px;
+}
+.topbar h1 { font-size: 1.25rem; }
+.topbar .sub {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; color: var(--teal);
+}
+.topbar .spacer { margin-left: auto; }
+
+.vista {
+  position: relative; z-index: 1;   /* por encima de la filigrana de fondo */
+  flex: 1; padding: 1rem 1rem calc(5.5rem + var(--safe-b));
+  max-width: 900px; width: 100%; margin: 0 auto;
+}
+
+.tabbar {
+  position: fixed; bottom: 0; left: 0; right: 0; z-index: 30;
+  display: grid; grid-auto-flow: column; grid-auto-columns: 1fr;
+  background: rgba(7,21,32,.97);
+  border-top: 1px solid var(--line);
+  padding-bottom: var(--safe-b);
+  backdrop-filter: blur(10px);
+}
+.tabbar a {
+  display: flex; flex-direction: column; align-items: center; gap: .2rem;
+  padding: .6rem .2rem .7rem;
+  text-decoration: none; color: var(--muted);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: .72rem; letter-spacing: .08em; text-transform: uppercase;
+}
+.tabbar a svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 1.8; }
+.tabbar a { position: relative; }
+.tabbar a[aria-current="page"] { color: var(--teal); }
+.tabbar a[aria-current="page"]::before {
+  content: ''; position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 30px; height: 2px; background: var(--teal); border-radius: 0 0 2px 2px;
+}
+
+/* --- Tipografía de apoyo -------------------------------------------------- */
+
+.eyebrow {
+  display: flex; align-items: center; gap: .6rem;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: .78rem; letter-spacing: .16em; text-transform: uppercase;
+  color: var(--muted); margin: 1.5rem 0 .6rem;
+}
+.eyebrow .cuenta {
+  margin-left: auto;
+  font-family: 'Anton', sans-serif; font-size: .95rem; letter-spacing: 0;
+  color: var(--teal); font-variant-numeric: tabular-nums;
+}
+.eyebrow::before {
+  content: ''; flex: 0 0 26px; height: 3px;
+  background: var(--gold); border-radius: 2px;
+}
+.eyebrow:first-child { margin-top: 0; }
+.muted { color: var(--muted); }
+.vacio {
+  color: var(--muted); text-align: center; line-height: 1.6;
+  padding: 2.8rem 1rem 3rem;
+  border: 1px dashed var(--line); border-radius: var(--r);
+  background: rgba(13,32,48,.45);
+}
+
+/* --- Tarjetas ------------------------------------------------------------ */
+
+/* La tarjeta lleva un filo de luz arriba; la fila, no. Esa diferencia es la
+   que separa "bloque destacado" de "elemento de lista". */
+.card {
+  background: var(--surf);
+  border: 1px solid var(--line);
+  border-radius: var(--r);
+  padding: 1rem;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.045);
+}
+.card + .card { margin-top: .7rem; }
+
+.cifras { display: grid; grid-template-columns: repeat(3, 1fr); gap: .6rem; }
+.cifra {
+  background: var(--surf); border: 1px solid var(--line);
+  border-radius: var(--r); padding: .9rem .7rem; text-align: center;
+}
+.cifra .n { font-family: 'Anton', sans-serif; font-size: 1.7rem; line-height: 1; font-variant-numeric: tabular-nums; }
+.cifra .l {
+  font-family: 'Barlow Condensed', sans-serif; font-size: .72rem;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--muted); margin-top: .35rem;
+}
+.cifra.ok  .n { color: var(--ok); }
+.cifra.gold .n { color: var(--goldf); }
+.cifra.bad .n { color: var(--bad); }
+
+/* --- Listas -------------------------------------------------------------- */
+
+.lista { display: flex; flex-direction: column; gap: .45rem; }
+
+.fila {
+  display: flex; align-items: center; gap: .8rem;
+  width: 100%; text-align: left;
+  background: var(--surf); border: 1px solid var(--line);
+  border-radius: 11px; padding: .75rem .85rem;
+  transition: border-color .15s, background .15s;
+}
+button.fila:hover { border-color: var(--teal-d); background: var(--surf-2); }
+button.fila:active { transform: scale(.995); }
+
+.dorsal {
+  flex: 0 0 52px; height: 52px;
+  display: grid; place-items: center;
+  background: linear-gradient(160deg, var(--surf-2), #0a1a26);
+  border: 1px solid var(--line); border-radius: 10px;
+  font-family: 'Anton', sans-serif; font-size: 1.5rem; color: var(--teal);
+  font-variant-numeric: tabular-nums;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.06);
+}
+.dorsal.sin { color: var(--muted); font-size: 1.1rem; }
+
+.fila .info { min-width: 0; flex: 1; }
+.fila .nom {
+  font-family: 'Barlow Condensed', sans-serif; font-weight: 600;
+  font-size: 1.08rem; letter-spacing: .02em;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.fila .meta {
+  font-size: .82rem; color: var(--muted);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+.fila .dcha { margin-left: auto; text-align: right; flex-shrink: 0; }
+.fila .importe { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 1.05rem; font-variant-numeric: tabular-nums; }
+
+/* Contacto rápido: lo primero de la ficha, porque es lo que más se usa. */
+.contacto { display: flex; gap: .6rem; margin-bottom: .7rem; }
+.contacto .btn { flex: 1; }
+
+/* La celda de fecha del calendario reutiliza el dorsal, en oro si es partido. */
+.dorsal.partido { color: var(--goldf); border-color: rgba(212,168,67,.5); }
+
+/* --- Etiquetas de estado ------------------------------------------------- */
+
+.tag {
+  display: inline-block;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: .72rem; font-weight: 600; letter-spacing: .09em; text-transform: uppercase;
+  padding: .18rem .5rem; border-radius: 999px;
+  border: 1px solid currentColor;
+}
+.tag.ok   { color: var(--ok); }
+.tag.warn { color: var(--warn); }
+.tag.bad  { color: var(--bad); }
+.tag.n    { color: var(--muted); }
+.tag.teal { color: var(--teal); }
+
+.puntos { display: flex; gap: .3rem; }
+.punto { width: 9px; height: 9px; border-radius: 50%; background: var(--line); }
+.punto.ok { background: var(--ok); }
+.punto.warn { background: var(--warn); }
+.punto.bad { background: var(--bad); }
+
+/* --- Controles ----------------------------------------------------------- */
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1rem; font-weight: 600; letter-spacing: .08em; text-transform: uppercase;
+  padding: .8rem 1.1rem; border-radius: 10px;
+  border: 1px solid var(--line); background: var(--surf-2); color: var(--text);
+  min-height: 46px;
+}
+.btn:hover { border-color: var(--teal-d); }
+.btn.primario { background: var(--teal); border-color: var(--teal); color: var(--ink); }
+.btn.primario:hover { background: var(--goldf); border-color: var(--goldf); }
+.btn.oro { background: var(--gold); border-color: var(--gold); color: var(--ink); }
+.btn.fantasma { background: transparent; }
+.btn.peligro { color: var(--bad); border-color: var(--bad); background: transparent; }
+.btn.ancho { width: 100%; }
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+
+.btn-icono {
+  background: transparent; border: 1px solid var(--line); border-radius: 10px;
+  width: 40px; height: 40px; display: grid; place-items: center; color: var(--text);
+}
+.btn-icono svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 1.9; }
+
+.campo { margin-bottom: .85rem; }
+.campo label {
+  display: block;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: .78rem; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: .3rem;
+}
+.campo input, .campo select, .campo textarea {
+  width: 100%; padding: .7rem .8rem;
+  background: var(--deep); border: 1px solid var(--line); border-radius: 10px;
+  color: var(--text); min-height: 46px;
+}
+.campo input:focus, .campo select:focus, .campo textarea:focus {
+  outline: none; border-color: var(--teal);
+}
+.campo textarea { min-height: 80px; resize: vertical; }
+.campo .ayuda { font-size: .8rem; color: var(--muted); margin-top: .3rem; }
+.dos { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; }
+
+.check { display: flex; align-items: center; gap: .6rem; padding: .55rem 0; }
+.check input { width: 22px; height: 22px; accent-color: var(--teal); }
+
+.buscador { position: relative; margin-bottom: .7rem; }
+.buscador input { width: 100%; padding: .75rem .9rem; background: var(--surf); border: 1px solid var(--line); border-radius: 10px; color: var(--text); min-height: 46px; }
+
+.filtros { display: flex; gap: .4rem; overflow-x: auto; padding-bottom: .5rem; margin-bottom: .6rem; scrollbar-width: none; }
+.filtros::-webkit-scrollbar { display: none; }
+.filtros button {
+  flex-shrink: 0;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: .82rem; letter-spacing: .08em; text-transform: uppercase;
+  padding: .45rem .8rem; border-radius: 999px;
+  background: transparent; border: 1px solid var(--line); color: var(--muted);
+}
+.filtros button[aria-pressed="true"] { background: var(--teal); border-color: var(--teal); color: var(--ink); font-weight: 600; }
+
+/* --- Hoja modal ---------------------------------------------------------- */
+
+.hoja {
+  position: fixed; inset: 0; z-index: 60;
+  display: flex; align-items: flex-end; justify-content: center;
+  background: rgba(2,8,12,.72);
+  animation: fundido .18s ease;
+}
+.hoja-panel {
+  width: 100%; max-width: 640px;
+  max-height: 92dvh; overflow-y: auto;
+  background: var(--deep);
+  border: 1px solid var(--line); border-bottom: none;
+  border-radius: 20px 20px 0 0;
+  padding: 1.1rem 1.1rem calc(1.5rem + var(--safe-b));
+  animation: subir .22s cubic-bezier(.2,.8,.3,1);
+}
+.hoja-cab { display: flex; align-items: center; gap: .8rem; margin-bottom: 1rem; }
+.hoja-cab h2 { font-size: 1.3rem; }
+.hoja-cab .spacer { margin-left: auto; }
+
+@keyframes fundido { from { opacity: 0; } }
+@keyframes subir { from { transform: translateY(18px); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .hoja, .hoja-panel { animation: none; }
+}
+
+/* --- Avisos flotantes ---------------------------------------------------- */
+
+#avisos {
+  position: fixed; left: 50%; bottom: calc(5.5rem + var(--safe-b)); z-index: 90;
+  transform: translateX(-50%);
+  display: flex; flex-direction: column; gap: .5rem; align-items: center;
+  width: min(92vw, 480px); pointer-events: none;
+}
+.aviso {
+  background: var(--surf-2); border: 1px solid var(--teal-d);
+  border-radius: 10px; padding: .7rem 1rem; font-size: .95rem;
+  box-shadow: 0 8px 28px rgba(0,0,0,.45);
+  animation: subir .2s ease;
+}
+.aviso.error { border-color: var(--bad); color: #ffd9da; }
+
+/* --- Login --------------------------------------------------------------- */
+
+.login {
+  min-height: 100dvh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: 2rem 1.5rem; text-align: center; gap: .5rem;
+}
+.login .login-marca { width: min(66vw, 260px); margin-bottom: 1rem; }
+.login h1 { font-size: 2rem; }
+.login p { color: var(--muted); max-width: 34ch; line-height: 1.55; margin: .2rem 0 1.2rem; }
+.login form { width: 100%; max-width: 340px; text-align: left; }
+.aviso-cerrojo {
+  color: var(--goldf); font-size: .92rem; line-height: 1.5;
+  max-width: 32ch; margin: 0 0 1rem;
+}
+
+/* --- Alta de un jugador nuevo --------------------------------------------- */
+
+.alta { max-width: 480px; margin: 0 auto; padding: 1.5rem 0 2rem; }
+.alta-marca { display: block; width: min(52vw, 200px); margin: 0 auto .8rem; }
+.alta h1 { font-size: clamp(1.9rem, 8vw, 2.4rem); text-align: center; }
+.alta-intro {
+  text-align: center; color: var(--muted); line-height: 1.6;
+  max-width: 34ch; margin: .6rem auto 1.6rem;
+}
+
+/* --- Cargando ------------------------------------------------------------ */
+
+.cargando { display: grid; place-items: center; padding: 3rem 1rem; }
+.spinner {
+  width: 30px; height: 30px; border-radius: 50%;
+  border: 3px solid var(--line); border-top-color: var(--teal);
+  animation: girar .8s linear infinite;
+}
+@keyframes girar { to { transform: rotate(360deg); } }
+
+/* --- Menú -----------------------------------------------------------------
+   El logotipo principal preside la pantalla. El halo de detrás lo despega del
+   fondo oscuro sin recuadrarlo. */
+
+.menu { position: relative; }
+
+.menu-portada {
+  position: relative;
+  display: grid; place-items: center;
+  padding: 1.5rem 1rem 1.6rem;
+}
+.menu-portada {
+  border-radius: 18px;
+  border-top: 2px solid var(--gold);
+  background:
+    radial-gradient(62% 62% at 50% 42%, rgba(78,205,200,.20), transparent 72%),
+    repeating-linear-gradient(to bottom,
+      transparent 0 43px, rgba(238,244,246,.075) 43px 44px),
+    linear-gradient(180deg, rgba(18,48,68,.55), rgba(7,21,32,.15));
+  overflow: hidden;
+}
+.menu-portada::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(70% 60% at 50% 120%, rgba(4,13,18,.75), transparent 70%);
+  pointer-events: none;
+}
+.menu-portada img {
+  position: relative;
+  width: min(74vw, 330px); height: auto;
+  filter: drop-shadow(0 10px 26px rgba(0,0,0,.55));
+}
+
+.menu-saludo { text-align: center; margin-bottom: 1.5rem; }
+.menu-saludo .frase {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1.15rem; letter-spacing: .02em;
+  color: var(--text); margin: .35rem 0 0;
+}
+
+.rejilla { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; }
+
+.baldosa {
+  position: relative;
+  display: flex; flex-direction: column; gap: .15rem;
+  min-height: 122px;
+  padding: 1rem .9rem 1.05rem;
+  border-radius: var(--r);
+  border: 1px solid var(--line);
+  background:
+    radial-gradient(120% 90% at 100% 0%, rgba(78,205,200,.10), transparent 62%),
+    var(--surf);
+  text-decoration: none; color: var(--text);
+  overflow: hidden;
+  transition: border-color .15s, transform .12s, background .15s;
+}
+.baldosa::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--teal);
+}
+.baldosa:hover { border-color: var(--teal-d); }
+.baldosa:active { transform: scale(.985); }
+
+.baldosa svg { width: 26px; height: 26px; stroke: var(--teal); fill: none; stroke-width: 1.7; margin-bottom: .55rem; }
+
+/* Oro para lo que es dinero, teal para lo que son personas y papeles. El color
+   deja de ser decoración y dice de qué va cada baldosa antes de leerla. */
+.baldosa[data-area="dinero"] {
+  background:
+    radial-gradient(125% 95% at 100% 0%, rgba(212,168,67,.22), transparent 64%),
+    var(--surf);
+}
+.baldosa[data-area="dinero"]::before { background: var(--gold); }
+.baldosa[data-area="ajuste"]::before { background: var(--line); }
+.baldosa[data-area="dinero"] svg { stroke: var(--goldf); }
+.baldosa[data-area="dinero"]:hover { border-color: var(--gold); }
+
+.baldosa[data-area="ajuste"] { background: var(--surf); }
+.baldosa[data-area="ajuste"] svg { stroke: var(--muted); }
+.baldosa .t {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-weight: 700; font-size: 1.18rem; letter-spacing: .04em; text-transform: uppercase;
+}
+.baldosa .b { font-size: .82rem; color: var(--muted); line-height: 1.35; }
+
+/* Aviso numérico, nunca una cifra de dinero. */
+.chincheta {
+  position: absolute; top: .8rem; right: .85rem;
+  min-width: 22px; height: 22px; padding: 0 .35rem;
+  display: grid; place-items: center;
+  border-radius: 999px;
+  background: var(--gold); color: var(--ink);
+  font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: .82rem;
+}
+
+.menu-pie {
+  text-align: center; margin-top: 1.8rem;
+  font-family: 'Barlow Condensed', sans-serif;
+  letter-spacing: .22em; text-transform: uppercase; color: var(--teal);
+  opacity: .55;
+}
+
+/* Entrada escalonada. Solo al abrir la pantalla, y solo si el sistema no pide
+   lo contrario: el contenido está visible de por sí, la animación no lo revela. */
+@media (prefers-reduced-motion: no-preference) {
+  .rejilla > *, .lista > *, .cifras > * {
+    animation: entrar .34s cubic-bezier(.2,.7,.3,1) backwards;
+  }
+  .rejilla > :nth-child(1), .lista > :nth-child(1), .cifras > :nth-child(1) { animation-delay: .02s; }
+  .rejilla > :nth-child(2), .lista > :nth-child(2), .cifras > :nth-child(2) { animation-delay: .05s; }
+  .rejilla > :nth-child(3), .lista > :nth-child(3), .cifras > :nth-child(3) { animation-delay: .08s; }
+  .rejilla > :nth-child(4), .lista > :nth-child(4) { animation-delay: .11s; }
+  .rejilla > :nth-child(5), .lista > :nth-child(5) { animation-delay: .14s; }
+  .rejilla > :nth-child(6), .lista > :nth-child(6) { animation-delay: .17s; }
+  .lista > :nth-child(n+7) { animation-delay: .2s; }
+}
+
+@keyframes entrar {
+  from { opacity: 0; transform: translateY(9px); }
+}
+
+/* Filigrana común al resto de pantallas: presencia de marca sin estorbar. */
+body:not(.jugador)::after {
+  content: '';
+  position: fixed; right: -3rem; bottom: calc(4.5rem + var(--safe-b));
+  width: 190px; height: 300px;
+  background: url('../img/tridente.webp') no-repeat center / contain;
+  opacity: .045;
+  pointer-events: none; z-index: 0;
+}
+
+/* --- La app del jugador ---------------------------------------------------- */
+
+/* El dorsal del jugador ocupando el fondo de sus pantallas, como el número de
+   una camiseta: relleno con un degradado tenue y contorno marcado.
+
+   Antes casi no se veía, y no era solo cuestión de opacidad: las tarjetas son
+   opacas y lo tapaban, así que solo asomaba por los huecos. Por eso en las
+   pantallas del jugador las superficies pasan a ser translúcidas y el número se
+   transparenta a través de ellas.
+
+   Si no tiene dorsal asignado, --dorsal está vacío y no se pinta nada. */
+body.jugador::after {
+  content: var(--dorsal, "");
+  position: fixed; z-index: 0;
+  top: 3.5rem; right: -.07em;
+  font-family: 'Anton', sans-serif;
+  font-size: 68vw; line-height: .72;
+  letter-spacing: -.05em;
+  color: transparent;
+  background: linear-gradient(165deg, rgba(78,205,200,.30), rgba(212,168,67,.13) 72%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-stroke: 4px rgba(78,205,200,.5);
+  pointer-events: none; user-select: none;
+}
+
+/* Las superficies del jugador dejan pasar el número que tienen detrás. */
+body.jugador .card,
+body.jugador .fila,
+body.jugador .cifra {
+  background-color: rgba(9,26,38,.80);
+}
+body.jugador .card.proximo {
+  background:
+    radial-gradient(120% 80% at 100% 0%, rgba(78,205,200,.16), transparent 62%),
+    rgba(9,26,38,.80);
+}
+body.jugador .opcion { background: rgba(6,17,25,.82); }
+
+@media (min-width: 720px) {
+  body.jugador::after { font-size: 32rem; right: max(1rem, calc(50vw - 520px)); }
+}
+
+/* --- Identidad del jugador ------------------------------------------------ */
+
+.identidad { margin-bottom: 1.1rem; }
+.identidad .saludo {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: .95rem; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--muted); margin: 0;
+}
+.identidad h2 {
+  font-size: clamp(2rem, 8.5vw, 2.6rem);
+  line-height: 1; margin: .1rem 0 .6rem;
+}
+
+/* La chapa: dorsal, posiciones y unidad, como el reverso de una camiseta. */
+.chapa {
+  display: flex; align-items: center; flex-wrap: wrap; gap: .5rem;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: .88rem; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--muted); margin: 0;
+}
+.chapa-dorsal {
+  font-family: 'Anton', sans-serif;
+  font-size: 1.1rem; letter-spacing: 0; color: var(--teal);
+  font-variant-numeric: tabular-nums;
+}
+.chapa-unidad {
+  padding: .16rem .5rem; border-radius: 999px;
+  border: 1px solid var(--line); color: var(--teal);
+  font-size: .74rem;
+}
+
+/* --- La entrada al campo -------------------------------------------------- */
+/* El próximo evento como una entrada: raíl con la fecha arriba, línea de corte
+   y la respuesta abajo. Es la única pantalla donde el jugador decide algo, así
+   que se lleva toda la jerarquía. */
+
+.entrada {
+  position: relative;
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--teal);
+  border-radius: 16px;
+  background: rgba(9,26,38,.82);
+  overflow: hidden;
+}
+.entrada.partido { border-top-color: var(--gold); }
+
+.entrada-cuerpo { display: flex; gap: 1rem; padding: 1.1rem 1.1rem .9rem; }
+
+.entrada-fecha {
+  flex: 0 0 68px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  padding: .6rem .3rem;
+  border-radius: 12px;
+  background: linear-gradient(165deg, rgba(18,48,68,.9), rgba(6,17,25,.9));
+  border: 1px solid var(--line);
+}
+.entrada-fecha .dia, .entrada-fecha .mes {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: .74rem; letter-spacing: .14em; text-transform: uppercase; color: var(--muted);
+}
+.entrada-fecha .num {
+  font-family: 'Anton', sans-serif; font-size: 2.1rem; line-height: 1.05;
+  color: var(--teal); font-variant-numeric: tabular-nums;
+}
+.entrada.partido .entrada-fecha .num { color: var(--goldf); }
+
+.entrada-datos { min-width: 0; }
+.entrada-datos .tipo {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: .76rem; letter-spacing: .18em; text-transform: uppercase;
+  color: var(--muted); margin: 0 0 .1rem;
+}
+.entrada-datos h3 { font-size: 1.45rem; line-height: 1.05; }
+.entrada-datos .detalle { margin: .35rem 0 0; font-size: .92rem; color: var(--muted); }
+.entrada-datos .detalle.fuerte { color: var(--text); font-weight: 500; }
+
+.entrada-nota {
+  margin: 0 1.1rem .3rem; padding: .6rem .8rem;
+  background: rgba(255,255,255,.035); border-radius: 10px;
+  font-size: .9rem; line-height: 1.5;
+}
+
+/* La línea de corte, con sus dos muescas: es lo que hace que se lea como una
+   entrada y no como otra tarjeta más. */
+.entrada-corte {
+  position: relative; height: 1px; margin: 1rem 1.1rem .2rem;
+  border-top: 1px dashed var(--line);
+}
+.entrada-corte::before, .entrada-corte::after {
+  content: ''; position: absolute; top: -9px;
+  width: 18px; height: 18px; border-radius: 50%;
+  background: var(--ink);
+  border: 1px solid var(--line);
+}
+.entrada-corte::before { left: -1.85rem; }
+.entrada-corte::after  { right: -1.85rem; }
+
+.entrada-respuesta { padding: .8rem 1.1rem 1.1rem; }
+.entrada-respuesta .pregunta {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 1rem; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--muted); margin: 0 0 .7rem; text-align: center;
+}
+.entrada-respuesta .recuento {
+  margin: .7rem 0 0; text-align: center;
+  font-size: .86rem; color: var(--muted);
+}
+
+.respuesta { display: grid; grid-template-columns: repeat(3, 1fr); gap: .5rem; }
+
+.opcion {
+  display: flex; flex-direction: column; align-items: center; gap: .3rem;
+  padding: .8rem .3rem;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: rgba(6,17,25,.82);
+  color: var(--muted);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: .98rem; font-weight: 600; letter-spacing: .06em; text-transform: uppercase;
+  min-height: 68px;
+  transition: background .15s, color .15s, border-color .15s, transform .12s;
+}
+.opcion svg { width: 22px; height: 22px; stroke: currentColor; fill: none; stroke-width: 2; }
+.opcion:active { transform: scale(.96); }
+.opcion.ok[aria-pressed="true"]   { background: var(--ok);   border-color: var(--ok);   color: var(--ink); }
+.opcion.warn[aria-pressed="true"] { background: var(--warn); border-color: var(--warn); color: var(--ink); }
+.opcion.bad[aria-pressed="true"]  { background: var(--bad);  border-color: var(--bad);  color: #fff; }
+
+/* --- Lo secundario -------------------------------------------------------- */
+
+.siguiente {
+  display: flex; align-items: baseline; gap: .7rem;
+  margin-top: .7rem; padding: .75rem .95rem;
+  border-radius: 12px; border: 1px solid var(--line);
+  background: rgba(9,26,38,.6);
+  text-decoration: none; color: var(--text);
+}
+.siguiente .et {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; color: var(--muted);
+}
+.siguiente .que { font-family: 'Barlow Condensed', sans-serif; font-weight: 600; font-size: 1.02rem; }
+.siguiente .cuando { margin-left: auto; font-size: .86rem; color: var(--muted); }
+
+/* Tiras horizontales en vez de tarjetas: menos peso que la entrada, y así la
+   jerarquía de la pantalla no se aplana. */
+.tiras { display: flex; flex-direction: column; gap: .5rem; margin-top: 1.2rem; }
+.tira {
+  display: grid; grid-template-columns: auto 1fr; grid-auto-rows: auto;
+  align-items: center; column-gap: .9rem;
+  padding: .75rem .95rem;
+  border-left: 3px solid var(--line);
+  background: rgba(9,26,38,.55);
+  border-radius: 0 12px 12px 0;
+  text-decoration: none; color: var(--text);
+}
+.tira.aviso { border-left-color: var(--gold); }
+.tira .cifra-grande {
+  grid-row: 1 / 3;
+  font-family: 'Anton', sans-serif; font-size: 1.7rem; line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+.tira .et {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: .76rem; letter-spacing: .16em; text-transform: uppercase; color: var(--muted);
+}
+.tira .pie { font-size: .88rem; color: var(--text); opacity: .85; }
+
+.otra-unidad {
+  margin: 0 1.1rem; padding: .6rem .8rem;
+  border-left: 3px solid var(--gold);
+  background: rgba(212,168,67,.10);
+  border-radius: 0 8px 8px 0;
+  font-size: .92rem; line-height: 1.5; color: var(--goldf);
+}
+
+.evento-jug { display: flex; flex-direction: column; gap: .8rem; }
+.evento-jug .opcion { min-height: 52px; font-size: .88rem; padding: .5rem .3rem; }
+.evento-jug .opcion svg { width: 17px; height: 17px; }
+.evento-jug + .evento-jug { margin-top: 0; }
+
+.ficha-cabecera { display: flex; align-items: center; gap: 1rem; }
+.ficha-cabecera h2 { font-size: 1.45rem; }
+.dorsal.grande { flex: 0 0 84px; height: 84px; font-size: 2.6rem; border-radius: 14px; }
+
+/* --- Escritorio ---------------------------------------------------------- */
+
+@media (min-width: 720px) {
+  .vista { padding: 1.5rem 1.5rem 3rem; }
+  .rejilla { grid-template-columns: repeat(3, 1fr); }
+  .lista .card.evento-jug { max-width: 100%; }
+  .menu-portada img { width: 300px; }
+  body::after { right: max(1rem, calc(50vw - 520px)); bottom: 2rem; }
+  .tabbar {
+    position: sticky; top: 0; bottom: auto;
+    grid-auto-flow: column; border-top: none; border-bottom: 1px solid var(--line);
+    max-width: 900px; margin: 0 auto; background: transparent; backdrop-filter: none;
+  }
+  .hoja { align-items: center; }
+  .hoja-panel { border-radius: 20px; border-bottom: 1px solid var(--line); }
+  #avisos { bottom: 1.5rem; }
+}

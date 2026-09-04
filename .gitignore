@@ -1,0 +1,7 @@
+# Carpetas de trabajo de herramientas, no del proyecto
+.impeccable/
+.playwright-mcp/
+.superpowers/brainstorm/
+
+# Capturas sueltas de Windows
+{*}.png

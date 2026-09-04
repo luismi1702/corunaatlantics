@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Atlantics · Gestión (demo)</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#040d12">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/app.css">
+  <style>
+    /* Solo en la vista previa: barra para alternar entre staff y jugador. */
+    .aviso-demo {
+      padding: .5rem .8rem;
+      background: var(--surf-2);
+      border-bottom: 1px solid var(--line);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .78rem; letter-spacing: .1em; text-transform: uppercase;
+      color: var(--goldf);
+      display: flex; align-items: center; justify-content: center; gap: .6rem;
+      flex-wrap: wrap;
+    }
+    .aviso-demo .roles { display: flex; gap: .35rem; }
+    .aviso-demo button {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: .78rem; letter-spacing: .08em; text-transform: uppercase;
+      padding: .25rem .6rem; border-radius: 999px;
+      border: 1px solid var(--line); background: transparent; color: var(--muted);
+    }
+    .aviso-demo button[aria-pressed="true"] {
+      border-color: var(--goldf); color: var(--ink); background: var(--goldf); font-weight: 600;
+    }
+  </style>
+
+  <!-- Cambia el origen de los datos sin tocar una línea del código de la app:
+       las vistas siguen importando './db.js' y reciben el sustituto de demo. -->
+  <script type="importmap">
+  {
+    "imports": {
+      "/app/js/db.js": "/app/js/db-demo.js",
+      "/app/js/config.js": "/app/js/config-demo.js"
+    }
+  }
+  </script>
+</head>
+<body>
+  <div class="aviso-demo">
+    <span>Vista previa</span>
+    <span class="roles" id="roles"></span>
+  </div>
+  <script>
+    (function () {
+      var K = 'atlantics-demo-rol';
+      var VISTAS = [
+        ['admin',     'Staff'],
+        ['jugador',   'Jugador'],
+        ['registro',  'Registro'],
+        ['pendiente', 'Pendiente']
+      ];
+      var rol = 'admin';
+      try { rol = localStorage.getItem(K) || 'admin'; } catch (e) {}
+
+      var zona = document.getElementById('roles');
+      VISTAS.forEach(function (v) {
+        var b = document.createElement('button');
+        b.type = 'button';
+        b.textContent = v[1];
+        if (v[0] === rol) b.setAttribute('aria-pressed', 'true');
+        b.addEventListener('click', function () {
+          try { localStorage.setItem(K, v[0]); } catch (e) {}
+          location.hash = '';
+          location.reload();
+        });
+        zona.appendChild(b);
+      });
+    })();
+  </script>
+  <div id="app"><div class="cargando"><div class="spinner"></div></div></div>
+  <div id="avisos"></div>
+  <script type="module" src="./js/app.js"></script>
+</body>
+</html>

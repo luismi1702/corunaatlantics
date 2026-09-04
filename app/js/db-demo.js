@@ -1,0 +1,370 @@
+// Sustituto de db.js con datos inventados, para ver la app sin Supabase.
+// Lo carga demo.html mediante un import map. Nada de esto sale del navegador:
+// los cambios viven en memoria y se pierden al recargar.
+
+const hoy = new Date();
+const enDias = (n) => new Date(hoy.getTime() + n * 864e5).toISOString().slice(0, 10);
+
+const TEMPORADA = {
+  id: 't1', nombre: '2026-27',
+  fecha_inicio: '2026-09-01', fecha_fin: '2027-06-30',
+  activa: true, importe_cuota: 180, permite_plazos: true
+};
+
+const nombres = [
+  ['Luis Miguel','Pérez',7,['QB'],'activo'],
+  ['Diego','Varela',22,['RB','KR'],'activo'],
+  ['Andrés','Ferreiro',88,['WR'],'activo'],
+  ['Martín','Souto',54,['OL','C'],'activo'],
+  ['Iago','Rodríguez',91,['DL','DE'],'lesionado'],
+  ['Brais','Otero',33,['LB'],'activo'],
+  ['Xabier','Lema',5,['CB','S'],'activo'],
+  ['Nicolás','Vidal',80,['TE'],'activo'],
+  ['Adrián','Castro',66,['OG'],'activo'],
+  ['Hugo','Miranda',12,['WR','PR'],'activo'],
+  ['Samuel','Barreiro',44,['FB','LB'],'activo'],
+  ['Pablo','Insua',99,['DT'],'activo'],
+  ['Rubén','Doval',3,['K','P'],'activo'],
+  ['Marcos','Piñeiro',null,['DB'],'activo'],
+  ['Álex','Nogueira',21,['S'],'baja_temporal'],
+  ['Sergio','Quintela',70,['OT'],'activo'],
+  ['Tomás','Rial',18,['WR'],'activo'],
+  ['Antón','Salgado',9,['QB'],'baja']
+].map(([nombre, apellidos, dorsal, posiciones, estado], i) => ({
+  id: 'p' + i,
+  user_id: i === 0 ? 'u1' : null,
+  nombre, apellidos, apodo: null, dorsal, posiciones,
+  rol: i === 0 ? 'admin' : 'jugador',
+  email: (nombre.split(' ')[0] + '.' + apellidos).toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') + '@ejemplo.com',
+  telefono: i % 4 === 0 ? null : '6' + String(10000000 + i * 137171).slice(0, 8),
+  fecha_nacimiento: i % 5 === 0 ? null : (1990 + (i % 12)) + '-04-1' + (i % 9),
+  dni: null, talla_equipacion: ['M','L','XL','XXL'][i % 4],
+  foto_url: null, estado,
+  alta_en: '2026-09-0' + ((i % 8) + 1),
+  baja_en: estado === 'baja' ? '2027-01-15' : null,
+  notas_staff: null, acceso: 'aprobado',
+  creado_en: '2026-09-01T10:00:00Z', actualizado_en: '2026-09-01T10:00:00Z'
+}));
+
+// Dos personas que han pedido entrar y esperan respuesta.
+const SOLICITUDES = [
+  { id: 's1', user_id: 'u90', nombre: 'Aarón', apellidos: 'Ferrol', apodo: null,
+    dorsal: null, posiciones: [], rol: 'jugador', email: 'aaron.ferrol@ejemplo.com',
+    telefono: '622114477', fecha_nacimiento: '2001-03-14', dni: null,
+    talla_equipacion: 'L', foto_url: null, estado: 'activo',
+    acceso: 'pendiente', solicitado_en: enDias(-2) + 'T18:20:00Z', notas_staff: null },
+  { id: 's2', user_id: 'u91', nombre: 'Lucas', apellidos: 'Bergantiños', apodo: 'Berga',
+    dorsal: null, posiciones: [], rol: 'jugador', email: 'lucas.b@ejemplo.com',
+    telefono: '699887766', fecha_nacimiento: '2009-07-02', dni: null,
+    talla_equipacion: 'XXL', foto_url: null, estado: 'activo',
+    acceso: 'pendiente', solicitado_en: enDias(-1) + 'T09:05:00Z', notas_staff: null }
+];
+
+// Pagos repartidos para que se vean los tres estados de cuota.
+const PAGOS = [];
+const CUOTAS = nombres.map((p, i) => {
+  const exento = i === 12;
+  const cuota = { id: 'c' + i, jugador_id: p.id, temporada_id: 't1',
+                  importe_total: 180, exento, exento_nota: exento ? 'Colabora con material' : null, nota: null };
+  if (!exento) {
+    if (i % 3 === 0) PAGOS.push({ id: 'g' + i, cuota_id: cuota.id, importe: 180, fecha: enDias(-40 + i), metodo: 'bizum', referencia: null, nota: null });
+    else if (i % 3 === 1) PAGOS.push({ id: 'g' + i, cuota_id: cuota.id, importe: 90, fecha: enDias(-25 + i), metodo: 'transferencia', referencia: null, nota: null });
+  }
+  return cuota;
+});
+
+const DOCS = nombres.map((p, i) => ({
+  id: 'd' + i, jugador_id: p.id, temporada_id: 't1',
+  licencia_estado: i % 4 === 0 ? 'pendiente' : 'validado',
+  licencia_caduca_en: i % 6 === 0 ? enDias(12) : enDias(200),
+  seguro_estado: i % 5 === 0 ? 'entregado' : 'validado',
+  seguro_caduca_en: i % 7 === 0 ? enDias(-3) : enDias(180),
+  reconocimiento_estado: i % 3 === 0 ? 'pendiente' : 'validado',
+  reconocimiento_caduca_en: i % 9 === 0 ? enDias(25) : enDias(300),
+  dni_entregado: i % 2 === 0, foto_entregada: i % 3 !== 0,
+  notas_staff: null, actualizado_en: '2026-09-01T10:00:00Z'
+}));
+
+const calcular = (c) => {
+  const pagado = PAGOS.filter(p => p.cuota_id === c.id).reduce((s, p) => s + Number(p.importe), 0);
+  return {
+    ...c,
+    importe_pagado: pagado,
+    importe_pendiente: c.importe_total - pagado,
+    estado: c.exento ? 'exento'
+      : pagado >= c.importe_total && c.importe_total > 0 ? 'al_dia'
+      : pagado > 0 ? 'parcial' : 'pendiente'
+  };
+};
+
+const MOVIMIENTOS = [
+  { id: 'm1', temporada_id: 't1', tipo: 'ingreso', concepto: 'Patrocinio Cervecería A Marina', categoria: 'patrocinio', importe: 600, fecha: enDias(-52), metodo: 'transferencia', justificante_url: null, nota: null },
+  { id: 'm2', temporada_id: 't1', tipo: 'ingreso', concepto: 'Venta de sudaderas', categoria: 'merchandising', importe: 245, fecha: enDias(-31), metodo: 'bizum', justificante_url: null, nota: null },
+  { id: 'm3', temporada_id: 't1', tipo: 'gasto', concepto: 'Licencias federativas', categoria: 'federacion', importe: 890, fecha: enDias(-60), metodo: 'transferencia', justificante_url: null, nota: null },
+  { id: 'm4', temporada_id: 't1', tipo: 'gasto', concepto: 'Alquiler campo septiembre', categoria: 'campo', importe: 420, fecha: enDias(-45), metodo: 'transferencia', justificante_url: null, nota: null },
+  { id: 'm5', temporada_id: 't1', tipo: 'gasto', concepto: 'Alquiler campo octubre', categoria: 'campo', importe: 420, fecha: enDias(-15), metodo: 'transferencia', justificante_url: null, nota: null },
+  { id: 'm6', temporada_id: 't1', tipo: 'gasto', concepto: 'Arbitrajes jornadas 1 y 2', categoria: 'arbitrajes', importe: 310, fecha: enDias(-20), metodo: 'efectivo', justificante_url: null, nota: null },
+  { id: 'm7', temporada_id: 't1', tipo: 'gasto', concepto: 'Balones y conos', categoria: 'material', importe: 185, fecha: enDias(-38), metodo: 'bizum', justificante_url: null, nota: null },
+  { id: 'm8', temporada_id: 't1', tipo: 'gasto', concepto: 'Botiquín', categoria: 'medico', importe: 74.5, fecha: enDias(-9), metodo: 'efectivo', justificante_url: null, nota: null }
+];
+
+// --- Calendario ------------------------------------------------------------
+
+const HORARIOS = [
+  { id: 'h1', temporada_id: 't1', dia_semana: 2, hora: '20:30:00', duracion_min: 90, lugar: 'Campo de Elviña', unidad: 'todos', activo: true },
+  { id: 'h2', temporada_id: 't1', dia_semana: 4, hora: '20:30:00', duracion_min: 90, lugar: 'Campo de Elviña', unidad: 'todos', activo: true }
+];
+
+// Ocho semanas de entrenos alrededor de hoy, más dos partidos.
+const EVENTOS = [];
+for (let i = -18; i <= 10; i++) {
+  const f = new Date(hoy.getTime() + i * 864e5);
+  const dia = f.getDay();
+  if (dia !== 2 && dia !== 4) continue;
+  EVENTOS.push({
+    id: 'e' + (i + 20), temporada_id: 't1', tipo: 'entreno',
+    fecha: f.toISOString().slice(0, 10), hora: '20:30:00',
+    lugar: 'Campo de Elviña', unidad: 'todos', rival: null, es_local: null,
+    notas: null, cancelado: i === -4, motivo_cancelacion: null,
+    horario_id: dia === 2 ? 'h1' : 'h2'
+  });
+}
+EVENTOS.push(
+  { id: 'ep1', temporada_id: 't1', tipo: 'partido', fecha: enDias(6), hora: '12:00:00',
+    lugar: 'Campo de Elviña', unidad: 'todos', rival: 'Vigo Marines', es_local: true,
+    notas: 'Llegar hora y media antes.', cancelado: false, horario_id: null },
+  { id: 'ep2', temporada_id: 't1', tipo: 'partido', fecha: enDias(-11), hora: '17:00:00',
+    lugar: 'Santiago', unidad: 'todos', rival: 'Santiago Black Ravens', es_local: false,
+    notas: null, cancelado: false, horario_id: null }
+);
+EVENTOS.sort((a, b) => a.fecha.localeCompare(b.fecha));
+
+// El primer entreno por venir es solo de defensa: así se ve en la demo el aviso
+// que recibe un jugador de ataque cuando la sesión no es la suya.
+const primeroFuturo = EVENTOS.find(e => e.tipo === 'entreno' && e.fecha >= hoy.toISOString().slice(0, 10));
+if (primeroFuturo) primeroFuturo.unidad = 'defensa';
+
+// Asistencia ya pasada, con patrones distintos por jugador.
+const ASISTENCIAS = [];
+for (const e of EVENTOS) {
+  if (e.fecha >= hoy.toISOString().slice(0, 10) || e.cancelado) continue;
+  nombres.forEach((p, i) => {
+    if (p.estado === 'baja') return;
+    const r = (i * 7 + Number(e.fecha.slice(8))) % 10;
+    const estado = r < 6 ? 'presente' : r < 8 ? 'ausente' : r === 8 ? 'justificado' : 'presente';
+    ASISTENCIAS.push({ id: e.id + '-' + p.id, evento_id: e.id, jugador_id: p.id, estado, nota: null });
+  });
+}
+
+// El rol de la demo se guarda en el navegador para poder alternar entre la
+// consola del staff y la app del jugador sin tocar código.
+const CLAVE_ROL = 'atlantics-demo-rol';
+export const rolDemo = () => {
+  try { return localStorage.getItem(CLAVE_ROL) || 'admin'; } catch { return 'admin'; }
+};
+
+// Confirmaciones ya hechas por otros para los eventos por venir: sin esto el
+// recuento saldría siempre a cero y no se podría juzgar la pantalla.
+for (const e of EVENTOS) {
+  if (e.fecha < hoy.toISOString().slice(0, 10) || e.cancelado) continue;
+  nombres.forEach((p, i) => {
+    if (p.estado === 'baja' || i === 1) return;
+    const r = (i * 3 + Number(e.fecha.slice(8))) % 10;
+    if (r < 6) ASISTENCIAS.push({ id: e.id + '-' + p.id, evento_id: e.id, jugador_id: p.id,
+                                  estado: null, confirmacion: r < 5 ? 'voy' : 'duda', nota: null });
+  });
+}
+
+const demora = (v) => new Promise(r => setTimeout(() => r(structuredClone(v)), 120));
+const noDisponible = () => { throw new Error('En el modo demo no se guarda nada. Los datos son inventados.'); };
+
+// --- API idéntica a la de db.js -------------------------------------------
+
+export const sesion = () => demora({ user: { id: 'u1' } });
+export const entrar = () => noDisponible();
+export const salir = () => demora(null);
+// Cuatro puntos del recorrido, para poder verlo entero desde la vista previa:
+// la consola del staff, la app de un jugador ya dentro, el formulario de alta
+// de alguien que acaba de registrarse, y la espera tras enviarlo.
+const RECIEN_LLEGADO = {
+  id: 'nuevo1', user_id: 'u99', nombre: 'Nuevo', apellidos: '', apodo: null,
+  dorsal: null, posiciones: [], rol: 'jugador', email: 'nuevo@ejemplo.com',
+  telefono: null, fecha_nacimiento: null, dni: null, talla_equipacion: null,
+  foto_url: null, estado: 'activo', acceso: 'nuevo', notas_staff: null
+};
+
+export const miPerfil = () => {
+  const rol = rolDemo();
+  if (rol === 'jugador')   return demora(nombres[1]);
+  if (rol === 'registro')  return demora(RECIEN_LLEGADO);
+  if (rol === 'pendiente') return demora({ ...RECIEN_LLEGADO, ...SOLICITUDES[0], acceso: 'pendiente' });
+  return demora(nombres[0]);
+};
+
+export const temporadaActiva = () => demora(TEMPORADA);
+export const temporadas = () => demora([TEMPORADA]);
+export const guardarTemporada = () => noDisponible();
+export const crearTemporada = () => noDisponible();
+export const abrirTemporada = () => noDisponible();
+
+export const roster = () => demora(nombres);
+export const jugador = (id) => demora(nombres.find(p => p.id === id));
+export const crearJugador = () => noDisponible();
+export const guardarJugador = (id, cambios) => {
+  const p = nombres.find(x => x.id === id);
+  if (p) Object.assign(p, cambios);
+  return demora(p);
+};
+export const borrarJugador = () => noDisponible();
+
+export const cuotasDe = () => demora(CUOTAS.map(calcular));
+export const cuotaDe = (jugadorId) => demora(calcular(CUOTAS.find(c => c.jugador_id === jugadorId)));
+export const asegurarCuota = (jugadorId) => cuotaDe(jugadorId);
+export const pagosDe = (cuotaId) => demora(PAGOS.filter(p => p.cuota_id === cuotaId));
+export const registrarPago = () => noDisponible();
+export const borrarPago = () => noDisponible();
+export const guardarCuota = () => noDisponible();
+
+export const movimientosDe = () => demora(MOVIMIENTOS);
+export const registrarMovimiento = () => noDisponible();
+export const guardarMovimiento = () => noDisponible();
+export const borrarMovimiento = () => noDisponible();
+
+export const resumenTesoreria = () => {
+  const cuotas = PAGOS.reduce((s, p) => s + Number(p.importe), 0);
+  const ingresos = MOVIMIENTOS.filter(m => m.tipo === 'ingreso').reduce((s, m) => s + m.importe, 0);
+  const gastos = MOVIMIENTOS.filter(m => m.tipo === 'gasto').reduce((s, m) => s + m.importe, 0);
+  return demora({
+    temporada_id: 't1', nombre: '2026-27',
+    ingresos_cuotas: cuotas, ingresos_otros: ingresos,
+    ingresos_total: cuotas + ingresos, gastos_total: gastos,
+    saldo: cuotas + ingresos - gastos
+  });
+};
+
+export const horarios = () => demora(HORARIOS);
+export const crearHorario = () => noDisponible();
+export const guardarHorario = () => noDisponible();
+export const borrarHorario = () => noDisponible();
+export const generarEntrenos = () => noDisponible();
+
+export const eventos = (_t, { desde, hasta } = {}) => demora(EVENTOS.filter(e =>
+  (!desde || e.fecha >= desde) && (!hasta || e.fecha <= hasta)));
+export const evento = (id) => demora(EVENTOS.find(e => e.id === id));
+export const crearEvento = () => noDisponible();
+export const guardarEvento = () => noDisponible();
+export const borrarEvento = () => noDisponible();
+
+export const asistenciasDe = (eventoId) =>
+  demora(ASISTENCIAS.filter(a => a.evento_id === eventoId));
+
+// Pasar lista sí funciona en la demo, en memoria: es la función que hay que
+// poder probar con el dedo para juzgarla.
+export const marcarAsistencia = (eventoId, jugadorId, estado) => {
+  const i = ASISTENCIAS.findIndex(a => a.evento_id === eventoId && a.jugador_id === jugadorId);
+  if (i >= 0) ASISTENCIAS[i].estado = estado;
+  else ASISTENCIAS.push({ id: eventoId + '-' + jugadorId, evento_id: eventoId, jugador_id: jugadorId, estado, nota: null });
+  return demora({ estado });
+};
+
+export const quitarAsistencia = (eventoId, jugadorId) => {
+  const i = ASISTENCIAS.findIndex(a => a.evento_id === eventoId && a.jugador_id === jugadorId);
+  if (i >= 0) ASISTENCIAS.splice(i, 1);
+  return demora(null);
+};
+
+export const resumenAsistencia = () => {
+  const porJugador = {};
+  const cancelados = new Set(EVENTOS.filter(e => e.cancelado || e.tipo !== 'entreno').map(e => e.id));
+  for (const a of ASISTENCIAS) {
+    if (cancelados.has(a.evento_id)) continue;
+    const r = porJugador[a.jugador_id] ??= { jugador_id: a.jugador_id, temporada_id: 't1',
+      presentes: 0, ausentes: 0, justificados: 0, computables: 0, porcentaje: 0 };
+    if (a.estado === 'presente') r.presentes++;
+    if (a.estado === 'ausente') r.ausentes++;
+    if (a.estado === 'justificado') r.justificados++;
+    if (a.estado !== 'justificado') r.computables++;
+  }
+  const lista = Object.values(porJugador);
+  for (const r of lista) r.porcentaje = r.computables ? Math.round(100 * r.presentes / r.computables) : null;
+  return demora(lista);
+};
+
+export const aptitud = () => demora(nombres.map((p, i) => {
+  const d = DOCS[i];
+  const motivos = [];
+  if (p.estado === 'lesionado') motivos.push('Lesionado');
+  if (p.estado === 'baja_temporal') motivos.push('De baja temporal');
+  if (p.estado === 'baja') motivos.push('Ya no está en el equipo');
+  if (d.licencia_estado === 'pendiente') motivos.push('Sin licencia');
+  if (d.seguro_estado === 'entregado') motivos.push('Seguro sin validar');
+  if (d.reconocimiento_estado === 'pendiente') motivos.push('Sin reconocimiento médico');
+  if (d.seguro_caduca_en < hoy.toISOString().slice(0, 10)) motivos.push('Seguro caducado');
+  const bloquea = p.estado !== 'activo'
+    || d.licencia_estado === 'pendiente'
+    || d.reconocimiento_estado === 'pendiente'
+    || d.seguro_caduca_en < hoy.toISOString().slice(0, 10);
+  return { jugador_id: p.id, temporada_id: 't1',
+           apto: bloquea ? 'no' : motivos.length ? 'pega' : 'si', motivos };
+}));
+
+// --- La parte del jugador --------------------------------------------------
+
+export const misAsistencias = (jugadorId) =>
+  demora(ASISTENCIAS.filter(a => a.jugador_id === jugadorId));
+
+export const confirmarAsistencia = (eventoId, jugadorId, valor) => {
+  const i = ASISTENCIAS.findIndex(a => a.evento_id === eventoId && a.jugador_id === jugadorId);
+  if (i >= 0) ASISTENCIAS[i].confirmacion = valor;
+  else ASISTENCIAS.push({ id: eventoId + '-' + jugadorId, evento_id: eventoId,
+                          jugador_id: jugadorId, estado: null, confirmacion: valor, nota: null });
+  return demora({ confirmacion: valor });
+};
+
+export const companeros = () => demora(nombres
+  .filter(p => p.estado !== 'baja')
+  .map(({ id, nombre, apellidos, apodo, dorsal, posiciones, estado }) =>
+    ({ id, nombre, apellidos, apodo, dorsal, posiciones, estado })));
+
+export const confirmadosDe = (eventoId) => {
+  const de = ASISTENCIAS.filter(a => a.evento_id === eventoId);
+  return demora({
+    voy:    de.filter(a => a.confirmacion === 'voy').length,
+    no_voy: de.filter(a => a.confirmacion === 'no_voy').length,
+    duda:   de.filter(a => a.confirmacion === 'duda').length
+  });
+};
+
+// --- Solicitudes -----------------------------------------------------------
+
+export const solicitudes = () => demora(SOLICITUDES);
+
+// Resolver funciona en la demo: es lo que hay que poder probar con el dedo.
+export const resolverSolicitud = (id, aprobar) => {
+  const i = SOLICITUDES.findIndex(p => p.id === id);
+  if (i < 0) return demora(null);
+  const [p] = SOLICITUDES.splice(i, 1);
+  if (aprobar) {
+    p.acceso = 'aprobado';
+    nombres.push(p);
+    DOCS.push({ id: 'd-' + p.id, jugador_id: p.id, temporada_id: 't1',
+      licencia_estado: 'pendiente', licencia_caduca_en: null,
+      seguro_estado: 'pendiente', seguro_caduca_en: null,
+      reconocimiento_estado: 'pendiente', reconocimiento_caduca_en: null,
+      dni_entregado: false, foto_entregada: false, notas_staff: null,
+      actualizado_en: new Date().toISOString() });
+    CUOTAS.push({ id: 'c-' + p.id, jugador_id: p.id, temporada_id: 't1',
+      importe_total: 180, exento: false, exento_nota: null, nota: null });
+  }
+  return demora(null);
+};
+
+export const entregarSolicitud = (_id, datos) => {
+  try { localStorage.setItem(CLAVE_ROL, 'pendiente'); } catch { /* da igual */ }
+  return demora({ ...RECIEN_LLEGADO, ...datos, acceso: 'pendiente' });
+};
+
+export const documentacionDe = () => demora(DOCS);
+export const asegurarDocumentacion = (jugadorId) => demora(DOCS.find(d => d.jugador_id === jugadorId));
+export const guardarDocumentacion = () => noDisponible();
