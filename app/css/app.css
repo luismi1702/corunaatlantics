@@ -317,6 +317,24 @@ button.fila:active { transform: scale(.995); }
 .dos > * { min-width: 0; }
 .campo input, .campo select, .campo textarea { min-width: 0; max-width: 100%; }
 
+/* Safari en iOS trata los campos de fecha y hora como un control nativo con
+   anchura propia: ignora el width que se les da y el recuadro se sale de su
+   columna, metiendose debajo del campo de al lado. Se nota tambien en que el
+   texto sale centrado en vez de a la izquierda.
+   Quitarles la apariencia nativa hace que se comporten como un input normal. */
+.campo input[type="date"],
+.campo input[type="time"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  text-align: left;
+}
+
+/* Y por si acaso: fila propia. Aunque un navegador vuelva a inventarse el
+   ancho, no tendra vecino al que pisar. */
+.dos .campo:has(input[type="date"]),
+.dos .campo:has(input[type="time"]) { grid-column: 1 / -1; }
+
 .check { display: flex; align-items: center; gap: .6rem; padding: .55rem 0; }
 .check input { width: 22px; height: 22px; accent-color: var(--teal); }
 
