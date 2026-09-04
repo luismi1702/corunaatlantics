@@ -1,5 +1,18 @@
 # Decisiones — Coruña Atlantics
 
+## [2026-09-04] — La primera cuenta que entra es la administradora
+
+**Decisión:** el instalador crea la temporada, y un disparador convierte en administradora
+a la primera persona que se registre, mientras no exista ninguna.
+
+**Motivo:** nombrar al primer admin ejecutando SQL a mano era el paso que más se atragantaba
+de la puesta en marcha, y el que obligaba a volver al editor después de haber entrado en la
+app. Con esto, instalar y entrar es todo.
+
+**El riesgo, asumido:** quien entre primero se lleva la administración del club. Hay que
+entrar uno mismo antes de repartir el enlace o el QR. Queda anotado en el propio SQL y en
+el README, y `03_arranque.sql` sigue disponible para nombrar admin a mano.
+
 ## [2026-09-04] — Los avisos no se contestan
 
 **Decisión:** el tablón es unidireccional. El club publica y el equipo lee; no hay

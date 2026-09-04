@@ -5,7 +5,7 @@ import io
 ORDEN = ['01_schema.sql', '02_rls.sql', '04_tesoreria.sql',
          '05_calendario.sql', '06_jugador.sql', '07_registro.sql',
          '08_dorsales.sql', '09_avisos.sql', '10_material.sql',
-         '11_importe_cuota.sql']
+         '11_importe_cuota.sql', '12_arranque_automatico.sql']
 
 CABECERA = """-- Coruña Atlantics — Instalación completa
 --
@@ -14,8 +14,13 @@ CABECERA = """-- Coruña Atlantics — Instalación completa
 -- algo, se cambia el fichero suelto y se vuelve a generar.
 --
 -- Cómo usarlo: Supabase -> SQL Editor -> New query -> pegar todo -> Run.
--- Después, ejecutar 03_arranque.sql con tu email para crear la temporada y
--- nombrarte administrador.
+--
+-- Con esto queda todo montado, incluida una temporada para empezar. No hace
+-- falta nada más: la PRIMERA persona que entre en la app será la
+-- administradora, así que entra tú antes de repartir el enlace.
+--
+-- 03_arranque.sql queda como alternativa manual por si hace falta nombrar
+-- administradora a otra persona.
 --
 -- Es idempotente: se puede volver a ejecutar sin romper nada.
 

@@ -60,6 +60,8 @@
 
 - Cambiado el icono de la app al Poseidón: es el que mejor aguanta el tamaño de un icono y hace que la pantalla de inicio y la portada de la app hablen el mismo idioma
 
+- Simplificada la puesta en marcha (`app/db/12_arranque_automatico.sql`): el instalador crea ya una temporada y la primera cuenta que entra en la app se convierte en administradora, así que sobra el paso manual de nombrarse admin desde el editor SQL
+
 **Archivos nuevos:**
 - `app/` completo (HTML, CSS, JS, SQL, iconos, README)
 - `docs/app-plan.md`

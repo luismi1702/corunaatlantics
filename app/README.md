@@ -31,6 +31,11 @@ datos son personales y deben quedarse en la UE.
 
 SQL Editor → New query → pegar `app/db/00_instalar.sql` entero → Run.
 
+Con eso queda todo, **incluida una temporada para empezar**. La **primera cuenta
+que entre en la app será la administradora**, así que entra tú antes de repartir
+el enlace o el QR. `03_arranque.sql` queda como alternativa manual por si hace
+falta nombrar administradora a otra persona.
+
 Ese archivo es la unión de los numerados en el orden correcto, así que basta
 una pegada. Los sueltos siguen ahí para leerlos por partes:
 
@@ -46,11 +51,12 @@ una pegada. Los sueltos siguen ahí para leerlos por partes:
 | `09_avisos.sql` | Tablón de avisos y registro de lecturas |
 | `10_material.sql` | Inventario del club y préstamos |
 | `11_importe_cuota.sql` | Aplicar el precio de la cuota a posteriori |
+| `12_arranque_automatico.sql` | Temporada inicial y primera cuenta como administradora |
 
 `00_instalar.sql` está **generado**: si tocas un archivo suelto, vuelve a
 generarlo con `python generar_instalador.py` desde `app/db`.
 
-Después, `03_arranque.sql` con tu email (apartado 4).
+No hace falta ejecutar nada más.
 
 ### 3. Conectar la app
 
