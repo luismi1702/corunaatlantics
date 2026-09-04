@@ -232,6 +232,11 @@ export async function elegirDorsal(jugadorId, dorsal) {
     throw e;
   }
 }
+export const cambiarAcceso = (id, acceso) => {
+  const p = nombres.find(x => x.id === id);
+  if (p) p.acceso = acceso;
+  return demora(p);
+};
 export const borrarJugador = () => noDisponible();
 
 export const cuotasDe = () => demora(CUOTAS.map(calcular));

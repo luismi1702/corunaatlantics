@@ -58,12 +58,13 @@ export const abrirTemporada = (id) =>
 
 // --- Roster ---------------------------------------------------------------
 
-// Solo gente aprobada: una solicitud sin resolver no es plantilla y no debe
-// aparecer en el roster, ni en cuotas, ni en papeles.
+// Las solicitudes sin resolver no son plantilla y no salen aquí. Quien tiene el
+// acceso quitado sí sale: sigue siendo del club, solo que no entra en la app, y
+// hace falta encontrarle para poder devolvérselo.
 export const roster = () =>
   sb.from('perfiles')
     .select('*')
-    .eq('acceso', 'aprobado')
+    .in('acceso', ['aprobado', 'rechazado'])
     .order('estado')
     .order('dorsal', { ascending: true, nullsFirst: false })
     .order('nombre')
@@ -91,6 +92,15 @@ export async function elegirDorsal(jugadorId, dorsal) {
     throw e;
   }
 }
+
+// Quitar el acceso no toca nada de su histórico: ni pagos, ni asistencia, ni
+// documentación. Es lo que se quiere casi siempre al pensar "quiero eliminar a
+// este".
+export const cambiarAcceso = (id, acceso, motivo = null) =>
+  sb.from('perfiles')
+    .update({ acceso, motivo_rechazo: acceso === 'rechazado' ? motivo : null,
+              resuelto_en: new Date().toISOString() })
+    .eq('id', id).select().single().then(ok);
 
 export const borrarJugador = (id) =>
   sb.from('perfiles').delete().eq('id', id).then(ok);

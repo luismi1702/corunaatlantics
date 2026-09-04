@@ -66,7 +66,8 @@ export async function render(ctx, cont) {
             <div class="meta">${p.posiciones.join(' · ') || 'Sin posición'}</div>
           </div>
           <div class="dcha">
-            ${p.estado === 'activo' && c ? tag(TAG_CUOTA, c.estado) : tag(TAG_JUGADOR, p.estado)}
+            ${p.acceso === 'rechazado' ? crudo('<span class="tag n">Sin acceso</span>')
+              : p.estado === 'activo' && c ? tag(TAG_CUOTA, c.estado) : tag(TAG_JUGADOR, p.estado)}
           </div>
         </button>`;
     }).join('') : vacio(q ? 'Ningún jugador coincide con la búsqueda.'
@@ -191,14 +192,35 @@ async function abrirFicha(ctx, id, alGuardar) {
           <a class="btn fantasma" href="#/cuotas" style="margin-left:auto">Gestionar</a>
         </div>`) : ''}
 
-      <div style="display:flex;gap:.6rem;margin-top:1.4rem">
-        ${id ? crudo(html`<button type="button" class="btn peligro" id="borrar">Borrar</button>`) : ''}
-        <button type="submit" class="btn primario" style="flex:1">Guardar</button>
+      <button type="submit" class="btn primario ancho" style="margin-top:1.2rem">Guardar</button>
+      ${id ? crudo(html`<p class="ayuda" style="margin-top:.8rem">Alta el ${fecha(p.alta_en)}.</p>`) : ''}
+    </form>
+
+    ${id ? crudo(html`
+      <p class="eyebrow">Acceso a la app</p>
+      <div class="card">
+        <p style="margin:0 0 .9rem;line-height:1.6" class="muted">
+          ${p.acceso === 'rechazado'
+            ? 'No puede entrar en la app. Su ficha y su histórico siguen intactos.'
+            : p.user_id
+              ? 'Entra en la app con su email.'
+              : 'Todavía no ha entrado nunca. Entrará en cuanto use su email.'}
+        </p>
+        <button class="btn ${p.acceso === 'rechazado' ? '' : 'peligro'} ancho" id="acceso">
+          ${p.acceso === 'rechazado' ? 'Devolverle el acceso' : 'Quitarle el acceso'}
+        </button>
       </div>
-      ${id ? crudo(html`<p class="ayuda" style="margin-top:.8rem">
-        Alta el ${fecha(p.alta_en)}. Para que deje el equipo sin perder su histórico,
-        ponlo en estado <em>Baja</em> en vez de borrarlo.</p>`) : ''}
-    </form>`);
+
+      <p class="eyebrow">Zona sin vuelta atrás</p>
+      <div class="card">
+        <p style="margin:0 0 .9rem;line-height:1.6" class="muted">
+          Para que deje el equipo, ponlo en estado <em>Baja</em>: sale del roster,
+          libera su dorsal y conserva su histórico. Borrar es otra cosa: se lleva
+          por delante sus pagos, su asistencia y su documentación, y descuadra la
+          tesorería de la temporada.
+        </p>
+        <button class="btn peligro ancho" id="borrar">Borrar la ficha entera</button>
+      </div>`) : ''}`);
 
   // Posiciones como interruptores
   const posiciones = new Set(p.posiciones);
@@ -246,11 +268,26 @@ async function abrirFicha(ctx, id, alGuardar) {
     }
   });
 
+  $('#acceso', panel)?.addEventListener('click', async () => {
+    const quitando = p.acceso !== 'rechazado';
+    if (quitando && !await confirmar('Quitarle el acceso',
+      'Dejará de poder entrar en la app. No se borra nada suyo: ni pagos, ni ' +
+      'asistencia, ni documentación. Puedes devolvérselo cuando quieras.',
+      'Quitar acceso')) return;
+    try {
+      await db.cambiarAcceso(id, quitando ? 'rechazado' : 'aprobado');
+      avisar(quitando ? 'Acceso retirado' : 'Acceso devuelto');
+      panel.cerrar();
+      alGuardar();
+    } catch (err) { fallo(err); }
+  });
+
   $('#borrar', panel)?.addEventListener('click', async () => {
     const ok = await confirmar(
       'Borrar la ficha',
-      'Se borra el jugador y con él sus pagos y su documentación, sin vuelta atrás. ' +
-      'Si solo deja el equipo, ciérrale la ficha con el estado Baja: así conservas el histórico.',
+      'Se borra el jugador y con él sus pagos, su asistencia y su documentación, ' +
+      'sin vuelta atrás. Su cuenta de acceso NO se borra: eso se hace desde el ' +
+      'panel de Supabase. Si solo quieres que no entre, quítale el acceso.',
       'Borrar del todo');
     if (!ok) return;
     try {

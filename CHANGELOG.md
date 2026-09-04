@@ -47,6 +47,10 @@
 
 - Añadido que el jugador elija su dorsal (`app/db/08_dorsales.sql`): rejilla de 0 a 99 en Mi ficha con los ocupados marcados, solo para aprobados, y el bloqueo garantizado por el índice único
 
+- Separado "quitar el acceso" de "dar de baja" y de "borrar": quitar el acceso impide entrar en la app sin tocar el histórico, y es reversible con un toque
+- Sustituido el error técnico de "tu cuenta no tiene ficha asociada" por una pantalla que explica qué ha pasado y a quién dirigirse
+- Documentado en el README el borrado completo para una petición de RGPD: la ficha desde la app y la cuenta desde el panel de Supabase
+
 **Archivos nuevos:**
 - `app/` completo (HTML, CSS, JS, SQL, iconos, README)
 - `docs/app-plan.md`

@@ -178,6 +178,39 @@ envío lo haces tú. No manda nada por su cuenta.
 
 **Todavía no:** avisos y playbook. Son las fases siguientes.
 
+## Sacar a alguien del equipo
+
+Tres cosas distintas, de menos a más definitiva:
+
+**Baja** (Roster → ficha → Estado: Baja). Lo normal. Sale del roster, libera su
+dorsal y conserva todo su histórico: pagos, asistencia y documentación.
+Reversible.
+
+**Quitar el acceso** (Roster → ficha → Acceso a la app). Deja de poder entrar en
+la app, pero su ficha y su histórico siguen intactos. Es lo que se quiere casi
+siempre al pensar "quiero eliminar a este". Reversible con un toque.
+
+**Borrar la ficha.** Se lleva en cascada sus cuotas, sus pagos, su asistencia y
+su documentación. Sin vuelta atrás, y descuadra la tesorería de la temporada
+porque desaparecen ingresos ya registrados. Rara vez es lo que hace falta.
+
+### Borrar la cuenta de verdad (RGPD)
+
+La ficha y la cuenta de acceso son cosas separadas: la ficha vive en la tabla
+`perfiles`, la cuenta en el sistema de autenticación de Supabase. Borrar la
+ficha **no** borra la cuenta.
+
+Si alguien ejerce su derecho de supresión, hay que hacer las dos:
+
+1. Roster → su ficha → *Borrar la ficha entera*.
+2. Panel de Supabase → Authentication → Users → buscar su email → Delete user.
+
+El segundo paso no se puede hacer desde la app: exige la clave `service_role`,
+que nunca debe estar en un navegador.
+
+Si solo se borra la ficha, esa persona puede seguir entrando y se encontrará una
+pantalla explicándole que el club no tiene nada suyo. No ve datos de nadie.
+
 ## Bloqueo con Face ID
 
 Opcional y por dispositivo. Se activa en Ajustes (staff) o en Mi ficha (jugador),

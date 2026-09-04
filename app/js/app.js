@@ -79,7 +79,7 @@ async function iniciar() {
     perfil = await db.miPerfil();
   } catch (e) { return pantallaError(app, e, db); }
 
-  if (!perfil) return pantallaError(app, new Error('Tu cuenta no tiene ficha asociada.'), db);
+  if (!perfil) return pantallaSinFicha(app, db);
 
   const temporada = await db.temporadaActiva();
   if (!temporada) return pantallaSinTemporada(app, db);
@@ -205,6 +205,21 @@ function pantallaError(app, error, db) {
       <h1>Algo ha fallado</h1>
       <p>${error.message}</p>
       <button class="btn fantasma" id="salir">Cerrar sesión</button>
+    </div>`;
+  $('#salir').addEventListener('click', async () => { await db.salir(); location.reload(); });
+}
+
+// Le pasa a quien tenía ficha y se la borraron: la cuenta sigue existiendo,
+// pero ya no hay nada suyo en el club. Sin esto se quedaba mirando un error.
+function pantallaSinFicha(app, db) {
+  app.innerHTML = html`
+    <div class="login">
+      <img class="login-marca" src="./img/logo-principal.webp" alt="Coruña Atlantics">
+      <h1>Aquí no hay nada tuyo</h1>
+      <p>Tu cuenta existe, pero el club no tiene ninguna ficha asociada a este
+         email. Puede que se haya dado de baja o que entraras con otro correo.</p>
+      <p class="ayuda">Habla con alguien del staff para que te den de alta.</p>
+      <button class="btn fantasma" id="salir" style="margin-top:1rem">Cerrar sesión</button>
     </div>`;
   $('#salir').addEventListener('click', async () => { await db.salir(); location.reload(); });
 }
