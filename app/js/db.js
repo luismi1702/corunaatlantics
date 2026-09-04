@@ -420,3 +420,65 @@ export async function subirFotoProducto(archivo) {
 
   return sb.storage.from('productos').getPublicUrl(nombre).data.publicUrl;
 }
+
+// --- Competiciones y estadisticas ------------------------------------------
+
+export const competiciones = (temporadaId) =>
+  sb.from('competiciones').select('*').eq('temporada_id', temporadaId)
+    .order('activa', { ascending: false }).order('nombre').then(ok);
+
+export const crearCompeticion = (datos) =>
+  sb.from('competiciones').insert(datos).select().single().then(ok);
+
+export const guardarCompeticion = (id, cambios) =>
+  sb.from('competiciones').update(cambios).eq('id', id).select().single().then(ok);
+
+export const borrarCompeticion = (id) =>
+  sb.from('competiciones').delete().eq('id', id).then(ok);
+
+export const clasificacion = (competicionId) =>
+  sb.from('clasificacion').select('*').eq('competicion_id', competicionId)
+    .order('posicion', { nullsFirst: false }).order('puntos', { ascending: false })
+    .then(ok);
+
+export const crearFilaClasificacion = (datos) =>
+  sb.from('clasificacion').insert(datos).select().single().then(ok);
+
+export const guardarFilaClasificacion = (id, cambios) =>
+  sb.from('clasificacion').update(cambios).eq('id', id).select().single().then(ok);
+
+export const borrarFilaClasificacion = (id) =>
+  sb.from('clasificacion').delete().eq('id', id).then(ok);
+
+export const balanceCompeticion = (competicionId) =>
+  sb.from('balance_competicion').select('*').eq('competicion_id', competicionId)
+    .maybeSingle().then(ok);
+
+// Estadisticas de un partido, tal cual estan guardadas.
+export const estadisticasDe = (eventoId) =>
+  sb.from('estadisticas').select('*').eq('evento_id', eventoId).then(ok);
+
+// Se guardan todas las de un jugador de golpe: las que quedan a cero se borran
+// para no llenar la tabla de filas vacias.
+export async function guardarEstadisticas(eventoId, jugadorId, valores) {
+  const conValor = Object.entries(valores).filter(([, v]) => Number(v) > 0);
+  const enCero   = Object.entries(valores).filter(([, v]) => !(Number(v) > 0)).map(([k]) => k);
+
+  if (enCero.length) {
+    const { error } = await sb.from('estadisticas').delete()
+      .eq('evento_id', eventoId).eq('jugador_id', jugadorId).in('clave', enCero);
+    if (error) throw error;
+  }
+  if (conValor.length) {
+    const { error } = await sb.from('estadisticas').upsert(
+      conValor.map(([clave, valor]) => ({ evento_id: eventoId, jugador_id: jugadorId, clave, valor: Number(valor) })),
+      { onConflict: 'evento_id,jugador_id,clave' });
+    if (error) throw error;
+  }
+}
+
+export const estadisticasTemporada = (temporadaId) =>
+  sb.from('estadisticas_temporada').select('*').eq('temporada_id', temporadaId).then(ok);
+
+export const estadisticasHistorico = () =>
+  sb.from('estadisticas_historico').select('*').then(ok);

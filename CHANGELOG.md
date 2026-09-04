@@ -71,6 +71,11 @@
 - Las fotos se suben al almacenamiento propio de Supabase, en un bucket publico donde solo el staff puede escribir
 - Comparada la app con Clupik: su plan gratuito corta en 50 deportistas y deja entrenamientos y asistencia en el plan de 39 euros al mes
 
+- Añadidas competiciones, clasificación y estadísticas (`app/db/15_competiciones.sql`): la tabla de la liga se teclea porque la app solo conoce nuestros partidos, y el balance propio sí lo calcula
+- Las estadísticas van en filas y no en columnas, así que añadir un concepto nuevo es una línea en `ui.js` y no una migración
+- Catálogo pensado para flag y para lo llamativo: TD, pases de TD, recepciones, conversiones, intercepciones, banderas, sacks y TD defensivos
+- El resultado del partido se apunta en su propia pantalla, y desde ahí se meten los números de cada jugador
+
 **Archivos nuevos:**
 - `app/` completo (HTML, CSS, JS, SQL, iconos, README)
 - `docs/app-plan.md`

@@ -6,8 +6,8 @@
 
 import * as db from '../db.js';
 import {
-  html, crudo, $, $$, cuando, hora, nombreCompleto,
-  avisar, fallo, cargando, vacio
+  html, crudo, $, $$, cuando, hora, nombreCompleto, ESTADISTICAS,
+  hoja, avisar, fallo, cargando, vacio
 } from '../ui.js';
 import { abrirEvento } from './calendario.js';
 
@@ -55,6 +55,23 @@ export async function render(ctx, cont, eventoId) {
       ${ev.cancelado ? crudo('<p style="margin:.8rem 0 0"><span class="tag bad">Cancelado</span></p>') : ''}
       ${ev.notas ? crudo(html`<p class="muted" style="margin:.7rem 0 0;line-height:1.5">${ev.notas}</p>`) : ''}
     </div>
+
+    ${ev.tipo === 'partido' ? crudo(html`
+      <form class="card marcador-form" id="resultado">
+        <div class="campo" style="margin:0">
+          <label>Nosotros</label>
+          <input name="puntos_favor" type="number" min="0" inputmode="numeric"
+                 value="${ev.puntos_favor ?? ''}" placeholder="—">
+        </div>
+        <span class="guion">–</span>
+        <div class="campo" style="margin:0">
+          <label>${ev.rival || 'Rival'}</label>
+          <input name="puntos_contra" type="number" min="0" inputmode="numeric"
+                 value="${ev.puntos_contra ?? ''}" placeholder="—">
+        </div>
+        <button class="btn primario" type="submit">Guardar</button>
+      </form>
+      <button class="btn ancho" id="stats" style="margin-top:.7rem">Estadísticas del partido</button>`) : ''}
 
     <div class="cifras" id="marcador"></div>
 
@@ -138,6 +155,90 @@ export async function render(ctx, cont, eventoId) {
   $('#editar').addEventListener('click', () =>
     abrirEvento(ctx, ev, () => render(ctx, cont, eventoId)));
 
+  $('#resultado')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const f = new FormData(e.target);
+    const num = (k) => f.get(k) === '' ? null : Number(f.get(k));
+    try {
+      await db.guardarEvento(eventoId, { puntos_favor: num('puntos_favor'), puntos_contra: num('puntos_contra') });
+      avisar('Resultado guardado');
+      render(ctx, cont, eventoId);
+    } catch (err) { fallo(err); }
+  });
+
+  $('#stats')?.addEventListener('click', () => abrirEstadisticas(ctx, ev, convocados));
+
   pintar();
   marcador();
+}
+
+// --- Estadisticas del partido ---------------------------------------------
+
+async function abrirEstadisticas(ctx, ev, plantilla) {
+  const filas = await db.estadisticasDe(ev.id);
+
+  // De filas sueltas a { jugadorId: { clave: valor } }
+  const porJugador = {};
+  for (const f of filas) {
+    (porJugador[f.jugador_id] ??= {})[f.clave] = f.valor;
+  }
+
+  const resumen = (id) => ESTADISTICAS
+    .filter(e => (porJugador[id]?.[e.clave] ?? 0) > 0)
+    .map(e => porJugador[id][e.clave] + ' ' + e.corto)
+    .join(' · ');
+
+  const panel = hoja('Estadísticas', html`
+    <p class="ayuda" style="margin:0 0 1rem;line-height:1.6">
+      Toca un jugador y apunta lo suyo. Lo que quede a cero no se guarda.
+    </p>
+    <div class="lista" id="jugadores">
+      ${plantilla.map(p => html`
+        <button class="fila" data-id="${p.id}">
+          <div class="dorsal ${p.dorsal == null ? 'sin' : ''}">${p.dorsal ?? '—'}</div>
+          <div class="info">
+            <div class="nom">${nombreCompleto(p)}</div>
+            <div class="meta">${resumen(p.id) || 'Sin apuntar'}</div>
+          </div>
+          <div class="dcha">${resumen(p.id) ? crudo('<span class="tag ok">✓</span>') : ''}</div>
+        </button>`)}
+    </div>`);
+
+  $$('#jugadores .fila', panel).forEach(b => b.addEventListener('click', () => {
+    const jugador = plantilla.find(p => p.id === b.dataset.id);
+    abrirJugador(ev, jugador, porJugador[jugador.id] ?? {}, () => {
+      panel.cerrar();
+      abrirEstadisticas(ctx, ev, plantilla);
+    });
+  }));
+}
+
+function abrirJugador(ev, jugador, valores, alGuardar) {
+  const panel = hoja(nombreCompleto(jugador), html`
+    <form id="stats-jugador">
+      ${['ataque', 'defensa'].map(area => html`
+        <p class="eyebrow">${area === 'ataque' ? 'Ataque' : 'Defensa'}</p>
+        <div class="rejilla-stats">
+          ${ESTADISTICAS.filter(e => e.area === area).map(e => html`
+            <div class="campo" style="margin:0">
+              <label>${e.nombre}</label>
+              <input name="${e.clave}" type="number" min="0" inputmode="numeric"
+                     value="${valores[e.clave] ?? ''}" placeholder="0">
+            </div>`)}
+        </div>`)}
+
+      <button class="btn primario ancho" type="submit" style="margin-top:1.2rem">Guardar</button>
+    </form>`);
+
+  $('#stats-jugador', panel).addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const f = new FormData(e.target);
+    const datos = Object.fromEntries(ESTADISTICAS.map(x => [x.clave, Number(f.get(x.clave)) || 0]));
+    try {
+      await db.guardarEstadisticas(ev.id, jugador.id, datos);
+      avisar('Apuntado');
+      panel.cerrar();
+      alGuardar();
+    } catch (err) { fallo(err); }
+  });
 }

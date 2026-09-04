@@ -103,9 +103,12 @@ export async function render(ctx, cont) {
 
 // --- Alta y edición de un evento ------------------------------------------
 
-export function abrirEvento(ctx, e, alGuardar) {
+export async function abrirEvento(ctx, e, alGuardar) {
   const esNuevo = !e.id;
   const tipo = e.tipo;
+  const comps = tipo === 'partido'
+    ? await db.competiciones(ctx.temporada.id).catch(() => [])
+    : [];
 
   const panel = hoja(
     esNuevo ? (tipo === 'partido' ? 'Nuevo partido' : 'Nuevo entreno') : 'Editar',
@@ -121,6 +124,14 @@ export function abrirEvento(ctx, e, alGuardar) {
       ${tipo === 'partido' ? crudo(html`
         <div class="campo"><label>Rival</label>
           <input name="rival" value="${e.rival ?? ''}" placeholder="Nombre del equipo"></div>
+        ${comps.length ? crudo(html`
+          <div class="campo"><label>Competición</label>
+            <select name="competicion_id">
+              <option value="">Sin competición</option>
+              ${comps.map(c => html`
+                <option value="${c.id}" ${e.competicion_id === c.id ? crudo('selected') : ''}>${c.nombre}</option>`)}
+            </select></div>`) : ''}
+
         <div class="campo"><label>Dónde</label>
           <select name="es_local">
             <option value="true" ${e.es_local !== false ? crudo('selected') : ''}>En casa</option>
@@ -171,6 +182,7 @@ export function abrirEvento(ctx, e, alGuardar) {
     if (tipo === 'partido') {
       datos.rival = f.get('rival') || null;
       datos.es_local = f.get('es_local') === 'true';
+      datos.competicion_id = f.get('competicion_id') || null;
     }
     try {
       if (esNuevo) await db.crearEvento({ ...datos, creado_por: ctx.perfil.id });

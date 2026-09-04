@@ -6,7 +6,7 @@ ORDEN = ['01_schema.sql', '02_rls.sql', '04_tesoreria.sql',
          '05_calendario.sql', '06_jugador.sql', '07_registro.sql',
          '08_dorsales.sql', '09_avisos.sql', '10_material.sql',
          '11_importe_cuota.sql', '12_arranque_automatico.sql',
-         '13_permisos_funciones.sql', '14_tienda.sql']
+         '13_permisos_funciones.sql', '14_tienda.sql', '15_competiciones.sql']
 
 CABECERA = """-- Coruña Atlantics — Instalación completa
 --

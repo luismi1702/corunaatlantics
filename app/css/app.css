@@ -452,6 +452,89 @@ button.fila:active { transform: scale(.995); }
   color: var(--teal); word-break: break-all;
 }
 
+/* --- Competiciones y estadisticas ------------------------------------------ */
+
+.tres {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(6.5rem, 1fr));
+  gap: .6rem;
+}
+.tres > * { min-width: 0; }
+
+/* La clasificacion es una tabla, pero sin table: en un movil una tabla de
+   verdad obliga a hacer zoom. */
+.tabla-clas { display: flex; flex-direction: column; gap: .3rem; }
+
+.fila-clas {
+  display: grid;
+  grid-template-columns: 2rem 1fr 2rem 2rem 2rem 2.5rem;
+  align-items: center; gap: .4rem;
+  padding: .6rem .7rem; text-align: left;
+  border: 1px solid var(--line); border-radius: 10px;
+  background: var(--surf); color: var(--text);
+  font-size: .92rem;
+}
+.fila-clas.nuestro { border-color: var(--teal); background: rgba(78,205,200,.10); }
+.fila-clas .pos {
+  font-family: 'Anton', sans-serif; color: var(--muted);
+  font-variant-numeric: tabular-nums; text-align: center;
+}
+.fila-clas.nuestro .pos { color: var(--teal); }
+.fila-clas .equipo {
+  font-family: 'Barlow Condensed', sans-serif; font-weight: 600; font-size: 1.02rem;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; min-width: 0;
+}
+.fila-clas .dato {
+  text-align: center; color: var(--muted); font-variant-numeric: tabular-nums;
+}
+.fila-clas .dato.fuerte { color: var(--text); font-weight: 600; }
+
+.leyenda-clas {
+  display: grid;
+  grid-template-columns: 2rem 1fr 2rem 2rem 2rem 2.5rem;
+  gap: .4rem; padding: 0 .7rem; margin: .4rem 0 0;
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted);
+}
+.leyenda-clas span { text-align: center; }
+.leyenda-clas span:nth-child(2) { text-align: left; }
+
+.marcador {
+  font-family: 'Anton', sans-serif; font-size: 1.15rem;
+  font-variant-numeric: tabular-nums; color: var(--muted);
+}
+.marcador.gana { color: var(--ok); }
+.marcador.pierde { color: var(--bad); }
+
+/* Marcador editable en la pantalla del partido */
+.marcador-form { display: flex; align-items: flex-end; gap: .6rem; }
+.marcador-form .campo { flex: 1; }
+.marcador-form .campo input {
+  text-align: center; font-family: 'Anton', sans-serif; font-size: 1.4rem;
+}
+.marcador-form .guion { font-family: 'Anton', sans-serif; color: var(--muted); padding-bottom: .8rem; }
+
+.rejilla-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(7rem, 1fr));
+  gap: .6rem;
+}
+.rejilla-stats > * { min-width: 0; }
+
+.puesto {
+  flex: 0 0 1.6rem;
+  font-family: 'Anton', sans-serif; color: var(--muted);
+  font-variant-numeric: tabular-nums; text-align: center;
+}
+.cifra-stat {
+  font-family: 'Anton', sans-serif; font-size: 1.5rem; line-height: 1;
+  color: var(--teal); font-variant-numeric: tabular-nums;
+}
+.et-stat {
+  font-family: 'Barlow Condensed', sans-serif; font-size: .68rem;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--muted);
+}
+
 /* --- Equipacion ------------------------------------------------------------ */
 
 .miniatura {

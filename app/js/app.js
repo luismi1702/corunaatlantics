@@ -24,6 +24,8 @@ const VISTAS_STAFF = {
   '/avisos':        { titulo: 'Avisos',        cargar: () => import('./vistas/avisos.js'), tab: false },
   '/material':      { titulo: 'Material',      cargar: () => import('./vistas/material.js'), tab: false },
   '/tienda':        { titulo: 'Equipación',    cargar: () => import('./vistas/tienda.js'), tab: false },
+  '/competiciones': { titulo: 'Competiciones', cargar: () => import('./vistas/competiciones.js'), tab: false },
+  '/estadisticas':  { titulo: 'Estadísticas',  cargar: () => import('./vistas/estadisticas.js'), tab: false },
   '/solicitudes':   { titulo: 'Solicitudes',   cargar: () => import('./vistas/solicitudes.js'), tab: false },
   '/ajustes':       { titulo: 'Ajustes',       cargar: () => import('./vistas/ajustes.js'), tab: false }
 };
@@ -50,6 +52,8 @@ const ICONOS = {
   '/ajustes':       '<circle cx="12" cy="12" r="3"/><path d="M12 2.5v3M12 18.5v3M21.5 12h-3M5.5 12h-3M18.7 5.3l-2.1 2.1M7.4 16.6l-2.1 2.1M18.7 18.7l-2.1-2.1M7.4 7.4L5.3 5.3" stroke-linecap="round"/>',
   '/agenda':        '<rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4" stroke-linecap="round"/>',
   '/equipo':        '<circle cx="9" cy="8" r="3.2"/><path d="M3 20c0-3.3 2.7-5 6-5s6 1.7 6 5" stroke-linecap="round"/><path d="M17 11.5a2.6 2.6 0 100-5.2M17.5 20c0-2.4-1-4-2.5-4.6" stroke-linecap="round"/>',
+  '/competiciones': '<path d="M7 4h10v4a5 5 0 01-10 0z" stroke-linejoin="round"/><path d="M7 5.5H4.5v1.5a3 3 0 003 3M17 5.5h2.5v1.5a3 3 0 01-3 3" stroke-linecap="round"/><path d="M12 13v4M9 20h6" stroke-linecap="round"/>',
+  '/estadisticas':  '<path d="M4 20V10M9.3 20V4M14.7 20v-7M20 20V7" stroke-linecap="round"/>',
   '/mificha':       '<circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.6 3.1-5.6 7-5.6s7 2 7 5.6" stroke-linecap="round"/>',
   '/avisos':        '<path d="M12 3.5a5.5 5.5 0 015.5 5.5c0 5 2 6.5 2 6.5H4.5s2-1.5 2-6.5A5.5 5.5 0 0112 3.5z" stroke-linejoin="round"/><path d="M10 19.5a2 2 0 004 0" stroke-linecap="round"/>',
   '/material':      '<path d="M12 3.5l7.5 3.2v5.6c0 4.3-3 7.3-7.5 8.2-4.5-.9-7.5-3.9-7.5-8.2V6.7z" stroke-linejoin="round"/><path d="M4.5 10h15" stroke-linecap="round"/>',

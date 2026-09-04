@@ -16,6 +16,8 @@ const ICONOS = {
   disponible:'<path d="M12 3.5l7 3v5c0 4.2-2.9 7.4-7 9-4.1-1.6-7-4.8-7-9v-5z" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke-linecap="round" stroke-linejoin="round"/>',
   avisos:    '<path d="M12 3.5a5.5 5.5 0 015.5 5.5c0 5 2 6.5 2 6.5H4.5s2-1.5 2-6.5A5.5 5.5 0 0112 3.5z" stroke-linejoin="round"/><path d="M10 19.5a2 2 0 004 0" stroke-linecap="round"/>',
   material:  '<path d="M12 3.5l7.5 3.2v5.6c0 4.3-3 7.3-7.5 8.2-4.5-.9-7.5-3.9-7.5-8.2V6.7z" stroke-linejoin="round"/><path d="M4.5 10h15" stroke-linecap="round"/>',
+  competiciones: '<path d="M7 4h10v4a5 5 0 01-10 0z" stroke-linejoin="round"/><path d="M7 5.5H4.5v1.5a3 3 0 003 3M17 5.5h2.5v1.5a3 3 0 01-3 3" stroke-linecap="round"/><path d="M12 13v4M9 20h6" stroke-linecap="round"/>',
+  estadisticas:  '<path d="M4 20V10M9.3 20V4M14.7 20v-7M20 20V7" stroke-linecap="round"/>',
   tienda:    '<path d="M4.5 8h15l-1.2 11.5a1.5 1.5 0 01-1.5 1.3H7.2a1.5 1.5 0 01-1.5-1.3z" stroke-linejoin="round"/><path d="M8.8 8V6.2a3.2 3.2 0 016.4 0V8" stroke-linecap="round"/>',
   solicitudes:'<circle cx="10" cy="8" r="3.4"/><path d="M3.5 20c0-3.5 2.9-5.4 6.5-5.4 1.3 0 2.5.25 3.5.7" stroke-linecap="round"/><path d="M15.5 17.5h6M18.5 14.5v6" stroke-linecap="round"/>',
   panel:    '<path d="M4 13h6V4H4zM14 20h6v-9h-6zM4 20h6v-4H4zM14 8h6V4h-6z" stroke-linejoin="round"/>',
@@ -32,7 +34,7 @@ export async function render(ctx, cont) {
   // Cada consulta con su respaldo: si una falla, esa baldosa sale sin numero y
   // el menu se pinta igual.
   const [plantilla, cuotas, docs, agenda, apt, pendientes, tablon, piezas,
-         catalogo, encargos] = await Promise.all([
+         catalogo, encargos, ligas] = await Promise.all([
     conRespaldo(db.roster(), []),
     conRespaldo(db.cuotasDe(ctx.temporada.id), []),
     conRespaldo(db.documentacionDe(ctx.temporada.id), []),
@@ -42,7 +44,8 @@ export async function render(ctx, cont) {
     conRespaldo(db.avisos(ctx.temporada.id), []),
     conRespaldo(db.material(), []),
     conRespaldo(db.productos(), []),
-    conRespaldo(db.pedidos(), [])
+    conRespaldo(db.pedidos(), []),
+    conRespaldo(db.competiciones(ctx.temporada.id), [])
   ]);
 
 
@@ -116,6 +119,9 @@ export async function render(ctx, cont) {
         ${baldosa('/material', 'material', 'Material',
           piezas.length ? piezas.filter(m => m.jugador_id).length + ' de ' + piezas.length + ' prestadas'
                         : 'Sin inventariar', enBajas)}
+        ${baldosa('/competiciones', 'competiciones', 'Competiciones',
+          ligas.length ? (ligas.find(l => l.activa)?.nombre ?? ligas[0].nombre) : 'Ninguna añadida')}
+        ${baldosa('/estadisticas', 'estadisticas', 'Estadísticas', 'TD, intercepciones y demás')}
         ${baldosa('/tienda', 'tienda', 'Equipación',
           catalogo.length ? (sinCobrar ? sinCobrar + ' sin cobrar' : 'Todo cobrado')
                           : 'Nada a la venta', sinCobrar, 'dinero')}

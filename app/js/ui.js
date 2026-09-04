@@ -282,6 +282,22 @@ export const OPCIONES_ASISTENCIA = [
     icono: '<path d="M7 7l10 10M17 7L7 17" stroke-linecap="round"/>' }
 ];
 
+// Las estadisticas que se llevan, pensadas para flag y para lo llamativo.
+// El catalogo vive aqui a proposito: añadir un concepto es una linea, y la
+// base de datos guarda la clave tal cual sin saber nada de esta lista.
+export const ESTADISTICAS = [
+  { clave: 'td',           nombre: 'Touchdowns',      corto: 'TD',   area: 'ataque'  },
+  { clave: 'td_pase',      nombre: 'Pases de TD',     corto: 'TDp',  area: 'ataque'  },
+  { clave: 'recepciones',  nombre: 'Recepciones',     corto: 'Rec',  area: 'ataque'  },
+  { clave: 'conversiones', nombre: 'Conversiones',    corto: 'Conv', area: 'ataque'  },
+  { clave: 'int',          nombre: 'Intercepciones',  corto: 'INT',  area: 'defensa' },
+  { clave: 'banderas',     nombre: 'Banderas',        corto: 'Ban',  area: 'defensa' },
+  { clave: 'sacks',        nombre: 'Sacks',           corto: 'Sck',  area: 'defensa' },
+  { clave: 'td_defensivo', nombre: 'TD defensivos',   corto: 'TDd',  area: 'defensa' }
+];
+
+export const ESTADISTICA = Object.fromEntries(ESTADISTICAS.map(e => [e.clave, e]));
+
 export const POSICIONES = [
   'QB','RB','FB','WR','TE','OL','C','OG','OT',
   'DL','DE','DT','LB','CB','S','DB',

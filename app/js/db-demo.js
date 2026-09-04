@@ -133,10 +133,12 @@ for (let i = -18; i <= 10; i++) {
 EVENTOS.push(
   { id: 'ep1', temporada_id: 't1', tipo: 'partido', fecha: enDias(6), hora: '12:00:00',
     lugar: 'Campo de Elviña', unidad: 'todos', rival: 'Vigo Marines', es_local: true,
-    notas: 'Llegar hora y media antes.', cancelado: false, horario_id: null },
+    notas: 'Llegar hora y media antes.', cancelado: false, horario_id: null,
+    competicion_id: 'co-1', puntos_favor: null, puntos_contra: null },
   { id: 'ep2', temporada_id: 't1', tipo: 'partido', fecha: enDias(-11), hora: '17:00:00',
     lugar: 'Santiago', unidad: 'todos', rival: 'Santiago Black Ravens', es_local: false,
-    notas: null, cancelado: false, horario_id: null }
+    notas: null, cancelado: false, horario_id: null,
+    competicion_id: 'co-1', puntos_favor: 26, puntos_contra: 19 }
 );
 EVENTOS.sort((a, b) => a.fecha.localeCompare(b.fecha));
 
@@ -235,6 +237,34 @@ const PEDIDOS = [
   { id: 'pd-2', producto_id: 'pr-1', jugador_id: 'p3', talla: 'XL', cantidad: 1, estado: 'pedido',    pagado: false, nota: null },
   { id: 'pd-3', producto_id: 'pr-1', jugador_id: 'p5', talla: 'M',  cantidad: 2, estado: 'pedido',    pagado: false, nota: null },
   { id: 'pd-4', producto_id: 'pr-2', jugador_id: 'p1', talla: 'L',  cantidad: 1, estado: 'entregado', pagado: true,  nota: null }
+];
+
+// --- Competiciones y estadisticas ------------------------------------------
+
+const COMPETICIONES = [
+  { id: 'co-1', temporada_id: 't1', nombre: 'Liga Gallega Flag 2026-27',
+    tipo: 'liga', notas: null, activa: true }
+];
+
+const CLASIFICACION = [
+  { id: 'cl-1', competicion_id: 'co-1', posicion: 1, equipo: 'Vigo Marines',    jugados: 4, ganados: 4, empatados: 0, perdidos: 0, puntos_favor: 112, puntos_contra: 48,  puntos: 12, es_nuestro: false },
+  { id: 'cl-2', competicion_id: 'co-1', posicion: 2, equipo: 'Coruña Atlantics', jugados: 4, ganados: 3, empatados: 0, perdidos: 1, puntos_favor: 96,  puntos_contra: 62,  puntos: 9,  es_nuestro: true  },
+  { id: 'cl-3', competicion_id: 'co-1', posicion: 3, equipo: 'Santiago Black Ravens', jugados: 4, ganados: 1, empatados: 0, perdidos: 3, puntos_favor: 58, puntos_contra: 94, puntos: 3, es_nuestro: false },
+  { id: 'cl-4', competicion_id: 'co-1', posicion: 4, equipo: 'Ourense Bisontes', jugados: 4, ganados: 0, empatados: 0, perdidos: 4, puntos_favor: 40, puntos_contra: 102, puntos: 0, es_nuestro: false }
+];
+
+// Numeros del partido ya jugado contra Santiago.
+const ESTADISTICAS_DEMO = [
+  { id: 'st-1', evento_id: 'ep2', jugador_id: 'p1',  clave: 'td', valor: 2 },
+  { id: 'st-2', evento_id: 'ep2', jugador_id: 'p1',  clave: 'recepciones', valor: 5 },
+  { id: 'st-3', evento_id: 'ep2', jugador_id: 'p0',  clave: 'td_pase', valor: 3 },
+  { id: 'st-4', evento_id: 'ep2', jugador_id: 'p2',  clave: 'td', valor: 1 },
+  { id: 'st-5', evento_id: 'ep2', jugador_id: 'p2',  clave: 'recepciones', valor: 4 },
+  { id: 'st-6', evento_id: 'ep2', jugador_id: 'p6',  clave: 'int', valor: 2 },
+  { id: 'st-7', evento_id: 'ep2', jugador_id: 'p6',  clave: 'banderas', valor: 7 },
+  { id: 'st-8', evento_id: 'ep2', jugador_id: 'p5',  clave: 'banderas', valor: 9 },
+  { id: 'st-9', evento_id: 'ep2', jugador_id: 'p5',  clave: 'sacks', valor: 2 },
+  { id: 'st-10', evento_id: 'ep2', jugador_id: 'p6', clave: 'td_defensivo', valor: 1 }
 ];
 
 const demora = (v) => new Promise(r => setTimeout(() => r(structuredClone(v)), 120));
@@ -526,6 +556,57 @@ export const borrarPedido = (id) => { const i = PEDIDOS.findIndex(x => x.id === 
 
 // En la demo no hay almacenamiento: se ensena la foto elegida sin subir nada.
 export const subirFotoProducto = (archivo) => demora(URL.createObjectURL(archivo));
+
+export const competiciones = () => demora(COMPETICIONES);
+export const crearCompeticion = (d) => { COMPETICIONES.push({ id: 'co-' + (COMPETICIONES.length + 1), ...d }); return demora(null); };
+export const guardarCompeticion = (id, c) => { const x = COMPETICIONES.find(y => y.id === id); if (x) Object.assign(x, c); return demora(x); };
+export const borrarCompeticion = (id) => { const i = COMPETICIONES.findIndex(y => y.id === id); if (i >= 0) COMPETICIONES.splice(i, 1); return demora(null); };
+
+export const clasificacion = (cid) => demora(
+  CLASIFICACION.filter(f => f.competicion_id === cid).sort((a, b) => (a.posicion ?? 99) - (b.posicion ?? 99)));
+export const crearFilaClasificacion = (d) => { CLASIFICACION.push({ id: 'cl-' + (CLASIFICACION.length + 1), ...d }); return demora(null); };
+export const guardarFilaClasificacion = (id, c) => { const x = CLASIFICACION.find(y => y.id === id); if (x) Object.assign(x, c); return demora(x); };
+export const borrarFilaClasificacion = (id) => { const i = CLASIFICACION.findIndex(y => y.id === id); if (i >= 0) CLASIFICACION.splice(i, 1); return demora(null); };
+
+export const balanceCompeticion = (cid) => {
+  const suyos = EVENTOS.filter(e => e.tipo === 'partido' && e.competicion_id === cid && e.puntos_favor != null);
+  if (!suyos.length) return demora(null);
+  return demora({
+    competicion_id: cid,
+    jugados: suyos.length,
+    ganados: suyos.filter(e => e.puntos_favor > e.puntos_contra).length,
+    empatados: suyos.filter(e => e.puntos_favor === e.puntos_contra).length,
+    perdidos: suyos.filter(e => e.puntos_favor < e.puntos_contra).length,
+    puntos_favor: suyos.reduce((s, e) => s + e.puntos_favor, 0),
+    puntos_contra: suyos.reduce((s, e) => s + e.puntos_contra, 0)
+  });
+};
+
+export const estadisticasDe = (eventoId) => demora(ESTADISTICAS_DEMO.filter(x => x.evento_id === eventoId));
+
+export const guardarEstadisticas = (eventoId, jugadorId, valores) => {
+  for (const [clave, valor] of Object.entries(valores)) {
+    const i = ESTADISTICAS_DEMO.findIndex(x => x.evento_id === eventoId && x.jugador_id === jugadorId && x.clave === clave);
+    if (Number(valor) > 0) {
+      if (i >= 0) ESTADISTICAS_DEMO[i].valor = Number(valor);
+      else ESTADISTICAS_DEMO.push({ id: 'st-' + Date.now() + clave, evento_id: eventoId, jugador_id: jugadorId, clave, valor: Number(valor) });
+    } else if (i >= 0) ESTADISTICAS_DEMO.splice(i, 1);
+  }
+  return demora(null);
+};
+
+const agregar = () => {
+  const mapa = {};
+  for (const x of ESTADISTICAS_DEMO) {
+    const k = x.jugador_id + '|' + x.clave;
+    mapa[k] ??= { temporada_id: 't1', jugador_id: x.jugador_id, clave: x.clave, total: 0, partidos: 0 };
+    mapa[k].total += x.valor;
+    mapa[k].partidos = 1;
+  }
+  return Object.values(mapa);
+};
+export const estadisticasTemporada = () => demora(agregar());
+export const estadisticasHistorico = () => demora(agregar());
 
 export const documentacionDe = () => demora(DOCS);
 export const asegurarDocumentacion = (jugadorId) => demora(DOCS.find(d => d.jugador_id === jugadorId));
