@@ -4,7 +4,7 @@
 // datos: una lista de cuotas guardada de la semana pasada sería peor que no
 // tener nada, porque parecería actual. Sin conexión, la app abre y avisa.
 
-const VERSION = 'atlantics-gestion-v10';
+const VERSION = 'atlantics-gestion-v11';
 
 const ARMAZON = [
   './',
@@ -67,8 +67,14 @@ self.addEventListener('fetch', (e) => {
 
   // Red primero, caché como red de seguridad: así una versión nueva de la app
   // se aplica al recargar, sin quedarse pegada a la anterior.
+  //
+  // cache:'reload' es lo que hace que eso sea verdad. GitHub Pages sirve los
+  // archivos con max-age=600, así que sin esto el navegador respondía con su
+  // copia de hace diez minutos sin llegar a preguntar, y una corrección recién
+  // publicada no se veía. Aquí siempre se pregunta al servidor; si no hay red,
+  // sigue estando la caché de abajo.
   e.respondWith(
-    fetch(e.request)
+    fetch(new Request(e.request.url, { cache: 'reload', credentials: 'same-origin' }))
       .then(res => {
         const copia = res.clone();
         caches.open(VERSION).then(c => c.put(e.request, copia)).catch(() => {});
