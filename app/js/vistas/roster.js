@@ -60,7 +60,10 @@ export async function render(ctx, cont) {
       const c = cuotaDe.get(p.id);
       return html`
         <button class="fila" data-id="${p.id}">
-          <div class="dorsal ${p.dorsal == null ? 'sin' : ''}">${p.dorsal ?? '—'}</div>
+          <div class="dorsal ${p.dorsal == null ? 'sin' : ''}">
+            ${p.dorsal ?? '—'}
+            ${p.es_capitan ? crudo('<span class="galon" title="Capitán">C</span>') : ''}
+          </div>
           <div class="info">
             <div class="nom">${nombreCompleto(p)}</div>
             <div class="meta">${p.posiciones.join(' · ') || 'Sin posición'}</div>
@@ -182,6 +185,16 @@ async function abrirFicha(ctx, id, alGuardar) {
             <option value="${e}" ${p.estado === e ? crudo('selected') : ''}>${TAG_JUGADOR[e].txt}</option>`)}
         </select></div>
 
+      <div class="check">
+        <input type="checkbox" id="capitan" name="es_capitan" ${p.es_capitan ? crudo('checked') : ''}>
+        <label for="capitan" style="margin:0;letter-spacing:0;text-transform:none;font-size:1rem;color:var(--text)">
+          Capitán</label>
+      </div>
+      <p class="ayuda" style="margin:-.2rem 0 .9rem;line-height:1.6">
+        Sale con una C en el roster y en la plantilla. No le da acceso a nada:
+        para eso están las secciones de más abajo.
+      </p>
+
       <div class="campo"><label>Notas del club</label>
         <textarea name="notas_staff" placeholder="Solo lo ve el staff">${p.notas_staff ?? ''}</textarea></div>
 
@@ -277,6 +290,7 @@ async function abrirFicha(ctx, id, alGuardar) {
     datos.dorsal = datos.dorsal === '' ? null : Number(datos.dorsal);
     datos.fecha_nacimiento = datos.fecha_nacimiento || null;
     datos.posiciones = [...posiciones];
+    datos.es_capitan = f.get('es_capitan') === 'on';
     for (const k of ['apodo','email','telefono','dni','talla_equipacion',
                      'apellidos','notas_staff']) {
       if (datos[k] === '') datos[k] = null;

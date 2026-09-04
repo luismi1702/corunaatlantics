@@ -44,6 +44,7 @@ const nombres = [
   alta_en: '2026-09-0' + ((i % 8) + 1),
   baja_en: estado === 'baja' ? '2027-01-15' : null,
   notas_staff: null, acceso: 'aprobado',
+  es_capitan: i === 0 || i === 5,
   creado_en: '2026-09-01T10:00:00Z', actualizado_en: '2026-09-01T10:00:00Z'
 }));
 
@@ -52,7 +53,7 @@ const SOLICITUDES = [
   { id: 's1', user_id: 'u90', nombre: 'Aarón', apellidos: 'Ferrol', apodo: null,
     dorsal: null, posiciones: [], rol: 'jugador', email: 'aaron.ferrol@ejemplo.com',
     telefono: '622114477', fecha_nacimiento: '2001-03-14', dni: null,
-    talla_equipacion: 'L', foto_url: null, estado: 'activo',
+    talla_equipacion: 'L', foto_url: null, estado: 'activo', es_capitan: false,
     acceso: 'pendiente', solicitado_en: enDias(-2) + 'T18:20:00Z', notas_staff: null },
   { id: 's2', user_id: 'u91', nombre: 'Lucas', apellidos: 'Bergantiños', apodo: 'Berga',
     dorsal: null, posiciones: [], rol: 'jugador', email: 'lucas.b@ejemplo.com',
@@ -483,8 +484,8 @@ export const confirmarAsistencia = (eventoId, jugadorId, valor) => {
 
 export const companeros = () => demora(nombres
   .filter(p => p.estado !== 'baja')
-  .map(({ id, nombre, apellidos, apodo, dorsal, posiciones, estado }) =>
-    ({ id, nombre, apellidos, apodo, dorsal, posiciones, estado })));
+  .map(({ id, nombre, apellidos, apodo, dorsal, posiciones, estado, es_capitan }) =>
+    ({ id, nombre, apellidos, apodo, dorsal, posiciones, estado, es_capitan })));
 
 export const confirmadosDe = (eventoId) => {
   const de = ASISTENCIAS.filter(a => a.evento_id === eventoId);

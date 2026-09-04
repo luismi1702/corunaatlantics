@@ -56,7 +56,10 @@ export async function render(ctx, cont) {
         <div class="lista">
           ${items.map(p => html`
             <div class="fila">
-              <div class="dorsal ${p.dorsal == null ? 'sin' : ''}">${p.dorsal ?? '—'}</div>
+              <div class="dorsal ${p.dorsal == null ? 'sin' : ''}">
+                ${p.dorsal ?? '—'}
+                ${p.es_capitan ? crudo('<span class="galon" title="Capitán">C</span>') : ''}
+              </div>
               <div class="info">
                 <div class="nom">${p.apodo || nombreCompleto(p)}</div>
                 <div class="meta">${p.posiciones.join(' · ') || 'Sin posición'}</div>

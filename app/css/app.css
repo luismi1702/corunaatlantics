@@ -223,6 +223,18 @@ button.fila:active { transform: scale(.995); }
 }
 .dorsal.sin { color: var(--muted); font-size: 1.1rem; }
 
+/* El galon del capitan, en la esquina del dorsal y en oro: en la camiseta la C
+   va cosida al lado del numero, no en una etiqueta aparte. */
+.dorsal { position: relative; }
+.galon {
+  position: absolute; top: -7px; left: -7px;
+  width: 21px; height: 21px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--gold); color: var(--ink);
+  font-family: 'Anton', sans-serif; font-size: .82rem; line-height: 1;
+  border: 2px solid var(--surf);
+}
+
 .fila .info { min-width: 0; flex: 1; }
 .fila .nom {
   font-family: 'Barlow Condensed', sans-serif; font-weight: 600;

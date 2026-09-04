@@ -1,5 +1,21 @@
 # Changelog — Coruña Atlantics Web
 
+## [2026-09-05] — Capitanes
+
+**Qué se hizo:**
+- Se puede nombrar capitán a cualquiera desde su ficha del roster, y sale con una **C** dorada en la esquina del dorsal: en el roster del staff y en la plantilla que ven los jugadores
+- Pueden ser varios, que es lo normal (uno de ataque, otro de defensa)
+- Nueva columna `perfiles.es_capitan` y la C añadida a la vista `companeros` (`app/db/18_capitanes.sql`)
+- Nombrar capitán es del club: el disparador `bloquear_campos_de_club()` impide que un jugador se ponga la C editando su propia ficha
+- Quien pasa a baja suelta el galón automáticamente
+
+**Por qué:**
+Ser capitán no es un permiso: no abre ninguna pantalla ni deja tocar nada. Por eso es una
+columna de la ficha y no una fila en `permisos` — quien además lleve la tesorería la lleva
+porque se la han dado, no por llevar la C.
+
+**Pendiente en Supabase:** ejecutar `13`, `15`, `16`, `17` y `18`, en ese orden.
+
 ## [2026-09-05] — Cada seccion, en manos de quien la lleva
 
 **Qué se hizo:**
