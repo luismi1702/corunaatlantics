@@ -7,7 +7,7 @@
 import * as db from '../db.js';
 import {
   html, crudo, $, $$, euros, cuando, hora, hoyISO, fechaCorta, diasHasta, DIAS,
-  unidadDe, esDeUnidad, NOMBRE_UNIDAD, OPCIONES_ASISTENCIA as OPCIONES,
+  unidadDe, esDeUnidad, NOMBRE_UNIDAD, OPCIONES_ASISTENCIA as OPCIONES, conRespaldo,
   avisar, fallo, cargando
 } from '../ui.js';
 
@@ -31,16 +31,17 @@ export async function render(ctx, cont) {
   const yo = ctx.perfil;
   const [agenda, mias, cuota, docs, resumen, tablon, lecturas,
          catalogo, misEncargos] = await Promise.all([
-    db.eventos(ctx.temporada.id, { desde: hoyISO() }),
-    db.misAsistencias(yo.id),
-    db.cuotaDe(yo.id, ctx.temporada.id),
-    db.documentacionDe(ctx.temporada.id),
-    db.resumenAsistencia(ctx.temporada.id),
-    db.avisos(ctx.temporada.id),
-    db.misLecturas(yo.id),
-    db.productos(),
-    db.misPedidos(yo.id)
+    conRespaldo(db.eventos(ctx.temporada.id, { desde: hoyISO() }), []),
+    conRespaldo(db.misAsistencias(yo.id), []),
+    conRespaldo(db.cuotaDe(yo.id, ctx.temporada.id), null),
+    conRespaldo(db.documentacionDe(ctx.temporada.id), []),
+    conRespaldo(db.resumenAsistencia(ctx.temporada.id), []),
+    conRespaldo(db.avisos(ctx.temporada.id), []),
+    conRespaldo(db.misLecturas(yo.id), []),
+    conRespaldo(db.productos(), []),
+    conRespaldo(db.misPedidos(yo.id), [])
   ]);
+
 
   const proximos = agenda.filter(e => !e.cancelado);
   const evento = proximos[0] ?? null;

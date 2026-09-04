@@ -9,7 +9,7 @@
 
 import * as db from '../db.js';
 import { DIAS_AVISO_CADUCIDAD } from '../config.js';
-import { html, crudo, diasHasta, cuando, hoyISO, cargando } from '../ui.js';
+import { html, crudo, diasHasta, cuando, hoyISO, conRespaldo, cargando } from '../ui.js';
 
 const ICONOS = {
   calendario:'<rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4" stroke-linecap="round"/>',
@@ -29,19 +29,22 @@ const ICONOS = {
 export async function render(ctx, cont) {
   cont.innerHTML = cargando();
 
+  // Cada consulta con su respaldo: si una falla, esa baldosa sale sin numero y
+  // el menu se pinta igual.
   const [plantilla, cuotas, docs, agenda, apt, pendientes, tablon, piezas,
          catalogo, encargos] = await Promise.all([
-    db.roster(),
-    db.cuotasDe(ctx.temporada.id),
-    db.documentacionDe(ctx.temporada.id),
-    db.eventos(ctx.temporada.id, { desde: hoyISO() }),
-    db.aptitud(ctx.temporada.id),
-    db.solicitudes(),
-    db.avisos(ctx.temporada.id),
-    db.material(),
-    db.productos(),
-    db.pedidos()
+    conRespaldo(db.roster(), []),
+    conRespaldo(db.cuotasDe(ctx.temporada.id), []),
+    conRespaldo(db.documentacionDe(ctx.temporada.id), []),
+    conRespaldo(db.eventos(ctx.temporada.id, { desde: hoyISO() }), []),
+    conRespaldo(db.aptitud(ctx.temporada.id), []),
+    conRespaldo(db.solicitudes(), []),
+    conRespaldo(db.avisos(ctx.temporada.id), []),
+    conRespaldo(db.material(), []),
+    conRespaldo(db.productos(), []),
+    conRespaldo(db.pedidos(), [])
   ]);
+
 
   const proximo = agenda.find(e => !e.cancelado);
   const noPuedenJugar = apt.filter(a => a.apto === 'no').length;

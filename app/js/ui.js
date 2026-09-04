@@ -71,6 +71,15 @@ export const nombreCompleto = (p) =>
 export const iniciales = (p) =>
   nombreCompleto(p).split(' ').slice(0, 2).map(w => w[0]).join('').toUpperCase();
 
+// --- Consultas que pueden faltar -------------------------------------------
+
+// Una pantalla que lanza diez consultas a la vez no debe morir porque falle
+// una. Pasa de verdad: al añadir una funcion nueva, la tabla todavia no existe
+// en la base de datos de quien no ha ejecutado el SQL, y con Promise.all eso
+// tumba la pantalla entera en vez de dejar una baldosa sin su numerito.
+export const conRespaldo = (promesa, valor) =>
+  Promise.resolve(promesa).catch((e) => { console.warn('Consulta opcional fallida:', e); return valor; });
+
 // --- Contacto -------------------------------------------------------------
 
 // Los teléfonos se guardan como los escriba cada uno, pero los enlaces tel: y
