@@ -37,6 +37,7 @@ una pegada. Los sueltos siguen ahí para leerlos por partes:
 | `05_calendario.sql` | Entrenos, partidos, asistencia y disponibilidad |
 | `06_jugador.sql` | Confirmaciones y vista de compañeros |
 | `07_registro.sql` | Registro de jugadores con aprobación |
+| `08_dorsales.sql` | El jugador elige su dorsal |
 
 `00_instalar.sql` está **generado**: si tocas un archivo suelto, vuelve a
 generarlo con `python generar_instalador.py` desde `app/db`.
@@ -156,6 +157,12 @@ Un jugador ve su ficha, su papeleo, su cuota y su asistencia; de sus compañeros
 solo lo que se ve en una camiseta (nombre, dorsal, posición), a través de la
 vista `companeros`. No puede ver teléfonos ajenos, documentación ajena, cuotas
 ajenas ni nada de tesorería, y eso lo impone Postgres, no la interfaz.
+
+**El dorsal lo elige él**, desde Mi ficha y solo una vez aprobado: si se pudiera
+al registrarse, cualquiera con el enlace se reservaría un número sin ser del
+equipo. Quien lo coge primero se lo queda, y el bloqueo real lo hace el índice
+único `perfiles_dorsal_activo`, no la interfaz — eso resuelve también el caso de
+dos jugadores tocando el mismo número a la vez. El club puede cambiarlo siempre.
 
 Sus pantallas llevan su dorsal en hueco de fondo, y la app le avisa cuando la
 sesión es de otra unidad (un receptor no tiene que ir a un entreno de defensa).

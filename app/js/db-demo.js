@@ -212,10 +212,26 @@ export const roster = () => demora(nombres);
 export const jugador = (id) => demora(nombres.find(p => p.id === id));
 export const crearJugador = () => noDisponible();
 export const guardarJugador = (id, cambios) => {
+  // Mismo bloqueo que el índice único de la base de datos.
+  if (cambios.dorsal != null &&
+      nombres.some(x => x.id !== id && x.dorsal === cambios.dorsal && x.estado !== 'baja')) {
+    throw new Error('perfiles_dorsal_activo');
+  }
   const p = nombres.find(x => x.id === id);
   if (p) Object.assign(p, cambios);
   return demora(p);
 };
+
+export async function elegirDorsal(jugadorId, dorsal) {
+  try {
+    return await guardarJugador(jugadorId, { dorsal });
+  } catch (e) {
+    if (String(e.message).includes('perfiles_dorsal_activo')) {
+      throw new Error('Ese dorsal lo acaba de coger otro. Elige otro número.');
+    }
+    throw e;
+  }
+}
 export const borrarJugador = () => noDisponible();
 
 export const cuotasDe = () => demora(CUOTAS.map(calcular));

@@ -361,6 +361,40 @@ button.fila:active { transform: scale(.995); }
   max-width: 32ch; margin: 0 0 1rem;
 }
 
+/* --- Elegir dorsal --------------------------------------------------------- */
+/* Cien números tienen que caber sin hacer scroll infinito ni obligar a apuntar
+   con precisión: rejilla apretada, pero cada casilla sigue siendo tocable. */
+
+.dorsales {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(44px, 1fr));
+  gap: .35rem;
+}
+
+.dorsales .num {
+  aspect-ratio: 1;
+  display: grid; place-items: center;
+  border-radius: 9px;
+  border: 1px solid var(--line);
+  background: var(--deep);
+  color: var(--text);
+  font-family: 'Anton', sans-serif; font-size: 1rem;
+  font-variant-numeric: tabular-nums;
+  transition: transform .1s, background .15s, border-color .15s;
+}
+.dorsales .num:active { transform: scale(.92); }
+
+/* Ocupado por otro: se ve, no se toca. */
+.dorsales .num.pillado {
+  background: transparent; color: var(--line);
+  border-style: dashed; cursor: not-allowed;
+}
+
+.dorsales .num.mio {
+  background: var(--teal); border-color: var(--teal); color: var(--ink);
+  box-shadow: 0 0 0 3px rgba(78,205,200,.22);
+}
+
 /* --- Alta de un jugador nuevo --------------------------------------------- */
 
 .alta { max-width: 480px; margin: 0 auto; padding: 1.5rem 0 2rem; }

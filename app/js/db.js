@@ -78,6 +78,20 @@ export const crearJugador = (datos) =>
 export const guardarJugador = (id, cambios) =>
   sb.from('perfiles').update(cambios).eq('id', id).select().single().then(ok);
 
+// El dorsal lo bloquea un índice único, así que dos jugadores tocando el mismo
+// número a la vez terminan con uno de los dos recibiendo un error de duplicado.
+// Aquí se traduce a algo que se entienda.
+export async function elegirDorsal(jugadorId, dorsal) {
+  try {
+    return await guardarJugador(jugadorId, { dorsal });
+  } catch (e) {
+    if (String(e.message).includes('perfiles_dorsal_activo')) {
+      throw new Error('Ese dorsal lo acaba de coger otro. Elige otro número.');
+    }
+    throw e;
+  }
+}
+
 export const borrarJugador = (id) =>
   sb.from('perfiles').delete().eq('id', id).then(ok);
 

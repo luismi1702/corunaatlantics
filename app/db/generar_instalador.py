@@ -3,7 +3,8 @@
 import io
 
 ORDEN = ['01_schema.sql', '02_rls.sql', '04_tesoreria.sql',
-         '05_calendario.sql', '06_jugador.sql', '07_registro.sql']
+         '05_calendario.sql', '06_jugador.sql', '07_registro.sql',
+         '08_dorsales.sql']
 
 CABECERA = """-- Coruña Atlantics — Instalación completa
 --

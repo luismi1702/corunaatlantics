@@ -1,5 +1,19 @@
 # Decisiones — Coruña Atlantics
 
+## [2026-09-04] — El dorsal lo elige el jugador, pero solo tras ser aprobado
+
+**Decisión:** cada jugador escoge su número desde Mi ficha; quien lo coge primero se lo
+queda. Solo puede elegir quien ya está aprobado, no quien acaba de registrarse.
+
+**Motivo:** si se pudiera elegir en el formulario de alta, cualquiera con el enlace de la
+app podría entrar y reservarse el 7 sin pertenecer al equipo. El bloqueo lo garantiza el
+índice único `perfiles_dorsal_activo`, no la interfaz, y eso resuelve además el caso de
+dos jugadores tocando el mismo número a la vez: uno recibe un error de duplicado que la
+app traduce a "ese dorsal lo acaba de coger otro".
+
+**Alternativas descartadas:** que el club siga asignando todos los dorsales a mano;
+permitir elegir durante el registro.
+
 ## [2026-09-04] — Registrarse es pedir entrar, no entrar
 
 **Decisión:** cualquiera con el enlace puede registrarse y rellenar su ficha, pero queda

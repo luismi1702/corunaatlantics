@@ -45,6 +45,8 @@
 - Corregido que una solicitud sin aprobar recibiera ya cuota y ficha de documentación, y apareciera en el roster como si fuera plantilla
 - Añadido `app/db/00_instalar.sql`, generado, para montar la base de datos de una sola pegada
 
+- Añadido que el jugador elija su dorsal (`app/db/08_dorsales.sql`): rejilla de 0 a 99 en Mi ficha con los ocupados marcados, solo para aprobados, y el bloqueo garantizado por el índice único
+
 **Archivos nuevos:**
 - `app/` completo (HTML, CSS, JS, SQL, iconos, README)
 - `docs/app-plan.md`

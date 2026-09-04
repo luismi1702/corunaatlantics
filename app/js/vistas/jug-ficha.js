@@ -7,7 +7,7 @@
 import * as db from '../db.js';
 import * as cerrojo from '../cerrojo.js';
 import {
-  html, crudo, $, euros, fecha, nombreCompleto, tag, TAG_DOC, TAG_JUGADOR,
+  html, crudo, $, $$, euros, fecha, nombreCompleto, tag, TAG_DOC, TAG_JUGADOR,
   avisar, fallo, cargando
 } from '../ui.js';
 
@@ -15,11 +15,16 @@ export async function render(ctx, cont) {
   cont.innerHTML = cargando();
 
   const yo = ctx.perfil;
-  const [cuota, docs] = await Promise.all([
+  const [cuota, docs, equipo] = await Promise.all([
     db.cuotaDe(yo.id, ctx.temporada.id),
-    db.documentacionDe(ctx.temporada.id)
+    db.documentacionDe(ctx.temporada.id),
+    db.companeros()
   ]);
   const doc = docs.find(d => d.jugador_id === yo.id);
+
+  // Quién lleva cada número, para pintar los ocupados y saber de quién son.
+  const dueno = new Map();
+  for (const p of equipo) if (p.dorsal != null && p.id !== yo.id) dueno.set(p.dorsal, p);
 
   const DOCUMENTOS = [
     { etiqueta: 'Licencia',              estado: doc?.licencia_estado,       caduca: doc?.licencia_caduca_en },
@@ -36,6 +41,24 @@ export async function render(ctx, cont) {
           ${yo.posiciones.join(' · ') || 'Sin posición asignada'}
         </p>
         <p style="margin:.5rem 0 0">${tag(TAG_JUGADOR, yo.estado)}</p>
+      </div>
+    </div>
+
+    <p class="eyebrow">Tu dorsal</p>
+    <div class="card">
+      <p class="ayuda" style="margin:0 0 .8rem;line-height:1.6">
+        ${yo.dorsal != null
+          ? 'Llevas el ' + yo.dorsal + '. Es tuyo mientras estés en el equipo; nadie más puede cogerlo. Toca otro libre si quieres cambiarlo.'
+          : 'Elige el tuyo. El que cojas queda bloqueado para el resto.'}
+      </p>
+      <div class="dorsales" id="dorsales">
+        ${Array.from({ length: 100 }, (_, n) => {
+          const otro = dueno.get(n);
+          return html`
+            <button type="button" class="num ${otro ? 'pillado' : ''} ${yo.dorsal === n ? 'mio' : ''}"
+              data-n="${n}" ${otro ? crudo('disabled') : ''}
+              title="${otro ? nombreCompleto(otro) : 'Libre'}">${n}</button>`;
+        })}
       </div>
     </div>
 
@@ -94,6 +117,16 @@ export async function render(ctx, cont) {
 
     <button class="btn fantasma ancho" id="salir" style="margin-top:1.5rem">Cerrar sesión</button>
   `;
+
+  $$('#dorsales .num').forEach(b => b.addEventListener('click', async () => {
+    const n = Number(b.dataset.n);
+    const nuevo = yo.dorsal === n ? null : n;   // tocar el propio lo libera
+    try {
+      await db.elegirDorsal(yo.id, nuevo);
+      avisar(nuevo == null ? 'Has soltado tu dorsal' : '¡El ' + nuevo + ' es tuyo!');
+      ctx.recargar();
+    } catch (err) { fallo(err); }
+  }));
 
   cerrojo.pintarAjuste($('#cerrojo'), yo);
 
