@@ -29,14 +29,17 @@ export async function render(ctx, cont) {
   cont.innerHTML = cargando();
 
   const yo = ctx.perfil;
-  const [agenda, mias, cuota, docs, resumen, tablon, lecturas] = await Promise.all([
+  const [agenda, mias, cuota, docs, resumen, tablon, lecturas,
+         catalogo, misEncargos] = await Promise.all([
     db.eventos(ctx.temporada.id, { desde: hoyISO() }),
     db.misAsistencias(yo.id),
     db.cuotaDe(yo.id, ctx.temporada.id),
     db.documentacionDe(ctx.temporada.id),
     db.resumenAsistencia(ctx.temporada.id),
     db.avisos(ctx.temporada.id),
-    db.misLecturas(yo.id)
+    db.misLecturas(yo.id),
+    db.productos(),
+    db.misPedidos(yo.id)
   ]);
 
   const proximos = agenda.filter(e => !e.cancelado);
@@ -57,6 +60,14 @@ export async function render(ctx, cont) {
     if (!miDoc.dni_entregado) pendientes.push('la copia del DNI');
   }
   const debe = cuota && !cuota.exento && Number(cuota.importe_pendiente) > 0;
+
+  // Equipacion: si debe algo se le recuerda, y si no, se le enseña que existe.
+  const alaVenta = catalogo.filter(p => p.activo);
+  const encargosVivos = misEncargos.filter(p => p.estado !== 'cancelado');
+  const debeEquipacion = encargosVivos.filter(p => !p.pagado).reduce((suma, p) => {
+    const prod = catalogo.find(x => x.id === p.producto_id);
+    return suma + (prod ? Number(prod.precio) * p.cantidad : 0);
+  }, 0);
 
   const leidos = new Set(lecturas.map(l => l.aviso_id));
   const sinLeer = tablon.filter(a => esDeUnidad(yo.posiciones, a.destinatarios) && !leidos.has(a.id));
@@ -141,7 +152,7 @@ export async function render(ctx, cont) {
         <span class="cuando">${cuando(siguiente.fecha)}${siguiente.hora ? ' · ' + hora(siguiente.hora) : ''}</span>
       </a>`) : ''}
 
-    ${miAsistencia || pendientes.length || debe ? crudo(html`
+    ${miAsistencia || pendientes.length || debe || alaVenta.length ? crudo(html`
       <div class="tiras">
         ${miAsistencia ? html`
           <div class="tira">
@@ -158,6 +169,17 @@ export async function render(ctx, cont) {
             <span class="cifra-grande" style="color:var(--warn)">${pendientes.length}</span>
             <span class="et">Papeles</span>
             <span class="pie">Falta ${pendientes.join(', ')}</span>
+          </a>` : ''}
+
+        ${alaVenta.length ? html`
+          <a class="tira ${debeEquipacion > 0 ? 'aviso' : ''}" href="#/tienda">
+            <span class="cifra-grande" style="color:${debeEquipacion > 0 ? 'var(--goldf)' : 'var(--teal)'}">
+              ${debeEquipacion > 0 ? euros(debeEquipacion) : alaVenta.length}
+            </span>
+            <span class="et">Equipación</span>
+            <span class="pie">${debeEquipacion > 0
+              ? 'Te queda por pagar'
+              : (alaVenta.length === 1 ? 'Hay algo a la venta' : 'Cosas a la venta del club')}</span>
           </a>` : ''}
 
         ${debe ? html`
