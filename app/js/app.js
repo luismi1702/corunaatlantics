@@ -23,6 +23,7 @@ const VISTAS_STAFF = {
   '/documentacion': { titulo: 'Papeles',       cargar: () => import('./vistas/documentacion.js') },
   '/avisos':        { titulo: 'Avisos',        cargar: () => import('./vistas/avisos.js'), tab: false },
   '/material':      { titulo: 'Material',      cargar: () => import('./vistas/material.js'), tab: false },
+  '/tienda':        { titulo: 'Equipación',    cargar: () => import('./vistas/tienda.js'), tab: false },
   '/solicitudes':   { titulo: 'Solicitudes',   cargar: () => import('./vistas/solicitudes.js'), tab: false },
   '/ajustes':       { titulo: 'Ajustes',       cargar: () => import('./vistas/ajustes.js'), tab: false }
 };
@@ -32,6 +33,7 @@ const VISTAS_JUGADOR = {
   '/avisos':  { titulo: 'Avisos',   cargar: () => import('./vistas/jug-avisos.js') },
   '/agenda':  { titulo: 'Agenda',   cargar: () => import('./vistas/jug-agenda.js') },
   '/equipo':  { titulo: 'Equipo',   cargar: () => import('./vistas/jug-equipo.js') },
+  '/tienda':  { titulo: 'Equipación', cargar: () => import('./vistas/jug-tienda.js'), tab: false },
   '/mificha': { titulo: 'Mi ficha', cargar: () => import('./vistas/jug-ficha.js') }
 };
 
@@ -51,6 +53,7 @@ const ICONOS = {
   '/mificha':       '<circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-3.6 3.1-5.6 7-5.6s7 2 7 5.6" stroke-linecap="round"/>',
   '/avisos':        '<path d="M12 3.5a5.5 5.5 0 015.5 5.5c0 5 2 6.5 2 6.5H4.5s2-1.5 2-6.5A5.5 5.5 0 0112 3.5z" stroke-linejoin="round"/><path d="M10 19.5a2 2 0 004 0" stroke-linecap="round"/>',
   '/material':      '<path d="M12 3.5l7.5 3.2v5.6c0 4.3-3 7.3-7.5 8.2-4.5-.9-7.5-3.9-7.5-8.2V6.7z" stroke-linejoin="round"/><path d="M4.5 10h15" stroke-linecap="round"/>',
+  '/tienda':        '<path d="M4.5 8h15l-1.2 11.5a1.5 1.5 0 01-1.5 1.3H7.2a1.5 1.5 0 01-1.5-1.3z" stroke-linejoin="round"/><path d="M8.8 8V6.2a3.2 3.2 0 016.4 0V8" stroke-linecap="round"/>',
   '/solicitudes':   '<circle cx="10" cy="8" r="3.4"/><path d="M3.5 20c0-3.5 2.9-5.4 6.5-5.4 1.3 0 2.5.25 3.5.7" stroke-linecap="round"/><path d="M15.5 17.5h6M18.5 14.5v6" stroke-linecap="round"/>'
 };
 

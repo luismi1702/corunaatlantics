@@ -376,3 +376,47 @@ export const misPrestamos = (jugadorId) =>
   sb.from('prestamos_material').select('*, material(*)')
     .eq('jugador_id', jugadorId).is('devuelto_en', null)
     .then(ok);
+
+// --- Equipación y pedidos --------------------------------------------------
+
+export const productos = () =>
+  sb.from('productos').select('*').order('activo', { ascending: false }).order('nombre').then(ok);
+
+export const crearProducto = (datos) =>
+  sb.from('productos').insert(datos).select().single().then(ok);
+
+export const guardarProducto = (id, cambios) =>
+  sb.from('productos').update(cambios).eq('id', id).select().single().then(ok);
+
+export const borrarProducto = (id) =>
+  sb.from('productos').delete().eq('id', id).then(ok);
+
+export const pedidos = () =>
+  sb.from('pedidos').select('*').order('creado_en', { ascending: false }).then(ok);
+
+export const misPedidos = (jugadorId) =>
+  sb.from('pedidos').select('*').eq('jugador_id', jugadorId)
+    .order('creado_en', { ascending: false }).then(ok);
+
+export const crearPedido = (datos) =>
+  sb.from('pedidos').insert(datos).select().single().then(ok);
+
+export const guardarPedido = (id, cambios) =>
+  sb.from('pedidos').update(cambios).eq('id', id).select().single().then(ok);
+
+export const borrarPedido = (id) =>
+  sb.from('pedidos').delete().eq('id', id).then(ok);
+
+// La foto se guarda en el almacén de Supabase y en el producto solo va su URL.
+// El nombre lleva la marca de tiempo para que cambiar la foto de un producto no
+// pise la anterior mientras alguien la esté viendo.
+export async function subirFotoProducto(archivo) {
+  const extension = (archivo.name.split('.').pop() || 'jpg').toLowerCase();
+  const nombre = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${extension}`;
+
+  const { error } = await sb.storage.from('productos')
+    .upload(nombre, archivo, { cacheControl: '31536000', upsert: false });
+  if (error) throw error;
+
+  return sb.storage.from('productos').getPublicUrl(nombre).data.publicUrl;
+}

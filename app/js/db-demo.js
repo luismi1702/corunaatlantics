@@ -217,6 +217,26 @@ const PRESTAMOS = [
   { id: 'pr3', material_id: 'm-c3', jugador_id: 'p17', entregado_en: enDias(-120), devuelto_en: null, fianza: 50 }
 ];
 
+// --- Equipacion ------------------------------------------------------------
+
+const PRODUCTOS = [
+  { id: 'pr-1', nombre: 'Sudadera Atlantics',
+    descripcion: 'Capucha, algodon grueso, escudo bordado al pecho.',
+    precio: 32, foto_url: null, tallas: ['S','M','L','XL','XXL'], activo: true },
+  { id: 'pr-2', nombre: 'Camiseta de entreno',
+    descripcion: 'Tecnica, transpirable. La de los martes y jueves.',
+    precio: 18, foto_url: null, tallas: ['S','M','L','XL'], activo: true },
+  { id: 'pr-3', nombre: 'Gorra', descripcion: null,
+    precio: 15, foto_url: null, tallas: [], activo: true }
+];
+
+const PEDIDOS = [
+  { id: 'pd-1', producto_id: 'pr-1', jugador_id: 'p1', talla: 'L',  cantidad: 1, estado: 'pedido',    pagado: true,  nota: null },
+  { id: 'pd-2', producto_id: 'pr-1', jugador_id: 'p3', talla: 'XL', cantidad: 1, estado: 'pedido',    pagado: false, nota: null },
+  { id: 'pd-3', producto_id: 'pr-1', jugador_id: 'p5', talla: 'M',  cantidad: 2, estado: 'pedido',    pagado: false, nota: null },
+  { id: 'pd-4', producto_id: 'pr-2', jugador_id: 'p1', talla: 'L',  cantidad: 1, estado: 'entregado', pagado: true,  nota: null }
+];
+
 const demora = (v) => new Promise(r => setTimeout(() => r(structuredClone(v)), 120));
 const noDisponible = () => { throw new Error('En el modo demo no se guarda nada. Los datos son inventados.'); };
 
@@ -492,6 +512,20 @@ export const devolverMaterial = (prestamoId, cambios) => {
 export const misPrestamos = (jugadorId) => demora(
   PRESTAMOS.filter(p => p.jugador_id === jugadorId && !p.devuelto_en)
     .map(p => ({ ...p, material: MATERIAL.find(m => m.id === p.material_id) })));
+
+export const productos = () => demora(PRODUCTOS);
+export const crearProducto = (d) => { PRODUCTOS.push({ id: 'pr-' + (PRODUCTOS.length + 1), foto_url: null, ...d }); return demora(null); };
+export const guardarProducto = (id, c) => { const p = PRODUCTOS.find(x => x.id === id); if (p) Object.assign(p, c); return demora(p); };
+export const borrarProducto = (id) => { const i = PRODUCTOS.findIndex(x => x.id === id); if (i >= 0) PRODUCTOS.splice(i, 1); return demora(null); };
+
+export const pedidos = () => demora(PEDIDOS);
+export const misPedidos = (jid) => demora(PEDIDOS.filter(p => p.jugador_id === jid));
+export const crearPedido = (d) => { PEDIDOS.push({ id: 'pd-' + (PEDIDOS.length + 1), estado: 'pedido', pagado: false, nota: null, ...d }); return demora(null); };
+export const guardarPedido = (id, c) => { const p = PEDIDOS.find(x => x.id === id); if (p) Object.assign(p, c); return demora(p); };
+export const borrarPedido = (id) => { const i = PEDIDOS.findIndex(x => x.id === id); if (i >= 0) PEDIDOS.splice(i, 1); return demora(null); };
+
+// En la demo no hay almacenamiento: se ensena la foto elegida sin subir nada.
+export const subirFotoProducto = (archivo) => demora(URL.createObjectURL(archivo));
 
 export const documentacionDe = () => demora(DOCS);
 export const asegurarDocumentacion = (jugadorId) => demora(DOCS.find(d => d.jugador_id === jugadorId));

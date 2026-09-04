@@ -67,6 +67,10 @@
 - Endurecidos otros dos sitios donde el ancho podía apretar: las tiras de la pantalla del jugador y las etiquetas de la barra de pestañas en pantallas estrechas
 - Quitadas cuatro importaciones sin usar
 
+- Añadida la equipacion del club (`app/db/14_tienda.sql`): productos con foto, descripcion, precio y tallas; el jugador pide su talla desde la app y el staff ve cuantas encargar de cada una y quien ha pagado
+- Las fotos se suben al almacenamiento propio de Supabase, en un bucket publico donde solo el staff puede escribir
+- Comparada la app con Clupik: su plan gratuito corta en 50 deportistas y deja entrenamientos y asistencia en el plan de 39 euros al mes
+
 **Archivos nuevos:**
 - `app/` completo (HTML, CSS, JS, SQL, iconos, README)
 - `docs/app-plan.md`

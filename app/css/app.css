@@ -452,6 +452,87 @@ button.fila:active { transform: scale(.995); }
   color: var(--teal); word-break: break-all;
 }
 
+/* --- Equipacion ------------------------------------------------------------ */
+
+.miniatura {
+  flex: 0 0 52px; width: 52px; height: 52px;
+  border-radius: 10px; object-fit: cover;
+  background: var(--surf-2); border: 1px solid var(--line);
+}
+.miniatura.sin { background: linear-gradient(160deg, var(--surf-2), var(--deep)); }
+
+.fila.producto { align-items: flex-start; }
+.fila.producto.inactivo { opacity: .55; }
+
+.foto-producto {
+  display: block; width: 100%; max-height: 42vh;
+  object-fit: cover; border-radius: 14px;
+  margin-bottom: 1rem; background: var(--surf-2);
+}
+
+.precio-grande {
+  font-family: 'Anton', sans-serif; font-size: 1.9rem; line-height: 1;
+  color: var(--goldf); margin: .6rem 0 0;
+}
+
+/* Cuantas encargar de cada talla: la unica cifra que hace falta para llamar al
+   proveedor. */
+.tallas-resumen { display: flex; flex-wrap: wrap; gap: .5rem; }
+.talla-cuenta {
+  display: flex; align-items: baseline; gap: .4rem;
+  padding: .4rem .7rem; border-radius: 10px;
+  border: 1px solid var(--line); background: var(--surf);
+}
+.talla-cuenta .t {
+  font-family: 'Barlow Condensed', sans-serif; font-size: .82rem;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--muted);
+}
+.talla-cuenta .n {
+  font-family: 'Anton', sans-serif; font-size: 1.15rem; color: var(--teal);
+  font-variant-numeric: tabular-nums;
+}
+
+/* El catalogo del jugador: la foto manda, porque es lo que se compra. */
+.catalogo {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr));
+  gap: .7rem;
+}
+.tarjeta-producto {
+  display: flex; flex-direction: column; text-align: left;
+  border: 1px solid var(--line); border-radius: var(--r);
+  background: var(--surf); overflow: hidden; padding: 0;
+  color: var(--text); min-width: 0;
+}
+.tarjeta-producto img,
+.tarjeta-producto .sin-foto {
+  width: 100%; aspect-ratio: 1; object-fit: cover; display: block;
+  background: linear-gradient(160deg, var(--surf-2), var(--deep));
+}
+.tarjeta-producto .cuerpo { padding: .7rem .8rem .85rem; }
+.tarjeta-producto .nom {
+  font-family: 'Barlow Condensed', sans-serif; font-weight: 600;
+  font-size: 1.02rem; line-height: 1.2;
+}
+.tarjeta-producto .precio {
+  font-family: 'Anton', sans-serif; color: var(--goldf);
+  font-size: 1.1rem; margin-top: .3rem;
+}
+
+.subir-foto {
+  display: grid; place-items: center;
+  min-height: 150px; border-radius: 12px;
+  border: 1px dashed var(--line);
+  background: rgba(13,32,48,.5);
+  overflow: hidden; cursor: pointer;
+}
+.subir-foto img { width: 100%; height: 100%; max-height: 240px; object-fit: cover; }
+.subir-foto .pista {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: .9rem; letter-spacing: .08em; text-transform: uppercase;
+  color: var(--muted); text-align: center; padding: 1rem;
+}
+
 /* --- Elegir dorsal --------------------------------------------------------- */
 /* Cien números tienen que caber sin hacer scroll infinito ni obligar a apuntar
    con precisión: rejilla apretada, pero cada casilla sigue siendo tocable. */
