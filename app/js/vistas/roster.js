@@ -3,8 +3,8 @@
 import * as db from '../db.js';
 import {
   html, crudo, $, $$, euros, fecha, nombreCompleto, tag, TAG_JUGADOR, TAG_CUOTA,
-  POSICIONES, UNIDADES, hoyISO, hoja, confirmar, avisar, fallo, cargando, vacio,
-  enlaceLlamada, enlaceWhatsApp
+  POSICIONES, UNIDADES, SECCIONES, SECCION, hoyISO, hoja, confirmar, avisar, fallo,
+  conRespaldo, cargando, vacio, enlaceLlamada, enlaceWhatsApp
 } from '../ui.js';
 
 let filtro = 'activo';
@@ -98,6 +98,10 @@ async function abrirFicha(ctx, id, alGuardar) {
   };
 
   const cuota = id ? await db.cuotaDe(id, ctx.temporada.id) : null;
+
+  // Solo el admin reparte llaves, asi que solo el admin necesita saber cuales
+  // tiene esta persona.
+  const llaves = new Set(id && ctx.esStaff ? await conRespaldo(db.permisosDe(id), []) : []);
   const asistencia = id
     ? (await db.resumenAsistencia(ctx.temporada.id)).find(a => a.jugador_id === id)
     : null;
@@ -189,12 +193,32 @@ async function abrirFicha(ctx, id, alGuardar) {
               <span class="muted" style="font-family:'Barlow',sans-serif;font-size:.9rem">de ${euros(cuota.importe_total)}</span></div>
             <div style="margin-top:.3rem">${tag(TAG_CUOTA, cuota.estado)}</div>
           </div>
-          <a class="btn fantasma" href="#/cuotas" style="margin-left:auto">Gestionar</a>
+          ${ctx.puede('tesoreria') ? crudo(html`<a class="btn fantasma" href="${ctx.enlace('dinero')}" style="margin-left:auto">Gestionar</a>`) : ''}
         </div>`) : ''}
 
       <button type="submit" class="btn primario ancho" style="margin-top:1.2rem">Guardar</button>
       ${id ? crudo(html`<p class="ayuda" style="margin-top:.8rem">Alta el ${fecha(p.alta_en)}.</p>`) : ''}
     </form>
+
+    ${id && ctx.esStaff && p.rol !== 'admin' ? crudo(html`
+      <p class="eyebrow">Secciones que lleva<span class="cuenta">${llaves.size}</span></p>
+      <p class="ayuda" style="margin:0 0 .7rem;line-height:1.6">
+        Lo que le des aquí le aparece dentro de su app, en Mi ficha. Lo demás
+        sigue sin verlo, y no porque se le escondan los botones: no puede.
+      </p>
+      <div class="lista" id="llaves">
+        ${SECCIONES.map(sec => html`
+          <button class="fila" data-llave="${sec.clave}" aria-pressed="${llaves.has(sec.clave)}">
+            <div class="info">
+              <div class="nom">${sec.nombre}</div>
+              <div class="meta">${sec.pie}</div>
+            </div>
+            <div class="dcha">
+              ${llaves.has(sec.clave) ? crudo('<span class="tag ok">Sí</span>')
+                                      : crudo('<span class="tag n">No</span>')}
+            </div>
+          </button>`)}
+      </div>`) : ''}
 
     ${id ? crudo(html`
       <p class="eyebrow">Acceso a la app</p>
@@ -221,6 +245,22 @@ async function abrirFicha(ctx, id, alGuardar) {
         </p>
         <button class="btn peligro ancho" id="borrar">Borrar la ficha entera</button>
       </div>`) : ''}`);
+
+  // Las llaves, como las posiciones: un toque y guardado, sin boton aparte.
+  $$('#llaves .fila', panel).forEach(b => b.addEventListener('click', async () => {
+    const clave = b.dataset.llave;
+    const dar = !llaves.has(clave);
+    b.disabled = true;
+    try {
+      if (dar) await db.darPermiso(id, clave); else await db.quitarPermiso(id, clave);
+      dar ? llaves.add(clave) : llaves.delete(clave);
+      b.setAttribute('aria-pressed', dar);
+      b.querySelector('.dcha').innerHTML = dar
+        ? '<span class="tag ok">Sí</span>' : '<span class="tag n">No</span>';
+      avisar(dar ? SECCION[clave].nombre + ' concedida' : SECCION[clave].nombre + ' retirada');
+    } catch (err) { fallo(err); }
+    b.disabled = false;
+  }));
 
   // Posiciones como interruptores
   const posiciones = new Set(p.posiciones);

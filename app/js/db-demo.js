@@ -239,6 +239,35 @@ const PEDIDOS = [
   { id: 'pd-4', producto_id: 'pr-2', jugador_id: 'p1', talla: 'L',  cantidad: 1, estado: 'entregado', pagado: true,  nota: null }
 ];
 
+// --- Permisos por seccion --------------------------------------------------
+
+const PERMISOS = [
+  { perfil_id: 'p1', seccion: 'tesoreria' },
+  { perfil_id: 'p1', seccion: 'material' }
+];
+
+export const misPermisos = () => {
+  const rol = rolDemo();
+  if (rol === 'delegado') return demora(PERMISOS.filter(x => x.perfil_id === 'p1').map(x => x.seccion));
+  return demora([]);
+};
+
+export const permisosDe = (perfilId) =>
+  demora(PERMISOS.filter(x => x.perfil_id === perfilId).map(x => x.seccion));
+
+export const darPermiso = (perfilId, seccion) => {
+  if (!PERMISOS.some(x => x.perfil_id === perfilId && x.seccion === seccion)) {
+    PERMISOS.push({ perfil_id: perfilId, seccion });
+  }
+  return demora(null);
+};
+
+export const quitarPermiso = (perfilId, seccion) => {
+  const i = PERMISOS.findIndex(x => x.perfil_id === perfilId && x.seccion === seccion);
+  if (i >= 0) PERMISOS.splice(i, 1);
+  return demora(null);
+};
+
 // --- Competiciones y estadisticas ------------------------------------------
 
 const COMPETICIONES = [
@@ -302,6 +331,8 @@ const RECIEN_LLEGADO = {
 
 export const miPerfil = () => {
   const rol = rolDemo();
+  // El delegado es un jugador cualquiera al que se le han dado dos secciones.
+  if (rol === 'delegado')  return demora({ ...nombres[1], rol: 'jugador' });
   if (rol === 'jugador')   return demora(nombres[1]);
   if (rol === 'registro')  return demora(RECIEN_LLEGADO);
   if (rol === 'pendiente') return demora({ ...RECIEN_LLEGADO, ...SOLICITUDES[0], acceso: 'pendiente' });

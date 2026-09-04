@@ -300,6 +300,34 @@ export const ESTADISTICAS = [
 
 export const ESTADISTICA = Object.fromEntries(ESTADISTICAS.map(e => [e.clave, e]));
 
+// Las secciones del club que se pueden poner en manos de alguien. El nombre y
+// la explicacion viven aqui y no en la pantalla de permisos, porque los usan
+// tanto quien reparte las llaves como quien las tiene.
+//
+// `clave` es la misma cadena que guarda la tabla `permisos` y que comprueba
+// puede() en la base de datos. `ruta` es como se llama la pantalla en la
+// consola del admin, y `vista` el modulo que la pinta: casi siempre coinciden.
+export const SECCIONES = [
+  { clave: 'tesoreria',  nombre: 'Tesorería',  ruta: 'dinero',        vista: 'dinero',
+    pie: 'Cuotas, quién ha pagado, ingresos y gastos' },
+  { clave: 'roster',     nombre: 'Roster',     ruta: 'roster',        vista: 'personas',
+    pie: 'Fichas de la plantilla y solicitudes de entrada' },
+  { clave: 'documentos', nombre: 'Documentos', ruta: 'documentacion', vista: 'documentacion',
+    pie: 'Licencias, seguros y reconocimientos' },
+  { clave: 'calendario', nombre: 'Calendario', ruta: 'calendario',    vista: 'calendario',
+    pie: 'Entrenos, partidos y pasar lista' },
+  { clave: 'avisos',     nombre: 'Avisos',     ruta: 'avisos',        vista: 'avisos',
+    pie: 'Publicar avisos al equipo' },
+  { clave: 'liga',       nombre: 'Liga',       ruta: 'liga',          vista: 'liga',
+    pie: 'Competiciones, resultados y estadísticas' },
+  { clave: 'material',   nombre: 'Material',   ruta: 'material',      vista: 'material',
+    pie: 'Inventario y préstamos' },
+  { clave: 'tienda',     nombre: 'Tienda',     ruta: 'tienda',        vista: 'tienda',
+    pie: 'Catálogo y pedidos' }
+];
+
+export const SECCION = Object.fromEntries(SECCIONES.map(s => [s.clave, s]));
+
 export const POSICIONES = [
   'QB','RB','FB','WR','TE','OL','C','OG','OT',
   'DL','DE','DT','LB','CB','S','DB',

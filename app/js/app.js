@@ -1,7 +1,7 @@
 // Arranque, sesión y navegación.
 
 import { estaConfigurado } from './config.js';
-import { html, crudo, $, avisar, fallo, cargando } from './ui.js';
+import { html, crudo, $, avisar, fallo, cargando, SECCIONES } from './ui.js';
 import * as cerrojo from './cerrojo.js';
 
 // La app tiene dos caras y cada una tiene su propio mapa de pantallas: lo que
@@ -38,6 +38,37 @@ const VISTAS_JUGADOR = {
 };
 
 const TABS_JUGADOR = ['/', '/avisos', '/agenda', '/equipo', '/mificha'];
+
+// Un jugador puede llevar secciones del club (la tesorería, el material…). No
+// cambia de app por eso: sigue en la suya y las lleva dentro, colgando de Mi
+// ficha. Por eso las rutas van con prefijo `club-`: si no, "sus" avisos y los
+// avisos del club querrían la misma dirección.
+//
+// Son exactamente las mismas pantallas que ve el admin. Lo que puede hacer en
+// ellas no lo decide esto, lo decide Postgres.
+const MODULOS = {
+  dinero:        () => import('./vistas/dinero.js'),
+  personas:      () => import('./vistas/personas.js'),
+  documentacion: () => import('./vistas/documentacion.js'),
+  calendario:    () => import('./vistas/calendario.js'),
+  avisos:        () => import('./vistas/avisos.js'),
+  liga:          () => import('./vistas/liga.js'),
+  material:      () => import('./vistas/material.js'),
+  tienda:        () => import('./vistas/tienda.js')
+};
+
+function vistasDelegadas(permisos) {
+  const mapa = {};
+  for (const s of SECCIONES) {
+    if (!permisos.includes(s.clave)) continue;
+    mapa['/club-' + s.ruta] = { titulo: s.nombre, cargar: MODULOS[s.vista] };
+  }
+  // Pasar lista cuelga del calendario, y también hace falta desde la Liga.
+  if (permisos.includes('calendario') || permisos.includes('liga')) {
+    mapa['/club-lista'] = { titulo: 'Partido', cargar: () => import('./vistas/lista.js') };
+  }
+  return mapa;
+}
 
 const ICONOS = {
   '/':              '<rect x="3.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.6"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.6"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.6"/>',
@@ -108,17 +139,41 @@ async function iniciar() {
   if (perfil.acceso === 'pendiente')  return pantallaEspera(app, perfil, db);
   if (perfil.acceso === 'rechazado')  return pantallaRechazo(app, perfil, db);
 
-  const esStaff = perfil.rol === 'admin' || perfil.rol === 'staff';
+  // El admin tiene la consola entera. Cualquier otro entra a su app de jugador
+  // y lleva dentro las secciones que se le hayan dado, si es que tiene alguna.
+  const esStaff = perfil.rol === 'admin';
+  const permisos = esStaff
+    ? SECCIONES.map(s => s.clave)
+    : await conPermisos(db);
 
   // El dorsal viaja al CSS como texto para poder pintarlo de fondo. Sin dorsal
   // asignado no se pinta nada, en vez de un hueco raro.
   document.body.classList.toggle('jugador', !esStaff);
   document.documentElement.style.setProperty('--dorsal',
     !esStaff && perfil.dorsal != null ? JSON.stringify(String(perfil.dorsal)) : '""');
-  const ctx = { perfil, temporada, esStaff, recargar: iniciar };
+  // Las pantallas del club son las mismas para el admin y para quien lleva una
+  // sección, pero no viven en la misma dirección. Esto es lo que hace que un
+  // enlace entre ellas lleve a donde debe en cada caso.
+  const ctx = {
+    perfil, temporada, esStaff, permisos, recargar: iniciar,
+    puede: (seccion) => permisos.includes(seccion),
+    enlace: (nombre) => esStaff ? '#/' + nombre : '#/club-' + nombre
+  };
+
   pantallaApp(app, ctx,
-    esStaff ? VISTAS_STAFF : VISTAS_JUGADOR,
+    esStaff ? VISTAS_STAFF : { ...VISTAS_JUGADOR, ...vistasDelegadas(permisos) },
     esStaff ? TABS_STAFF : TABS_JUGADOR);
+}
+
+// Sin llaves no se rompe nada: se sigue como jugador y ya está. Por eso la
+// consulta no puede tumbar el arranque.
+async function conPermisos(db) {
+  try {
+    return await db.misPermisos();
+  } catch (e) {
+    console.error(e);
+    return [];
+  }
 }
 
 // --- Pantallas de estado ---------------------------------------------------
@@ -319,6 +374,10 @@ function pantallaApp(app, ctx, vistas, tabs) {
     $('#cabecera').innerHTML = ctx.esStaff && r === '/'
       ? html`<div class="sub">Consola de gestión</div>`
       : html`<h1>${v.titulo}</h1><div class="sub">${ctx.temporada.nombre}</div>`;
+    // En una seccion del club se apaga la marca de agua del dorsal: alli esta
+    // gestionando, no mirando su ficha.
+    document.body.classList.toggle('club', r.startsWith('/club-'));
+
     document.querySelectorAll('.tabbar a').forEach(a =>
       a.dataset.ruta === r ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current'));
 

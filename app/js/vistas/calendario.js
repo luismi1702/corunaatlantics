@@ -50,7 +50,7 @@ export async function render(ctx, cont) {
           El calendario está vacío. Si entrenáis siempre los mismos días, define el
           horario en Ajustes y la app crea los entrenos sola.
         </p>
-        <a class="btn ancho" href="#/ajustes">Definir el horario</a>
+        ${ctx.esStaff ? crudo(html`<a class="btn ancho" href="#/ajustes">Definir el horario</a>`) : ''}
       </div>`) : ''}
   `;
 
@@ -59,7 +59,7 @@ export async function render(ctx, cont) {
     $('#lista').innerHTML = items.length ? items.map(e => {
       const dias = diasHasta(e.fecha);
       return html`
-        <a class="fila" href="#/lista/${e.id}" style="text-decoration:none;color:inherit">
+        <a class="fila" href="${ctx.enlace('lista')}/${e.id}" style="text-decoration:none;color:inherit">
           <div class="dorsal ${e.tipo === 'partido' ? 'partido' : ''}" style="flex-basis:52px">
             <span style="font-size:.72rem;line-height:1.1;text-align:center">
               ${cuando(e.fecha).slice(0, 3).toUpperCase()}<br>${e.fecha.slice(8)}

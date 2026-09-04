@@ -1,5 +1,26 @@
 # Changelog — Coruña Atlantics Web
 
+## [2026-09-05] — Cada seccion, en manos de quien la lleva
+
+**Qué se hizo:**
+- Los permisos dejan de ser un rango y pasan a ser una lista: se elige a cualquiera de la plantilla y se le dan, una a una, las secciones que lleva (Tesorería, Roster, Documentos, Calendario, Avisos, Liga, Material, Tienda)
+- Se reparten desde su propia ficha en el Roster, con un toque por sección. Repartir llaves es solo del admin
+- Quien recibe una sección **no cambia de app**: sigue en la del jugador y las secciones le cuelgan de Mi ficha, en un bloque "Del club". Son las mismas pantallas que ve el admin
+- Nueva tabla `permisos` y función `puede(seccion)` (`app/db/17_permisos.sql`): todas las políticas RLS pasan de `es_staff()` / `es_admin()` a la llave que les corresponde
+- El disparador `bloquear_campos_de_club()` deja pasar a quien lleva el roster, pero el **rol sigue siendo solo del admin**: un delegado no puede ascender a nadie, ni a sí mismo
+- `resolver_solicitud()` pasa a pedir la llave del roster; `aplicar_importe_cuota()`, la de tesorería
+- La consola completa queda para el rol `admin`. El rol `staff`, que nunca se usó, ya no da acceso por sí solo: ahora se dan secciones
+- Apagada la marca de agua del dorsal cuando un jugador está dentro de una sección del club: ahí no es su ficha, y estorbaba para leer cifras
+
+**Por qué:**
+En un club la responsabilidad no viene en bloque: uno lleva el material, otra la
+tesorería, otro pone los avisos, y ninguno necesita lo demás. Con dos roles había que
+elegir entre no delegar nada o dar las llaves enteras. Ahora se da exactamente lo que
+alguien lleva, y quien lo impone es Postgres: un delegado del material que se ponga a
+hacer peticiones a mano no saca ni una cuota.
+
+**Pendiente en Supabase:** ejecutar `13_permisos_funciones.sql`, `15_competiciones.sql`, `16_estadisticas_visibles.sql` y `17_permisos.sql`, en ese orden.
+
 ## [2026-09-05] — Liga: la clasificación se calcula sola
 
 **Qué se hizo:**

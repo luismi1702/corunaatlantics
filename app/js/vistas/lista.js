@@ -24,7 +24,7 @@ const PINTA = {
 const ETIQUETA_UNIDAD = { todos: 'Todo el equipo', ataque: 'Ataque', defensa: 'Defensa', especiales: 'Equipos especiales' };
 
 export async function render(ctx, cont, eventoId) {
-  if (!eventoId) { location.hash = '#/calendario'; return; }
+  if (!eventoId) { location.hash = ctx.enlace('calendario'); return; }
   cont.innerHTML = cargando();
 
   const [ev, plantilla, asistencias] = await Promise.all([

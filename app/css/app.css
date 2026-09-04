@@ -209,6 +209,9 @@ html, body { overflow-x: hidden; }
 button.fila:hover { border-color: var(--teal-d); background: var(--surf-2); }
 button.fila:active { transform: scale(.995); }
 
+/* Una fila que se enciende y se apaga: las llaves de cada seccion. */
+.fila[aria-pressed="true"] { border-color: var(--teal-d); background: rgba(78,205,200,.08); }
+
 .dorsal {
   flex: 0 0 52px; height: 52px;
   display: grid; place-items: center;
@@ -850,6 +853,11 @@ body.jugador .opcion { background: rgba(6,17,25,.82); }
 @media (min-width: 720px) {
   body.jugador::after { font-size: 32rem; right: max(1rem, calc(50vw - 520px)); }
 }
+
+/* Su dorsal gigante es la marca de "esta es tu app". En una seccion del club
+   que lleva esa misma persona no pinta nada: ahi no es el 22, es quien lleva la
+   tesoreria, y encima estorba para leer cifras. */
+body.jugador.club::after { content: none; }
 
 /* --- Identidad del jugador ------------------------------------------------ */
 

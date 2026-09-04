@@ -421,6 +421,24 @@ export async function subirFotoProducto(archivo) {
   return sb.storage.from('productos').getPublicUrl(nombre).data.publicUrl;
 }
 
+// --- Permisos por seccion --------------------------------------------------
+
+// Las llaves de quien pregunta. Va por funcion y no por consulta a la tabla
+// porque la tabla solo deja ver las propias, y asi no depende de esa politica.
+export const misPermisos = () =>
+  sb.rpc('mis_permisos').then(ok).then(filas => filas.map(f => f.seccion));
+
+export const permisosDe = (perfilId) =>
+  sb.from('permisos').select('seccion').eq('perfil_id', perfilId)
+    .then(ok).then(filas => filas.map(f => f.seccion));
+
+export const darPermiso = (perfilId, seccion) =>
+  sb.from('permisos').upsert({ perfil_id: perfilId, seccion },
+    { onConflict: 'perfil_id,seccion' }).then(ok);
+
+export const quitarPermiso = (perfilId, seccion) =>
+  sb.from('permisos').delete().eq('perfil_id', perfilId).eq('seccion', seccion).then(ok);
+
 // --- Competiciones y estadisticas ------------------------------------------
 
 export const competiciones = (temporadaId) =>
