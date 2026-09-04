@@ -71,7 +71,7 @@ export async function render(ctx, cont) {
             </div>
             <div class="dcha"><span class="tag ${g.clase}">${g.titulo}</span></div>
           </div>`)
-          : vacio('Nadie está listo para jugar todavía. Revisa licencias y reconocimientos en Papeles.')}
+          : vacio('Nadie está listo para jugar todavía. Revisa licencias y reconocimientos en Documentos.')}
       </div>`;
   }).join('');
 

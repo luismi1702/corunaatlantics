@@ -71,7 +71,7 @@ export async function render(ctx, cont) {
       <button class="btn primario ancho" type="submit">Guardar</button>
     </form>
 
-    <p class="eyebrow">Tu papeleo</p>
+    <p class="eyebrow">Tus documentos</p>
     <div class="lista">
       ${DOCUMENTOS.map(d => html`
         <div class="fila">
@@ -109,14 +109,6 @@ export async function render(ctx, cont) {
             : 'Has pagado ' + euros(cuota.importe_pagado) + ' de ' + euros(cuota.importe_total) + ' · ' + ctx.temporada.nombre}
         </p>
       </div>`) : ''}
-
-    <a class="fila" href="#/tienda" style="text-decoration:none;color:inherit;margin-top:1.5rem">
-      <div class="info">
-        <div class="nom">Tienda del club</div>
-        <div class="meta">Sudaderas, camisetas y lo que haya a la venta</div>
-      </div>
-      <div class="dcha"><span class="tag teal">Ver</span></div>
-    </a>
 
     <div id="cerrojo"></div>
 

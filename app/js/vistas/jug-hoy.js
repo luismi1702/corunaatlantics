@@ -181,7 +181,7 @@ export async function render(ctx, cont) {
         ${pendientes.length ? html`
           <a class="tira aviso" href="#/mificha">
             <span class="cifra-grande" style="color:var(--warn)">${pendientes.length}</span>
-            <span class="et">Papeles</span>
+            <span class="et">Documentos</span>
             <span class="pie">Falta ${pendientes.join(', ')}</span>
           </a>` : ''}
 
