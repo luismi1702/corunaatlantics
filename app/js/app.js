@@ -176,6 +176,30 @@ function pantallaLogin(app, db) {
   });
 }
 
+function pantallaSinTemporada(app, db) {
+  app.innerHTML = html`
+    <div class="login">
+      <img class="login-marca" src="./img/logo-principal.webp" alt="Coruña Atlantics">
+      <h1>Sin temporada</h1>
+      <p>No hay ninguna temporada activa, así que la app no tiene dónde colgar
+         entrenos, cuotas ni fichas. Se crea desde el editor SQL de Supabase.</p>
+      <button class="btn fantasma" id="salir" style="margin-top:1rem">Cerrar sesión</button>
+    </div>`;
+  $('#salir').addEventListener('click', async () => { await db.salir(); location.reload(); });
+}
+
+function pantallaError(app, error, db) {
+  console.error(error);
+  app.innerHTML = html`
+    <div class="login">
+      <img class="login-marca" src="./img/logo-principal.webp" alt="Coruña Atlantics">
+      <h1>Algo ha fallado</h1>
+      <p>${db.traducirError(error)}</p>
+      <button class="btn fantasma" id="salir" style="margin-top:1rem">Cerrar sesión</button>
+    </div>`;
+  $('#salir').addEventListener('click', async () => { await db.salir(); location.reload(); });
+}
+
 // Le pasa a quien tenía ficha y se la borraron: la cuenta sigue existiendo,
 // pero ya no hay nada suyo en el club. Sin esto se quedaba mirando un error.
 function pantallaSinFicha(app, db) {
