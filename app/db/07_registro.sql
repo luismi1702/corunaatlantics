@@ -81,7 +81,10 @@ create trigger perfiles_aprobar_altas before insert on perfiles
 create or replace function bloquear_campos_de_club()
 returns trigger language plpgsql security definer set search_path = public as $$
 begin
-  if not es_admin() then
+  -- auth.uid() nulo significa que el cambio no viene de una persona usando la
+  -- app, sino de un disparador del sistema o del editor SQL. Sin esta salida,
+  -- el enlace de una ficha con su cuenta recién creada se revierte solo.
+  if auth.uid() is not null and not es_admin() then
     new.rol         := old.rol;
     new.user_id     := old.user_id;
     new.estado      := old.estado;
@@ -163,6 +166,28 @@ begin
   if p_aprobar then
     perform preparar_temporada_de_jugador_manual(p_jugador);
   end if;
+end $$;
+
+-- Una solicitud sin aprobar no es plantilla: no se le abre cuota ni ficha de
+-- documentación hasta que entra de verdad.
+create or replace function preparar_temporada_de_jugador()
+returns trigger language plpgsql security definer set search_path = public as $$
+declare t temporadas%rowtype;
+begin
+  if new.acceso <> 'aprobado' then return new; end if;
+
+  select * into t from temporadas where activa limit 1;
+  if not found then return new; end if;
+
+  insert into cuotas (jugador_id, temporada_id, importe_total)
+  values (new.id, t.id, t.importe_cuota)
+  on conflict (jugador_id, temporada_id) do nothing;
+
+  insert into documentacion (jugador_id, temporada_id)
+  values (new.id, t.id)
+  on conflict (jugador_id, temporada_id) do nothing;
+
+  return new;
 end $$;
 
 create or replace function preparar_temporada_de_jugador_manual(p_jugador uuid)

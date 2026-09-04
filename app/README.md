@@ -24,15 +24,24 @@ datos son personales y deben quedarse en la UE.
 
 ### 2. Crear las tablas
 
-SQL Editor → New query → pegar y ejecutar, **en este orden**:
+SQL Editor → New query → pegar `app/db/00_instalar.sql` entero → Run.
 
-1. `app/db/01_schema.sql` — tablas, vistas y automatismos.
-2. `app/db/02_rls.sql` — permisos. Sin esto los datos quedan al descubierto.
-3. `app/db/03_arranque.sql` — temporada inicial. Léete antes el apartado 4.
-4. `app/db/04_tesoreria.sql` — ingresos, gastos y resumen de caja.
-5. `app/db/05_calendario.sql` — entrenos, partidos, asistencia y disponibilidad.
-6. `app/db/06_jugador.sql` — confirmaciones, vista de compañeros y sus permisos.
-7. `app/db/07_registro.sql` — registro de jugadores con aprobación.
+Ese archivo es la unión de los numerados en el orden correcto, así que basta
+una pegada. Los sueltos siguen ahí para leerlos por partes:
+
+| Archivo | Qué monta |
+|---|---|
+| `01_schema.sql` | Tablas, vistas y automatismos |
+| `02_rls.sql` | Permisos. Sin esto los datos quedan al descubierto |
+| `04_tesoreria.sql` | Ingresos, gastos y resumen de caja |
+| `05_calendario.sql` | Entrenos, partidos, asistencia y disponibilidad |
+| `06_jugador.sql` | Confirmaciones y vista de compañeros |
+| `07_registro.sql` | Registro de jugadores con aprobación |
+
+`00_instalar.sql` está **generado**: si tocas un archivo suelto, vuelve a
+generarlo con `python generar_instalador.py` desde `app/db`.
+
+Después, `03_arranque.sql` con tu email (apartado 4).
 
 ### 3. Conectar la app
 

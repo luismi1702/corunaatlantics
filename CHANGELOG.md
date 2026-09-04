@@ -40,6 +40,11 @@
 - Cerrado el agujero de que cualquiera con el enlace se convirtiera en jugador con acceso: el estado de acceso va en columna aparte del deportivo y las políticas de calendario, temporadas y compañeros exigen estar aprobado
 - Las altas hechas por el club desde Roster entran aprobadas sin pasar por solicitud
 
+- Validado todo el SQL con el parser real de PostgreSQL (libpg_query): 152 sentencias sin errores de sintaxis
+- Corregido que el disparador que impide a un jugador tocar campos del club se aplicara también a los disparadores del sistema, lo que revertía el enlace de una ficha con su cuenta recién creada
+- Corregido que una solicitud sin aprobar recibiera ya cuota y ficha de documentación, y apareciera en el roster como si fuera plantilla
+- Añadido `app/db/00_instalar.sql`, generado, para montar la base de datos de una sola pegada
+
 **Archivos nuevos:**
 - `app/` completo (HTML, CSS, JS, SQL, iconos, README)
 - `docs/app-plan.md`

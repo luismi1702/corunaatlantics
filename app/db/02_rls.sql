@@ -69,7 +69,10 @@ create policy perfiles_admin on perfiles
 create or replace function bloquear_campos_de_club()
 returns trigger language plpgsql security definer set search_path = public as $$
 begin
-  if not es_admin() then
+  -- auth.uid() nulo significa que el cambio no viene de una persona usando la
+  -- app, sino de un disparador del sistema o del editor SQL. Sin esta salida,
+  -- el enlace de una ficha con su cuenta recién creada se revierte solo.
+  if auth.uid() is not null and not es_admin() then
     new.rol         := old.rol;
     new.user_id     := old.user_id;
     new.estado      := old.estado;

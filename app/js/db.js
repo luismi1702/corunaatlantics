@@ -58,9 +58,12 @@ export const abrirTemporada = (id) =>
 
 // --- Roster ---------------------------------------------------------------
 
+// Solo gente aprobada: una solicitud sin resolver no es plantilla y no debe
+// aparecer en el roster, ni en cuotas, ni en papeles.
 export const roster = () =>
   sb.from('perfiles')
     .select('*')
+    .eq('acceso', 'aprobado')
     .order('estado')
     .order('dorsal', { ascending: true, nullsFirst: false })
     .order('nombre')
