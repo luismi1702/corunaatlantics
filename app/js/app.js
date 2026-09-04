@@ -184,7 +184,8 @@ function pantallaLogin(app, db) {
           <p class="ayuda">Si no llega en un par de minutos, revisa la carpeta de spam.</p>
         </div>`;
     } catch (err) {
-      fallo(err);
+      console.error(err);
+      avisar(db.traducirError(err), 'error');
       boton.disabled = false;
       boton.textContent = 'Enviarme el enlace';
     }

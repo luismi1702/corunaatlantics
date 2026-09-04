@@ -222,6 +222,7 @@ const noDisponible = () => { throw new Error('En el modo demo no se guarda nada.
 
 // --- API idéntica a la de db.js -------------------------------------------
 
+export const traducirError = (e) => e?.message ?? String(e ?? '');
 export const sesion = () => demora({ user: { id: 'u1' } });
 export const entrar = () => noDisponible();
 export const salir = () => demora(null);

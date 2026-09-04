@@ -13,6 +13,33 @@ export const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
 // quedarse en silencio con una lista vacía.
 const ok = ({ data, error }) => { if (error) throw error; return data; };
 
+// Los errores de Supabase llegan en inglés y en jerga. Los que puede ver una
+// persona normal se traducen a algo que explique qué ha pasado y qué hacer.
+const TRADUCCIONES = [
+  [/email rate limit exceeded/i,
+   'Se han enviado demasiados correos en poco tiempo. Espera un rato y vuelve a intentarlo.'],
+  [/you can only request this after (\d+) seconds?/i,
+   'Acabas de pedir un enlace. Espera $1 segundos y vuelve a intentarlo.'],
+  [/(invalid|expired).*(link|token)|token has expired/i,
+   'Ese enlace ya no vale: han pasado demasiados minutos o ya lo habías usado. Pide otro.'],
+  [/signups? not allowed/i,
+   'El registro está cerrado ahora mismo. Habla con alguien del club.'],
+  [/invalid email/i, 'Ese email no parece válido.'],
+  [/failed to fetch|networkerror|load failed/i,
+   'No hay conexión con el servidor. Comprueba los datos del móvil y reinténtalo.'],
+  [/jwt|invalid api key/i,
+   'La app no ha podido identificarse con el servidor. Avisa a quien la administra.']
+];
+
+export function traducirError(e) {
+  const texto = e?.message ?? String(e ?? '');
+  for (const [patron, mensaje] of TRADUCCIONES) {
+    const m = texto.match(patron);
+    if (m) return mensaje.replace('$1', m[1] ?? '');
+  }
+  return texto;
+}
+
 // --- Sesión ---------------------------------------------------------------
 
 export async function sesion() {
