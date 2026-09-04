@@ -10,6 +10,7 @@
 - Nuestros partidos ya no se escriben dos veces: al apuntar uno en el que jugamos, se crea solo en el calendario con rival, campo y local/visitante, y desde ahí siguen funcionando pasar lista y las estadísticas por jugador
 - El marcador se sincroniza en los dos sentidos: se toque en la liga o en la pantalla del partido, la tabla se entera
 - Las estadísticas se apuntan donde se apunta el resultado: al guardar un partido nuestro con marcador, se abre directamente la lista de jugadores; y queda un botón en el partido para volver a ellas. Extraídas a `app/js/vistas/stats-partido.js`, compartidas con la pantalla del partido
+- Añadido "Pases interceptados" en las estadísticas de ataque, la INT del que lanza (se llama distinto que la de defensa para que en la misma lista se sepa cuál es cuál). Sin migración: la tabla de estadísticas guarda una fila por concepto, así que añadir uno es editar una lista
 - Nueva tabla `equipos_competicion` y `partidos_competicion` (`app/db/15_competiciones.sql`, reescrito); retirada la vista `balance_competicion`, que ahora es la fila de la tabla
 
 **Por qué:**

@@ -290,6 +290,9 @@ export const OPCIONES_ASISTENCIA = [
 export const ESTADISTICAS = [
   { clave: 'td',           nombre: 'Touchdowns',     corto: 'TD',  area: 'ataque'  },
   { clave: 'td_pase',      nombre: 'Pases de TD',    corto: 'TDp', area: 'ataque'  },
+  // La del que lanza. Se llama distinto que la de defensa a proposito: en la
+  // misma lista, dos "Intercepciones" no dirian cual es cual.
+  { clave: 'int_lanzada',  nombre: 'Pases interceptados', corto: 'INTp', area: 'ataque' },
   { clave: 'int',          nombre: 'Intercepciones', corto: 'INT', area: 'defensa' },
   { clave: 'sacks',        nombre: 'Sacks',          corto: 'Sck', area: 'defensa' },
   { clave: 'td_defensivo', nombre: 'TD defensivos',  corto: 'TDd', area: 'defensa' }
