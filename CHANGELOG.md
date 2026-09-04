@@ -58,6 +58,8 @@
 
 - Añadido `aplicar_importe_cuota` (`app/db/11_importe_cuota.sql`): permite fijar el precio de la cuota después de que la gente ya se haya registrado, poniendo al día las cuotas que quedaron a cero sin tocar las que tienen pagos, importe propio o exención
 
+- Cambiado el icono de la app al Poseidón: es el que mejor aguanta el tamaño de un icono y hace que la pantalla de inicio y la portada de la app hablen el mismo idioma
+
 **Archivos nuevos:**
 - `app/` completo (HTML, CSS, JS, SQL, iconos, README)
 - `docs/app-plan.md`

@@ -125,7 +125,7 @@ app/
     config-demo.js
   db/                     SQL, en orden de ejecución
   img/                    logo principal (menú y login) y tridente (filigrana)
-  icons/                  iconos de la PWA
+  icons/                  iconos de la PWA (Poseidón, desde cabeza minimalista)
 ```
 
 ## Qué hace y qué no
