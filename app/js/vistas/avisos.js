@@ -198,7 +198,11 @@ function editarAviso(ctx, a, alGuardar) {
       if (esNuevo) {
         try {
           const r = await db.avisarAlMovil(datos.titulo, datos.cuerpo ?? '', '/app/#/avisos');
-          if (r?.enviados) avisar('Enviado a ' + r.enviados + (r.enviados === 1 ? ' móvil' : ' móviles'));
+          // Se dice siempre, tambien cuando son cero: "no ha sonado" y "no habia
+          // a quien mandarlo" son problemas distintos y desde fuera se parecen.
+          avisar(r?.enviados
+            ? 'Enviado a ' + r.enviados + (r.enviados === 1 ? ' móvil' : ' móviles')
+            : 'Nadie tiene los avisos activados todavía');
         } catch (err) {
           console.error(err);
           avisar('Publicado, pero los móviles no: ' + (err?.message ?? ''), 'error');
