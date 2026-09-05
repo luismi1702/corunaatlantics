@@ -70,7 +70,8 @@ export async function render(ctx, cont) {
 
     const camiseta = (p) => html`
       <button class="camiseta" data-id="${p.id}" data-unidad="${unidadDe(p.posiciones) ?? 'sin'}">
-        <span class="num ${p.dorsal == null ? 'sin' : ''}" aria-hidden="true">${p.dorsal ?? '—'}</span>
+        <span class="num ${p.dorsal == null ? 'sin' : 'd' + String(p.dorsal).length}"
+              aria-hidden="true">${p.dorsal ?? '—'}</span>
         ${p.es_capitan ? crudo('<span class="galon" title="Capitán">C</span>') : ''}
         <span class="quien">
           <span class="pila">${p.nombre}</span>

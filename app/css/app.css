@@ -272,21 +272,31 @@ button.fila:active { transform: scale(.995); }
 /* Un velo hacia abajo: sin el, la posicion y la chapa caen justo encima de la
    panza del numero y no hay sombra de texto que las salve. */
 .camiseta::after {
-  content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 46%;
-  background: linear-gradient(180deg, transparent, rgba(4,13,18,.82) 62%);
+  content: ''; position: absolute; inset: 0;
+  background:
+    linear-gradient(180deg, rgba(4,13,18,.72) 0%, transparent 26%),
+    linear-gradient(180deg, transparent 54%, rgba(4,13,18,.82) 84%);
   z-index: 0; pointer-events: none;
 }
 
 /* El numero, de fondo. Va en degradado recortado sobre el propio texto: fuerte
    en el centro y desvanecido arriba y abajo, para que el nombre se lea encima
-   y el pie no compita con el. */
+   y el pie no compita con el.
+   
+   La caja se ajusta al texto en vez de ocupar la tarjeta: con background-clip
+   el degradado solo pinta dentro de la caja del elemento, asi que lo que se
+   saliera de ella no se veria — desaparecia media cifra.
+   
+   El tamaño sale de la fuente medida, no a ojo: en Anton un digito mide 0.86em
+   de alto, asi que 1/0.86 del ancho de la tarjeta lo lleva de borde a borde. */
 .camiseta .num {
-  position: absolute; inset: 0;
-  display: grid; place-items: center;
+  position: absolute; left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  white-space: nowrap;
   font-family: 'Anton', sans-serif;
-  font-size: 5.5rem;                 /* respaldo si no hay unidades de contenedor */
-  font-size: 74cqw;
-  line-height: .78;
+  font-size: 9rem;                   /* respaldo si no hay unidades de contenedor */
+  font-size: 165cqw;
+  line-height: 1;
   letter-spacing: -.02em;
   font-variant-numeric: tabular-nums;
   background: linear-gradient(180deg,
@@ -297,9 +307,13 @@ button.fila:active { transform: scale(.995); }
   -webkit-background-clip: text; background-clip: text;
   color: transparent;
   z-index: 0; pointer-events: none;
-  padding-top: .06em;
 }
-.camiseta .num.sin { font-size: 3rem; background: none; color: var(--line); }
+
+/* Dos cifras a esa altura miden 0.99em de ancho, mas que la tarjeta entera. Se
+   condensan para que quepan enteras: en una camiseta los dorsales anchos van
+   estrechados igual, no recortados. */
+.camiseta .num.d2 { transform: translate(-50%, -50%) scaleX(.68); }
+.camiseta .num.sin { font-size: 3.2rem; background: none; color: var(--line); }
 
 /* El nombre, montado sobre el numero. La sombra es lo que lo despega. */
 .camiseta .quien {
