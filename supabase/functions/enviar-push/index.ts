@@ -295,11 +295,19 @@ Deno.serve(async (req) => {
   const mensaje = JSON.stringify({ titulo, cuerpo: cuerpo ?? '', url: url ?? '/app/' });
   const vapid = { publica: VAPID_PUB, privada: VAPID_PRIV, contacto: CONTACTO };
 
+  // El primer motivo de fallo que aparezca, para poder enseñarlo. Un 401 del
+  // servidor de push y una excepcion al cifrar se ven igual desde fuera.
+  let fallo = '';
+
   const resultados = await Promise.all(suscripciones.map(async (s: Record<string, string>) => {
     try {
       const r = await enviar({ endpoint: s.endpoint, p256dh: s.p256dh, auth: s.auth }, mensaje, vapid);
+      if (r.status >= 400 && !fallo) {
+        fallo = new URL(s.endpoint).host + ' → ' + (await r.text()).slice(0, 150);
+      }
       return { id: s.id, estado: r.status };
-    } catch {
+    } catch (e) {
+      if (!fallo) fallo = 'excepción: ' + (e instanceof Error ? e.message : String(e));
       return { id: s.id, estado: 0 };
     }
   }));
@@ -309,9 +317,19 @@ Deno.serve(async (req) => {
   const muertas = resultados.filter(r => r.estado === 404 || r.estado === 410).map(r => r.id);
   if (muertas.length) await rpc('borrar_suscripciones', { p_ids: muertas });
 
+  const enviados = resultados.filter(r => r.estado >= 200 && r.estado < 300).length;
+
+  // Si no salio ninguno, se dice que contesto cada destino. "Cero enviados"
+  // puede ser que no haya nadie apuntado o que el servidor de push los haya
+  // rechazado todos, y sin los codigos no hay forma de distinguirlo.
   return responder({
-    enviados:  resultados.filter(r => r.estado >= 200 && r.estado < 300).length,
+    enviados,
     caducados: muertas.length,
-    fallidos:  resultados.filter(r => r.estado === 0 || r.estado >= 500).length
+    fallidos:  resultados.length - enviados - muertas.length,
+    ...(enviados === 0 ? {
+      diagnostico: 'v' + VERSION + ' · ' + resultados.length + ' destinos · códigos ' +
+        resultados.map(r => r.estado).join(', ') +
+        (fallo ? ' · ' + fallo.slice(0, 200) : '')
+    } : {})
   });
 });

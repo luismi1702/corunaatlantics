@@ -202,7 +202,8 @@ function editarAviso(ctx, a, alGuardar) {
           // a quien mandarlo" son problemas distintos y desde fuera se parecen.
           avisar(r?.enviados
             ? 'Enviado a ' + r.enviados + (r.enviados === 1 ? ' móvil' : ' móviles')
-            : (r?.diagnostico ?? 'Nadie tiene los avisos activados todavía'));
+            : (r?.diagnostico ?? 'Nadie tiene los avisos activados todavía'),
+            r?.enviados ? undefined : 'error');
         } catch (err) {
           console.error(err);
           avisar('Publicado, pero los móviles no: ' + (err?.message ?? ''), 'error');
