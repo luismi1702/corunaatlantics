@@ -72,7 +72,7 @@ declare
   v_mov uuid;
 begin
   if not puede('tienda') or not puede('tesoreria') then
-    raise exception 'Hace falta llevar la tienda y la tesoreria para apuntar el cobro';
+    raise exception 'Hace falta llevar la tienda y la tesorería para apuntar el cobro';
   end if;
 
   select nombre into v_nombre from productos where id = p_producto;

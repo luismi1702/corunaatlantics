@@ -31,7 +31,7 @@ begin
   -- Deshacer un cobro que ya esta en la caja es tocar la caja.
   if not p_pagado and v_pedido.movimiento_id is not null then
     if not puede('tesoreria') then
-      raise exception 'Ese cobro ya esta en la caja: solo puede deshacerlo quien lleve la tesoreria';
+      raise exception 'Ese cobro ya está en la caja: solo puede deshacerlo quien lleve la tesorería';
     end if;
     delete from movimientos where id = v_pedido.movimiento_id;
     update pedidos set pagado = false, movimiento_id = null where id = p_pedido;

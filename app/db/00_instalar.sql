@@ -2142,6 +2142,40 @@ begin
   end if;
 end $$;
 
+-- Generar los entrenos del horario es cosa de quien lleva el calendario. Se
+-- quedo pidiendo es_staff(), que con el reparto de secciones ya no dice nada.
+-- El cuerpo es el mismo de 05_calendario.sql; solo cambia quien puede.
+create or replace function generar_entrenos(p_temporada uuid, p_hasta date)
+returns int language plpgsql security definer set search_path = public as $$
+declare h horarios_entreno%rowtype; d date; t temporadas%rowtype; n int := 0;
+begin
+  if not puede('calendario') then
+    raise exception 'No llevas el calendario';
+  end if;
+
+  select * into t from temporadas where id = p_temporada;
+  if not found then raise exception 'Temporada no encontrada'; end if;
+
+  for h in select * from horarios_entreno
+           where temporada_id = p_temporada and activo loop
+    d := greatest(current_date, t.fecha_inicio);
+    -- Avanza hasta el primer día de la semana que toca.
+    while extract(isodow from d) <> h.dia_semana loop
+      d := d + 1;
+    end loop;
+
+    while d <= least(p_hasta, t.fecha_fin) loop
+      insert into eventos (temporada_id, tipo, fecha, hora, lugar, unidad, horario_id)
+      values (p_temporada, 'entreno', d, h.hora, h.lugar, h.unidad, h.id)
+      on conflict (horario_id, fecha) do nothing;
+      if found then n := n + 1; end if;
+      d := d + 7;
+    end loop;
+  end loop;
+
+  return n;
+end $$;
+
 -- Los importes de la cuota los pone quien lleva la tesoreria.
 create or replace function aplicar_importe_cuota(p_temporada uuid)
 returns int language plpgsql security definer set search_path = public as $$
@@ -2356,7 +2390,7 @@ declare
   v_mov uuid;
 begin
   if not puede('tienda') or not puede('tesoreria') then
-    raise exception 'Hace falta llevar la tienda y la tesoreria para apuntar el cobro';
+    raise exception 'Hace falta llevar la tienda y la tesorería para apuntar el cobro';
   end if;
 
   select nombre into v_nombre from productos where id = p_producto;
@@ -2432,7 +2466,7 @@ begin
   -- Deshacer un cobro que ya esta en la caja es tocar la caja.
   if not p_pagado and v_pedido.movimiento_id is not null then
     if not puede('tesoreria') then
-      raise exception 'Ese cobro ya esta en la caja: solo puede deshacerlo quien lleve la tesoreria';
+      raise exception 'Ese cobro ya está en la caja: solo puede deshacerlo quien lleve la tesorería';
     end if;
     delete from movimientos where id = v_pedido.movimiento_id;
     update pedidos set pagado = false, movimiento_id = null where id = p_pedido;
