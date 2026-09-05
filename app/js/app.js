@@ -124,20 +124,27 @@ async function iniciar() {
 
   if (!perfil) return pantallaSinFicha(app, db);
 
-  const temporada = await db.temporadaActiva();
-  if (!temporada) return pantallaSinTemporada(app, db);
-
   // El cerrojo va después de tener sesión: no sustituye al login, lo tapa.
   if (cerrojo.activo() && !await pantallaCerrojo(app, perfil, db)) return;
 
   // Registrarse es pedir entrar, no entrar. Hasta que el club aprueba, la app
   // no enseña nada del equipo.
+  //
+  // Esto va ANTES de mirar la temporada, y no es un detalle de orden: quien
+  // acaba de registrarse no puede leer las temporadas —la politica no se lo
+  // permite, y hace bien— asi que la consulta le devuelve cero filas. Al
+  // preguntar primero por la temporada, al recien llegado le salia "Sin
+  // temporada" en vez del formulario de alta: parecia que el club no tenia
+  // temporada abierta cuando lo que pasaba es que no le tocaba verla.
   if (perfil.acceso === 'nuevo') {
     const alta = await import('./vistas/alta.js');
     return alta.render({ perfil, recargar: iniciar }, app);
   }
   if (perfil.acceso === 'pendiente')  return pantallaEspera(app, perfil, db);
   if (perfil.acceso === 'rechazado')  return pantallaRechazo(app, perfil, db);
+
+  const temporada = await db.temporadaActiva();
+  if (!temporada) return pantallaSinTemporada(app, db);
 
   // El admin tiene la consola entera. Cualquier otro entra a su app de jugador
   // y lleva dentro las secciones que se le hayan dado, si es que tiene alguna.
