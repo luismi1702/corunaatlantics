@@ -10,11 +10,9 @@
 
 import * as db from '../db.js';
 import {
-  html, crudo, $, $$, nombreCompleto, tag, TAG_JUGADOR, unidadDe, NOMBRE_UNIDAD,
+  html, crudo, $, $$, nombreCompleto, tag, TAG_JUGADOR,
   ESTADISTICAS, ESTADISTICA, conRespaldo, cargando, vacio
 } from '../ui.js';
-
-const GRUPOS = ['ataque', 'defensa', 'especiales', null];
 
 let vista = 'plantilla';
 let orden = 'td';
@@ -41,33 +39,28 @@ export async function render(ctx, cont) {
     <div id="cuerpo"></div>
   `;
 
+  // Una sola plantilla, sin repartir por unidades: en flag la misma gente juega
+  // en los dos lados, asi que la division pintaba una frontera que en el campo
+  // no existe. Va por dorsal, como el roster del club.
   const plantilla = () => html`
     <p class="ayuda" style="text-align:center;margin:0 0 1rem">
       ${equipo.length} ${equipo.length === 1 ? 'jugador en la plantilla' : 'jugadores en la plantilla'}
     </p>
-    ${equipo.length ? GRUPOS.map(unidad => {
-      const items = equipo.filter(p => unidadDe(p.posiciones) === unidad);
-      if (!items.length) return '';
-      return html`
-        <p class="eyebrow">
-          ${unidad ? NOMBRE_UNIDAD[unidad] : 'Sin posición asignada'}
-          <span class="cuenta">${items.length}</span>
-        </p>
-        <div class="lista">
-          ${items.map(p => html`
-            <div class="fila">
-              <div class="dorsal ${p.dorsal == null ? 'sin' : ''}">
-                ${p.dorsal ?? '—'}
-                ${p.es_capitan ? crudo('<span class="galon" title="Capitán">C</span>') : ''}
-              </div>
-              <div class="info">
-                <div class="nom">${p.apodo || nombreCompleto(p)}</div>
-                <div class="meta">${p.posiciones.join(' · ') || 'Sin posición'}</div>
-              </div>
-              <div class="dcha">${p.estado !== 'activo' ? tag(TAG_JUGADOR, p.estado) : ''}</div>
-            </div>`)}
-        </div>`;
-    }) : vacio('Todavía no hay nadie en la plantilla.')}`;
+    ${equipo.length ? crudo(html`
+      <div class="lista">
+        ${equipo.map(p => html`
+          <div class="fila">
+            <div class="dorsal ${p.dorsal == null ? 'sin' : ''}">
+              ${p.dorsal ?? '—'}
+              ${p.es_capitan ? crudo('<span class="galon" title="Capitán">C</span>') : ''}
+            </div>
+            <div class="info">
+              <div class="nom">${p.apodo || nombreCompleto(p)}</div>
+              <div class="meta">${p.posiciones.join(' · ') || 'Sin posición'}</div>
+            </div>
+            <div class="dcha">${p.estado !== 'activo' ? tag(TAG_JUGADOR, p.estado) : ''}</div>
+          </div>`)}
+      </div>`) : vacio('Todavía no hay nadie en la plantilla.')}`;
 
   const clasificacion = () => !liga
     ? vacio('El club no ha añadido ninguna competición todavía.')

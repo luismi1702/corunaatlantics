@@ -530,7 +530,9 @@ export const confirmarAsistencia = (eventoId, jugadorId, valor) => {
   return demora({ confirmacion: valor });
 };
 
-export const companeros = () => demora(nombres
+// Por dorsal, como la consulta de verdad.
+export const companeros = () => demora([...nombres]
+  .sort((a, b) => (a.dorsal ?? 999) - (b.dorsal ?? 999) || a.nombre.localeCompare(b.nombre))
   .filter(p => p.estado !== 'baja')
   .map(({ id, nombre, apellidos, apodo, dorsal, posiciones, estado, es_capitan }) =>
     ({ id, nombre, apellidos, apodo, dorsal, posiciones, estado, es_capitan })));
