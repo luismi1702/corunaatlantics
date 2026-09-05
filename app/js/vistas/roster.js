@@ -3,12 +3,18 @@
 import * as db from '../db.js';
 import {
   html, crudo, $, $$, euros, fecha, nombreCompleto, tag, TAG_JUGADOR, TAG_CUOTA,
-  POSICIONES, UNIDADES, SECCIONES, SECCION, hoyISO, hoja, confirmar, avisar, fallo,
+  POSICIONES, UNIDADES, SECCIONES, SECCION, unidadDe, NOMBRE_UNIDAD, hoyISO, hoja, confirmar, avisar, fallo,
   conRespaldo, cargando, vacio, enlaceLlamada, enlaceWhatsApp
 } from '../ui.js';
 
 let filtro = 'activo';
 let busqueda = '';
+
+// Dos maneras de mirar la misma plantilla: la lista, para trabajar, y el muro
+// de camisetas, para verla. Se recuerda la elegida mientras dure la sesion.
+let vista = 'lista';
+
+const GRUPOS = ['ataque', 'defensa', 'especiales', null];
 
 export async function render(ctx, cont) {
   cont.innerHTML = cargando();
@@ -31,7 +37,12 @@ export async function render(ctx, cont) {
       <button data-f="defensa"   aria-pressed="${filtro === 'defensa'}">Defensa</button>
       <button data-f="baja"      aria-pressed="${filtro === 'baja'}">Bajas</button>
     </div>
-    <div id="lista" class="lista"></div>
+    <div class="conmutador" id="vistas">
+      <button data-v="lista"     aria-pressed="${vista === 'lista'}">Lista</button>
+      <button data-v="camisetas" aria-pressed="${vista === 'camisetas'}">Camisetas</button>
+    </div>
+    <div id="resumen"></div>
+    <div id="lista"></div>
     <button class="btn primario ancho" id="nuevo" style="margin-top:1rem">+ Añadir jugador</button>
   `;
 
@@ -56,29 +67,82 @@ export async function render(ctx, cont) {
         .toLowerCase().includes(q);
     });
 
-    $('#lista').innerHTML = filtrados.length ? filtrados.map(p => {
+    // La chapa de la derecha: lo que hay que saber de un vistazo. La cuota manda
+    // sobre el estado porque en un activo es lo que suele estar pendiente.
+    const chapa = (p) => {
       const c = cuotaDe.get(p.id);
-      return html`
-        <button class="fila" data-id="${p.id}">
-          <div class="dorsal ${p.dorsal == null ? 'sin' : ''}">
-            ${p.dorsal ?? '—'}
-            ${p.es_capitan ? crudo('<span class="galon" title="Capitán">C</span>') : ''}
-          </div>
-          <div class="info">
-            <div class="nom">${nombreCompleto(p)}</div>
-            <div class="meta">${p.posiciones.join(' · ') || 'Sin posición'}</div>
-          </div>
-          <div class="dcha">
-            ${p.acceso === 'rechazado' ? crudo('<span class="tag n">Sin acceso</span>')
-              : p.estado === 'activo' && c ? tag(TAG_CUOTA, c.estado) : tag(TAG_JUGADOR, p.estado)}
-          </div>
-        </button>`;
-    }).join('') : vacio(q ? 'Ningún jugador coincide con la búsqueda.'
+      return p.acceso === 'rechazado' ? crudo('<span class="tag n">Sin acceso</span>')
+        : p.estado === 'activo' && c ? tag(TAG_CUOTA, c.estado)
+        : tag(TAG_JUGADOR, p.estado);
+    };
+
+    const camiseta = (p) => html`
+      <button class="camiseta" data-id="${p.id}" data-unidad="${unidadDe(p.posiciones) ?? 'sin'}">
+        <span class="franja"></span>
+        ${p.es_capitan ? crudo('<span class="galon" title="Capitán">C</span>') : ''}
+        <span class="num ${p.dorsal == null ? 'sin' : ''}">${p.dorsal ?? '—'}</span>
+        <span class="quien">
+          <span class="pila">${p.nombre}</span>
+          <span class="ape">${p.apellidos ?? ''}</span>
+        </span>
+        <span class="pos">${p.posiciones.join(' · ') || 'Sin posición'}</span>
+        <span class="chapa">${chapa(p)}</span>
+      </button>`;
+
+    const fila = (p) => html`
+      <button class="fila" data-id="${p.id}" data-unidad="${unidadDe(p.posiciones) ?? 'sin'}">
+        <div class="dorsal ${p.dorsal == null ? 'sin' : ''}">
+          ${p.dorsal ?? '—'}
+          ${p.es_capitan ? crudo('<span class="galon" title="Capitán">C</span>') : ''}
+        </div>
+        <div class="info">
+          <div class="nom">${nombreCompleto(p)}</div>
+          <div class="meta">${p.posiciones.join(' · ') || 'Sin posición'}</div>
+        </div>
+        <div class="dcha">${chapa(p)}</div>
+      </button>`;
+
+    // Ataque, defensa y especiales, en ese orden. Agrupar es lo que convierte
+    // una lista de nombres en una plantilla.
+    const porUnidad = GRUPOS
+      .map(u => ({ unidad: u, gente: filtrados.filter(p => unidadDe(p.posiciones) === u) }))
+      .filter(g => g.gente.length);
+
+    // "1 lesionados" canta. Se dice en singular cuando toca o no se dice.
+    const cuantos = (estado, uno, varios) => {
+      const n = plantilla.filter(p => p.estado === estado).length;
+      return n ? crudo(html`<span><strong>${n}</strong> ${n === 1 ? uno : varios}</span>`) : '';
+    };
+
+    const vacia = vacio(q ? 'Ningún jugador coincide con la búsqueda.'
                           : 'No hay jugadores en este filtro todavía.');
 
-    $$('#lista .fila').forEach(b =>
+    $('#resumen').innerHTML = filtrados.length ? html`
+      <div class="tira-plantilla">
+        ${cuantos('activo', 'activo', 'activos')}
+        ${cuantos('lesionado', 'lesionado', 'lesionados')}
+        ${cuantos('baja', 'baja', 'bajas')}
+      </div>` : '';
+
+    $('#lista').innerHTML = !filtrados.length ? vacia
+      : porUnidad.map(g => html`
+          <p class="eyebrow unidad" data-unidad="${g.unidad ?? 'sin'}">
+            ${g.unidad ? NOMBRE_UNIDAD[g.unidad] : 'Sin posición asignada'}
+            <span class="cuenta">${g.gente.length}</span>
+          </p>
+          <div class="${vista === 'camisetas' ? 'muro' : 'lista'}">
+            ${g.gente.map(vista === 'camisetas' ? camiseta : fila)}
+          </div>`).join('');
+
+    $$('#lista [data-id]').forEach(b =>
       b.addEventListener('click', () => abrirFicha(ctx, b.dataset.id, () => render(ctx, cont))));
   }
+
+  $$('#vistas button').forEach(b => b.addEventListener('click', () => {
+    vista = b.dataset.v;
+    $$('#vistas button').forEach(o => o.setAttribute('aria-pressed', o === b));
+    pintar();
+  }));
 
   $('#buscar').addEventListener('input', (e) => { busqueda = e.target.value; pintar(); });
   $$('#filtros button').forEach(b => b.addEventListener('click', () => {
