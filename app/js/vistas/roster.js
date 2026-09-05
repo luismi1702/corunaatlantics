@@ -10,10 +10,6 @@ import {
 let filtro = 'activo';
 let busqueda = '';
 
-// Dos maneras de mirar la misma plantilla: la lista, para trabajar, y el muro
-// de camisetas, para verla. Se recuerda la elegida mientras dure la sesion.
-let vista = 'lista';
-
 const GRUPOS = ['ataque', 'defensa', 'especiales', null];
 
 export async function render(ctx, cont) {
@@ -36,10 +32,6 @@ export async function render(ctx, cont) {
       <button data-f="ataque"    aria-pressed="${filtro === 'ataque'}">Ataque</button>
       <button data-f="defensa"   aria-pressed="${filtro === 'defensa'}">Defensa</button>
       <button data-f="baja"      aria-pressed="${filtro === 'baja'}">Bajas</button>
-    </div>
-    <div class="conmutador" id="vistas">
-      <button data-v="lista"     aria-pressed="${vista === 'lista'}">Lista</button>
-      <button data-v="camisetas" aria-pressed="${vista === 'camisetas'}">Camisetas</button>
     </div>
     <div id="resumen"></div>
     <div id="lista"></div>
@@ -78,28 +70,16 @@ export async function render(ctx, cont) {
 
     const camiseta = (p) => html`
       <button class="camiseta" data-id="${p.id}" data-unidad="${unidadDe(p.posiciones) ?? 'sin'}">
-        <span class="franja"></span>
+        <span class="num ${p.dorsal == null ? 'sin' : ''}" aria-hidden="true">${p.dorsal ?? '—'}</span>
         ${p.es_capitan ? crudo('<span class="galon" title="Capitán">C</span>') : ''}
-        <span class="num ${p.dorsal == null ? 'sin' : ''}">${p.dorsal ?? '—'}</span>
         <span class="quien">
           <span class="pila">${p.nombre}</span>
           <span class="ape">${p.apellidos ?? ''}</span>
         </span>
-        <span class="pos">${p.posiciones.join(' · ') || 'Sin posición'}</span>
-        <span class="chapa">${chapa(p)}</span>
-      </button>`;
-
-    const fila = (p) => html`
-      <button class="fila" data-id="${p.id}" data-unidad="${unidadDe(p.posiciones) ?? 'sin'}">
-        <div class="dorsal ${p.dorsal == null ? 'sin' : ''}">
-          ${p.dorsal ?? '—'}
-          ${p.es_capitan ? crudo('<span class="galon" title="Capitán">C</span>') : ''}
-        </div>
-        <div class="info">
-          <div class="nom">${nombreCompleto(p)}</div>
-          <div class="meta">${p.posiciones.join(' · ') || 'Sin posición'}</div>
-        </div>
-        <div class="dcha">${chapa(p)}</div>
+        <span class="pie">
+          <span class="pos">${p.posiciones.join(' · ') || 'Sin posición'}</span>
+          ${chapa(p)}
+        </span>
       </button>`;
 
     // Ataque, defensa y especiales, en ese orden. Agrupar es lo que convierte
@@ -130,19 +110,11 @@ export async function render(ctx, cont) {
             ${g.unidad ? NOMBRE_UNIDAD[g.unidad] : 'Sin posición asignada'}
             <span class="cuenta">${g.gente.length}</span>
           </p>
-          <div class="${vista === 'camisetas' ? 'muro' : 'lista'}">
-            ${g.gente.map(vista === 'camisetas' ? camiseta : fila)}
-          </div>`).join('');
+          <div class="muro">${g.gente.map(camiseta)}</div>`).join('');
 
     $$('#lista [data-id]').forEach(b =>
       b.addEventListener('click', () => abrirFicha(ctx, b.dataset.id, () => render(ctx, cont))));
   }
-
-  $$('#vistas button').forEach(b => b.addEventListener('click', () => {
-    vista = b.dataset.v;
-    $$('#vistas button').forEach(o => o.setAttribute('aria-pressed', o === b));
-    pintar();
-  }));
 
   $('#buscar').addEventListener('input', (e) => { busqueda = e.target.value; pintar(); });
   $$('#filtros button').forEach(b => b.addEventListener('click', () => {

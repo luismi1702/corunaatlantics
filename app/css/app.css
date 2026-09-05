@@ -222,22 +222,6 @@ button.fila:active { transform: scale(.995); }
 [data-unidad="defensa"]    { --unidad: var(--goldf); }
 [data-unidad="especiales"] { --unidad: #cfe3ea; }
 
-/* Conmutador de vista: dos pestañas pegadas, no dos botones sueltos. */
-.conmutador {
-  display: inline-flex; margin-bottom: .8rem;
-  border: 1px solid var(--line); border-radius: 999px;
-  background: var(--surf); padding: .2rem;
-}
-.conmutador button {
-  font-family: 'Barlow Condensed', sans-serif;
-  font-size: .82rem; letter-spacing: .1em; text-transform: uppercase;
-  padding: .35rem .9rem; border: 0; border-radius: 999px;
-  background: transparent; color: var(--muted);
-}
-.conmutador button[aria-pressed="true"] {
-  background: var(--teal); color: var(--ink); font-weight: 600;
-}
-
 /* Cabecera: el tamaño del equipo de un vistazo. */
 .tira-plantilla {
   display: flex; gap: 1.2rem; flex-wrap: wrap;
@@ -255,64 +239,96 @@ button.fila:active { transform: scale(.995); }
 .eyebrow.unidad::before { background: var(--unidad); }
 .eyebrow.unidad .cuenta { color: var(--unidad); }
 
-/* La fila, con la unidad marcada en el canto. */
-.lista .fila[data-unidad] { border-left: 3px solid var(--unidad); }
-
-/* El muro de camisetas. El dorsal es el protagonista, como en la espalda. */
+/* El muro de camisetas.
+   El dorsal no acompaña al nombre: es el fondo de la camiseta, como en la
+   espalda. Ocupa la tarjeta entera en degradado y el nombre va montado encima.
+   Dos por fila en un movil: con cuatro el numero deja de ser grande. */
 .muro {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(8.5rem, 1fr));
-  gap: .6rem;
+  grid-template-columns: repeat(auto-fill, minmax(9.5rem, 1fr));
+  gap: .7rem;
 }
 
 .camiseta {
+  container-type: inline-size;
   position: relative;
-  display: flex; flex-direction: column; align-items: center;
-  padding: 1.5rem .6rem .8rem;
+  display: flex; flex-direction: column;
+  aspect-ratio: 5 / 6;
+  padding: .85rem .7rem .75rem;
   border: 1px solid var(--line); border-radius: var(--r);
-  background:
-    radial-gradient(120% 80% at 50% -10%, color-mix(in srgb, var(--unidad) 16%, transparent), transparent 70%),
-    linear-gradient(180deg, var(--surf-2), var(--surf));
+  background: linear-gradient(180deg, var(--surf-2), var(--surf));
   color: var(--text); text-align: center; overflow: hidden;
   transition: border-color .15s, transform .12s;
 }
 .camiseta:hover { border-color: var(--unidad); }
 .camiseta:active { transform: scale(.985); }
 
-/* El cuello de la camiseta, del color de su unidad. */
-.camiseta .franja {
-  position: absolute; top: 0; left: 0; right: 0; height: 4px;
+/* El cuello, del color de su unidad. */
+.camiseta::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
   background: var(--unidad);
 }
 
-.camiseta .num {
-  font-family: 'Anton', sans-serif;
-  font-size: clamp(2.6rem, 13vw, 3.4rem); line-height: .9;
-  color: var(--unidad);
-  font-variant-numeric: tabular-nums;
-  text-shadow: 0 3px 14px color-mix(in srgb, var(--unidad) 35%, transparent);
+/* Un velo hacia abajo: sin el, la posicion y la chapa caen justo encima de la
+   panza del numero y no hay sombra de texto que las salve. */
+.camiseta::after {
+  content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 46%;
+  background: linear-gradient(180deg, transparent, rgba(4,13,18,.82) 62%);
+  z-index: 0; pointer-events: none;
 }
-.camiseta .num.sin { font-size: 2rem; color: var(--muted); text-shadow: none; }
 
-.camiseta .quien { display: block; margin-top: .55rem; min-width: 0; max-width: 100%; }
+/* El numero, de fondo. Va en degradado recortado sobre el propio texto: fuerte
+   en el centro y desvanecido arriba y abajo, para que el nombre se lea encima
+   y el pie no compita con el. */
+.camiseta .num {
+  position: absolute; inset: 0;
+  display: grid; place-items: center;
+  font-family: 'Anton', sans-serif;
+  font-size: 5.5rem;                 /* respaldo si no hay unidades de contenedor */
+  font-size: 74cqw;
+  line-height: .78;
+  letter-spacing: -.02em;
+  font-variant-numeric: tabular-nums;
+  background: linear-gradient(180deg,
+    color-mix(in srgb, var(--unidad) 22%, transparent) 0%,
+    var(--unidad) 42%,
+    color-mix(in srgb, var(--unidad) 55%, transparent) 78%,
+    transparent 100%);
+  -webkit-background-clip: text; background-clip: text;
+  color: transparent;
+  z-index: 0; pointer-events: none;
+  padding-top: .06em;
+}
+.camiseta .num.sin { font-size: 3rem; background: none; color: var(--line); }
+
+/* El nombre, montado sobre el numero. La sombra es lo que lo despega. */
+.camiseta .quien {
+  position: relative; z-index: 1;
+  min-width: 0; max-width: 100%;
+  text-shadow: 0 2px 10px rgba(4,13,18,.85), 0 0 3px rgba(4,13,18,.9);
+}
 .camiseta .pila {
-  display: block; font-size: .78rem; color: var(--muted);
+  display: block; font-size: .74rem; letter-spacing: .06em; color: var(--muted);
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
 .camiseta .ape {
   display: block;
   font-family: 'Barlow Condensed', sans-serif; font-weight: 700;
-  font-size: 1.05rem; letter-spacing: .04em; text-transform: uppercase;
+  font-size: 1.12rem; line-height: 1.1; letter-spacing: .05em; text-transform: uppercase;
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
+
+.camiseta .pie {
+  position: relative; z-index: 1; margin-top: auto;
+  display: flex; flex-direction: column; align-items: center; gap: .35rem;
+}
 .camiseta .pos {
-  display: block; margin-top: .2rem;
   font-family: 'Barlow Condensed', sans-serif;
   font-size: .72rem; letter-spacing: .1em; text-transform: uppercase; color: var(--muted);
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%;
+  text-shadow: 0 1px 6px rgba(4,13,18,.9);
 }
-.camiseta .chapa { margin-top: .6rem; }
-.camiseta .galon { top: 8px; left: 8px; border-color: var(--surf-2); }
+.camiseta .galon { top: 8px; left: 8px; border-color: var(--surf-2); z-index: 2; }
 
 /* Una fila que se enciende y se apaga: las llaves de cada seccion. */
 .fila[aria-pressed="true"] { border-color: var(--teal-d); background: rgba(78,205,200,.08); }
