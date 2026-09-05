@@ -4,7 +4,7 @@
 // datos: una lista de cuotas guardada de la semana pasada sería peor que no
 // tener nada, porque parecería actual. Sin conexión, la app abre y avisa.
 
-const VERSION = 'atlantics-gestion-v54';
+const VERSION = 'atlantics-gestion-v55';
 
 const ARMAZON = [
   './',
@@ -79,8 +79,32 @@ self.addEventListener('fetch', (e) => {
   // Todo lo que sea datos o autenticación va siempre a la red, sin caché.
   if (e.request.method !== 'GET' || url.origin !== self.location.origin) return;
 
-  // Red primero, caché como red de seguridad: así una versión nueva de la app
-  // se aplica al recargar, sin quedarse pegada a la anterior.
+  // Las imágenes, de la copia guardada y sin preguntar a la red.
+  //
+  // Esto es lo que rompía el logotipo del login. Todo iba a la red primero y con
+  // cache:'reload', así que el logotipo —121 KB— se volvía a descargar en CADA
+  // apertura de la app. En un móvil con cobertura regular, de vez en cuando esa
+  // descarga falla y el navegador pinta el icono de imagen rota.
+  //
+  // Y no tenía ningún sentido: una imagen no cambia. Si algún día cambia, cambia
+  // también la versión de aquí arriba y se vuelven a guardar todas.
+  const esImagen = e.request.destination === 'image' ||
+                   /\.(webp|png|jpg|jpeg|svg|ico)$/i.test(url.pathname);
+
+  if (esImagen) {
+    e.respondWith(
+      caches.match(e.request).then(guardada => guardada || fetch(e.request).then(res => {
+        const copia = res.clone();
+        caches.open(VERSION).then(c => c.put(e.request, copia)).catch(() => {});
+        return res;
+      }))
+    );
+    return;
+  }
+
+  // Lo demás —el HTML, el código, los estilos— red primero y caché como red de
+  // seguridad: así una versión nueva de la app se aplica al recargar, sin
+  // quedarse pegada a la anterior.
   //
   // cache:'reload' es lo que hace que eso sea verdad. GitHub Pages sirve los
   // archivos con max-age=600, así que sin esto el navegador respondía con su

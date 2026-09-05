@@ -1,7 +1,7 @@
 // Arranque, sesión y navegación.
 
 import { estaConfigurado } from './config.js';
-import { html, crudo, $, avisar, fallo, cargando, SECCIONES } from './ui.js';
+import { html, crudo, $, avisar, fallo, confirmar, cargando, SECCIONES } from './ui.js';
 import * as cerrojo from './cerrojo.js';
 
 // La app tiene dos caras y cada una tiene su propio mapa de pantallas: lo que
@@ -411,7 +411,13 @@ function pantallaCerrojo(app, perfil, db) {
         }
       });
 
+      // Pregunta antes: este boton cierra la sesion de verdad y esta a un dedo
+      // del de entrar. Un toque por error obliga a pedir el codigo por correo
+      // otra vez, que es mucho castigo para haber fallado la puntería.
       $('#correo').addEventListener('click', async () => {
+        if (!await confirmar('Entrar con otro correo',
+          'Se cerrará esta sesión y tendrás que pedir un código nuevo. Si solo ' +
+          'querías entrar, usa el botón de arriba.', 'Cerrar sesión')) return;
         cerrojo.desactivar();
         await db.salir();
         location.reload();
