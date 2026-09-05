@@ -9,6 +9,7 @@
 // pantalla.
 
 import * as db from '../db.js';
+import { camiseta } from './camiseta.js';
 import {
   html, crudo, $, $$, nombreCompleto, tag, TAG_JUGADOR,
   ESTADISTICAS, ESTADISTICA, conRespaldo, cargando, vacio
@@ -39,27 +40,17 @@ export async function render(ctx, cont) {
     <div id="cuerpo"></div>
   `;
 
-  // Una sola plantilla, sin repartir por unidades: en flag la misma gente juega
-  // en los dos lados, asi que la division pintaba una frontera que en el campo
-  // no existe. Va por dorsal, como el roster del club.
+  // Las mismas camisetas que ve el club en su roster. Sin repartir por
+  // unidades: en flag la misma gente juega en los dos lados.
   const plantilla = () => html`
     <p class="ayuda" style="text-align:center;margin:0 0 1rem">
       ${equipo.length} ${equipo.length === 1 ? 'jugador en la plantilla' : 'jugadores en la plantilla'}
     </p>
     ${equipo.length ? crudo(html`
-      <div class="lista">
-        ${equipo.map(p => html`
-          <div class="fila">
-            <div class="dorsal ${p.dorsal == null ? 'sin' : ''}">
-              ${p.dorsal ?? '—'}
-              ${p.es_capitan ? crudo('<span class="galon" title="Capitán">C</span>') : ''}
-            </div>
-            <div class="info">
-              <div class="nom">${p.apodo || nombreCompleto(p)}</div>
-              <div class="meta">${p.posiciones.join(' · ') || 'Sin posición'}</div>
-            </div>
-            <div class="dcha">${p.estado !== 'activo' ? tag(TAG_JUGADOR, p.estado) : ''}</div>
-          </div>`)}
+      <div class="muro">
+        ${equipo.map(p => camiseta(p, {
+          chapa: p.estado !== 'activo' ? tag(TAG_JUGADOR, p.estado) : ''
+        }))}
       </div>`) : vacio('Todavía no hay nadie en la plantilla.')}`;
 
   const clasificacion = () => !liga

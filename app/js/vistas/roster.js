@@ -1,6 +1,7 @@
 // Roster — la plantilla y la ficha de cada jugador.
 
 import * as db from '../db.js';
+import { camiseta } from './camiseta.js';
 import {
   html, crudo, $, $$, euros, fecha, nombreCompleto, tag, TAG_JUGADOR, TAG_CUOTA,
   POSICIONES, UNIDADES, SECCIONES, SECCION, hoyISO, hoja, confirmar, avisar, fallo,
@@ -66,21 +67,6 @@ export async function render(ctx, cont) {
         : tag(TAG_JUGADOR, p.estado);
     };
 
-    const camiseta = (p) => html`
-      <button class="camiseta" data-id="${p.id}">
-        <span class="num ${p.dorsal == null ? 'sin' : 'd' + String(p.dorsal).length}"
-              aria-hidden="true">${p.dorsal ?? '—'}</span>
-        ${p.es_capitan ? crudo('<span class="galon" title="Capitán">C</span>') : ''}
-        <span class="quien">
-          <span class="pila">${p.nombre}</span>
-          <span class="ape">${p.apellidos ?? ''}</span>
-        </span>
-        <span class="pie">
-          <span class="pos">${p.posiciones.join(' · ') || 'Sin posición'}</span>
-          ${chapa(p)}
-        </span>
-      </button>`;
-
     const vacia = vacio(q ? 'Ningún jugador coincide con la búsqueda.'
                           : 'No hay jugadores en este filtro todavía.');
 
@@ -100,7 +86,7 @@ export async function render(ctx, cont) {
     // Una sola plantilla, sin repartir por unidades: en flag la gente juega en
     // los dos lados y separarlos daba una division que no existe en el campo.
     $('#lista').innerHTML = filtrados.length
-      ? html`<div class="muro">${filtrados.map(camiseta)}</div>`
+      ? html`<div class="muro">${filtrados.map(p => camiseta(p, { id: p.id, chapa: chapa(p) }))}</div>`
       : vacia;
 
     $$('#lista [data-id]').forEach(b =>
