@@ -367,24 +367,27 @@ function pantallaCerrojo(app, perfil, db) {
         <div class="login">
           <img class="login-marca" src="./img/logo-principal.webp" alt="Coruña Atlantics">
           <h1>Hola de nuevo</h1>
-          <p>Esta app está bloqueada en este dispositivo.</p>
+          <!-- Nada de "bloqueada" ni "desbloquear": suena a que el club le
+               cierra la puerta, cuando es su propio movil pidiendole la cara.
+               La sesion sigue abierta; esto solo confirma que es el. -->
+          <p>Confirma que eres tú y entras.</p>
           ${aviso ? crudo(html`<p class="aviso-cerrojo">${aviso}</p>`) : ''}
           <div style="width:100%;max-width:340px">
-            <button class="btn primario ancho" id="abrir">Desbloquear</button>
+            <button class="btn primario ancho" id="abrir">Entrar</button>
             <button class="btn fantasma ancho" id="correo" style="margin-top:.7rem">
-              Entrar con el correo</button>
+              Entrar con otro correo</button>
           </div>
         </div>`;
 
       $('#abrir').addEventListener('click', async () => {
         try {
           if (await cerrojo.abrir()) { resolver(true); return; }
-          pintar('No se ha podido comprobar. Inténtalo otra vez.');
+          pintar('No se ha reconocido. Inténtalo otra vez.');
         } catch (e) {
           console.error(e);
           pintar(e?.name === 'NotAllowedError'
             ? 'Se ha cancelado. Vuelve a intentarlo o entra con el correo.'
-            : 'Este dispositivo no ha podido abrir el cerrojo. Entra con el correo.');
+            : 'Este dispositivo no ha podido comprobarlo. Entra con el correo.');
         }
       });
 

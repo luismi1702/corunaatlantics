@@ -38,7 +38,11 @@ html, body {
 
    Va en una capa fija propia y NO en background-attachment: fixed, que Safari
    de iPhone ignora y dejaba la pantalla lisa. */
-body { background: linear-gradient(180deg, #061119 0%, var(--ink) 42%); }
+/* El color va tambien en html. En una app instalada, si solo lo lleva el body y
+   el contenido no llega abajo del todo, iOS pinta de blanco la franja del
+   indicador de inicio: se ve una banda clara bajo una pantalla oscura. */
+html { background: var(--ink); }
+body { background: linear-gradient(180deg, #061119 0%, var(--ink) 42%); min-height: 100dvh; }
 
 body::before {
   content: '';
