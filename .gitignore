@@ -6,3 +6,10 @@
 # Capturas sueltas de Windows
 {*}.png
 vapid.txt
+
+# Material de trabajo, no del proyecto. Pesan mucho y no los usa la web: los
+# .psd son las fuentes de edicion de los logos y los videos en bruto salen del
+# movil. Lo que si va versionado es el resultado —los .png, los .webp— y los
+# guiones de videos/.
+*.psd
+*.mp4
