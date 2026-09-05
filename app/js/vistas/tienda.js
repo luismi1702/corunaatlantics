@@ -155,8 +155,9 @@ function abrirProducto(ctx, prod, suyos, porId, alGuardar) {
     ${porApuntar > 0 ? crudo(html`
       <div class="card" style="margin-top:.9rem">
         <p style="margin:0 0 .8rem;line-height:1.6">
-          Has cobrado <strong>${euros(porApuntar)}</strong> de este producto que
-          todavía no están en la caja del club.
+          Quedan <strong>${euros(porApuntar)}</strong> cobrados de este producto
+          fuera de la caja: de antes, o marcados por alguien que no lleva las
+          cuentas.
         </p>
         <button class="btn oro ancho" id="apuntar">Apuntar en tesorería</button>
       </div>`) : ''}
@@ -191,8 +192,10 @@ function abrirProducto(ctx, prod, suyos, porId, alGuardar) {
   $$('[data-pago]', panel).forEach(b => b.addEventListener('click', async () => {
     const pedido = suyos.find(p => p.id === b.dataset.pago);
     try {
-      await db.guardarPedido(pedido.id, { pagado: !pedido.pagado });
-      avisar(pedido.pagado ? 'Marcado como no pagado' : 'Cobrado');
+      // Cobrar apunta el dinero en la caja de paso: son el mismo hecho.
+      const mov = await db.cobrarPedido(pedido.id, !pedido.pagado, ctx.temporada.id);
+      avisar(pedido.pagado ? 'Marcado como no pagado'
+             : mov ? 'Cobrado y apuntado en la caja' : 'Cobrado');
       panel.cerrar();
       alGuardar();
     } catch (err) { fallo(err); }

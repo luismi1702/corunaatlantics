@@ -240,6 +240,34 @@ const PEDIDOS = [
   { id: 'pd-4', producto_id: 'pr-2', jugador_id: 'p1', talla: 'L',  cantidad: 1, estado: 'entregado', pagado: true,  nota: null, entregado_en: enDias(-9), movimiento_id: 'm2' }
 ];
 
+export const cobrarPedido = (pedidoId, pagado) => {
+  const pedido = PEDIDOS.find(p => p.id === pedidoId);
+  if (!pedido) throw new Error('Pedido no encontrado');
+  const prod = PRODUCTOS.find(x => x.id === pedido.producto_id);
+
+  if (!pagado) {
+    if (pedido.movimiento_id) {
+      const i = MOVIMIENTOS.findIndex(m => m.id === pedido.movimiento_id);
+      if (i >= 0) MOVIMIENTOS.splice(i, 1);
+      pedido.movimiento_id = null;
+    }
+    pedido.pagado = false;
+    return demora(null);
+  }
+
+  if (pedido.pagado && pedido.movimiento_id) return demora(pedido.movimiento_id);
+
+  const quien = nombres.find(x => x.id === pedido.jugador_id);
+  const id = 'mv-' + Date.now();
+  MOVIMIENTOS.push({ id, temporada_id: 't1', tipo: 'ingreso',
+    concepto: 'Tienda — ' + prod.nombre + (quien ? ' · ' + quien.nombre + ' ' + quien.apellidos : ''),
+    categoria: 'merchandising', importe: Number(prod.precio) * pedido.cantidad,
+    fecha: enDias(0), metodo: 'bizum', justificante_url: null, nota: null });
+  pedido.pagado = true;
+  pedido.movimiento_id = id;
+  return demora(id);
+};
+
 export const apuntarTiendaEnTesoreria = (productoId) => {
   const suyos = PEDIDOS.filter(p => p.producto_id === productoId &&
     p.estado !== 'cancelado' && p.pagado && !p.movimiento_id);

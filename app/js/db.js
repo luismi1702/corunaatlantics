@@ -421,8 +421,14 @@ export async function subirFotoProducto(archivo) {
   return sb.storage.from('productos').getPublicUrl(nombre).data.publicUrl;
 }
 
-// Lo cobrado de un producto entra en la caja de una vez. Va por funcion porque
-// crear el apunte y marcar los pedidos tienen que pasar juntos o no pasar.
+// Cobrar es apuntar: marca el pedido y mete ese dinero en la caja de una vez.
+// Si quien cobra no lleva la tesoreria, solo marca; el apunte lo hara luego
+// quien lleve las cuentas.
+export const cobrarPedido = (pedidoId, pagado, temporadaId) =>
+  sb.rpc('cobrar_pedido',
+    { p_pedido: pedidoId, p_pagado: pagado, p_temporada: temporadaId }).then(ok);
+
+// Y la escoba: lo que se cobro sin apuntar entra en la caja de golpe.
 export const apuntarTiendaEnTesoreria = (productoId, temporadaId) =>
   sb.rpc('apuntar_tienda_en_tesoreria',
     { p_producto: productoId, p_temporada: temporadaId }).then(ok);
