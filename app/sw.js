@@ -4,7 +4,7 @@
 // datos: una lista de cuotas guardada de la semana pasada sería peor que no
 // tener nada, porque parecería actual. Sin conexión, la app abre y avisa.
 
-const VERSION = 'atlantics-gestion-v48';
+const VERSION = 'atlantics-gestion-v49';
 
 const ARMAZON = [
   './',
@@ -47,6 +47,7 @@ const ARMAZON = [
   './manifest.webmanifest',
   './img/logo-principal.webp',
   './img/tridente.webp',
+  './img/cabeza.webp',
   './icons/icono-192.png',
   './icons/icono-512.png'
 ];

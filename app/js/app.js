@@ -407,6 +407,9 @@ function pantallaCerrojo(app, perfil, db) {
 function pantallaApp(app, ctx, vistas, tabs) {
   app.innerHTML = html`
     <header class="topbar">
+      ${!ctx.esStaff ? crudo(html`
+        <img class="cabeza-marca" src="./img/cabeza.webp" alt="Coruña Atlantics"
+             width="256" height="256">`) : ''}
       <div id="cabecera"></div>
       <span class="spacer"></span>
       ${vistas['/ajustes'] && !tabs.includes('/ajustes') ? crudo(html`

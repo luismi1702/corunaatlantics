@@ -95,6 +95,13 @@ html, body { overflow-x: hidden; }
   background: linear-gradient(90deg, var(--gold), var(--teal) 45%, transparent 78%);
   height: 2px;
 }
+/* La cabeza de Poseidon, no el logotipo entero: el nombre del club ya esta en
+   la app y repetirlo en cada pantalla no aporta nada. */
+.cabeza-marca {
+  width: 34px; height: 34px; flex: 0 0 34px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 6px rgba(0,0,0,.5));
+}
 .topbar h1 { font-size: 1.25rem; }
 .topbar .sub {
   font-family: 'Barlow Condensed', sans-serif;
@@ -968,17 +975,23 @@ body:not(.jugador)::after {
 body.jugador::after {
   content: var(--dorsal, "");
   position: fixed; z-index: 0;
-  /* Sale por arriba y por el lado a proposito: un dorsal recortado por el borde
-     se lee como la espalda de una camiseta y no como un adorno centrado. */
-  top: -1.5rem; right: -.09em;
+  /* Ocupa la pantalla entera, centrado y desbordando por los lados: es el fondo
+     de la app, no una marca en una esquina. Al ser tan grande el relleno baja y
+     el peso lo lleva el contorno; si no, el texto de encima deja de leerse. */
+  inset: 0;
+  display: grid; place-items: center;
   font-family: 'Anton', sans-serif;
-  font-size: 94vw; line-height: .72;
+  /* Se ajusta al ancho, no al alto. Un dorsal de dos cifras mide de ancho casi
+     lo mismo que un movil, asi que forzarlo a llenar tambien el alto lo recorta
+     por los dos lados y deja de leerse como un numero. */
+  font-size: min(112vw, 92vh); line-height: .78;
   letter-spacing: -.05em;
   color: transparent;
-  background: linear-gradient(165deg, rgba(78,205,200,.42), rgba(212,168,67,.20) 72%);
+  background: linear-gradient(165deg, rgba(78,205,200,.20), rgba(212,168,67,.09) 72%);
   -webkit-background-clip: text;
   background-clip: text;
-  -webkit-text-stroke: 5px rgba(78,205,200,.62);
+  -webkit-text-stroke: 4px rgba(78,205,200,.30);
+  overflow: hidden;
   pointer-events: none; user-select: none;
 }
 
@@ -996,10 +1009,7 @@ body.jugador .card.proximo {
 body.jugador .opcion { background: rgba(6,17,25,.82); }
 
 @media (min-width: 720px) {
-  /* En pantalla ancha el dorsal se va al margen derecho, fuera de la columna de
-     contenido. Metido dentro se cruzaba con las tarjetas y dejaba de leerse
-     como un numero: parecian trazos sueltos. */
-  body.jugador::after { font-size: 36rem; right: -4rem; top: -2rem; }
+  body.jugador::after { font-size: min(70vh, 40rem); }
 }
 
 /* Su dorsal gigante es la marca de "esta es tu app". En una seccion del club
