@@ -53,7 +53,10 @@ export async function render(ctx, cont) {
   const activos = plantilla.filter(p => p.estado === 'activo').length;
   const morosos = cuotas.filter(c => vivo(c.jugador_id) && !c.exento && Number(c.importe_pendiente) > 0).length;
   const enBajas = piezas.filter(m => m.jugador_id && !vivo(m.jugador_id)).length;
-  const sinCobrar = encargos.filter(p => p.estado !== 'cancelado' && !p.pagado).length;
+  // Un pedido da trabajo hasta que se entrega, no hasta que se cobra: la
+  // chincheta cuenta todo lo que sigue abierto.
+  const abiertos  = encargos.filter(p => p.estado !== 'cancelado' && p.estado !== 'entregado');
+  const sinCobrar = abiertos.filter(p => !p.pagado).length;
 
   const papelesPendientes = docs.filter(d => vivo(d.jugador_id) && (
     d.licencia_estado !== 'validado' || d.seguro_estado !== 'validado' ||
@@ -134,8 +137,10 @@ export async function render(ctx, cont) {
           piezas.length ? piezas.filter(m => m.jugador_id).length + ' de ' + piezas.length + ' prestadas'
                         : 'Sin inventariar', enBajas)}
         ${baldosa('/tienda', 'tienda', 'Tienda',
-          catalogo.length ? (sinCobrar ? sinCobrar + ' sin cobrar' : 'Todo cobrado')
-                          : 'Nada a la venta', sinCobrar, 'dinero')}
+          !catalogo.length ? 'Nada a la venta'
+            : sinCobrar ? sinCobrar + ' sin cobrar'
+            : abiertos.length ? abiertos.length + ' por entregar'
+            : 'Todo entregado', abiertos.length, 'dinero')}
         ${baldosa('/ajustes', 'ajustes', 'Ajustes', 'Temporada y cuenta', 0, 'ajuste')}
       </div>
 

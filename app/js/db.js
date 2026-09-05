@@ -421,6 +421,12 @@ export async function subirFotoProducto(archivo) {
   return sb.storage.from('productos').getPublicUrl(nombre).data.publicUrl;
 }
 
+// Lo cobrado de un producto entra en la caja de una vez. Va por funcion porque
+// crear el apunte y marcar los pedidos tienen que pasar juntos o no pasar.
+export const apuntarTiendaEnTesoreria = (productoId, temporadaId) =>
+  sb.rpc('apuntar_tienda_en_tesoreria',
+    { p_producto: productoId, p_temporada: temporadaId }).then(ok);
+
 // --- Permisos por seccion --------------------------------------------------
 
 // Las llaves de quien pregunta. Va por funcion y no por consulta a la tabla

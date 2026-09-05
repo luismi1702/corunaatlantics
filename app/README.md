@@ -58,6 +58,7 @@ una pegada. Los sueltos siguen ahí para leerlos por partes:
 | `16_estadisticas_visibles.sql` | Los jugadores pueden leer las estadisticas |
 | `17_permisos.sql` | Repartir secciones: cada persona lleva lo que se le da |
 | `18_capitanes.sql` | Capitanes: la C del roster |
+| `19_tienda_cierre.sql` | La tienda hasta entregado, y lo cobrado a la caja |
 
 `00_instalar.sql` está **generado**: si tocas un archivo suelto, vuelve a
 generarlo con `python generar_instalador.py` desde `app/db`.

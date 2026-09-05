@@ -234,11 +234,25 @@ const PRODUCTOS = [
 ];
 
 const PEDIDOS = [
-  { id: 'pd-1', producto_id: 'pr-1', jugador_id: 'p1', talla: 'L',  cantidad: 1, estado: 'pedido',    pagado: true,  nota: null },
-  { id: 'pd-2', producto_id: 'pr-1', jugador_id: 'p3', talla: 'XL', cantidad: 1, estado: 'pedido',    pagado: false, nota: null },
-  { id: 'pd-3', producto_id: 'pr-1', jugador_id: 'p5', talla: 'M',  cantidad: 2, estado: 'pedido',    pagado: false, nota: null },
-  { id: 'pd-4', producto_id: 'pr-2', jugador_id: 'p1', talla: 'L',  cantidad: 1, estado: 'entregado', pagado: true,  nota: null }
+  { id: 'pd-1', producto_id: 'pr-1', jugador_id: 'p1', talla: 'L',  cantidad: 1, estado: 'pedido',    pagado: true,  nota: null, entregado_en: null, movimiento_id: null },
+  { id: 'pd-2', producto_id: 'pr-1', jugador_id: 'p3', talla: 'XL', cantidad: 1, estado: 'pedido',    pagado: false, nota: null, entregado_en: null, movimiento_id: null },
+  { id: 'pd-3', producto_id: 'pr-1', jugador_id: 'p5', talla: 'M',  cantidad: 2, estado: 'pedido',    pagado: false, nota: null, entregado_en: null, movimiento_id: null },
+  { id: 'pd-4', producto_id: 'pr-2', jugador_id: 'p1', talla: 'L',  cantidad: 1, estado: 'entregado', pagado: true,  nota: null, entregado_en: enDias(-9), movimiento_id: 'm2' }
 ];
+
+export const apuntarTiendaEnTesoreria = (productoId) => {
+  const suyos = PEDIDOS.filter(p => p.producto_id === productoId &&
+    p.estado !== 'cancelado' && p.pagado && !p.movimiento_id);
+  if (!suyos.length) throw new Error('No hay nada cobrado pendiente de apuntar');
+  const prod = PRODUCTOS.find(x => x.id === productoId);
+  const id = 'mv-' + Date.now();
+  MOVIMIENTOS.push({ id, temporada_id: 't1', tipo: 'ingreso',
+    concepto: 'Tienda — ' + prod.nombre, categoria: 'merchandising',
+    importe: suyos.reduce((s, p) => s + Number(prod.precio) * p.cantidad, 0),
+    fecha: enDias(0), metodo: 'bizum', justificante_url: null, nota: null });
+  suyos.forEach(p => { p.movimiento_id = id; });
+  return demora(id);
+};
 
 // --- Permisos por seccion --------------------------------------------------
 
@@ -596,7 +610,7 @@ export const borrarProducto = (id) => { const i = PRODUCTOS.findIndex(x => x.id 
 
 export const pedidos = () => demora(PEDIDOS);
 export const misPedidos = (jid) => demora(PEDIDOS.filter(p => p.jugador_id === jid));
-export const crearPedido = (d) => { PEDIDOS.push({ id: 'pd-' + (PEDIDOS.length + 1), estado: 'pedido', pagado: false, nota: null, ...d }); return demora(null); };
+export const crearPedido = (d) => { PEDIDOS.push({ id: 'pd-' + (PEDIDOS.length + 1), estado: 'pedido', pagado: false, nota: null, entregado_en: null, movimiento_id: null, ...d }); return demora(null); };
 export const guardarPedido = (id, c) => { const p = PEDIDOS.find(x => x.id === id); if (p) Object.assign(p, c); return demora(p); };
 export const borrarPedido = (id) => { const i = PEDIDOS.findIndex(x => x.id === id); if (i >= 0) PEDIDOS.splice(i, 1); return demora(null); };
 

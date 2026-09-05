@@ -1,5 +1,23 @@
 # Changelog — Coruña Atlantics Web
 
+## [2026-09-05] — La tienda, de punta a punta
+
+**Qué se hizo:**
+- El pedido llega hasta el final: **Pedido → Cobrado → Entregado**. Cada línea tiene ahora dos botones, y lo entregado sale de la lista de trabajo a un apartado propio (con la fecha y un "Deshacer" por si te confundes)
+- La chincheta de Tienda deja de apagarse al cobrar: **cuenta lo que sigue abierto hasta que se entrega**, que es cuando ya no queda nada por hacer
+- Botón **"Apuntar en tesorería"** por producto: crea un ingreso en la caja como *merchandising* con todo lo cobrado que aún no había entrado, y marca esos pedidos para que no se cuenten dos veces. Va en la función `apuntar_tienda_en_tesoreria()` porque crear el apunte y marcar los pedidos tienen que pasar juntos o no pasar
+- Si borras ese movimiento en Tesorería, los pedidos vuelven a estar sin apuntar y se pueden reapuntar
+- **Agujero cerrado:** la política dejaba al jugador editar su propia fila de pedido entera, así que podía marcarse como pagado él solo. El nuevo disparador `bloquear_campos_del_pedido()` le deja una única cosa: retirar el pedido, y sólo mientras siga pendiente
+- Un producto ya entregado se puede volver a pedir; antes el primer pedido bloqueaba el producto para siempre
+
+**Por qué:**
+El estado `entregado` existía en el enum desde el principio y no lo ponía nadie. El pedido
+no se cerraba nunca, y como la app sólo impedía cancelar cuando estaba entregado, un jugador
+podía retirar algo que ya había pagado. Y lo cobrado por la tienda no llegaba a la caja: se
+sabía quién había pagado, pero ese dinero no existía para la tesorería.
+
+**Pendiente en Supabase:** ejecutar `13`, `15`, `16`, `17`, `18` y `19`, en ese orden.
+
 ## [2026-09-05] — Capitanes
 
 **Qué se hizo:**

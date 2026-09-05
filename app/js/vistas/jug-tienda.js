@@ -44,8 +44,9 @@ export async function render(ctx, cont) {
                 </div>
               </div>
               <div class="dcha">
-                ${p.pagado ? crudo('<span class="tag ok">Pagado</span>')
-                           : crudo(html`<span class="tag ${ESTADO[p.estado].clase}">${ESTADO[p.estado].txt}</span>`)}
+                ${p.estado === 'entregado' ? crudo('<span class="tag ok">Entregado</span>')
+                  : p.pagado ? crudo('<span class="tag teal">Pagado</span>')
+                  : crudo(html`<span class="tag ${ESTADO[p.estado].clase}">${ESTADO[p.estado].txt}</span>`)}
               </div>
             </div>`;
         })}
@@ -77,7 +78,7 @@ export async function render(ctx, cont) {
 // --- Pedir --------------------------------------------------------------
 
 function abrirProducto(ctx, prod, mios, alPedir) {
-  const yaPedido = mios.find(p => p.producto_id === prod.id && p.estado !== 'cancelado');
+  const yaPedido = mios.find(p => p.producto_id === prod.id && p.estado === 'pedido');
 
   const panel = hoja(prod.nombre, html`
     ${prod.foto_url ? crudo(html`<img class="foto-producto" src="${prod.foto_url}" alt="">`) : ''}
@@ -88,12 +89,11 @@ function abrirProducto(ctx, prod, mios, alPedir) {
       <div class="card" style="text-align:center">
         <p style="margin:0;line-height:1.6">
           Ya lo has pedido${yaPedido.talla ? ' en talla ' + yaPedido.talla : ''}${yaPedido.cantidad > 1 ? ', ' + yaPedido.cantidad + ' unidades' : ''}.
-          ${yaPedido.pagado ? 'Y está pagado.' : 'Queda pagarlo por Bizum.'}
+          ${yaPedido.pagado ? 'Y está pagado; queda que te lo den.' : 'Queda pagarlo por Bizum.'}
         </p>
       </div>
-      ${yaPedido.estado !== 'entregado' ? crudo(html`
-        <button class="btn peligro ancho" id="cancelar" style="margin-top:1rem">
-          Cancelar mi pedido</button>`) : ''}`) : crudo(html`
+      <button class="btn peligro ancho" id="cancelar" style="margin-top:1rem">
+        Cancelar mi pedido</button>`) : crudo(html`
       <form id="pedir">
         ${prod.tallas.length ? crudo(html`
           <div class="campo">

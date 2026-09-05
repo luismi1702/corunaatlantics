@@ -1,12 +1,17 @@
-// Equipación — lo que vende el club y quién ha pedido qué.
+// Tienda — lo que vende el club y quién ha pedido qué.
 //
 // No cobra: el dinero entra por Bizum como las cuotas. Lo que resuelve es el
-// lío de verdad — cuántas sudaderas hay que encargar, de qué tallas, y quién
-// ha pagado ya.
+// lío de verdad — cuántas sudaderas hay que encargar, de qué tallas, quién ha
+// pagado y a quién se la has dado ya.
+//
+// El pedido recorre tres pasos: pedido, cobrado y entregado. Hasta el último
+// sigue apareciendo como pendiente, porque hasta el último queda algo por
+// hacer. Y lo cobrado se pasa a la caja de una vez por producto: mientras no
+// lo hagas, ese dinero no existe para la tesorería.
 
 import * as db from '../db.js';
 import {
-  html, crudo, $, $$, euros, nombreCompleto,
+  html, crudo, $, $$, euros, fecha, hoyISO, nombreCompleto,
   hoja, confirmar, avisar, fallo, cargando, vacio
 } from '../ui.js';
 
@@ -31,12 +36,18 @@ export async function render(ctx, cont) {
     return s + (prod ? importe(p, prod) : 0);
   }, 0);
 
+  const porEntregar = vivos.filter(p => p.estado !== 'entregado').length;
+
   cont.innerHTML = html`
     <div class="cifras">
       <div class="cifra"><div class="n">${vivos.reduce((s, p) => s + p.cantidad, 0)}</div><div class="l">Pedidas</div></div>
       <div class="cifra ok"><div class="n">${euros(cobrado)}</div><div class="l">Cobrado</div></div>
       <div class="cifra ${total - cobrado > 0 ? 'gold' : ''}"><div class="n">${euros(total - cobrado)}</div><div class="l">Pendiente</div></div>
     </div>
+    ${porEntregar ? crudo(html`
+      <p class="ayuda" style="text-align:center;margin:.7rem 0 0">
+        ${porEntregar === 1 ? 'Queda 1 pedido por entregar' : 'Quedan ' + porEntregar + ' pedidos por entregar'}
+      </p>`) : ''}
 
     <div id="lista" style="margin-top:1rem"></div>
 
@@ -51,6 +62,7 @@ export async function render(ctx, cont) {
     const suyos = deProducto(prod.id);
     const unidades = suyos.reduce((s, p) => s + p.cantidad, 0);
     const sinPagar = suyos.filter(p => !p.pagado).length;
+    const sinEntregar = suyos.filter(p => p.estado !== 'entregado').length;
     return html`
       <button class="fila producto ${prod.activo ? '' : 'inactivo'}" data-id="${prod.id}">
         ${prod.foto_url
@@ -65,10 +77,12 @@ export async function render(ctx, cont) {
           <div class="meta">
             ${unidades ? unidades + (unidades === 1 ? ' pedida' : ' pedidas') : 'Sin pedidos'}
             ${sinPagar ? ' · ' + sinPagar + ' sin pagar' : ''}
+            ${!sinPagar && sinEntregar ? ' · ' + sinEntregar + ' por entregar' : ''}
           </div>
         </div>
         <div class="dcha">
-          ${sinPagar ? crudo(html`<span class="tag warn">${sinPagar}</span>`) : ''}
+          ${sinPagar ? crudo(html`<span class="tag warn">${sinPagar}</span>`)
+            : sinEntregar ? crudo(html`<span class="tag teal">${sinEntregar}</span>`) : ''}
         </div>
       </button>`;
   }).join('') : vacio('Todavía no has puesto nada a la venta.');
@@ -83,6 +97,17 @@ export async function render(ctx, cont) {
 // --- Un producto y sus pedidos --------------------------------------------
 
 function abrirProducto(ctx, prod, suyos, porId, alGuardar) {
+  // Lo entregado sale de la lista de trabajo: ya no hay nada que hacer con
+  // ello, pero se queda a la vista por si te confundes de persona.
+  const abiertos   = suyos.filter(p => p.estado !== 'entregado');
+  const entregados = suyos.filter(p => p.estado === 'entregado');
+
+  // Cobrado y todavia fuera de la caja. El apunte lo hace la base de datos de
+  // una vez, y marca los pedidos para que no entre dos veces.
+  const porApuntar = suyos
+    .filter(p => p.pagado && !p.movimiento_id)
+    .reduce((s, p) => s + Number(prod.precio) * p.cantidad, 0);
+
   const porTalla = {};
   for (const p of suyos) {
     const t = p.talla || '—';
@@ -101,9 +126,9 @@ function abrirProducto(ctx, prod, suyos, porId, alGuardar) {
           <div class="talla-cuenta"><span class="t">${t}</span><span class="n">${n}</span></div>`)}
       </div>`) : ''}
 
-    <p class="eyebrow">Pedidos${suyos.length ? crudo(html`<span class="cuenta">${suyos.length}</span>`) : ''}</p>
+    <p class="eyebrow">Pendientes${abiertos.length ? crudo(html`<span class="cuenta">${abiertos.length}</span>`) : ''}</p>
     <div class="lista">
-      ${suyos.length ? suyos.map(p => {
+      ${abiertos.length ? abiertos.map(p => {
         const quien = porId.get(p.jugador_id);
         return html`
           <div class="fila">
@@ -115,13 +140,48 @@ function abrirProducto(ctx, prod, suyos, porId, alGuardar) {
                 · ${euros(Number(prod.precio) * p.cantidad)}
               </div>
             </div>
-            <button class="btn ${p.pagado ? 'fantasma' : 'oro'}" data-pago="${p.id}"
-                    style="padding:.45rem .75rem;min-height:auto;margin-left:auto">
-              ${p.pagado ? 'Pagado' : 'Cobrar'}
-            </button>
+            <div class="dcha" style="display:flex;gap:.4rem">
+              <button class="btn ${p.pagado ? 'fantasma' : 'oro'}" data-pago="${p.id}"
+                      style="padding:.45rem .7rem;min-height:auto">
+                ${p.pagado ? 'Pagado' : 'Cobrar'}
+              </button>
+              <button class="btn ${p.pagado ? 'primario' : ''}" data-entregar="${p.id}"
+                      style="padding:.45rem .7rem;min-height:auto">Entregar</button>
+            </div>
           </div>`;
-      }) : vacio('Nadie lo ha pedido todavía.')}
+      }) : vacio(entregados.length ? 'Todo entregado.' : 'Nadie lo ha pedido todavía.')}
     </div>
+
+    ${porApuntar > 0 ? crudo(html`
+      <div class="card" style="margin-top:.9rem">
+        <p style="margin:0 0 .8rem;line-height:1.6">
+          Has cobrado <strong>${euros(porApuntar)}</strong> de este producto que
+          todavía no están en la caja del club.
+        </p>
+        <button class="btn oro ancho" id="apuntar">Apuntar en tesorería</button>
+      </div>`) : ''}
+
+    ${entregados.length ? crudo(html`
+      <p class="eyebrow">Entregados<span class="cuenta">${entregados.length}</span></p>
+      <div class="lista">
+        ${entregados.map(p => {
+          const quien = porId.get(p.jugador_id);
+          return html`
+            <div class="fila" style="opacity:.62">
+              <div class="info">
+                <div class="nom">${quien ? nombreCompleto(quien) : 'Alguien'}</div>
+                <div class="meta">
+                  ${p.talla ? 'Talla ' + p.talla : 'Sin talla'}
+                  ${p.entregado_en ? ' · ' + fecha(p.entregado_en) : ''}
+                </div>
+              </div>
+              <div class="dcha">
+                <button class="btn fantasma" data-devolver="${p.id}"
+                        style="padding:.45rem .7rem;min-height:auto">Deshacer</button>
+              </div>
+            </div>`;
+        })}
+      </div>`) : ''}
 
     <div style="display:flex;gap:.6rem;margin-top:1.4rem">
       <button class="btn peligro" id="borrar">Borrar</button>
@@ -137,6 +197,39 @@ function abrirProducto(ctx, prod, suyos, porId, alGuardar) {
       alGuardar();
     } catch (err) { fallo(err); }
   }));
+
+  $$('[data-entregar]', panel).forEach(b => b.addEventListener('click', async () => {
+    const pedido = abiertos.find(p => p.id === b.dataset.entregar);
+    if (!pedido.pagado && !await confirmar('Entregar sin cobrar',
+      'Este pedido no está marcado como pagado. ¿Se la das igual?', 'Entregar')) return;
+    try {
+      await db.guardarPedido(pedido.id, { estado: 'entregado', entregado_en: hoyISO() });
+      avisar('Entregado');
+      panel.cerrar();
+      alGuardar();
+    } catch (err) { fallo(err); }
+  }));
+
+  $$('[data-devolver]', panel).forEach(b => b.addEventListener('click', async () => {
+    try {
+      await db.guardarPedido(b.dataset.devolver, { estado: 'pedido', entregado_en: null });
+      avisar('Vuelve a pendientes');
+      panel.cerrar();
+      alGuardar();
+    } catch (err) { fallo(err); }
+  }));
+
+  $('#apuntar', panel)?.addEventListener('click', async () => {
+    if (!await confirmar('Apuntar en tesorería',
+      'Se crea un ingreso de ' + euros(porApuntar) + ' en la caja, como merchandising. ' +
+      'Estos pedidos ya no se volverán a contar.', 'Apuntar')) return;
+    try {
+      await db.apuntarTiendaEnTesoreria(prod.id, ctx.temporada.id);
+      avisar('En la caja');
+      panel.cerrar();
+      alGuardar();
+    } catch (err) { fallo(err); }
+  });
 
   $('#editar', panel).addEventListener('click', () => {
     panel.cerrar();
