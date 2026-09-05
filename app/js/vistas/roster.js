@@ -159,8 +159,8 @@ async function abrirFicha(ctx, id, alGuardar) {
           <input name="apellidos" value="${p.apellidos ?? ''}"></div>
       </div>
       <div class="dos">
-        <div class="campo"><label>Apodo</label>
-          <input name="apodo" value="${p.apodo ?? ''}"></div>
+        <div class="campo"><label>Nombre en la camiseta</label>
+          <input name="apodo" value="${p.apodo ?? ''}" placeholder="Su apellido"></div>
         <div class="campo"><label>Dorsal</label>
           <input name="dorsal" type="number" min="0" max="99" inputmode="numeric" value="${p.dorsal ?? ''}"></div>
       </div>

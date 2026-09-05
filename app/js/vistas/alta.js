@@ -31,8 +31,9 @@ export async function render(ctx, cont) {
             <input name="apellidos" required value="${yo.apellidos ?? ''}"></div>
         </div>
 
-        <div class="campo"><label>Cómo te llaman</label>
-          <input name="apodo" value="${yo.apodo ?? ''}" placeholder="Opcional"></div>
+        <div class="campo"><label>Nombre en la camiseta</label>
+          <input name="apodo" value="${yo.apodo ?? ''}" placeholder="Opcional">
+          <p class="ayuda">Como te llaman. Si lo dejas en blanco sale tu apellido.</p></div>
 
         <div class="dos">
           <div class="campo"><label>Teléfono</label>

@@ -61,8 +61,9 @@ export async function render(ctx, cont) {
 
     <p class="eyebrow">Tus datos</p>
     <form id="mios" class="card">
-      <div class="campo"><label>Apodo</label>
-        <input name="apodo" value="${yo.apodo ?? ''}" placeholder="Como te llaman"></div>
+      <div class="campo"><label>Nombre en la camiseta</label>
+        <input name="apodo" value="${yo.apodo ?? ''}" placeholder="Como te llaman">
+        <p class="ayuda">Si lo dejas en blanco sale tu apellido.</p></div>
       <div class="campo"><label>Teléfono</label>
         <input name="telefono" type="tel" value="${yo.telefono ?? ''}"></div>
       <div class="campo"><label>Talla de equipación</label>
