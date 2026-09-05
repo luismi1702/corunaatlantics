@@ -44,6 +44,14 @@ const CLAVE_SERVIDOR =
   Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ??
   deDiccionario(Deno.env.get('SUPABASE_SECRET_KEYS'));
 
+// La cabecera `apikey` identifica al proyecto y la `Authorization` a la
+// persona: son dos cosas distintas y no vale poner el token del usuario en las
+// dos. Antes se toleraba; con las claves nuevas, no.
+const CLAVE_PROYECTO =
+  Deno.env.get('SUPABASE_ANON_KEY') ??
+  deDiccionario(Deno.env.get('SUPABASE_PUBLISHABLE_KEYS')) ??
+  CLAVE_SERVIDOR;
+
 const CORS = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type'
@@ -73,14 +81,20 @@ Deno.serve(async (req) => {
   const permiso = await fetch(`${URL_SB}/rest/v1/rpc/puede`, {
     method: 'POST',
     headers: {
-      apikey: token,
+      apikey: CLAVE_PROYECTO!,
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify({ _seccion: 'avisos' })
   });
 
-  if (!permiso.ok) return responder({ error: 'No se ha podido comprobar quién llama' }, 401);
+  // Con el motivo dentro: un 401 a secas no dice si falta la clave, si el token
+  // no vale o si la funcion `puede` no esta.
+  if (!permiso.ok) {
+    return responder({
+      error: 'Comprobando quién llama: ' + permiso.status + ' ' + (await permiso.text()).slice(0, 300)
+    }, 401);
+  }
   if (await permiso.json() !== true) return responder({ error: 'No llevas los avisos' }, 403);
 
   const { titulo, cuerpo, url } = await req.json().catch(() => ({}));
