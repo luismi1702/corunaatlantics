@@ -3,6 +3,7 @@
 import * as db from '../db.js';
 import * as cerrojo from '../cerrojo.js';
 import { pintarAjuste as pintarAvisosMovil } from './avisos-ajuste.js';
+import { pintarCompartir } from './compartir.js';
 import {
   html, crudo, $, $$, euros, fecha, nombreCompleto, DIAS, hora, enDiasISO,
   hoja, confirmar, avisar, fallo, cargando, vacio
@@ -90,6 +91,8 @@ export async function render(ctx, cont) {
       ahora se queda guardada con todo su histórico.
     </p>
 
+    <div id="compartir-app"></div>
+
     <div id="avisos-movil"></div>
     <div id="cerrojo"></div>
 
@@ -111,6 +114,7 @@ export async function render(ctx, cont) {
     </p>
   `;
 
+  pintarCompartir($('#compartir-app'));
   pintarAvisosMovil($('#avisos-movil'), ctx.perfil);
   cerrojo.pintarAjuste($('#cerrojo'), ctx.perfil);
 

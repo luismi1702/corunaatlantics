@@ -6,8 +6,7 @@
 import * as db from '../db.js';
 import {
   html, crudo, $, $$, fecha, nombreCompleto,
-  enlaceLlamada, enlaceWhatsApp, hoja, confirmar, avisar, fallo, cargando, vacio,
-  pintarQR
+  enlaceLlamada, enlaceWhatsApp, hoja, confirmar, avisar, fallo, cargando, vacio
 } from '../ui.js';
 
 const edad = (iso) => {
@@ -49,37 +48,15 @@ export async function render(ctx, cont) {
         })}
       </div>`) : vacio('No hay solicitudes pendientes.')}
 
-    <p class="eyebrow">Repartir la app</p>
-    <div class="card" style="text-align:center">
-      <div class="qr" id="qr"><div class="spinner" style="margin:2rem auto"></div></div>
-      <p class="ayuda" style="margin:.9rem 0 0;line-height:1.6">
-        Enséñalo en un entreno y que lo escaneen todos a la vez. Es la forma que
-        funciona: uno a uno por WhatsApp se queda a medias.
-      </p>
-      <p class="enlace-app" id="url"></p>
-      <button class="btn ancho" id="compartir" style="margin-top:.8rem">Compartir el enlace</button>
-    </div>
-
-    <p class="ayuda" style="text-align:center;margin-top:.8rem;line-height:1.6">
+    <p class="ayuda" style="text-align:center;margin-top:1rem;line-height:1.6">
       Cualquiera con el enlace puede pedir entrar, pero no ve nada del club hasta
-      que lo apruebas aquí.
+      que lo apruebas aquí. El enlace y el QR están en <strong>Ajustes</strong>.
     </p>
   `;
-
-  const url = location.origin + location.pathname;
-  $('#url').textContent = url.replace(/^https?:\/\//, '');
-  pintarQR($('#qr'), url);
 
   $$('.fila', cont).forEach(b => b.addEventListener('click', () =>
     abrirSolicitud(ctx, lista.find(p => p.id === b.dataset.id), () => render(ctx, cont))));
 
-  $('#compartir').addEventListener('click', async () => {
-    const texto = 'Únete al Coruña Atlantics: entra aquí, regístrate y te damos acceso. ' + url;
-    try {
-      if (navigator.share) await navigator.share({ title: 'Coruña Atlantics', text: texto, url });
-      else { await navigator.clipboard.writeText(texto); avisar('Enlace copiado'); }
-    } catch { /* si cancela el diálogo de compartir, no hay nada que decir */ }
-  });
 }
 
 // --- Una solicitud --------------------------------------------------------
