@@ -30,6 +30,11 @@ export async function render(ctx, cont) {
     .reduce((s, c) => s + Math.max(0, Number(c.importe_pendiente)), 0);
   const morosos   = vivas.filter(c => !c.exento && Number(c.importe_pendiente) > 0);
 
+  // Cuantas cuotas estan sin abrir o a cero. Es lo que arregla el boton de
+  // aplicar el importe, y sin este numero el boton parece que sobra siempre.
+  const aFalta = plantilla.filter(p => p.estado !== 'baja').length -
+    vivas.filter(c => c.exento || Number(c.importe_total) > 0).length;
+
   const FILTROS = {
     pendientes: c => !c.exento && Number(c.importe_pendiente) > 0,
     al_dia:     c => c.estado === 'al_dia',
@@ -53,6 +58,17 @@ export async function render(ctx, cont) {
 
     <div id="lista" class="lista"></div>
 
+    ${aFalta ? crudo(html`
+      <div class="card" style="margin-top:1rem">
+        <p style="margin:0 0 .8rem;line-height:1.6" class="muted">
+          ${aFalta === 1 ? 'Hay una persona sin cuota abierta' : 'Hay ' + aFalta + ' personas sin cuota abierta'}
+          o con la suya a cero. Ponerlas a
+          <strong>${euros(ctx.temporada.importe_cuota)}</strong>, que es el importe
+          de la temporada, no toca las que ya tienen pagos, un importe propio o exención.
+        </p>
+        <button class="btn ancho" id="aplicar">Aplicar el importe a la plantilla</button>
+      </div>`) : ''}
+
     ${morosos.length ? crudo(html`
       <button class="btn oro ancho" id="reclamar" style="margin-top:1rem">
         Copiar lista para reclamar
@@ -61,6 +77,20 @@ export async function render(ctx, cont) {
         Copia los nombres y lo que debe cada uno, listo para pegar en WhatsApp.
       </p>`) : ''}
   `;
+
+  $('#aplicar')?.addEventListener('click', async () => {
+    if (!await confirmar('Aplicar el importe',
+      'Se abre la cuota a quien no la tenga y se pone al importe actual a quien la ' +
+      'tenga a cero. Las que ya tienen pagos, un importe distinto o exención se ' +
+      'quedan como están.', 'Aplicar')) return;
+    try {
+      await db.abrirTemporada(ctx.temporada.id);
+      const n = await db.aplicarImporteCuota(ctx.temporada.id);
+      avisar(n ? n + (n === 1 ? ' cuota actualizada' : ' cuotas actualizadas')
+               : 'Cuotas al día');
+      render(ctx, cont);
+    } catch (err) { fallo(err); }
+  });
 
   function pintar() {
     const lista = vivas.filter(FILTROS[filtro])

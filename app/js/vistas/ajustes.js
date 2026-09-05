@@ -39,21 +39,6 @@ export async function render(ctx, cont) {
       <button class="btn primario ancho" type="submit" style="margin-top:.6rem">Guardar</button>
     </form>
 
-    <div class="card">
-      <p style="margin:0 0 .8rem;line-height:1.6" class="muted">
-        Poner la cuota de esta temporada a <strong>${euros(ctx.temporada.importe_cuota)}</strong>
-        a toda la plantilla: abre la de quien no la tenga y pone al día las que
-        se quedaran a cero. No toca las que ya tienen pagos, un importe propio o
-        exención.
-      </p>
-      <button class="btn ancho" id="aplicar">Aplicar el importe a la plantilla</button>
-      <p class="ayuda" style="margin-top:.6rem;line-height:1.6">
-        Úsalo cuando fijes el precio después de que la gente ya se haya
-        registrado: cambiar el importe aquí arriba no toca las cuotas ya
-        abiertas.
-      </p>
-    </div>
-
     <p class="eyebrow">Horario de entrenos</p>
     <div class="lista">
       ${horario.length ? horario.map(h => html`
@@ -78,23 +63,32 @@ export async function render(ctx, cont) {
       desde el calendario.
     </p>
 
-    <p class="eyebrow">Temporadas</p>
-    <div class="lista">
-      ${lista.map(t => html`
-        <div class="fila">
-          <div class="info">
-            <div class="nom">${t.nombre}</div>
-            <div class="meta">${fecha(t.fecha_inicio)} — ${fecha(t.fecha_fin)} · ${euros(t.importe_cuota)}</div>
-          </div>
-          <div class="dcha">
-            ${t.activa
-              ? crudo('<span class="tag ok">En curso</span>')
-              : crudo(html`<button class="btn fantasma" data-activar="${t.id}"
-                  style="padding:.4rem .7rem;min-height:auto">Activar</button>`)}
-          </div>
-        </div>`)}
-    </div>
+    <!-- La lista solo tiene sentido cuando hay entre que elegir. Con una sola
+         temporada repetia lo que el formulario de arriba acaba de enseñar, y
+         parecia que eran dos cosas distintas cuando era la misma. -->
+    ${lista.length > 1 ? crudo(html`
+      <p class="eyebrow">Cambiar de temporada</p>
+      <div class="lista">
+        ${lista.map(t => html`
+          <div class="fila">
+            <div class="info">
+              <div class="nom">${t.nombre}</div>
+              <div class="meta">${fecha(t.fecha_inicio)} — ${fecha(t.fecha_fin)} · ${euros(t.importe_cuota)}</div>
+            </div>
+            <div class="dcha">
+              ${t.activa
+                ? crudo('<span class="tag ok">En curso</span>')
+                : crudo(html`<button class="btn fantasma" data-activar="${t.id}"
+                    style="padding:.4rem .7rem;min-height:auto">Activar</button>`)}
+            </div>
+          </div>`)}
+      </div>`) : ''}
+
     <button class="btn ancho" id="nueva" style="margin-top:.7rem">+ Nueva temporada</button>
+    <p class="ayuda" style="margin-top:.5rem;line-height:1.6">
+      Una temporada nueva empieza las cuotas y la documentación de cero. La de
+      ahora se queda guardada con todo su histórico.
+    </p>
 
     <div id="avisos-movil"></div>
     <div id="cerrojo"></div>
@@ -133,19 +127,6 @@ export async function render(ctx, cont) {
       });
       avisar('Temporada guardada');
       ctx.recargar();
-    } catch (err) { fallo(err); }
-  });
-
-  $('#aplicar').addEventListener('click', async () => {
-    if (!await confirmar('Aplicar el importe',
-      'Se abre la cuota a quien no la tenga y se pone al importe actual a quien la ' +
-      'tenga a cero. Las que ya tienen pagos, un importe distinto o exención se ' +
-      'quedan como están.', 'Aplicar')) return;
-    try {
-      await db.abrirTemporada(ctx.temporada.id);
-      const n = await db.aplicarImporteCuota(ctx.temporada.id);
-      avisar(n ? n + (n === 1 ? ' cuota actualizada' : ' cuotas actualizadas')
-               : 'Cuotas al día');
     } catch (err) { fallo(err); }
   });
 
