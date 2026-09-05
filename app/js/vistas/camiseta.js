@@ -13,18 +13,19 @@
 import { html, crudo } from '../ui.js';
 
 export const camiseta = (p, { id = null, chapa = '' } = {}) => {
-  // Lo que va grande es por lo que se le llama: el apodo si lo tiene y, si no,
-  // el apellido. Encima, en pequeño, el nombre completo para saber quien es.
-  // Cuando no hay mas que un nombre no se repite: se deja solo el grande.
+  // Quien tiene nombre de camiseta lleva ese y nada mas: si le llaman Luismi,
+  // poner encima "Luis Miguel Pérez Olivares" es justo lo que no queria. Al que
+  // no lo tiene se le pone el apellido grande y el nombre encima, que es como
+  // se distingue a dos hermanos.
   const grande  = p.apodo || p.apellidos || p.nombre;
-  const pequeno = p.apodo ? [p.nombre, p.apellidos].filter(Boolean).join(' ') : p.nombre;
+  const pequeno = p.apodo ? '' : p.nombre;
 
   const dentro = html`
     <span class="num ${p.dorsal == null ? 'sin' : 'd' + String(p.dorsal).length}"
           aria-hidden="true">${p.dorsal ?? '—'}</span>
     ${p.es_capitan ? crudo('<span class="galon" title="Capitán">C</span>') : ''}
     <span class="quien">
-      ${pequeno && pequeno !== grande ? crudo(html`<span class="pila">${pequeno}</span>`) : ''}
+      <span class="pila">${pequeno && pequeno !== grande ? pequeno : ''}</span>
       <span class="ape">${grande}</span>
     </span>
     <span class="pie">

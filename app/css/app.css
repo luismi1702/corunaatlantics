@@ -313,6 +313,9 @@ button.fila:active { transform: scale(.995); }
 .camiseta .pila {
   display: block; font-size: .74rem; letter-spacing: .06em; color: var(--muted);
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  /* Guarda su hueco aunque este vacia: quien lleva nombre de camiseta no tiene
+     linea de arriba, y sin esto su nombre quedaba mas alto que el de al lado. */
+  min-height: 1.15em;
 }
 .camiseta .ape {
   display: block;
