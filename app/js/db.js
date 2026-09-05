@@ -22,7 +22,9 @@ const TRADUCCIONES = [
   [/you can only request this after (\d+) seconds?/i,
    'Acabas de pedir un enlace. Espera $1 segundos y vuelve a intentarlo.'],
   [/(invalid|expired).*(link|token)|token has expired/i,
-   'Ese enlace ya no vale: han pasado demasiados minutos o ya lo habías usado. Pide otro.'],
+   'Ese código ya no vale: han pasado demasiados minutos o ya lo habías usado. Pide otro.'],
+  [/token.*not found|invalid otp/i,
+   'El código no es correcto. Míralo otra vez en el correo.'],
   [/signups? not allowed/i,
    'El registro está cerrado ahora mismo. Habla con alguien del club.'],
   [/invalid email/i, 'Ese email no parece válido.'],
@@ -54,6 +56,14 @@ export function entrar(email) {
     options: { emailRedirectTo: window.location.origin + window.location.pathname }
   }).then(ok);
 }
+
+// El mismo correo trae tambien un codigo de seis cifras, y esto lo canjea.
+// Existe por el iPhone: una app instalada en la pantalla de inicio guarda su
+// sesion aparte de Safari, asi que abrir el enlace desde el correo abre Safari
+// y deja la app como estaba. Tecleando el codigo dentro de la app, la sesion se
+// crea donde tiene que estar.
+export const entrarConCodigo = (email, codigo) =>
+  sb.auth.verifyOtp({ email, token: String(codigo).trim(), type: 'email' }).then(ok);
 
 export const salir = () => sb.auth.signOut();
 

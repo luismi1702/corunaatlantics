@@ -361,6 +361,7 @@ const noDisponible = () => { throw new Error('En el modo demo no se guarda nada.
 export const traducirError = (e) => e?.message ?? String(e ?? '');
 export const sesion = () => demora({ user: { id: 'u1' } });
 export const entrar = () => noDisponible();
+export const entrarConCodigo = () => noDisponible();
 export const salir = () => demora(null);
 // Cuatro puntos del recorrido, para poder verlo entero desde la vista previa:
 // la consola del staff, la app de un jugador ya dentro, el formulario de alta

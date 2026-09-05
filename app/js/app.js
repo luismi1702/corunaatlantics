@@ -176,6 +176,57 @@ async function conPermisos(db) {
   }
 }
 
+// El codigo, no el enlace.
+//
+// El correo trae las dos cosas, pero en un iPhone con la app instalada en la
+// pantalla de inicio el enlace no sirve: abre Safari, y una app instalada
+// guarda su sesion aparte, asi que se entra en Safari y la app sigue pidiendo
+// el correo. Tecleando el codigo aqui dentro, la sesion se crea donde hace
+// falta. Con veinte personas instalando la app el mismo dia, esto no es un
+// detalle.
+function pantallaCodigo(app, db, email) {
+  app.innerHTML = html`
+    <div class="login">
+      <img class="login-marca" src="./img/logo-principal.webp" alt="Coruña Atlantics">
+      <h1>Mira tu correo</h1>
+      <p>Te hemos enviado un código a <strong>${email}</strong>.
+         Escríbelo aquí y entras.</p>
+      <form id="codigo">
+        <div class="campo">
+          <label>Código</label>
+          <input name="codigo" inputmode="numeric" autocomplete="one-time-code"
+                 pattern="[0-9]*" maxlength="6" required placeholder="000000"
+                 style="text-align:center;font-family:'Anton',sans-serif;font-size:1.8rem;letter-spacing:.35em">
+        </div>
+        <button class="btn primario ancho" type="submit">Entrar</button>
+      </form>
+      <p class="ayuda" style="max-width:34ch;margin-top:1.2rem;line-height:1.6">
+        Si no llega en un par de minutos, revisa la carpeta de spam.
+        El correo trae también un enlace, pero si tienes la app instalada
+        usa el código: el enlace te abriría el navegador.
+      </p>
+      <button class="btn fantasma ancho" id="otro" style="margin-top:.8rem">Usar otro correo</button>
+    </div>`;
+
+  $('#codigo').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const boton = e.target.querySelector('button');
+    boton.disabled = true;
+    boton.textContent = 'Comprobando…';
+    try {
+      await db.entrarConCodigo(email, new FormData(e.target).get('codigo'));
+      iniciar();
+    } catch (err) {
+      console.error(err);
+      avisar(db.traducirError(err), 'error');
+      boton.disabled = false;
+      boton.textContent = 'Entrar';
+    }
+  });
+
+  $('#otro').addEventListener('click', () => pantallaLogin(app, db));
+}
+
 // --- Pantallas de estado ---------------------------------------------------
 
 function pantallaSinConfigurar(app) {
@@ -203,12 +254,12 @@ function pantallaLogin(app, db) {
           <label>Email</label>
           <input type="email" name="email" required autocomplete="email" placeholder="tu@email.com">
         </div>
-        <button class="btn primario ancho" type="submit">Enviarme el enlace</button>
+        <button class="btn primario ancho" type="submit">Enviarme el código</button>
       </form>
       <p class="ayuda" style="max-width:34ch;margin-top:1.2rem;line-height:1.6">
-        Te llega un enlace y entras: no hay contraseña que recordar.
-        Si todavía no eres del equipo, rellenarás tu ficha y el club revisará
-        tu solicitud.
+        Te llega un código al correo y lo escribes aquí: no hay contraseña que
+        recordar. Si todavía no eres del equipo, rellenarás tu ficha y el club
+        revisará tu solicitud.
       </p>
     </div>`;
 
@@ -220,19 +271,13 @@ function pantallaLogin(app, db) {
     boton.textContent = 'Enviando…';
     try {
       await db.entrar(email);
-      app.innerHTML = html`
-        <div class="login">
-          <img class="login-marca" src="./img/logo-principal.webp" alt="Coruña Atlantics">
-          <h1>Mira tu correo</h1>
-          <p>Te hemos enviado un enlace a <strong>${email}</strong>.
-             Ábrelo en este mismo móvil y entrarás directo.</p>
-          <p class="ayuda">Si no llega en un par de minutos, revisa la carpeta de spam.</p>
-        </div>`;
+      pantallaCodigo(app, db, email);
+      return;
     } catch (err) {
       console.error(err);
       avisar(db.traducirError(err), 'error');
       boton.disabled = false;
-      boton.textContent = 'Enviarme el enlace';
+      boton.textContent = 'Enviarme el código';
     }
   });
 }
