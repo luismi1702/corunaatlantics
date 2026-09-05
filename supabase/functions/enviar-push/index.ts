@@ -73,8 +73,10 @@ Deno.serve(async (req) => {
 
   // Comprobacion de vida, sin credenciales: solo dice que version corre y si
   // tiene sus secretos. No toca datos ni los enseña.
-  const url = new URL(req.url);
-  if (req.method === 'GET' || url.searchParams.has('ping')) {
+  // Ojo al nombre: mas abajo hay otra `url`, la del aviso. Dos declaraciones
+  // del mismo nombre en el mismo ambito no compilan y la funcion ni arranca.
+  const direccion = new URL(req.url);
+  if (req.method === 'GET' || direccion.searchParams.has('ping')) {
     return responder({
       version: VERSION,
       vapid: Boolean(VAPID_PUB && VAPID_PRIV),
