@@ -1,0 +1,7 @@
+# Los vídeos pesan demasiado para el repo (GitHub Pages solo necesita la web)
+brutos/
+output/
+assets/*.mp4
+assets/*.mov
+assets/*.mp3
+assets/*.wav

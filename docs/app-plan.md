@@ -283,10 +283,11 @@ animadas · subida de justificantes a Supabase Storage (hoy se guarda un enlace)
 
 El editor de jugadas es vistoso y es mucho trabajo. Queda deliberadamente al final.
 
-## 9. Notificaciones push
+## 9. Notificaciones push — CONSTRUIDAS (2026-09-05)
 
 Funcionan vía Web Push (service worker + VAPID), enviadas desde una Edge Function de
-Supabase. Sin coste.
+Supabase. Sin coste. El cifrado va a mano en `supabase/functions/enviar-push/index.ts`,
+comprobado contra el vector del RFC 8291.
 
 **La restricción importante:** en Android funcionan sin fricción, pero **en iPhone solo
 llegan si el jugador ha instalado la PWA en su pantalla de inicio.** Safari no permite

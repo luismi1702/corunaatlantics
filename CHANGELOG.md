@@ -1,5 +1,29 @@
 # Changelog — Coruña Atlantics Web
 
+## [2026-09-05] — Avisos al móvil
+
+**Qué se hizo:**
+- Notificaciones push funcionando: se publica un aviso y suena en el móvil de todo el que las tenga activadas, con la app cerrada
+- Cada uno las activa desde **Mi ficha → Avisos en el móvil** (el staff, desde Ajustes). El permiso se pide con un toque suyo y nunca al abrir la app: el "no" de un navegador es para siempre
+- En iPhone hace falta tener la app instalada en la pantalla de inicio; si no lo está, el botón lo explica con lo que hay que hacer en vez de dejarlo en "no se puede"
+- El cifrado del contenido está escrito a mano con WebCrypto y **comprobado contra el vector de prueba del RFC 8291**, en vez de arrastrar una dependencia
+- La función no usa la clave de servidor del proyecto: la base de datos expone dos operaciones (`suscripciones_para_enviar`, `borrar_suscripciones`) que sólo responden a quien lleva los avisos
+- Las suscripciones muertas se borran solas al recibir un 404 o un 410
+- Sólo suenan los avisos nuevos: corregir uno ya publicado no vuelve a molestar a nadie
+- La función responde a una petición GET con su versión y el estado de sus secretos, para poder diagnosticarla desde fuera sin acceso al panel
+
+**Lo que costó, para que no se repita:**
+Tres fallos encadenados, todos de diagnóstico y no de diseño. "Cero enviados" se contaba
+igual que "nadie apuntado", así que el mensaje mandaba a buscar donde no era. La propia
+comprobación de vida traía dos variables con el mismo nombre y tumbaba la función entera.
+Y el fallo real era **un salto de línea al final de la clave privada**, pegado sin querer
+desde el fichero: `invalid b64 coordinate`, un error que no apunta ni de lejos a un
+carácter invisible. Ahora los secretos se limpian antes de usarse.
+
+**Pendiente en Supabase:** ejecutar `13` a `23` en orden (hecho), y guardar `vapid.txt`
+fuera del ordenador: si se pierde la clave privada, todos los móviles tienen que volver a
+activar los avisos.
+
 ## [2026-09-05] — La tienda, de punta a punta
 
 **Qué se hizo:**

@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dossier de Patrocinio 2025 — Coruña Atlantics</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --teal:     #4ECDC8;
+      --teal-d:   #2aada8;
+      --gold:     #F0C060;
+      --bronze:   #cd7f32;
+      --silver:   #c0c0c0;
+      --bg:       #002a3a;
+      --bg2:      #001e2b;
+      --text:     #E8F8F7;
+      --dim:      rgba(200,240,238,0.75);
+      --muted:    rgba(120,200,195,0.55);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { font-size: 16px; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Barlow', sans-serif;
+      font-weight: 400;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── PAGE WRAPPER ── */
+    .page {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 3rem 2rem 4rem;
+    }
+
+    /* ── PRINT BUTTON ── */
+    .print-bar {
+      display: flex;
+      justify-content: flex-end;
+      margin-bottom: 2rem;
+    }
+    .btn-print {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--teal);
+      color: #001e2b;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.65rem 1.4rem;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .btn-print:hover { background: #3abdb8; transform: translateY(-1px); }
+
+    /* ── COVER ── */
+    .cover {
+      position: relative;
+      background: linear-gradient(135deg, #001e2b 0%, #003552 50%, #001828 100%);
+      border-radius: 6px;
+      overflow: hidden;
+      padding: 3.5rem 3rem 3rem;
+      margin-bottom: 2.5rem;
+      border: 1px solid rgba(78,205,200,0.15);
+    }
+
+    /* diagonal accent stripe */
+    .cover::before {
+      content: '';
+      position: absolute;
+      top: 0; right: 0;
+      width: 340px;
+      height: 100%;
+      background: linear-gradient(135deg, transparent 30%, rgba(78,205,200,0.06) 100%);
+      clip-path: polygon(30% 0, 100% 0, 100% 100%, 0% 100%);
+      pointer-events: none;
+    }
+    .cover::after {
+      content: '';
+      position: absolute;
+      bottom: -1px; left: 0;
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, var(--teal), var(--gold), var(--teal));
+    }
+
+    .cover-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 2rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .cover-logo img {
+      height: 56px;
+      width: auto;
+      display: block;
+      filter: drop-shadow(0 2px 12px rgba(78,205,200,0.3));
+    }
+
+    .cover-badge {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.7rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      background: rgba(240,192,96,0.1);
+      border: 1px solid rgba(240,192,96,0.3);
+      padding: 0.35rem 0.9rem;
+      border-radius: 2px;
+      white-space: nowrap;
+    }
+
+    .cover-title {
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(2.4rem, 5vw, 3.6rem);
+      letter-spacing: 0.02em;
+      line-height: 1;
+      color: #fff;
+      margin-bottom: 0.6rem;
+    }
+    .cover-title span { color: var(--teal); }
+
+    .cover-sub {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 400;
+      color: var(--dim);
+      letter-spacing: 0.04em;
+      border-left: 2px solid var(--teal);
+      padding-left: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    .cover-meta {
+      margin-top: 2.5rem;
+      display: flex;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .meta-item {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .meta-item span {
+      display: block;
+      font-size: 0.92rem;
+      color: var(--text);
+      letter-spacing: 0.03em;
+      margin-top: 0.15rem;
+    }
+
+    /* ── SECTIONS ── */
+    .section {
+      background: rgba(0,30,43,0.8);
+      border: 1px solid rgba(78,205,200,0.12);
+      border-radius: 6px;
+      padding: 2.2rem 2.4rem;
+      margin-bottom: 1.4rem;
+    }
+
+    .kicker {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 0.5rem;
+    }
+
+    h2 {
+      font-family: 'Anton', sans-serif;
+      font-size: 1.7rem;
+      letter-spacing: 0.03em;
+      color: #fff;
+      margin-bottom: 1rem;
+    }
+    h2 .gold { color: var(--gold); }
+    h2 .teal { color: var(--teal); }
+
+    .body-text {
+      font-size: 0.93rem;
+      color: var(--dim);
+      line-height: 1.75;
+      max-width: 640px;
+    }
+
+    /* ── WHY SPONSOR ── */
+    .why-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem;
+      margin-top: 1.4rem;
+    }
+    .why-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.7rem;
+      padding: 0.9rem 1rem;
+      background: rgba(78,205,200,0.05);
+      border: 1px solid rgba(78,205,200,0.12);
+      border-radius: 4px;
+    }
+    .why-icon {
+      color: var(--gold);
+      font-size: 1rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .why-text {
+      font-size: 0.86rem;
+      color: var(--dim);
+      line-height: 1.5;
+    }
+
+    /* ── TIERS ── */
+    .tiers-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-top: 1.4rem;
+    }
+
+    .tier {
+      background: rgba(0,20,35,0.7);
+      border: 1px solid rgba(78,205,200,0.14);
+      border-radius: 5px;
+      padding: 1.5rem 1.4rem;
+      position: relative;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .tier:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    }
+    .tier.featured {
+      border-color: rgba(240,192,96,0.35);
+      background: linear-gradient(135deg, rgba(240,192,96,0.05), rgba(0,20,35,0.75));
+    }
+    .tier.featured::before {
+      content: 'PREMIUM';
+      position: absolute;
+      top: -1px; right: 1rem;
+      background: var(--gold);
+      color: #1a0c00;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700;
+      font-size: 0.58rem;
+      letter-spacing: 0.18em;
+      padding: 0.18rem 0.55rem;
+      border-radius: 0 0 3px 3px;
+    }
+
+    .tier-name {
+      font-family: 'Anton', sans-serif;
+      font-size: 1.3rem;
+      letter-spacing: 0.04em;
+      margin-bottom: 0.15rem;
+    }
+    .tier-level {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.9rem;
+    }
+
+    .tier-divider {
+      height: 1px;
+      background: rgba(78,205,200,0.1);
+      margin-bottom: 0.9rem;
+    }
+
+    .tier-perks {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+    .tier-perks li {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      font-size: 0.81rem;
+      color: var(--dim);
+      line-height: 1.4;
+    }
+    .tier-perks li::before {
+      content: '—';
+      color: var(--teal-d);
+      flex-shrink: 0;
+    }
+
+    /* ── CTA ── */
+    .cta {
+      background: linear-gradient(135deg, rgba(0,30,43,0.9), rgba(0,42,58,0.9));
+      border: 1px solid rgba(78,205,200,0.2);
+      border-radius: 6px;
+      padding: 2.2rem 2.4rem;
+      margin-bottom: 1.4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 2rem;
+      flex-wrap: wrap;
+      position: relative;
+      overflow: hidden;
+    }
+    .cta::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, transparent 60%, rgba(240,192,96,0.04));
+      pointer-events: none;
+    }
+
+    .cta-text h3 {
+      font-family: 'Anton', sans-serif;
+      font-size: 1.6rem;
+      letter-spacing: 0.02em;
+      color: #fff;
+      margin-bottom: 0.3rem;
+    }
+    .cta-text h3 span { color: var(--gold); }
+    .cta-text p { font-size: 0.86rem; color: var(--dim); }
+
+    .cta-contacts {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      flex-shrink: 0;
+    }
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.88rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--teal);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .contact-link:hover { color: #fff; }
+    .contact-link svg { flex-shrink: 0; }
+
+    /* ── FOOTER ── */
+    .doc-footer {
+      text-align: center;
+      padding-top: 1rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.74rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    /* ────────────────────────────────────────────
+       PRINT STYLES
+    ──────────────────────────────────────────── */
+    @media print {
+      @page {
+        size: A4;
+        margin: 1.5cm 1.8cm;
+      }
+
+      html, body {
+        background: #fff !important;
+        color: #111 !important;
+        font-size: 14px;
+      }
+
+      body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+      .print-bar { display: none !important; }
+
+      .page { padding: 0; max-width: 100%; }
+
+      /* Cover */
+      .cover {
+        background: #003552 !important;
+        border-color: #2aada8 !important;
+        border-radius: 4px;
+        page-break-after: avoid;
+      }
+      .cover::before { display: none; }
+
+      /* Sections become white cards */
+      .section {
+        background: #fff !important;
+        border: 1px solid #d0eded !important;
+        border-radius: 4px;
+        page-break-inside: avoid;
+      }
+
+      .kicker { color: #2aada8 !important; }
+      h2 { color: #003552 !important; }
+      h2 .gold { color: #b8871a !important; }
+      h2 .teal { color: #2aada8 !important; }
+      .body-text { color: #333 !important; }
+
+      .why-item {
+        background: #f4fffe !important;
+        border-color: #b0e0de !important;
+      }
+      .why-text { color: #333 !important; }
+      .why-icon { color: #b8871a !important; }
+
+      .tier {
+        background: #f8f8f8 !important;
+        border-color: #ccc !important;
+      }
+      .tier.featured {
+        background: #fffbf0 !important;
+        border-color: #e8c060 !important;
+      }
+      .tier-level { color: #888 !important; }
+      .tier-perks li { color: #333 !important; }
+      .tier-perks li::before { color: #2aada8 !important; }
+      .tier-divider { background: #ddd !important; }
+
+      .cta {
+        background: #003552 !important;
+        border-color: #2aada8 !important;
+        page-break-inside: avoid;
+      }
+      .cta-text h3 { color: #fff !important; }
+      .cta-text h3 span { color: #F0C060 !important; }
+      .cta-text p { color: rgba(255,255,255,0.8) !important; }
+      .contact-link { color: #4ECDC8 !important; }
+
+      .doc-footer { color: #999 !important; }
+
+      .tiers-grid { page-break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- PRINT BUTTON -->
+  <div class="print-bar">
+    <button class="btn-print" onclick="window.print()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+        <polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/>
+        <rect x="6" y="14" width="12" height="8"/>
+      </svg>
+      Imprimir / Guardar como PDF
+    </button>
+  </div>
+
+  <!-- COVER -->
+  <div class="cover">
+    <div class="cover-top">
+      <div class="cover-logo">
+        <img src="logo-texto.png" alt="Coruña Atlantics">
+      </div>
+      <div class="cover-badge">Temporada 2025</div>
+    </div>
+
+    <div class="cover-title">Dossier de<br><span>Patrocinio</span> 2025</div>
+    <div class="cover-sub">Donde el Atlántico se convierte en campo</div>
+
+    <div class="cover-meta">
+      <div class="meta-item">
+        Deporte
+        <span>Football Americano</span>
+      </div>
+      <div class="meta-item">
+        Ubicación
+        <span>A Coruña, Galicia</span>
+      </div>
+      <div class="meta-item">
+        Contacto
+        <span>coruna.atlantics@gmail.com</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <div class="section">
+    <div class="kicker">Quiénes somos</div>
+    <h2>Coruña <span class="teal">Atlantics</span></h2>
+    <p class="body-text">
+      Coruña Atlantics es el equipo de football americano de A Coruña. Apostamos por el deporte emergente en Galicia, construyendo una comunidad joven y apasionada. Somos más que un equipo: somos un punto de encuentro para quienes quieren vivir el deporte con intensidad, compañerismo e identidad propia.
+    </p>
+
+    <div class="why-grid">
+      <div class="why-item">
+        <div class="why-icon">✓</div>
+        <div class="why-text">Visibilidad en redes sociales y web</div>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">✓</div>
+        <div class="why-text">Logo en equipación oficial del equipo</div>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">✓</div>
+        <div class="why-text">Presencia en partidos y eventos</div>
+      </div>
+      <div class="why-item">
+        <div class="why-icon">✓</div>
+        <div class="why-text">Asociación con deporte en crecimiento en Galicia</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIERS -->
+  <div class="section">
+    <div class="kicker">Niveles de patrocinio</div>
+    <h2>Elige tu <span class="gold">nivel</span></h2>
+
+    <div class="tiers-grid">
+
+      <!-- Bronce -->
+      <div class="tier">
+        <div class="tier-name" style="color:#cd7f32;">Bronce</div>
+        <div class="tier-level">Nivel entrada</div>
+        <div class="tier-divider"></div>
+        <ul class="tier-perks">
+          <li>Logo en web</li>
+          <li>Mención en RRSS</li>
+          <li>Agradecimiento público</li>
+        </ul>
+      </div>
+
+      <!-- Plata -->
+      <div class="tier">
+        <div class="tier-name" style="color:#c0c0c0;">Plata</div>
+        <div class="tier-level">Nivel medio</div>
+        <div class="tier-divider"></div>
+        <ul class="tier-perks">
+          <li>Todo lo de Bronce</li>
+          <li>Logo en equipación</li>
+          <li>Posts dedicados en RRSS</li>
+        </ul>
+      </div>
+
+      <!-- Oro -->
+      <div class="tier featured">
+        <div class="tier-name" style="color:#F0C060;">Oro</div>
+        <div class="tier-level">Nivel premium</div>
+        <div class="tier-divider"></div>
+        <ul class="tier-perks">
+          <li>Todo lo de Plata</li>
+          <li>Logo prominente en camiseta</li>
+          <li>Contenido co-branded</li>
+          <li>Invitaciones a partidos</li>
+        </ul>
+      </div>
+
+      <!-- Poseidón -->
+      <div class="tier">
+        <div class="tier-name" style="color:#4ECDC8;">Poseidón</div>
+        <div class="tier-level">Patrocinador principal</div>
+        <div class="tier-divider"></div>
+        <ul class="tier-perks">
+          <li>Todo lo de Oro</li>
+          <li>Naming rights en evento</li>
+          <li>Exclusividad en sector</li>
+          <li>Acuerdo personalizado</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- CTA -->
+  <div class="cta">
+    <div class="cta-text">
+      <h3>¿Hablamos? <span>Sin compromiso.</span></h3>
+      <p>Cuéntanos tu marca y te preparamos una propuesta a tu medida.</p>
+    </div>
+    <div class="cta-contacts">
+      <a class="contact-link" href="mailto:coruna.atlantics@gmail.com">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+          <polyline points="22,6 12,13 2,6"/>
+        </svg>
+        coruna.atlantics@gmail.com
+      </a>
+      <a class="contact-link" href="https://instagram.com/corunaatlantics" target="_blank">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+          <circle cx="12" cy="12" r="4"/>
+          <circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/>
+        </svg>
+        @corunaatlantics
+      </a>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="doc-footer">
+    Coruña Atlantics &nbsp;·&nbsp; Football Americano &nbsp;·&nbsp; A Coruña, Galicia &nbsp;·&nbsp; 2025
+  </div>
+
+</div>
+</body>
+</html>
