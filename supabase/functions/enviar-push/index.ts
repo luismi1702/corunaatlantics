@@ -63,8 +63,24 @@ const responder = (cuerpo: unknown, estado = 200) =>
     headers: { ...CORS, 'Content-Type': 'application/json' }
   });
 
+// Version del codigo. Sirve para una cosa muy concreta: saber desde fuera si lo
+// que esta corriendo es lo que uno cree que subio. Sin esto, un despliegue que
+// no llego a hacerse y un fallo de verdad se parecen demasiado.
+const VERSION = 3;
+
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: CORS });
+
+  // Comprobacion de vida, sin credenciales: solo dice que version corre y si
+  // tiene sus secretos. No toca datos ni los enseña.
+  const url = new URL(req.url);
+  if (req.method === 'GET' || url.searchParams.has('ping')) {
+    return responder({
+      version: VERSION,
+      vapid: Boolean(VAPID_PUB && VAPID_PRIV),
+      clave: Boolean(CLAVE_PROYECTO)
+    });
+  }
 
   if (!CLAVE_PROYECTO) {
     return responder({ error: 'La función no encuentra la clave del proyecto.' }, 500);
@@ -122,7 +138,7 @@ Deno.serve(async (req) => {
     return responder({
       enviados: 0, caducados: 0, fallidos: 0,
       diagnostico: 'rpc ' + consulta.status + ' · ' + crudo.slice(0, 200) +
-        ' · version 2 · clave ' + (CLAVE_PROYECTO ?? '').slice(0, 12)
+        ' · version ' + VERSION + ' · clave ' + (CLAVE_PROYECTO ?? '').slice(0, 12)
     });
   }
 
