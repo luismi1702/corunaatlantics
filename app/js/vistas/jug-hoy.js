@@ -56,8 +56,6 @@ export async function render(ctx, cont) {
   const pendientes = [];
   if (miDoc) {
     if (miDoc.licencia_estado !== 'validado') pendientes.push('la licencia');
-    if (miDoc.seguro_estado !== 'validado') pendientes.push('el seguro');
-    if (miDoc.reconocimiento_estado !== 'validado') pendientes.push('el reconocimiento médico');
     if (!miDoc.dni_entregado) pendientes.push('la copia del DNI');
   }
   const debe = cuota && !cuota.exento && Number(cuota.importe_pendiente) > 0;

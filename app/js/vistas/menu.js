@@ -59,12 +59,11 @@ export async function render(ctx, cont) {
   const sinCobrar = abiertos.filter(p => !p.pagado).length;
 
   const papelesPendientes = docs.filter(d => vivo(d.jugador_id) && (
-    d.licencia_estado !== 'validado' || d.seguro_estado !== 'validado' ||
-    d.reconocimiento_estado !== 'validado' || !d.dni_entregado
+    d.licencia_estado !== 'validado' || !d.dni_entregado
   )).length;
 
   const caducan = docs.filter(d => vivo(d.jugador_id) &&
-    ['licencia_caduca_en', 'seguro_caduca_en', 'reconocimiento_caduca_en'].some(c => {
+    ['licencia_caduca_en'].some(c => {
       const dias = diasHasta(d[c]);
       return dias !== null && dias <= DIAS_AVISO_CADUCIDAD;
     })).length;

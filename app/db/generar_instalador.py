@@ -6,7 +6,7 @@ ORDEN = ['01_schema.sql', '02_rls.sql', '04_tesoreria.sql',
          '05_calendario.sql', '06_jugador.sql', '07_registro.sql',
          '08_dorsales.sql', '09_avisos.sql', '10_material.sql',
          '11_importe_cuota.sql', '12_arranque_automatico.sql',
-         '13_permisos_funciones.sql', '14_tienda.sql', '15_competiciones.sql', '16_estadisticas_visibles.sql', '17_permisos.sql', '18_capitanes.sql', '19_tienda_cierre.sql', '20_cobro_directo.sql', '21_companeros_aprobados.sql', '22_push.sql', '23_push_sin_clave_servidor.sql', '24_plantilla_publica.sql']
+         '13_permisos_funciones.sql', '14_tienda.sql', '15_competiciones.sql', '16_estadisticas_visibles.sql', '17_permisos.sql', '18_capitanes.sql', '19_tienda_cierre.sql', '20_cobro_directo.sql', '21_companeros_aprobados.sql', '22_push.sql', '23_push_sin_clave_servidor.sql', '24_plantilla_publica.sql', '25_sin_seguro_ni_reconocimiento.sql']
 
 CABECERA = """-- Coruña Atlantics — Instalación completa
 --

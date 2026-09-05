@@ -28,9 +28,7 @@ export async function render(ctx, cont) {
   for (const p of equipo) if (p.dorsal != null && p.id !== yo.id) dueno.set(p.dorsal, p);
 
   const DOCUMENTOS = [
-    { etiqueta: 'Licencia',              estado: doc?.licencia_estado,       caduca: doc?.licencia_caduca_en },
-    { etiqueta: 'Seguro',                estado: doc?.seguro_estado,         caduca: doc?.seguro_caduca_en },
-    { etiqueta: 'Reconocimiento médico', estado: doc?.reconocimiento_estado, caduca: doc?.reconocimiento_caduca_en }
+    { etiqueta: 'Licencia', estado: doc?.licencia_estado, caduca: doc?.licencia_caduca_en }
   ];
 
   cont.innerHTML = html`

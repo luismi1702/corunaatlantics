@@ -80,10 +80,6 @@ const DOCS = nombres.map((p, i) => ({
   id: 'd' + i, jugador_id: p.id, temporada_id: 't1',
   licencia_estado: i % 4 === 0 ? 'pendiente' : 'validado',
   licencia_caduca_en: i % 6 === 0 ? enDias(12) : enDias(200),
-  seguro_estado: i % 5 === 0 ? 'entregado' : 'validado',
-  seguro_caduca_en: i % 7 === 0 ? enDias(-3) : enDias(180),
-  reconocimiento_estado: i % 3 === 0 ? 'pendiente' : 'validado',
-  reconocimiento_caduca_en: i % 9 === 0 ? enDias(25) : enDias(300),
   dni_entregado: i % 2 === 0, foto_entregada: i % 3 !== 0,
   notas_staff: null, actualizado_en: '2026-09-01T10:00:00Z'
 }));
@@ -513,13 +509,13 @@ export const aptitud = () => demora(nombres.map((p, i) => {
   if (p.estado === 'baja_temporal') motivos.push('De baja temporal');
   if (p.estado === 'baja') motivos.push('Ya no está en el equipo');
   if (d.licencia_estado === 'pendiente') motivos.push('Sin licencia');
-  if (d.seguro_estado === 'entregado') motivos.push('Seguro sin validar');
-  if (d.reconocimiento_estado === 'pendiente') motivos.push('Sin reconocimiento médico');
-  if (d.seguro_caduca_en < hoy.toISOString().slice(0, 10)) motivos.push('Seguro caducado');
+  if (d.licencia_estado === 'entregado') motivos.push('Licencia sin validar');
+  if (d.licencia_caduca_en && d.licencia_caduca_en < hoy.toISOString().slice(0, 10)) {
+    motivos.push('Licencia caducada');
+  }
   const bloquea = p.estado !== 'activo'
     || d.licencia_estado === 'pendiente'
-    || d.reconocimiento_estado === 'pendiente'
-    || d.seguro_caduca_en < hoy.toISOString().slice(0, 10);
+    || (d.licencia_caduca_en && d.licencia_caduca_en < hoy.toISOString().slice(0, 10));
   return { jugador_id: p.id, temporada_id: 't1',
            apto: bloquea ? 'no' : motivos.length ? 'pega' : 'si', motivos };
 }));
@@ -567,8 +563,6 @@ export const resolverSolicitud = (id, aprobar) => {
     nombres.push(p);
     DOCS.push({ id: 'd-' + p.id, jugador_id: p.id, temporada_id: 't1',
       licencia_estado: 'pendiente', licencia_caduca_en: null,
-      seguro_estado: 'pendiente', seguro_caduca_en: null,
-      reconocimiento_estado: 'pendiente', reconocimiento_caduca_en: null,
       dni_entregado: false, foto_entregada: false, notas_staff: null,
       actualizado_en: new Date().toISOString() });
     CUOTAS.push({ id: 'c-' + p.id, jugador_id: p.id, temporada_id: 't1',

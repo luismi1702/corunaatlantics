@@ -1,4 +1,4 @@
-// Documentación — licencia, seguro, reconocimiento médico y DNI de la plantilla.
+// Documentación — la licencia, el DNI y la foto de cada uno.
 //
 // Se ordena por lo que falta, no alfabéticamente: la lista se abre para saber
 // a quién hay que perseguir, no para consultar a alguien concreto.
@@ -12,10 +12,11 @@ import {
 
 let filtro = 'falta';
 
+// El club no pide seguro ni reconocimiento medico, asi que no estan: eran dos
+// casillas que nadie iba a rellenar y que salian en pendiente para todo el
+// mundo. Un semaforo que siempre esta en rojo deja de mirarse.
 const DOCS = [
-  { clave: 'licencia',       etiqueta: 'Licencia' },
-  { clave: 'seguro',         etiqueta: 'Seguro' },
-  { clave: 'reconocimiento', etiqueta: 'Reconocimiento médico' }
+  { clave: 'licencia', etiqueta: 'Licencia' }
 ];
 
 // Un documento cuenta como resuelto solo si está validado y no caduca ya.
@@ -182,8 +183,7 @@ async function abrirDoc(f, alGuardar) {
 
 function exportarCSV(ctx, filas) {
   const cabecera = ['Dorsal','Nombre','Apellidos','DNI','Fecha nacimiento','Email','Teléfono',
-                    'Licencia','Licencia caduca','Seguro','Seguro caduca',
-                    'Reconocimiento','Reconocimiento caduca','DNI entregado','Foto entregada'];
+                    'Licencia','Licencia caduca','DNI entregado','Foto entregada'];
 
   const celda = (v) => {
     const s = v == null ? '' : String(v);
@@ -194,8 +194,6 @@ function exportarCSV(ctx, filas) {
     f.jugador.dorsal, f.jugador.nombre, f.jugador.apellidos, f.jugador.dni,
     f.jugador.fecha_nacimiento, f.jugador.email, f.jugador.telefono,
     f.doc.licencia_estado, f.doc.licencia_caduca_en,
-    f.doc.seguro_estado, f.doc.seguro_caduca_en,
-    f.doc.reconocimiento_estado, f.doc.reconocimiento_caduca_en,
     f.doc.dni_entregado ? 'Sí' : 'No', f.doc.foto_entregada ? 'Sí' : 'No'
   ].map(celda).join(';'));
 

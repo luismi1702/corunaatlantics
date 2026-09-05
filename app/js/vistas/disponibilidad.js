@@ -1,6 +1,6 @@
 // Disponibilidad — quién puede jugar.
 //
-// Cruza lesiones, licencia, seguro y reconocimiento médico, que es lo que hoy
+// Cruza lesiones y licencia, que es lo que hoy
 // está repartido en tres pantallas distintas. El dinero no entra aquí: quién
 // juega y quién debe la cuota son dos conversaciones separadas.
 
@@ -71,7 +71,7 @@ export async function render(ctx, cont) {
             </div>
             <div class="dcha"><span class="tag ${g.clase}">${g.titulo}</span></div>
           </div>`)
-          : vacio('Nadie está listo para jugar todavía. Revisa licencias y reconocimientos en Documentos.')}
+          : vacio('Nadie está listo para jugar todavía. Revisa las licencias en Documentos.')}
       </div>`;
   }).join('');
 
