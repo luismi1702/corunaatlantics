@@ -459,9 +459,28 @@ export const movilesConAvisos = () => sb.rpc('moviles_con_avisos').then(ok);
 
 // Manda la notificacion a todo el equipo. Lo hace una funcion en el servidor:
 // desde aqui no se pueden leer las suscripciones de los demas, ni debe poderse.
-export const avisarAlMovil = (titulo, cuerpo, url) =>
-  sb.functions.invoke('enviar-push', { body: { titulo, cuerpo, url } })
-    .then(({ data, error }) => { if (error) throw error; return data; });
+export async function avisarAlMovil(titulo, cuerpo, url) {
+  const { data, error } = await sb.functions.invoke('enviar-push', {
+    body: { titulo, cuerpo, url }
+  });
+  if (!error) return data;
+
+  // El error que devuelve invoke() es siempre el mismo texto generico ("non-2xx
+  // status code"), y el motivo de verdad viene en el cuerpo de la respuesta.
+  // Sin sacarlo de ahi, un fallo de configuracion y uno de permisos parecen
+  // identicos desde el movil, que es justo cuando hace falta saberlo.
+  let detalle = '';
+  try {
+    const r = error.context;
+    if (r && typeof r.text === 'function') {
+      const texto = await r.text();
+      try { detalle = JSON.parse(texto).error ?? texto; } catch { detalle = texto; }
+      if (r.status) detalle = r.status + ': ' + detalle;
+    }
+  } catch { /* si no se puede leer, queda el generico */ }
+
+  throw new Error(detalle || error.message);
+}
 
 // --- Permisos por seccion --------------------------------------------------
 

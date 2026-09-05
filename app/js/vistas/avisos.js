@@ -201,7 +201,7 @@ function editarAviso(ctx, a, alGuardar) {
           if (r?.enviados) avisar('Enviado a ' + r.enviados + (r.enviados === 1 ? ' móvil' : ' móviles'));
         } catch (err) {
           console.error(err);
-          avisar('Publicado, pero no se ha podido avisar a los móviles.', 'error');
+          avisar('Publicado, pero los móviles no: ' + (err?.message ?? ''), 'error');
         }
       }
 
