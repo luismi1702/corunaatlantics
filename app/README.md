@@ -62,6 +62,7 @@ una pegada. Los sueltos siguen ahí para leerlos por partes:
 | `20_cobro_directo.sql` | Cobrar un pedido lo apunta en tesoreria al momento |
 | `21_companeros_aprobados.sql` | La plantilla que ven los jugadores, solo aprobados |
 | `22_push.sql` | Suscripciones de los moviles a las notificaciones |
+| `23_push_sin_clave_servidor.sql` | Mandar avisos sin la clave de servidor del proyecto |
 
 `00_instalar.sql` está **generado**: si tocas un archivo suelto, vuelve a
 generarlo con `python generar_instalador.py` desde `app/db`.

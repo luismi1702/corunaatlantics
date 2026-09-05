@@ -11,9 +11,12 @@
 // que se despliega a mano y se toca una vez al año no debería poder romperse
 // porque una dependencia cambie: aquí lo único que puede fallar es la red.
 //
-// Las claves: Supabase esta jubilando los nombres de siempre en favor de unos
-// diccionarios JSON. Se miran los dos, porque segun cuando se creara el
-// proyecto existe uno u otro.
+// No usa la clave de servidor del proyecto. La uso al principio y salio mal:
+// Supabase la esta jubilando y, cuando deja de dar permisos de servidor, la
+// funcion lee la tabla vacia sin dar ningun error — un aviso que no suena y
+// nada que mirar. Ahora las dos operaciones que necesita viven en la base de
+// datos (`suscripciones_para_enviar` y `borrar_suscripciones`) y solo responden
+// a quien lleva los avisos, asi que basta con el token de quien llama.
 
 import { enviar } from './webpush.ts';
 
@@ -40,17 +43,14 @@ function deDiccionario(json: string | undefined): string | undefined {
   } catch { return undefined; }
 }
 
-const CLAVE_SERVIDOR =
-  Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ??
-  deDiccionario(Deno.env.get('SUPABASE_SECRET_KEYS'));
-
 // La cabecera `apikey` identifica al proyecto y la `Authorization` a la
 // persona: son dos cosas distintas y no vale poner el token del usuario en las
 // dos. Antes se toleraba; con las claves nuevas, no.
 const CLAVE_PROYECTO =
   Deno.env.get('SUPABASE_ANON_KEY') ??
   deDiccionario(Deno.env.get('SUPABASE_PUBLISHABLE_KEYS')) ??
-  CLAVE_SERVIDOR;
+  Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ??
+  deDiccionario(Deno.env.get('SUPABASE_SECRET_KEYS'));
 
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -66,8 +66,8 @@ const responder = (cuerpo: unknown, estado = 200) =>
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: CORS });
 
-  if (!CLAVE_SERVIDOR) {
-    return responder({ error: 'La función no encuentra la clave de servidor del proyecto.' }, 500);
+  if (!CLAVE_PROYECTO) {
+    return responder({ error: 'La función no encuentra la clave del proyecto.' }, 500);
   }
   if (!VAPID_PUB || !VAPID_PRIV) {
     return responder({ error: 'Faltan los secretos VAPID_PUBLICA o VAPID_PRIVADA.' }, 500);
@@ -77,16 +77,19 @@ Deno.serve(async (req) => {
   const token = cabecera.replace(/^Bearer\s+/i, '');
   if (!token) return responder({ error: 'Sin credenciales' }, 401);
 
-  // ¿Quién llama, y lleva los avisos? Con SU token, no con el del servidor.
-  const permiso = await fetch(`${URL_SB}/rest/v1/rpc/puede`, {
-    method: 'POST',
-    headers: {
-      apikey: CLAVE_PROYECTO!,
-      Authorization: `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({ _seccion: 'avisos' })
-  });
+  const comoQuienLlama = {
+    apikey: CLAVE_PROYECTO,
+    Authorization: `Bearer ${token}`,
+    'Content-Type': 'application/json'
+  };
+
+  const rpc = (nombre: string, cuerpo: unknown) =>
+    fetch(`${URL_SB}/rest/v1/rpc/${nombre}`, {
+      method: 'POST', headers: comoQuienLlama, body: JSON.stringify(cuerpo)
+    });
+
+  // ¿Quién llama, y lleva los avisos?
+  const permiso = await rpc('puede', { _seccion: 'avisos' });
 
   // Con el motivo dentro: un 401 a secas no dice si falta la clave, si el token
   // no vale o si la funcion `puede` no esta.
@@ -100,14 +103,9 @@ Deno.serve(async (req) => {
   const { titulo, cuerpo, url } = await req.json().catch(() => ({}));
   if (!titulo) return responder({ error: 'Falta el título' }, 400);
 
-  // A partir de aquí, permisos de servidor.
-  const delServidor = {
-    apikey: CLAVE_SERVIDOR,
-    Authorization: `Bearer ${CLAVE_SERVIDOR}`,
-    'Content-Type': 'application/json'
-  };
-
-  const consulta = await fetch(`${URL_SB}/rest/v1/suscripciones_push?select=*`, { headers: delServidor });
+  // La base de datos decide qué se puede leer; aquí no hay ninguna llave que
+  // se salte las políticas.
+  const consulta = await rpc('suscripciones_para_enviar', {});
   if (!consulta.ok) return responder({ error: await consulta.text() }, 500);
 
   const suscripciones = await consulta.json();
@@ -128,10 +126,7 @@ Deno.serve(async (req) => {
   // 404 y 410 significan "este destino ya no existe": movil formateado, app
   // desinstalada, permiso retirado. Guardarlas solo hace mas lento cada envio.
   const muertas = resultados.filter(r => r.estado === 404 || r.estado === 410).map(r => r.id);
-  if (muertas.length) {
-    await fetch(`${URL_SB}/rest/v1/suscripciones_push?id=in.(${muertas.join(',')})`,
-      { method: 'DELETE', headers: delServidor });
-  }
+  if (muertas.length) await rpc('borrar_suscripciones', { p_ids: muertas });
 
   return responder({
     enviados:  resultados.filter(r => r.estado >= 200 && r.estado < 300).length,
