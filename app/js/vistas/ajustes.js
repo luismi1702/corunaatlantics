@@ -2,6 +2,7 @@
 
 import * as db from '../db.js';
 import * as cerrojo from '../cerrojo.js';
+import { pintarAjuste as pintarAvisosMovil } from './avisos-ajuste.js';
 import {
   html, crudo, $, $$, euros, fecha, nombreCompleto, DIAS, hora, enDiasISO,
   hoja, confirmar, avisar, fallo, cargando, vacio
@@ -95,6 +96,7 @@ export async function render(ctx, cont) {
     </div>
     <button class="btn ancho" id="nueva" style="margin-top:.7rem">+ Nueva temporada</button>
 
+    <div id="avisos-movil"></div>
     <div id="cerrojo"></div>
 
     <p class="eyebrow">Tu cuenta</p>
@@ -115,6 +117,7 @@ export async function render(ctx, cont) {
     </p>
   `;
 
+  pintarAvisosMovil($('#avisos-movil'), ctx.perfil);
   cerrojo.pintarAjuste($('#cerrojo'), ctx.perfil);
 
   $('#temporada').addEventListener('submit', async (e) => {

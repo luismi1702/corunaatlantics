@@ -16,5 +16,10 @@ export const SUPABASE_ANON_KEY = 'sb_publishable_sQmBJA5bicJSXjawFHYY0Q_44Cjbwk9
 // Días de antelación con los que la app avisa de un documento que va a caducar.
 export const DIAS_AVISO_CADUCIDAD = 30;
 
+// Clave publica de las notificaciones. Es publica de verdad: va en el codigo y
+// la ve cualquiera. La privada vive solo en los secretos de Supabase.
+export const VAPID_PUBLICA =
+  'BJodgyba1mYH3fJzyUwJhIzviEkf69Jh7YyVpzMNHyOQr7LgtsD8OnAT5PyK0p54WnMYLDQSwYbhn75_kxkvOa4';
+
 export const estaConfigurado = () =>
   SUPABASE_URL.startsWith('https://') && SUPABASE_ANON_KEY.length > 30;

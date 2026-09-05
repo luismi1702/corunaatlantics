@@ -4,7 +4,7 @@
 // datos: una lista de cuotas guardada de la semana pasada sería peor que no
 // tener nada, porque parecería actual. Sin conexión, la app abre y avisa.
 
-const VERSION = 'atlantics-gestion-v40';
+const VERSION = 'atlantics-gestion-v41';
 
 const ARMAZON = [
   './',
@@ -13,6 +13,7 @@ const ARMAZON = [
   './js/app.js',
   './js/ui.js',
   './js/cerrojo.js',
+  './js/avisos-movil.js',
   './js/db.js',
   './js/config.js',
   './js/vistas/menu.js',
@@ -22,6 +23,7 @@ const ARMAZON = [
   './js/vistas/alta.js',
   './js/vistas/solicitudes.js',
   './js/vistas/avisos.js',
+  './js/vistas/avisos-ajuste.js',
   './js/vistas/material.js',
   './js/vistas/tienda.js',
   './js/vistas/competiciones.js',
@@ -101,4 +103,42 @@ self.addEventListener('fetch', (e) => {
           : Response.error();
       }))
   );
+});
+
+// --- Notificaciones ---------------------------------------------------------
+
+// Llega cifrado y ya descifrado por el navegador. Si viniera sin contenido —una
+// prueba desde otra herramienta, un servidor raro— se enseña algo igualmente:
+// una notificacion vacia no se puede mostrar y el navegador protesta.
+self.addEventListener('push', (e) => {
+  let datos = {};
+  try { datos = e.data ? e.data.json() : {}; } catch { datos = {}; }
+
+  const titulo = datos.titulo || 'Coruña Atlantics';
+  e.waitUntil(self.registration.showNotification(titulo, {
+    body: datos.cuerpo || '',
+    icon: './icons/icono-192.png',
+    badge: './icons/icono-192.png',
+    data: { url: datos.url || './' },
+    // Mismo tag: un aviso nuevo reemplaza al anterior en vez de apilar cinco.
+    tag: 'atlantics',
+    renotify: true
+  }));
+});
+
+// Al tocarla, si la app ya esta abierta se trae al frente en vez de abrir otra.
+self.addEventListener('notificationclick', (e) => {
+  e.notification.close();
+  const destino = new URL(e.notification.data?.url || './', self.location.href).href;
+
+  e.waitUntil((async () => {
+    const abiertas = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
+    for (const c of abiertas) {
+      if (c.url.startsWith(self.location.origin) && 'focus' in c) {
+        if ('navigate' in c) { try { await c.navigate(destino); } catch { /* da igual */ } }
+        return c.focus();
+      }
+    }
+    return self.clients.openWindow(destino);
+  })());
 });

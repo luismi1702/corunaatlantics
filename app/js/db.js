@@ -443,6 +443,26 @@ export const apuntarTiendaEnTesoreria = (productoId, temporadaId) =>
   sb.rpc('apuntar_tienda_en_tesoreria',
     { p_producto: productoId, p_temporada: temporadaId }).then(ok);
 
+// --- Avisos al movil -------------------------------------------------------
+
+// Una fila por dispositivo. Si ese endpoint ya estaba —el mismo movil que
+// vuelve a activarlo— se actualiza en vez de duplicarse.
+export const guardarSuscripcion = (perfilId, s) =>
+  sb.from('suscripciones_push')
+    .upsert({ perfil_id: perfilId, ...s }, { onConflict: 'endpoint' })
+    .then(ok);
+
+export const borrarSuscripcion = (endpoint) =>
+  sb.from('suscripciones_push').delete().eq('endpoint', endpoint).then(ok);
+
+export const movilesConAvisos = () => sb.rpc('moviles_con_avisos').then(ok);
+
+// Manda la notificacion a todo el equipo. Lo hace una funcion en el servidor:
+// desde aqui no se pueden leer las suscripciones de los demas, ni debe poderse.
+export const avisarAlMovil = (titulo, cuerpo, url) =>
+  sb.functions.invoke('enviar-push', { body: { titulo, cuerpo, url } })
+    .then(({ data, error }) => { if (error) throw error; return data; });
+
 // --- Permisos por seccion --------------------------------------------------
 
 // Las llaves de quien pregunta. Va por funcion y no por consulta a la tabla

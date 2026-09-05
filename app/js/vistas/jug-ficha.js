@@ -6,6 +6,7 @@
 
 import * as db from '../db.js';
 import * as cerrojo from '../cerrojo.js';
+import { pintarAjuste as pintarAvisosMovil } from './avisos-ajuste.js';
 import {
   html, crudo, $, euros, fecha, nombreCompleto, tag, TAG_DOC, TAG_JUGADOR,
   avisar, fallo, cargando
@@ -111,6 +112,7 @@ export async function render(ctx, cont) {
         </p>
       </div>`) : ''}
 
+    <div id="avisos-movil"></div>
     <div id="cerrojo"></div>
 
     <button class="btn fantasma ancho" id="salir" style="margin-top:1.5rem">Cerrar sesión</button>
@@ -144,6 +146,7 @@ export async function render(ctx, cont) {
     } catch (err) { fallo(err); }
   });
 
+  pintarAvisosMovil($('#avisos-movil'), yo);
   cerrojo.pintarAjuste($('#cerrojo'), yo);
 
   $('#mios').addEventListener('submit', async (e) => {

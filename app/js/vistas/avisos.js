@@ -189,6 +189,22 @@ function editarAviso(ctx, a, alGuardar) {
       if (esNuevo) await db.crearAviso({ ...datos, autor_id: ctx.perfil.id });
       else await db.guardarAviso(a.id, datos);
       avisar(esNuevo ? 'Aviso publicado' : 'Aviso guardado');
+
+      // Publicar un aviso es avisar. Solo al crearlo: corregir una falta de
+      // ortografia media hora despues no tiene por que sonarle a nadie otra vez.
+      //
+      // Y va aparte del guardado: si fallara el envio, el aviso ya esta
+      // publicado y en la app. Se dice, pero no se deshace nada.
+      if (esNuevo) {
+        try {
+          const r = await db.avisarAlMovil(datos.titulo, datos.cuerpo ?? '', '/app/#/avisos');
+          if (r?.enviados) avisar('Enviado a ' + r.enviados + (r.enviados === 1 ? ' móvil' : ' móviles'));
+        } catch (err) {
+          console.error(err);
+          avisar('Publicado, pero no se ha podido avisar a los móviles.', 'error');
+        }
+      }
+
       panel.cerrar();
       alGuardar();
     } catch (err) { fallo(err); }

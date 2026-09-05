@@ -283,6 +283,11 @@ export const apuntarTiendaEnTesoreria = (productoId) => {
   return demora(id);
 };
 
+export const guardarSuscripcion = () => demora(null);
+export const borrarSuscripcion = () => demora(null);
+export const movilesConAvisos = () => demora(9);
+export const avisarAlMovil = () => demora({ enviados: 9, caducados: 0, fallidos: 0 });
+
 // --- Permisos por seccion --------------------------------------------------
 
 const PERMISOS = [
