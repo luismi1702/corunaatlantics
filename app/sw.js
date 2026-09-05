@@ -4,7 +4,7 @@
 // datos: una lista de cuotas guardada de la semana pasada sería peor que no
 // tener nada, porque parecería actual. Sin conexión, la app abre y avisa.
 
-const VERSION = 'atlantics-gestion-v33';
+const VERSION = 'atlantics-gestion-v34';
 
 const ARMAZON = [
   './',
@@ -49,10 +49,14 @@ const ARMAZON = [
   './icons/icono-512.png'
 ];
 
+// Uno a uno y no con addAll: addAll es todo o nada, asi que un solo fichero
+// que falle —una publicacion a medias, un corte de red— dejaba la instalacion
+// sin hacer y la cache vacia. Mejor guardar lo que se pueda.
 self.addEventListener('install', (e) => {
   e.waitUntil(
     caches.open(VERSION)
-      .then(c => c.addAll(ARMAZON))
+      .then(c => Promise.all(ARMAZON.map(u =>
+        c.add(new Request(u, { cache: 'reload' })).catch(() => {}))))
       .then(() => self.skipWaiting())
   );
 });
@@ -86,6 +90,15 @@ self.addEventListener('fetch', (e) => {
         caches.open(VERSION).then(c => c.put(e.request, copia)).catch(() => {});
         return res;
       })
-      .catch(() => caches.match(e.request).then(r => r || caches.match('./index.html')))
+      .catch(() => caches.match(e.request).then(r => {
+        if (r) return r;
+        // Sin red y sin copia: solo tiene sentido devolver la app cuando lo que
+        // se pedia era una pantalla. A una imagen o a una hoja de estilo hay
+        // que decirle que no hay nada; devolverle el index.html es lo que
+        // pintaba el logotipo roto en vez de dejar el hueco.
+        return e.request.mode === 'navigate'
+          ? caches.match('./index.html')
+          : Response.error();
+      }))
   );
 });
