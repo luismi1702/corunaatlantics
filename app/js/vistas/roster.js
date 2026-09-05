@@ -3,14 +3,12 @@
 import * as db from '../db.js';
 import {
   html, crudo, $, $$, euros, fecha, nombreCompleto, tag, TAG_JUGADOR, TAG_CUOTA,
-  POSICIONES, UNIDADES, SECCIONES, SECCION, unidadDe, NOMBRE_UNIDAD, hoyISO, hoja, confirmar, avisar, fallo,
+  POSICIONES, UNIDADES, SECCIONES, SECCION, hoyISO, hoja, confirmar, avisar, fallo,
   conRespaldo, cargando, vacio, enlaceLlamada, enlaceWhatsApp
 } from '../ui.js';
 
 let filtro = 'activo';
 let busqueda = '';
-
-const GRUPOS = ['ataque', 'defensa', 'especiales', null];
 
 export async function render(ctx, cont) {
   cont.innerHTML = cargando();
@@ -69,7 +67,7 @@ export async function render(ctx, cont) {
     };
 
     const camiseta = (p) => html`
-      <button class="camiseta" data-id="${p.id}" data-unidad="${unidadDe(p.posiciones) ?? 'sin'}">
+      <button class="camiseta" data-id="${p.id}">
         <span class="num ${p.dorsal == null ? 'sin' : 'd' + String(p.dorsal).length}"
               aria-hidden="true">${p.dorsal ?? '—'}</span>
         ${p.es_capitan ? crudo('<span class="galon" title="Capitán">C</span>') : ''}
@@ -83,20 +81,14 @@ export async function render(ctx, cont) {
         </span>
       </button>`;
 
-    // Ataque, defensa y especiales, en ese orden. Agrupar es lo que convierte
-    // una lista de nombres en una plantilla.
-    const porUnidad = GRUPOS
-      .map(u => ({ unidad: u, gente: filtrados.filter(p => unidadDe(p.posiciones) === u) }))
-      .filter(g => g.gente.length);
+    const vacia = vacio(q ? 'Ningún jugador coincide con la búsqueda.'
+                          : 'No hay jugadores en este filtro todavía.');
 
     // "1 lesionados" canta. Se dice en singular cuando toca o no se dice.
     const cuantos = (estado, uno, varios) => {
       const n = plantilla.filter(p => p.estado === estado).length;
       return n ? crudo(html`<span><strong>${n}</strong> ${n === 1 ? uno : varios}</span>`) : '';
     };
-
-    const vacia = vacio(q ? 'Ningún jugador coincide con la búsqueda.'
-                          : 'No hay jugadores en este filtro todavía.');
 
     $('#resumen').innerHTML = filtrados.length ? html`
       <div class="tira-plantilla">
@@ -105,13 +97,11 @@ export async function render(ctx, cont) {
         ${cuantos('baja', 'baja', 'bajas')}
       </div>` : '';
 
-    $('#lista').innerHTML = !filtrados.length ? vacia
-      : porUnidad.map(g => html`
-          <p class="eyebrow unidad" data-unidad="${g.unidad ?? 'sin'}">
-            ${g.unidad ? NOMBRE_UNIDAD[g.unidad] : 'Sin posición asignada'}
-            <span class="cuenta">${g.gente.length}</span>
-          </p>
-          <div class="muro">${g.gente.map(camiseta)}</div>`).join('');
+    // Una sola plantilla, sin repartir por unidades: en flag la gente juega en
+    // los dos lados y separarlos daba una division que no existe en el campo.
+    $('#lista').innerHTML = filtrados.length
+      ? html`<div class="muro">${filtrados.map(camiseta)}</div>`
+      : vacia;
 
     $$('#lista [data-id]').forEach(b =>
       b.addEventListener('click', () => abrirFicha(ctx, b.dataset.id, () => render(ctx, cont))));

@@ -389,7 +389,13 @@ export const crearTemporada = () => noDisponible();
 export const abrirTemporada = () => noDisponible();
 export const aplicarImporteCuota = () => noDisponible();
 
-export const roster = () => demora(nombres);
+// Mismo orden que la consulta de verdad: por estado, luego por dorsal. Sin
+// esto la vista previa enseña un orden que la app real no tiene.
+const ORDEN_ESTADO = ['activo', 'lesionado', 'baja_temporal', 'baja'];
+export const roster = () => demora([...nombres].sort((a, b) =>
+  ORDEN_ESTADO.indexOf(a.estado) - ORDEN_ESTADO.indexOf(b.estado) ||
+  (a.dorsal ?? 999) - (b.dorsal ?? 999) ||
+  a.nombre.localeCompare(b.nombre)));
 export const jugador = (id) => demora(nombres.find(p => p.id === id));
 export const crearJugador = () => noDisponible();
 export const guardarJugador = (id, cambios) => {

@@ -210,17 +210,10 @@ button.fila:hover { border-color: var(--teal-d); background: var(--surf-2); }
 button.fila:active { transform: scale(.995); }
 
 /* --- Roster: la plantilla con cara de plantilla -------------------------- */
-/* Cada unidad tiene su color y se usa igual en las dos vistas: teal el ataque,
-   oro la defensa y blanco los especiales. No es decoracion — mirando el roster
-   de reojo ya sabes por donde va cada uno. */
-
-/* El valor por defecto va con la misma especificidad que los de cada unidad y
-   antes que ellos: si se pone mas especifico (.muro [data-unidad]) gana
-   siempre el gris y no se colorea nada. */
-[data-unidad]              { --unidad: var(--line); }
-[data-unidad="ataque"]     { --unidad: var(--teal); }
-[data-unidad="defensa"]    { --unidad: var(--goldf); }
-[data-unidad="especiales"] { --unidad: #cfe3ea; }
+/* Un solo color para todo el equipo. Estuvo repartido por unidades —teal el
+   ataque, oro la defensa— y sobraba: en flag la misma gente juega en los dos
+   lados, asi que la division pintaba una frontera que en el campo no existe. */
+.muro { --unidad: var(--teal); }
 
 /* Cabecera: el tamaño del equipo de un vistazo. */
 .tira-plantilla {
@@ -234,10 +227,6 @@ button.fila:active { transform: scale(.995); }
   font-family: 'Anton', sans-serif; font-size: 1.15rem; color: var(--text);
   letter-spacing: 0; margin-right: .25rem;
 }
-
-/* El rotulo de cada unidad toma su color. */
-.eyebrow.unidad::before { background: var(--unidad); }
-.eyebrow.unidad .cuenta { color: var(--unidad); }
 
 /* El muro de camisetas.
    El dorsal no acompaña al nombre: es el fondo de la camiseta, como en la
