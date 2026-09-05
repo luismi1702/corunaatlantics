@@ -412,6 +412,14 @@ function pantallaApp(app, ctx, vistas, tabs) {
              width="256" height="256">`) : ''}
       <div id="cabecera"></div>
       <span class="spacer"></span>
+      <!-- La tienda vive aqui, solo en la app del jugador: siempre a un toque y
+           sin anunciarse. Antes solo se llegaba por la tira de Hoy, que salia
+           siempre y hacia de cartel. En la consola no hace falta, que ya tiene
+           su baldosa en el menu. -->
+      ${!ctx.esStaff && vistas['/tienda'] ? crudo(html`
+        <a class="btn-icono" href="#/tienda" aria-label="Tienda">
+          <svg viewBox="0 0 24 24">${crudo(ICONOS['/tienda'])}</svg>
+        </a>`) : ''}
       ${vistas['/ajustes'] && !tabs.includes('/ajustes') ? crudo(html`
         <a class="btn-icono" href="#/ajustes" aria-label="Ajustes">
           <svg viewBox="0 0 24 24">${crudo(ICONOS['/ajustes'])}</svg>

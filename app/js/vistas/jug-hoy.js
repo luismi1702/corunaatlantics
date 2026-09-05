@@ -61,7 +61,6 @@ export async function render(ctx, cont) {
   const debe = cuota && !cuota.exento && Number(cuota.importe_pendiente) > 0;
 
   // Equipacion: si debe algo se le recuerda, y si no, se le enseña que existe.
-  const alaVenta = catalogo.filter(p => p.activo);
   const encargosVivos = misEncargos.filter(p => p.estado !== 'cancelado');
   const debeEquipacion = encargosVivos.filter(p => !p.pagado).reduce((suma, p) => {
     const prod = catalogo.find(x => x.id === p.producto_id);
@@ -164,7 +163,7 @@ export async function render(ctx, cont) {
           </a>`)}
       </div>`) : ''}
 
-    ${miAsistencia || pendientes.length || debe || alaVenta.length ? crudo(html`
+    ${miAsistencia || pendientes.length || debe || debeEquipacion > 0 ? crudo(html`
       <div class="tiras">
         ${miAsistencia ? html`
           <div class="tira">
@@ -183,15 +182,16 @@ export async function render(ctx, cont) {
             <span class="pie">Falta ${pendientes.join(', ')}</span>
           </a>` : ''}
 
-        ${alaVenta.length ? html`
-          <a class="tira ${debeEquipacion > 0 ? 'aviso' : ''}" href="#/tienda">
-            <span class="cifra-grande" style="color:${debeEquipacion > 0 ? 'var(--goldf)' : 'var(--teal)'}">
-              ${debeEquipacion > 0 ? euros(debeEquipacion) : alaVenta.length}
-            </span>
+        <!-- Solo cuando debe dinero de un pedido suyo. Antes salia siempre que
+             hubiera algo a la venta, y un aviso permanente no es un aviso: es un
+             cartel, y un cartel que esta siempre deja de leerse. Para contar que
+             hay algo nuevo estan los avisos, que ademas le suenan en el movil.
+             La tienda se abre desde el icono de la barra de arriba. -->
+        ${debeEquipacion > 0 ? html`
+          <a class="tira aviso" href="#/tienda">
+            <span class="cifra-grande" style="color:var(--goldf)">${euros(debeEquipacion)}</span>
             <span class="et">Tienda</span>
-            <span class="pie">${debeEquipacion > 0
-              ? 'Te queda por pagar'
-              : (alaVenta.length === 1 ? 'Hay algo a la venta' : 'Cosas a la venta del club')}</span>
+            <span class="pie">Te queda por pagar</span>
           </a>` : ''}
 
         ${debe ? html`
