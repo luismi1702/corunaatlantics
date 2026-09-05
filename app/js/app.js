@@ -194,9 +194,11 @@ function pantallaCodigo(app, db, email) {
       <form id="codigo">
         <div class="campo">
           <label>Código</label>
+          <!-- Sin maxlength: la longitud del codigo la decide Supabase y puede
+               no ser seis. Recortarlo aqui solo consigue que no entre nadie. -->
           <input name="codigo" inputmode="numeric" autocomplete="one-time-code"
-                 pattern="[0-9]*" maxlength="6" required placeholder="000000"
-                 style="text-align:center;font-family:'Anton',sans-serif;font-size:1.8rem;letter-spacing:.35em">
+                 required placeholder="Pega aquí el código"
+                 style="text-align:center;font-family:'Anton',sans-serif;font-size:1.5rem;letter-spacing:.18em">
         </div>
         <button class="btn primario ancho" type="submit">Entrar</button>
       </form>
