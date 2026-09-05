@@ -33,7 +33,8 @@ const nombres = [
 ].map(([nombre, apellidos, dorsal, posiciones, estado], i) => ({
   id: 'p' + i,
   user_id: i === 0 ? 'u1' : null,
-  nombre, apellidos, apodo: null, dorsal, posiciones,
+  nombre, apellidos, apodo: ({ p2: 'Ferro', p5: 'Chispa', p9: 'Tanque' })['p' + i] ?? null,
+  dorsal, posiciones,
   rol: i === 0 ? 'admin' : 'jugador',
   email: (nombre.split(' ')[0] + '.' + apellidos).toLowerCase()
     .normalize('NFD').replace(/[\u0300-\u036f]/g, '') + '@ejemplo.com',
