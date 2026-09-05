@@ -1,13 +1,31 @@
 // Acceso a datos. Todo lo que habla con Supabase pasa por aquí, para que las
 // vistas no tengan que saber cómo está montada la base de datos.
 
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+// Version fija a proposito. Con @2 el CDN sirve la ultima que haya salido, asi
+// que la app podia cambiar de comportamiento una mañana sin que nadie tocara
+// nada. Para algo de lo que depende un equipo, eso no compensa.
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.115.0/+esm';
 import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js';
 import { hoyISO } from './ui.js';
 
 export const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
   auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
 });
+
+// Al volver a la app despues de un rato, refrescar la sesion antes de nada.
+//
+// El permiso para entrar caduca cada hora y la libreria lo renueva sola con un
+// temporizador. Pero un movil suspende la app en cuanto la dejas: el
+// temporizador no corre, y al volver el permiso esta caducado. Sin esto, la
+// primera consulta que haga la pantalla falla y parece que se ha cerrado la
+// sesion cuando en realidad solo habia que renovarla.
+if (typeof document !== 'undefined') {
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') {
+      sb.auth.getSession().catch(() => { /* si no hay red, ya se vera al pulsar */ });
+    }
+  });
+}
 
 // Lanza el error de Supabase en vez de devolver { data, error }: así cualquier
 // fallo sube hasta el manejador de la vista y se ve en pantalla, en vez de

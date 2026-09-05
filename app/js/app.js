@@ -161,6 +161,12 @@ async function iniciar() {
   // Las pantallas del club son las mismas para el admin y para quien lleva una
   // sección, pero no viven en la misma dirección. Esto es lo que hace que un
   // enlace entre ellas lleve a donde debe en cada caso.
+  // Si la sesion se cae —el permiso caducado que no se pudo renovar, la cuenta
+  // cerrada desde otro sitio—, la app se entera y vuelve al login diciendo por
+  // que. Antes se quedaba en pantalla con todo fallando por debajo, y desde
+  // fuera parecia que la app estaba rota.
+  vigilarSesion(app, db);
+
   const ctx = {
     perfil, temporada, esStaff, permisos, recargar: iniciar,
     puede: (seccion) => permisos.includes(seccion),
@@ -234,6 +240,20 @@ function pantallaCodigo(app, db, email) {
   });
 
   $('#otro').addEventListener('click', () => pantallaLogin(app, db));
+}
+
+let vigilando = false;
+
+function vigilarSesion(app, db) {
+  // En la vista previa no hay cliente de Supabase que vigilar.
+  if (vigilando || !db.sb?.auth?.onAuthStateChange) return;
+  vigilando = true;
+
+  db.sb.auth.onAuthStateChange((evento) => {
+    if (evento !== 'SIGNED_OUT') return;
+    pantallaLogin(app, db);
+    avisar('Se ha cerrado la sesión. Entra otra vez con tu correo.', 'error');
+  });
 }
 
 // --- Pantallas de estado ---------------------------------------------------
