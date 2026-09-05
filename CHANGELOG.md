@@ -1,5 +1,17 @@
 # Changelog — Coruña Atlantics Web
 
+## [2026-09-05] — Repaso: la web, el jugador y los documentos
+
+**Qué se hizo:**
+- El **roster de la web** sale de la plantilla real (`24_plantilla_publica.sql`): dorsal, nombre de camiseta y posición, lo mismo que se ve en la espalda en un partido. Nada de contacto ni de cuotas, y sólo gente aprobada y de alta
+- **Documentos** se queda en licencia, DNI y foto: el club no pide seguro ni reconocimiento médico (`25_sin_seguro_ni_reconocimiento.sql`). Con ellos, "¿quién puede jugar?" habría dicho que nadie, para siempre
+- El **dorsal del jugador** pasa a ser el fondo de su app: centrado, a lo ancho de la pantalla. Ajustado al ancho y no al alto, porque forzarlo a llenar el alto lo recorta por los lados y deja de leerse
+- En la barra de arriba del jugador, la **cabeza de Poseidón** en vez del logotipo entero
+- El **cerrojo** deja de decir "esta app está bloqueada" y "desbloquear": la sesión sigue abierta y sólo hace falta confirmar quién eres
+- Arreglada la **banda blanca** de iOS en las pantallas cortas: el fondo va también en `html`
+- "Aplicar el importe a la plantilla" se muda de Ajustes a **Tesorería → Cuotas**, y sólo aparece cuando hay cuotas sin abrir
+- La lista de temporadas sólo se enseña cuando hay más de una
+
 ## [2026-09-05] — Avisos al móvil
 
 **Qué se hizo:**
