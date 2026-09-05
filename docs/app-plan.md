@@ -137,18 +137,39 @@ prestamos_material
 En fútbol americano el material es el activo caro del club y el que más se pierde.
 Saber que el casco 14 lo tiene un jugador que se dio de baja en marzo vale dinero real.
 
-### Playbook
+### Playbook y quiz
 
 ```
 jugadas
-  id · nombre · unidad · formacion · imagen_url · notas · tags[]
+  id · temporada_id · nombre · unidad · formacion · imagen_url · notas · posiciones[]
 
-asignaciones_jugada
-  jugada_id · posicion · descripcion
+preguntas
+  id · jugada_id · tipo · enunciado · opciones[] · correcta
 
-progreso_playbook
-  jugador_id · jugada_id · aciertos · fallos · ultima_revision
+intentos_quiz
+  id · jugador_id · creado_en · preguntas · aciertos
+
+respuestas_quiz
+  intento_id · pregunta_id · acertada
 ```
+
+Las jugadas entran como **imagen que sube el staff** —foto de la pizarra, captura de
+donde las dibuje—, con nombre, nota corta y las posiciones a las que afecta. **No se
+dibujan dentro de la app:** un editor de rutas animadas son meses de trabajo y no hace
+que nadie se aprenda una jugada antes.
+
+El jugador las ve filtradas por su posición, con opción de verlas todas, y en modo repaso:
+una por pantalla.
+
+**Tres tipos de pregunta**, escritas por el staff y colgadas de una jugada:
+
+- Ver la imagen y decir **qué jugada es**. La más útil y la más barata de escribir: las
+  opciones salen de los nombres de las otras jugadas.
+- **Opción múltiple**: "En Trips Right 22, ¿cuál es tu ruta?".
+- **Verdadero o falso**, para detalles concretos.
+
+Al terminar, el jugador ve su **% de aciertos y qué falló** —que es lo que enseña— y puede
+repetirlo. Se guarda cada intento.
 
 ### Preparado para menores
 
@@ -271,10 +292,21 @@ adopción: si esto no lo abre la gente, la fase 3 no se construye.
 Material y préstamos · notificaciones push · comunicación segmentada desde las listas ·
 exportación a CSV para la federación · vista del jugador de su propia cuota y material.
 
-### Fase 3 — Playbook
+### Fase 3 — Playbook y quiz
 
-Subida de jugadas por el staff · vista filtrada por posición · modo flashcards ·
-progreso por jugador. Solo si la fase 1B demostró adopción.
+Subida de jugadas por el staff · vista filtrada por posición · modo repaso · quiz con
+porcentaje de aciertos · progreso por jugador.
+
+**Decidido el 5 de septiembre de 2026:**
+
+- **El resultado lo ven el jugador y el staff.** Igual que la asistencia: saber quién se ha
+  estudiado el playbook es información útil para preparar un partido. Asumido el coste —
+  convierte el quiz en algo evaluado y eso cambia cómo se usa.
+- **Se construye después de repartir la app, no antes.** Si el equipo no la abre para
+  confirmar un entreno, tampoco va a estudiar jugadas: habríamos construido la parte más
+  grande para nadie. El reparto es la prueba que decide si esto se hace.
+- El playbook será una **sección más del reparto de permisos** (`app/db/17_permisos.sql`),
+  para poder dejarlo en manos de un coordinador de ataque o defensa.
 
 ### Fase 4 — Opcional
 
