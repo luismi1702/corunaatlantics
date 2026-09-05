@@ -106,10 +106,25 @@ Deno.serve(async (req) => {
   // La base de datos decide qué se puede leer; aquí no hay ninguna llave que
   // se salte las políticas.
   const consulta = await rpc('suscripciones_para_enviar', {});
-  if (!consulta.ok) return responder({ error: await consulta.text() }, 500);
+  const crudo = await consulta.text();
 
-  const suscripciones = await consulta.json();
-  if (!suscripciones.length) return responder({ enviados: 0, caducados: 0, fallidos: 0 });
+  if (!consulta.ok) {
+    return responder({ error: 'Leyendo suscripciones: ' + consulta.status + ' ' + crudo.slice(0, 300) }, 500);
+  }
+
+  let suscripciones: Record<string, string>[] = [];
+  try { suscripciones = JSON.parse(crudo); } catch { /* abajo se cuenta como cero */ }
+
+  // Si no hay a quien mandar, se dice POR QUE. Un cero puede ser "nadie lo ha
+  // activado" o "la consulta no devolvio lo que parecia": desde el movil se ven
+  // igual, y distinguirlos a base de conjeturas cuesta una tarde.
+  if (!suscripciones.length) {
+    return responder({
+      enviados: 0, caducados: 0, fallidos: 0,
+      diagnostico: 'rpc ' + consulta.status + ' · ' + crudo.slice(0, 200) +
+        ' · version 2 · clave ' + (CLAVE_PROYECTO ?? '').slice(0, 12)
+    });
+  }
 
   const mensaje = JSON.stringify({ titulo, cuerpo: cuerpo ?? '', url: url ?? '/app/' });
   const vapid = { publica: VAPID_PUB, privada: VAPID_PRIV, contacto: CONTACTO };
