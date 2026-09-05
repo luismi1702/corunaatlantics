@@ -13,3 +13,9 @@ vapid.txt
 # guiones de videos/.
 *.psd
 *.mp4
+
+# Menos estos dos: son el fondo de la web, no material de trabajo. Sin esta
+# excepcion, el dia que alguien los vuelva a añadir git los ignoraria y la
+# portada se quedaria sin fondo sin que nadie entienda por que.
+!storm.mp4
+!waves.mp4
