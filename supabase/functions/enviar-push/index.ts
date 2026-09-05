@@ -168,10 +168,17 @@ async function enviar(suscripcion: {
 // ===========================================================================
 
 
-const URL_SB     = Deno.env.get('SUPABASE_URL')!;
-const VAPID_PUB  = Deno.env.get('VAPID_PUBLICA')!;
-const VAPID_PRIV = Deno.env.get('VAPID_PRIVADA')!;
-const CONTACTO   = Deno.env.get('VAPID_CONTACTO') ?? 'mailto:atlantics@corunaatlantics.com';
+// Los secretos se limpian antes de usarlos. Un salto de linea al final —que es
+// lo que deja cualquier copia y pega desde un fichero— convierte una clave
+// perfectamente valida en "invalid b64 coordinate", y ese error no apunta ni de
+// lejos a que sobre un caracter invisible. En base64url no hay espacios, asi
+// que quitarlos todos no puede romper una clave buena.
+const limpiar = (v: string | undefined) => (v ?? '').replace(/\s+/g, '');
+
+const URL_SB     = (Deno.env.get('SUPABASE_URL') ?? '').trim();
+const VAPID_PUB  = limpiar(Deno.env.get('VAPID_PUBLICA'));
+const VAPID_PRIV = limpiar(Deno.env.get('VAPID_PRIVADA'));
+const CONTACTO   = (Deno.env.get('VAPID_CONTACTO') ?? 'mailto:atlantics@corunaatlantics.com').trim();
 
 // De un diccionario JSON de claves saca la primera que parezca una clave.
 function deDiccionario(json: string | undefined): string | undefined {
@@ -228,7 +235,10 @@ Deno.serve(async (req) => {
     return responder({
       version: VERSION,
       vapid: Boolean(VAPID_PUB && VAPID_PRIV),
-      clave: Boolean(CLAVE_PROYECTO)
+      clave: Boolean(CLAVE_PROYECTO),
+      // 87 y 43 caracteres es lo que miden una publica y una privada bien
+      // pegadas. Si sale otra cosa, el secreto trae algo de mas.
+      largos: VAPID_PUB.length + '/' + VAPID_PRIV.length
     });
   }
 
