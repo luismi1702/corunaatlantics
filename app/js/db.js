@@ -438,12 +438,40 @@ export const borrarPedido = (id) =>
 // La foto se guarda en el almacén de Supabase y en el producto solo va su URL.
 // El nombre lleva la marca de tiempo para que cambiar la foto de un producto no
 // pise la anterior mientras alguien la esté viendo.
-export async function subirFotoProducto(archivo) {
+//
+// Antes de subirla se encoge. Una foto recien hecha con el movil pesa entre 3 y
+// 5 MB, y esa foto se sube una vez pero se la descargan todos los jugadores
+// cada vez que abren la tienda. A 1200 px de lado se ve igual de bien en un
+// movil y baja a unos 200 KB. Si algo falla —un formato raro, un navegador
+// viejo— se sube la original: mejor pesada que no subir nada.
+async function encoger(archivo, lado = 1200, calidad = 0.82) {
+  if (!archivo.type.startsWith('image/')) return archivo;
+  try {
+    const bitmap = await createImageBitmap(archivo);
+    const escala = Math.min(1, lado / Math.max(bitmap.width, bitmap.height));
+    if (escala === 1 && archivo.size < 400_000) return archivo;
+
+    const lienzo = document.createElement('canvas');
+    lienzo.width  = Math.round(bitmap.width  * escala);
+    lienzo.height = Math.round(bitmap.height * escala);
+    lienzo.getContext('2d').drawImage(bitmap, 0, 0, lienzo.width, lienzo.height);
+    bitmap.close?.();
+
+    const trozo = await new Promise(r => lienzo.toBlob(r, 'image/jpeg', calidad));
+    if (!trozo || trozo.size >= archivo.size) return archivo;
+    return new File([trozo], 'foto.jpg', { type: 'image/jpeg' });
+  } catch {
+    return archivo;
+  }
+}
+
+export async function subirFotoProducto(original) {
+  const archivo = await encoger(original);
   const extension = (archivo.name.split('.').pop() || 'jpg').toLowerCase();
   const nombre = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${extension}`;
 
   const { error } = await sb.storage.from('productos')
-    .upload(nombre, archivo, { cacheControl: '31536000', upsert: false });
+    .upload(nombre, archivo, { cacheControl: '31536000', upsert: false, contentType: archivo.type });
   if (error) throw error;
 
   return sb.storage.from('productos').getPublicUrl(nombre).data.publicUrl;
