@@ -304,38 +304,6 @@
     .form-head h3 { font-family: 'Anton', sans-serif; font-size: 1.4rem; letter-spacing: 0.04em; }
     .form-head p { font-size: 0.78rem; color: var(--muted); margin-top: 3px; }
     .form-body { padding: 1.6rem 1.8rem; }
-    .field { margin-bottom: 1rem; }
-    .field label {
-      display: block;
-      font-family: 'Barlow Condensed', sans-serif;
-      font-size: 0.64rem; letter-spacing: 0.18em;
-      text-transform: uppercase; color: var(--muted); margin-bottom: 0.35rem;
-    }
-    .field input, .field select, .field textarea {
-      width: 100%;
-      background: rgba(6,20,28,0.70);
-      border: 1px solid rgba(78,205,200,0.20);
-      color: var(--text); font-family: 'Barlow', sans-serif;
-      font-size: 0.88rem; padding: 0.6rem 1rem;
-      border-radius: 4px;
-      transition: border-color 0.2s;
-    }
-    .field input:focus-visible,
-    .field select:focus-visible,
-    .field textarea:focus-visible {
-      border-color: var(--teal);
-      outline: 2px solid var(--teal);
-      outline-offset: 2px;
-    }
-    .field input:focus:not(:focus-visible),
-    .field select:focus:not(:focus-visible),
-    .field textarea:focus:not(:focus-visible) {
-      outline: none;
-    }
-    .field input::placeholder, .field textarea::placeholder { color: rgba(100,150,170,0.45); }
-    .field select option { background: var(--deep); }
-    .field textarea { resize: vertical; min-height: 80px; }
-    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.8rem; }
     .form-btn {
       width: 100%; padding: 0.8rem;
       background: var(--gold); color: var(--ink);
@@ -349,9 +317,29 @@
     .form-btn:hover { background: var(--goldf); }
     .form-btn:active { transform: scale(0.98); }
     .form-btn:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
-    .form-msg { font-size: 0.78rem; padding: 0.5rem 0.8rem; border-radius: 4px; margin-top: 0.6rem; display: none; }
-    .form-msg.ok  { background: rgba(78,205,200,0.10); color: var(--teal); display: block; }
-    .form-msg.err { background: rgba(220,60,60,0.10); color: #e06060; display: block; }
+    /* Los pasos para entrar al equipo. Van numerados porque son de verdad una
+       secuencia: no se puede rellenar la ficha sin haber entrado antes. */
+    .pasos { display: flex; flex-direction: column; gap: 1.15rem; margin-bottom: 1.6rem; }
+    .paso { display: flex; gap: 0.9rem; align-items: flex-start; }
+    .paso-n {
+      flex-shrink: 0;
+      width: 26px; height: 26px; border-radius: 50%;
+      display: grid; place-items: center;
+      background: rgba(212,168,67,0.12);
+      border: 1px solid rgba(212,168,67,0.45);
+      color: var(--gold);
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 700; font-size: 0.82rem;
+      font-variant-numeric: tabular-nums;
+    }
+    .paso-t { font-size: 0.88rem; line-height: 1.55; color: var(--text); }
+    .paso-t span { display: block; font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
+    a.form-btn { display: block; text-align: center; text-decoration: none; }
+    .form-pie {
+      font-size: 0.78rem; color: var(--muted);
+      text-align: center; line-height: 1.6; margin-top: 1rem;
+    }
+    .form-pie a { color: var(--teal); }
 
     /* ── NOSOTROS ── */
     .nosotros { background: var(--deep); }
@@ -648,7 +636,6 @@
       .hero-actions .btn { width: 100%; justify-content: center; }
       .gallery-grid { grid-template-columns: 1fr; }
       .g-item.wide { grid-column: span 1; aspect-ratio: 3/4; }
-      .field-row { grid-template-columns: 1fr; }
       .roster-grid { grid-template-columns: 1fr; }
       .ftr-main { grid-template-columns: 1fr; padding: 2.5rem 1.5rem 2rem; }
       .ftr-brand-col { grid-column: span 1; }
@@ -736,40 +723,33 @@
         <div class="form-card">
           <div class="form-head">
             <h3>Quiero jugar</h3>
-            <p>Te contactamos en 48h para los próximos entrenamientos</p>
+            <p>Se hace desde la app del equipo. Dos minutos.</p>
           </div>
           <div class="form-body">
-            <form id="player-form" novalidate>
-              <div class="field-row">
-                <div class="field">
-                  <label for="p-nombre">Nombre *</label>
-                  <input type="text" id="p-nombre" placeholder="Tu nombre" required>
-                </div>
-                <div class="field">
-                  <label for="p-edad">Edad *</label>
-                  <input type="number" id="p-edad" placeholder="22" min="16" max="60" required>
-                </div>
+            <div class="pasos">
+              <div class="paso">
+                <div class="paso-n">1</div>
+                <div class="paso-t">Entra en la app con tu correo
+                  <span>Te llega un código, sin contraseñas que recordar.</span></div>
               </div>
-              <div class="field">
-                <label for="p-email">Email *</label>
-                <input type="email" id="p-email" placeholder="tucorreo@ejemplo.com" required>
+              <div class="paso">
+                <div class="paso-n">2</div>
+                <div class="paso-t">Rellena tu ficha
+                  <span>Nombre, teléfono y poco más.</span></div>
               </div>
-              <div class="field">
-                <label for="p-exp">Experiencia previa</label>
-                <select id="p-exp">
-                  <option value="ninguna">Ninguna — soy nuevo en el football</option>
-                  <option value="flag">He jugado flag football</option>
-                  <option value="tackle">He jugado tackle football</option>
-                  <option value="otro">Otro deporte de equipo</option>
-                </select>
+              <div class="paso">
+                <div class="paso-n">3</div>
+                <div class="paso-t">El club revisa tu solicitud
+                  <span>Cuando te damos el alta, ves los entrenamientos, los partidos y al resto del equipo.</span></div>
               </div>
-              <div class="field">
-                <label for="p-mensaje">¿Algo que quieras contarnos?</label>
-                <textarea id="p-mensaje" placeholder="Motivación, disponibilidad, preguntas..."></textarea>
-              </div>
-              <div class="form-msg" id="form-msg"></div>
-              <button type="submit" class="form-btn">Enviar solicitud</button>
-            </form>
+            </div>
+
+            <a href="/app/" class="form-btn">Entrar en la app</a>
+
+            <p class="form-pie">
+              ¿Prefieres preguntar antes?
+              <a href="https://instagram.com/corunaatlantics" target="_blank" rel="noopener">Escríbenos por Instagram</a>.
+            </p>
           </div>
         </div>
       </div>
@@ -887,22 +867,6 @@
   </footer>
 
   <script>
-    // Form → mailto
-    document.getElementById('player-form').addEventListener('submit', e => {
-      e.preventDefault();
-      const msg = document.getElementById('form-msg');
-      try {
-        const subject = `Solicitud de jugador — ${document.getElementById('p-nombre').value}`;
-        const body = `Nombre: ${document.getElementById('p-nombre').value}\nEdad: ${document.getElementById('p-edad').value}\nEmail: ${document.getElementById('p-email').value}\nExperiencia: ${document.getElementById('p-exp').value}\nMensaje: ${document.getElementById('p-mensaje').value}`;
-        window.location.href = `mailto:atlantics@corunaatlantics.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-        msg.textContent = '✓ Abriendo tu cliente de email… Si no se abre, escríbenos a atlantics@corunaatlantics.com';
-        msg.className = 'form-msg ok';
-      } catch(err) {
-        msg.textContent = 'Error. Escríbenos directamente a atlantics@corunaatlantics.com';
-        msg.className = 'form-msg err';
-      }
-    });
-
     // Scroll reveal
     const observer = new IntersectionObserver(entries => {
       entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('fade-in'); observer.unobserve(e.target); }});
