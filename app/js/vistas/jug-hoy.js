@@ -59,6 +59,7 @@ export async function render(ctx, cont) {
     if (!miDoc.dni_entregado) pendientes.push('la copia del DNI');
   }
   const debe = cuota && !cuota.exento && Number(cuota.importe_pendiente) > 0;
+  const sinDorsal = yo.dorsal == null;
 
   // Equipacion: si debe algo se le recuerda, y si no, se le enseña que existe.
   const encargosVivos = misEncargos.filter(p => p.estado !== 'cancelado');
@@ -163,8 +164,18 @@ export async function render(ctx, cont) {
           </a>`)}
       </div>`) : ''}
 
-    ${miAsistencia || pendientes.length || debe || debeEquipacion > 0 ? crudo(html`
+    ${sinDorsal || miAsistencia || pendientes.length || debe || debeEquipacion > 0 ? crudo(html`
       <div class="tiras">
+        <!-- El dorsal se lo pone el mismo en Mi ficha, y hasta que lo hace su app
+             se ve vacia: el numero gigante del fondo no se pinta y la chapa
+             dice "-". No habia nada que se lo contara. -->
+        ${sinDorsal ? html`
+          <a class="tira aviso" href="#/mificha">
+            <span class="cifra-grande" style="color:var(--teal)">#</span>
+            <span class="et">Tu dorsal</span>
+            <span class="pie">Todavía no tienes número. Cógelo.</span>
+          </a>` : ''}
+
         ${miAsistencia ? html`
           <div class="tira">
             <span class="cifra-grande" style="color:${
