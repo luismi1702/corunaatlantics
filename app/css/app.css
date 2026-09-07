@@ -1593,12 +1593,13 @@ body.jugador.tablon .relieve-evento {
 
 
 /* --- La marca de fondo de cada pantalla del jugador ------------------------
-   En Agenda, Equipo y Mi ficha el logo SUSTITUYE al dorsal gigante: ocupa el
+   En Avisos, Agenda y Equipo el logo SUSTITUYE al dorsal gigante: ocupa el
    fondo entero, centrado, igual que hacia el numero. Cada pantalla lleva
    siempre el mismo, asi que al segundo dia sabes donde estas sin leer la barra.
 
-   Hoy no lleva ninguno —ya tiene la pared del tablon— y Avisos se queda con el
-   dorsal.
+   Hoy no lleva ninguno, que ya tiene la pared del tablon. Y Mi ficha se queda
+   con el dorsal a proposito: es la pantalla del jugador, y su numero es lo que
+   la distingue de las demas.
 
    Se apoya en que las superficies del jugador son translucidas: si fueran
    opacas, el logo solo asomaria por los huecos, que es justo lo que le pasaba
@@ -1614,19 +1615,19 @@ body.jugador.tablon .relieve-evento {
   pointer-events: none; user-select: none;
 }
 
-body.jugador[data-ruta="/agenda"]  .marca-pantalla,
-body.jugador[data-ruta="/equipo"]  .marca-pantalla,
-body.jugador[data-ruta="/mificha"] .marca-pantalla { display: block; }
+body.jugador[data-ruta="/avisos"] .marca-pantalla,
+body.jugador[data-ruta="/agenda"] .marca-pantalla,
+body.jugador[data-ruta="/equipo"] .marca-pantalla { display: block; }
 
-body.jugador[data-ruta="/agenda"]  .marca-pantalla { background-image: url('../img/circular.webp'); }
-body.jugador[data-ruta="/equipo"]  .marca-pantalla { background-image: url('../img/balon.webp'); }
-body.jugador[data-ruta="/mificha"] .marca-pantalla { background-image: url('../img/football.webp'); }
+body.jugador[data-ruta="/avisos"] .marca-pantalla { background-image: url('../img/football.webp'); }
+body.jugador[data-ruta="/agenda"] .marca-pantalla { background-image: url('../img/circular.webp'); }
+body.jugador[data-ruta="/equipo"] .marca-pantalla { background-image: url('../img/balon.webp'); }
 
 /* Y donde hay logo no hay dorsal: dos marcas de agua superpuestas no son dos
    marcas, son una mancha. */
+body.jugador[data-ruta="/avisos"]::after,
 body.jugador[data-ruta="/agenda"]::after,
-body.jugador[data-ruta="/equipo"]::after,
-body.jugador[data-ruta="/mificha"]::after { content: none; }
+body.jugador[data-ruta="/equipo"]::after { content: none; }
 
 /* En una seccion del club que lleve un delegado no pinta nada: alli esta
    gestionando, igual que se apaga el dorsal. */
