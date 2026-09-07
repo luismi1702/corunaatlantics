@@ -1593,23 +1593,25 @@ body.jugador.tablon .relieve-evento {
 
 
 /* --- La marca de fondo de cada pantalla del jugador ------------------------
-   Hoy es el tablon y tiene su pared; el resto de sus pantallas llevan el dorsal
-   gigante y, ademas, un logo distinto abajo a la derecha. No es decoracion
-   repartida al azar: cada pantalla lleva el suyo siempre, asi que al segundo dia
-   sabes donde estas sin leer la barra.
+   En Agenda, Equipo y Mi ficha el logo SUSTITUYE al dorsal gigante: ocupa el
+   fondo entero, centrado, igual que hacia el numero. Cada pantalla lleva
+   siempre el mismo, asi que al segundo dia sabes donde estas sin leer la barra.
 
-   Sale por el borde derecho a proposito. Un logo entero y centrado compite con
-   el contenido; cortado por el canto se lee como marca y no como imagen.
+   Hoy no lleva ninguno —ya tiene la pared del tablon— y Avisos se queda con el
+   dorsal.
 
-   Al 5% no hace falta que sea nitido, por eso los ficheros van a 440 px y con
-   calidad baja: los tres juntos pesan menos que el logotipo principal. */
+   Se apoya en que las superficies del jugador son translucidas: si fueran
+   opacas, el logo solo asomaria por los huecos, que es justo lo que le pasaba
+   al dorsal antes de hacerlas transparentes.
+
+   Al 12% no hace falta que sean nitidos, por eso los ficheros van a 440 px y
+   con calidad baja: los tres juntos pesan menos que el logotipo principal. */
 .marca-pantalla {
   display: none;
-  position: fixed; right: -2.6rem; bottom: calc(4.8rem + var(--safe-b));
-  width: 200px; height: 240px;
-  background: no-repeat right center / contain;
-  opacity: .055;
-  pointer-events: none; z-index: 0;
+  position: fixed; inset: 11vh 7vw calc(9vh + var(--safe-b)); z-index: 0;
+  background: no-repeat center / contain;
+  opacity: .12;
+  pointer-events: none; user-select: none;
 }
 
 body.jugador[data-ruta="/agenda"]  .marca-pantalla,
@@ -1620,9 +1622,11 @@ body.jugador[data-ruta="/agenda"]  .marca-pantalla { background-image: url('../i
 body.jugador[data-ruta="/equipo"]  .marca-pantalla { background-image: url('../img/balon.webp'); }
 body.jugador[data-ruta="/mificha"] .marca-pantalla { background-image: url('../img/football.webp'); }
 
-/* El de Mi ficha lleva letras, asi que necesita mas ancho y menos alto para que
-   se reconozca; los otros dos son formas y aguantan cualquier tamaño. */
-body.jugador[data-ruta="/mificha"] .marca-pantalla { width: 250px; height: 200px; }
+/* Y donde hay logo no hay dorsal: dos marcas de agua superpuestas no son dos
+   marcas, son una mancha. */
+body.jugador[data-ruta="/agenda"]::after,
+body.jugador[data-ruta="/equipo"]::after,
+body.jugador[data-ruta="/mificha"]::after { content: none; }
 
 /* En una seccion del club que lleve un delegado no pinta nada: alli esta
    gestionando, igual que se apaga el dorsal. */
