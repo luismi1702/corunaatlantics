@@ -273,10 +273,13 @@ export function claseEvento(e) {
 export const TIPOS_EVENTO = {
   entreno: {
     etiqueta: 'Entreno',
-    // Un cono: el trapecio, la franja y la base.
-    icono: '<path d="M12 3.5L16.8 17.5H7.2z" stroke-linejoin="round"/>' +
-           '<path d="M9.6 11.5h4.8" stroke-linecap="round"/>' +
-           '<path d="M4.5 20.5h15" stroke-linecap="round"/>'
+    // Un cono de entreno. Los lados van con curva y no rectos: un triangulo
+    // isosceles se lee como una señal de trafico, y lo que hace que esto sea un
+    // cono es el vuelo de las paredes, la banda reflectante y la peana.
+    icono: '<path d="M10.35 5.1q1.65-1.15 3.3 0 1.6 5.9 2.95 12.1-4.6 1.35-9.2 0 1.35-6.2 2.95-12.1z" stroke-linejoin="round"/>' +
+           '<path d="M9.5 10.6q2.5.72 5 0" stroke-linecap="round"/>' +
+           '<path d="M9.05 13.5q2.95.85 5.9 0" stroke-linecap="round"/>' +
+           '<path d="M4.6 20.4q7.4 1.9 14.8 0-.5-1.5-1.1-2.6-6.3 1.5-12.6 0-.6 1.1-1.1 2.6z" stroke-linejoin="round"/>'
   },
   amistoso: {
     etiqueta: 'Amistoso',
