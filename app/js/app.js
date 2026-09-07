@@ -471,6 +471,10 @@ function pantallaApp(app, ctx, vistas, tabs) {
     // En una seccion del club se apaga la marca de agua del dorsal: alli esta
     // gestionando, no mirando su ficha.
     document.body.classList.toggle('club', r.startsWith('/club-'));
+    // Hoy es el tablon de anuncios: pared turquesa y notas de papel. El resto
+    // de sus pantallas se quedan con el campo y el dorsal gigante, que es lo
+    // que aguanta leer y tocar mucho rato.
+    document.body.classList.toggle('tablon', !ctx.esStaff && r === '/');
 
     document.querySelectorAll('.tabbar a').forEach(a =>
       a.dataset.ruta === r ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current'));

@@ -83,10 +83,13 @@ export async function render(ctx, cont) {
       <p class="saludo">Hola,</p>
       <h2>${yo.apodo || yo.nombre || 'Atlantic'}</h2>
       <p class="chapa">
-        <span class="chapa-dorsal">${yo.dorsal != null ? '#' + yo.dorsal : '—'}</span>
         <span>${yo.posiciones.join(' · ') || 'Sin posición'}</span>
         ${miUnidad ? crudo(html`<span class="chapa-unidad">${NOMBRE_UNIDAD[miUnidad]}</span>`) : ''}
       </p>
+      <!-- El dorsal ya no va en la chapa: va pintado en cobre en la esquina de
+           la pared, que es donde se mira. Sin numero no se pinta nada, y de
+           avisarle se encarga la tira de abajo. -->
+      ${sinDorsal ? '' : crudo(html`<span class="dorsal-pared">${yo.dorsal}</span>`)}
     </header>
 
     ${sinLeer.length ? crudo(html`
@@ -213,6 +216,7 @@ export async function render(ctx, cont) {
           </a>` : ''}
       </div>`) : ''}
 
+    <div class="escudo-clavado"><img src="./img/cabeza.webp" alt="Coruña Atlantics"></div>
     <p class="menu-pie">#WeAreAtlantics</p>
   `;
 

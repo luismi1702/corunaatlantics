@@ -1242,3 +1242,231 @@ body.jugador.club::after { content: none; }
   .hoja-panel { border-radius: 20px; border-bottom: 1px solid var(--line); }
   #avisos { bottom: 1.5rem; }
 }
+
+
+/* ===========================================================================
+   EL TABLÓN — solo la pantalla Hoy del jugador
+   ===========================================================================
+   Aquí la app deja de ser una lista sobre el campo y pasa a ser un tablón de
+   anuncios: pared turquesa con la trama del club, y encima notas de papel
+   clavadas con chincheta.
+
+   Por qué solo en Hoy: es la pantalla que se abre veinte veces por semana para
+   mirar una cosa, y el papel claro sobre la pared la hace legible de un
+   vistazo. En Agenda, Equipo o Mi ficha se lee y se toca mucho más, y ahí el
+   campo con el dorsal gigante sigue siendo lo suyo. La clase la pone app.js al
+   navegar.
+
+   Todo lo de aquí es apariencia: ni una sola regla cambia qué se enseña. */
+
+body.jugador.tablon {
+  background: linear-gradient(168deg, #0b3138 0%, #072429 100%);
+}
+
+/* La pared. Dos rejillas de tridentes, balones y rayos a distinto tamaño y
+   paso —148 y 83 px, que no son múltiplos— así que la repetición no se ve
+   aunque las piezas sí. Van en blanco a muy baja opacidad: heredan el turquesa
+   de debajo, y cambiar el tono de la pared no obliga a retocar la trama. */
+body.jugador.tablon::before {
+  background-image:
+    radial-gradient(120% 70% at 50% -10%, rgba(160,255,250,.13), transparent 60%),
+    radial-gradient(140% 100% at 50% 50%, transparent 42%, rgba(0,12,15,.62) 100%),
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22148%22%20height%3D%22148%22%20viewBox%3D%220%200%20148%20148%22%3E%3Cg%20transform%3D%22translate%2816%2C10%29%20rotate%28-14%29%20scale%281%29%22%3E%3Cg%20stroke%3D%22rgba%28255%2C255%2C255%2C0.105%29%22%20stroke-width%3D%221.7%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%3E%3Cpath%20d%3D%22M11%2034%20V14%22%2F%3E%3Cpath%20d%3D%22M11%2014%20V3%22%2F%3E%3Cpath%20d%3D%22M3%2014%20V6%22%2F%3E%3Cpath%20d%3D%22M19%2014%20V6%22%2F%3E%3Cpath%20d%3D%22M3%2014%20H19%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%2892%2C30%29%20rotate%2818%29%20scale%281%29%22%3E%3Cg%20stroke%3D%22rgba%28255%2C255%2C255%2C0.105%29%22%20stroke-width%3D%221.6%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%3E%3Cellipse%20cx%3D%2213%22%20cy%3D%229%22%20rx%3D%2212%22%20ry%3D%227.5%22%2F%3E%3Cpath%20d%3D%22M6%209%20H20%22%2F%3E%3Cpath%20d%3D%22M10%206.5%20V11.5%22%2F%3E%3Cpath%20d%3D%22M13%206.5%20V11.5%22%2F%3E%3Cpath%20d%3D%22M16%206.5%20V11.5%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%2840%2C86%29%20rotate%289%29%20scale%281%29%22%3E%3Cpath%20d%3D%22M14%201%20L4%2015%20H10%20L8%2025%20L18%2011%20H12%20Z%22%20fill%3D%22rgba%28255%2C255%2C255%2C0.105%29%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%28108%2C92%29%20rotate%2824%29%20scale%280.8%29%22%3E%3Cg%20stroke%3D%22rgba%28255%2C255%2C255%2C0.105%29%22%20stroke-width%3D%221.7%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%3E%3Cpath%20d%3D%22M11%2034%20V14%22%2F%3E%3Cpath%20d%3D%22M11%2014%20V3%22%2F%3E%3Cpath%20d%3D%22M3%2014%20V6%22%2F%3E%3Cpath%20d%3D%22M19%2014%20V6%22%2F%3E%3Cpath%20d%3D%22M3%2014%20H19%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%286%2C118%29%20rotate%28-9%29%20scale%280.75%29%22%3E%3Cg%20stroke%3D%22rgba%28255%2C255%2C255%2C0.105%29%22%20stroke-width%3D%221.6%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%3E%3Cellipse%20cx%3D%2213%22%20cy%3D%229%22%20rx%3D%2212%22%20ry%3D%227.5%22%2F%3E%3Cpath%20d%3D%22M6%209%20H20%22%2F%3E%3Cpath%20d%3D%22M10%206.5%20V11.5%22%2F%3E%3Cpath%20d%3D%22M13%206.5%20V11.5%22%2F%3E%3Cpath%20d%3D%22M16%206.5%20V11.5%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"),
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2283%22%20height%3D%2283%22%20viewBox%3D%220%200%2083%2083%22%3E%3Cg%20transform%3D%22translate%2810%2C8%29%20rotate%28-18%29%20scale%280.58%29%22%3E%3Cpath%20d%3D%22M14%201%20L4%2015%20H10%20L8%2025%20L18%2011%20H12%20Z%22%20fill%3D%22rgba%28255%2C255%2C255%2C0.07%29%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%2846%2C44%29%20rotate%2812%29%20scale%280.5%29%22%3E%3Cg%20stroke%3D%22rgba%28255%2C255%2C255%2C0.07%29%22%20stroke-width%3D%221.6%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%3E%3Cellipse%20cx%3D%2213%22%20cy%3D%229%22%20rx%3D%2212%22%20ry%3D%227.5%22%2F%3E%3Cpath%20d%3D%22M6%209%20H20%22%2F%3E%3Cpath%20d%3D%22M10%206.5%20V11.5%22%2F%3E%3Cpath%20d%3D%22M13%206.5%20V11.5%22%2F%3E%3Cpath%20d%3D%22M16%206.5%20V11.5%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%2862%2C12%29%20rotate%2826%29%20scale%280.45%29%22%3E%3Cpath%20d%3D%22M14%201%20L4%2015%20H10%20L8%2025%20L18%2011%20H12%20Z%22%20fill%3D%22rgba%28255%2C255%2C255%2C0.07%29%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+  background-size: auto, auto, 148px 148px, 83px 83px;
+  background-position: center, center, 0 0, 31px 19px;
+  background-repeat: no-repeat, no-repeat, repeat, repeat;
+}
+
+/* El marco del tablón. Reutiliza el pseudoelemento del dorsal gigante, que
+   aquí no se pinta: con el contenido vacío el número desaparece y queda el
+   borde. Va por debajo de la cabecera (20) y de la barra de abajo (30), así
+   que solo asoma por los lados, que es donde un tablón tiene marco. */
+body.jugador.tablon::after {
+  content: '';
+  position: fixed; inset: 0; z-index: 5;
+  background: none;
+  border: 7px solid #06181d;
+  box-shadow: inset 0 0 0 1px rgba(0,0,0,.55), inset 0 0 22px rgba(0,0,0,.5);
+  -webkit-text-stroke: 0;
+  pointer-events: none;
+}
+
+/* --- el dorsal, pintado en la pared ------------------------------------- */
+/* Sin cartón detrás y sin etiqueta: un número así de grande en la esquina de
+   la pantalla de alguien no necesita que le pongan "dorsal" debajo. */
+body.jugador.tablon .identidad { position: relative; }
+body.jugador.tablon .identidad .saludo,
+body.jugador.tablon .identidad h2 { padding-right: 92px; }
+
+.dorsal-pared {
+  position: absolute; top: -2px; right: 2px;
+  font-family: 'Anton', sans-serif; font-size: 3.9rem; line-height: .84;
+  font-variant-numeric: tabular-nums;
+  transform: rotate(7deg);
+  background: linear-gradient(158deg, #ffe0a0 0%, #e8ad46 34%, #a9691f 63%, #f2c469 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  filter: drop-shadow(0 3px 6px rgba(0,0,0,.6)) drop-shadow(0 1px 0 rgba(0,0,0,.35));
+  pointer-events: none; user-select: none;
+}
+
+/* --- el papel ------------------------------------------------------------ */
+/* Una nota es papel: esquinas casi rectas, color claro con el texto oscuro, y
+   sombra propia para despegarse de la pared. Sobre turquesa, una tarjeta azul
+   oscura no parece una nota: parece una pantalla pegada al tablón. */
+body.jugador.tablon .card,
+body.jugador.tablon .entrada,
+body.jugador.tablon .siguiente,
+body.jugador.tablon .banda-avisos,
+body.jugador.tablon .tira,
+body.jugador.tablon .lista .fila {
+  position: relative;
+  background: linear-gradient(178deg, #f5efe3, #e2d8c6);
+  color: #1d2a30;
+  border: 0;
+  border-radius: 2px;
+  box-shadow: 0 12px 26px rgba(0,0,0,.55), 0 2px 5px rgba(0,0,0,.4);
+}
+
+/* La chincheta. Es el detalle que hace que se lea como tablón y no como una
+   pila de tarjetas claras. */
+body.jugador.tablon .card::before,
+body.jugador.tablon .entrada::before,
+body.jugador.tablon .siguiente::before,
+body.jugador.tablon .banda-avisos::before,
+body.jugador.tablon .tira::before,
+body.jugador.tablon .lista .fila::before {
+  content: ''; position: absolute; z-index: 2;
+  top: -7px; left: 50%; margin-left: -7.5px;
+  width: 15px; height: 15px; border-radius: 50%;
+  background: radial-gradient(circle at 34% 28%, #ffe9b0, var(--gold) 45%, #6d4e10 100%);
+  box-shadow: 0 3px 7px rgba(0,0,0,.75), inset 0 -1px 2px rgba(0,0,0,.4);
+}
+body.jugador.tablon .entrada::before,
+body.jugador.tablon .tira:nth-child(odd)::before {
+  background: radial-gradient(circle at 34% 28%, #d8fffd, var(--teal) 45%, #0d4644 100%);
+}
+body.jugador.tablon .banda-avisos.urgente::before {
+  background: radial-gradient(circle at 34% 28%, #ffd2d3, var(--bad) 45%, #6d1a1d 100%);
+}
+
+/* Cada nota cuelga un poco distinta. Muy poco: pasado un grado el texto se lee
+   peor y deja de parecer una nota para parecer un adorno. */
+body.jugador.tablon .banda-avisos { transform: rotate(-.9deg); }
+body.jugador.tablon .entrada      { transform: rotate(.6deg); }
+body.jugador.tablon .siguiente    { transform: rotate(-.5deg); }
+body.jugador.tablon .card         { transform: rotate(.45deg); }
+body.jugador.tablon .lista .fila:nth-child(odd)  { transform: rotate(.7deg); }
+body.jugador.tablon .lista .fila:nth-child(even) { transform: rotate(-.6deg); }
+
+/* Aire entre notas: en un tablón las cosas no se tocan. */
+body.jugador.tablon #vista > *            { margin-top: 1.5rem; }
+body.jugador.tablon #vista > :first-child { margin-top: 0; }
+body.jugador.tablon #vista > .eyebrow     { margin-top: 1.9rem; margin-bottom: .85rem; }
+body.jugador.tablon #vista > .lista       { margin-top: 0; }
+body.jugador.tablon .lista { gap: 1.3rem; }
+
+/* --- el texto, que ahora va sobre papel ---------------------------------- */
+body.jugador.tablon .entrada-datos h3,
+body.jugador.tablon .siguiente .que,
+body.jugador.tablon .lista .fila .nom,
+body.jugador.tablon .tira .cifra-grande { color: #12333f; }
+
+body.jugador.tablon .entrada-datos .tipo,
+body.jugador.tablon .entrada-datos .detalle,
+body.jugador.tablon .siguiente .et,
+body.jugador.tablon .siguiente .cuando,
+body.jugador.tablon .lista .fila .meta,
+body.jugador.tablon .tira .et,
+body.jugador.tablon .banda-avisos .ir { color: #7c8a90; }
+
+body.jugador.tablon .entrada-datos .detalle.fuerte { color: #12333f; font-weight: 600; }
+body.jugador.tablon .tira .pie { color: #2b3a41; opacity: 1; }
+body.jugador.tablon .entrada-nota { background: rgba(18,51,63,.07); color: #2b3a41; }
+body.jugador.tablon .otra-unidad  { background: rgba(154,106,18,.14); color: #7a5310; }
+
+/* La casilla de la fecha se queda oscura: es la única mancha de tinta de la
+   nota y es lo que se busca al mirarla de lejos. */
+body.jugador.tablon .entrada-fecha { background: #12333f; border-color: rgba(0,0,0,.25); }
+
+/* Sin las muescas de la entrada: un papel clavado no es un ticket. */
+body.jugador.tablon .entrada-corte { border-top-color: rgba(29,42,48,.28); }
+body.jugador.tablon .entrada-corte::before,
+body.jugador.tablon .entrada-corte::after { display: none; }
+
+body.jugador.tablon .entrada-respuesta .pregunta,
+body.jugador.tablon .entrada-respuesta .recuento { color: #7c8a90; }
+body.jugador.tablon .opcion {
+  background: rgba(18,51,63,.06); border-color: rgba(29,42,48,.25); color: #5d6b70;
+}
+body.jugador.tablon .opcion[aria-pressed="true"] {
+  border-color: #1f7a52; color: #12603f; background: rgba(31,122,82,.14);
+}
+
+/* La banda de avisos, ahora un papel más. */
+body.jugador.tablon .banda-avisos { padding: .8rem .95rem; }
+body.jugador.tablon .banda-avisos .n { color: #12603f; }
+body.jugador.tablon .banda-avisos.urgente { background: linear-gradient(178deg, #ffe9a8, #f4d478); }
+body.jugador.tablon .banda-avisos.urgente .n { color: #8f2a2d; }
+
+/* Las secciones delegadas van en papel verde: es otro asunto, no algo suyo. */
+body.jugador.tablon .lista .fila { background: linear-gradient(178deg, #d8ece2, #bcd9cb); }
+body.jugador.tablon .lista .fila .tag {
+  background: transparent; color: #1f5c44; border: 1px solid rgba(31,92,68,.4);
+}
+
+/* --- las notas pequeñas, de dos en dos ----------------------------------- */
+body.jugador.tablon .tiras {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 1.35rem .85rem; margin-top: 1.7rem;
+}
+body.jugador.tablon .tira { display: block; padding: .85rem .8rem .8rem; }
+
+/* Las cifras de las tiras llevan su color en el atributo style —lo decide el
+   dato: verde si la asistencia va bien, ámbar si debe algo— y un estilo en
+   linea gana a cualquier regla de aqui. Asi que en vez de pelearse con el, se
+   redefinen las variables en la propia cifra: el color sigue saliendo del dato,
+   pero en tonos que se lean sobre papel en vez de sobre fondo oscuro.
+
+   Van en la cifra y no en la tira entera a proposito: la chincheta de al lado
+   se pinta con var(--teal) y si se redefine mas arriba sale verde. */
+body.jugador.tablon .tira .cifra-grande {
+  --ok:    #12603f;
+  --warn:  #9a6a12;
+  --bad:   #8f2a2d;
+  --goldf: #9a6a12;
+  --teal:  #12603f;
+}
+body.jugador.tablon .tira .cifra-grande { display: block; font-size: 1.8rem; }
+body.jugador.tablon .tira .et  { display: block; margin: .28rem 0 .08rem; }
+body.jugador.tablon .tira .pie { display: block; font-size: .82rem; }
+body.jugador.tablon .tira:nth-child(odd)  { transform: rotate(1deg); }
+body.jugador.tablon .tira:nth-child(even) { transform: rotate(-.9deg); }
+
+/* --- el escudo, clavado abajo -------------------------------------------- */
+.escudo-clavado {
+  position: relative; width: 78px; margin: 2.4rem auto .5rem;
+  padding: .5rem .5rem .35rem;
+  background: linear-gradient(178deg, rgba(243,236,224,.94), rgba(214,203,184,.94));
+  border-radius: 2px; transform: rotate(-5.5deg);
+  box-shadow: 0 10px 20px rgba(0,0,0,.6), 0 2px 4px rgba(0,0,0,.5);
+}
+.escudo-clavado::before {
+  content: ''; position: absolute; top: -7px; left: 50%; margin-left: -7.5px;
+  width: 15px; height: 15px; border-radius: 50%;
+  background: radial-gradient(circle at 34% 28%, #ffe9b0, var(--gold) 45%, #6d4e10 100%);
+  box-shadow: 0 3px 7px rgba(0,0,0,.75), inset 0 -1px 2px rgba(0,0,0,.4);
+}
+.escudo-clavado img { display: block; width: 100%; }
+body.jugador.tablon .menu-pie { color: rgba(212,168,67,.6); transform: rotate(-1deg); }
+
+/* Quien no tolera el movimiento tampoco quiere notas torcidas. */
+@media (prefers-reduced-motion: reduce) {
+  body.jugador.tablon .banda-avisos,
+  body.jugador.tablon .entrada,
+  body.jugador.tablon .siguiente,
+  body.jugador.tablon .card,
+  body.jugador.tablon .lista .fila,
+  body.jugador.tablon .tira,
+  body.jugador.tablon .menu-pie,
+  .dorsal-pared, .escudo-clavado { transform: none; }
+}
