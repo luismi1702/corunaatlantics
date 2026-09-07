@@ -103,6 +103,8 @@ function rutaActual(vistas) {
 
 // ---------------------------------------------------------------------------
 
+let yaDesbloqueado = false;
+
 async function iniciar() {
   const app = $('#app');
 
@@ -125,7 +127,15 @@ async function iniciar() {
   if (!perfil) return pantallaSinFicha(app, db);
 
   // El cerrojo va después de tener sesión: no sustituye al login, lo tapa.
-  if (cerrojo.activo() && !await pantallaCerrojo(app, perfil, db)) return;
+  //
+  // Solo la primera vez. iniciar() se vuelve a llamar cada vez que una pantalla
+  // guarda algo y al cambiar a la vista de jugador, y pedir la cara en cada una
+  // de esas veces convierte un cerrojo en un peaje. Lo que protege es abrir la
+  // app con el movil de otro; una vez dentro, ya se comprobo.
+  if (!yaDesbloqueado) {
+    if (cerrojo.activo() && !await pantallaCerrojo(app, perfil, db)) return;
+    yaDesbloqueado = true;
+  }
 
   // Registrarse es pedir entrar, no entrar. Hasta que el club aprueba, la app
   // no enseña nada del equipo.
@@ -223,7 +233,9 @@ export function verComoJugador(activar) {
     if (activar) sessionStorage.setItem(CLAVE_PREVIA, '1');
     else sessionStorage.removeItem(CLAVE_PREVIA);
   } catch { /* en navegacion privada no se guarda: se queda en la consola */ }
-  location.hash = '#/';
+  // A la portada, pero sin disparar un hashchange de mas: iniciar() ya vuelve a
+  // pintar, y si el hash ya era '#/' no cambia nada.
+  if (location.hash !== '#/') location.hash = '#/';
   iniciar();
 }
 
@@ -479,6 +491,8 @@ function pantallaCerrojo(app, perfil, db) {
 
 // --- App -------------------------------------------------------------------
 
+let alCambiarHash = null;
+
 function pantallaApp(app, ctx, vistas, tabs) {
   app.innerHTML = html`
     <header class="topbar">
@@ -540,7 +554,15 @@ function pantallaApp(app, ctx, vistas, tabs) {
     window.scrollTo(0, 0);
   }
 
-  window.addEventListener('hashchange', navegar);
+  // Cada arranque monta su propio navegar(), atado a SUS vistas y a SU ctx. Si
+  // no se quita el anterior, se quedan los dos escuchando: al tocar una pestaña
+  // se pintaba dos veces y a veces ganaba el viejo, que era el de la consola.
+  // Con una sola app la duplicidad no se notaba —pintaba lo mismo dos veces—,
+  // pero al poder cambiar de cara se veia de golpe: saltos a la pantalla de
+  // admin desde la app de jugador.
+  if (alCambiarHash) window.removeEventListener('hashchange', alCambiarHash);
+  alCambiarHash = navegar;
+  window.addEventListener('hashchange', alCambiarHash);
   navegar();
 }
 
