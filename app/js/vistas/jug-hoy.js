@@ -221,7 +221,9 @@ export async function render(ctx, cont) {
           </a>` : ''}
       </div>`) : ''}
 
-    <div class="escudo-clavado"><img src="./img/cabeza.webp" alt="Coruña Atlantics"></div>
+    <!-- El logotipo entero, no la cabeza: esa ya preside la barra de arriba
+         y repetirla dos veces en la misma pantalla no dice nada nuevo. -->
+    <div class="escudo-clavado"><img src="./img/logo-principal.webp" alt="Coruña Atlantics"></div>
     <p class="menu-pie">#WeAreAtlantics</p>
   `;
 

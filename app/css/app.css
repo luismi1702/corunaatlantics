@@ -1468,8 +1468,10 @@ body.jugador.tablon .tira:nth-child(even) { transform: rotate(-.9deg); }
 
 /* --- el escudo, clavado abajo -------------------------------------------- */
 .escudo-clavado {
-  position: relative; width: 78px; margin: 2.4rem auto .5rem;
-  padding: .5rem .5rem .35rem;
+  /* Mas ancho que cuando llevaba solo la cabeza: el logotipo completo tiene
+     letras, y a 78 px no se leerian. */
+  position: relative; width: 136px; margin: 2.6rem auto .5rem;
+  padding: .6rem .6rem .45rem;
   background: linear-gradient(178deg, rgba(243,236,224,.94), rgba(214,203,184,.94));
   border-radius: 2px; transform: rotate(-5.5deg);
   box-shadow: 0 10px 20px rgba(0,0,0,.6), 0 2px 4px rgba(0,0,0,.5);
