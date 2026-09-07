@@ -4,6 +4,7 @@ import * as db from '../db.js';
 import * as cerrojo from '../cerrojo.js';
 import { pintarAjuste as pintarAvisosMovil } from './avisos-ajuste.js';
 import { pintarCompartir } from './compartir.js';
+import { verComoJugador } from '../app.js';
 import {
   html, crudo, $, $$, euros, fecha, nombreCompleto, DIAS, hora, enDiasISO,
   hoja, confirmar, avisar, fallo, cargando, vacio
@@ -96,6 +97,19 @@ export async function render(ctx, cont) {
     <div id="avisos-movil"></div>
     <div id="cerrojo"></div>
 
+    <p class="eyebrow">Ver como jugador</p>
+    <div class="card">
+      <p style="margin:0 0 .9rem;line-height:1.6" class="muted">
+        Abre la app tal como la ve la plantilla, con tu ficha: tu nombre, tu
+        dorsal y tus cuotas. Sirve para comprobar cómo les queda un aviso o un
+        entreno antes de darlo por bueno.
+      </p>
+      <button class="btn primario ancho" id="ver-jugador">Ver la app como jugador</button>
+      <p class="ayuda" style="margin:.7rem 0 0;line-height:1.6">
+        Se vuelve con el botón de abajo, o cerrando la app y abriéndola otra vez.
+      </p>
+    </div>
+
     <p class="eyebrow">Tu cuenta</p>
     <div class="card">
       <div class="fila" style="background:transparent;border:none;padding:0">
@@ -113,6 +127,8 @@ export async function render(ctx, cont) {
       base de datos, no esta pantalla.
     </p>
   `;
+
+  $('#ver-jugador').addEventListener('click', () => verComoJugador(true));
 
   pintarCompartir($('#compartir-app'));
   pintarAvisosMovil($('#avisos-movil'), ctx.perfil);

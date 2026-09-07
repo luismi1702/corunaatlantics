@@ -148,10 +148,14 @@ async function iniciar() {
 
   // El admin tiene la consola entera. Cualquier otro entra a su app de jugador
   // y lleva dentro las secciones que se le hayan dado, si es que tiene alguna.
-  const esStaff = perfil.rol === 'admin';
-  const permisos = esStaff
-    ? SECCIONES.map(s => s.clave)
-    : await conPermisos(db);
+  const admin  = perfil.rol === 'admin';
+  const previa = admin && viendoComoJugador();
+  const esStaff = admin && !previa;
+  // En la previa, sin secciones: la gracia es ver lo que ve la plantilla, y un
+  // jugador normal no tiene ninguna. La vuelta a la consola es el boton.
+  const permisos = esStaff ? SECCIONES.map(s => s.clave)
+                 : previa  ? []
+                 : await conPermisos(db);
 
   // El dorsal viaja al CSS como texto para poder pintarlo de fondo. Sin dorsal
   // asignado no se pinta nada, en vez de un hueco raro.
@@ -176,6 +180,51 @@ async function iniciar() {
   pantallaApp(app, ctx,
     esStaff ? VISTAS_STAFF : { ...VISTAS_JUGADOR, ...vistasDelegadas(permisos) },
     esStaff ? TABS_STAFF : TABS_JUGADOR);
+
+  pintarVueltaAConsola(previa);
+}
+
+// El boton de volver va flotando sobre la barra de abajo y en todas las
+// pantallas: si solo estuviera en una, olvidarse de que estas en la previa
+// seria demasiado facil.
+function pintarVueltaAConsola(previa) {
+  document.getElementById('volver-consola')?.remove();
+  if (!previa) return;
+
+  const boton = document.createElement('button');
+  boton.id = 'volver-consola';
+  boton.className = 'volver-consola';
+  boton.type = 'button';
+  boton.textContent = 'Estás viendo la app como jugador · Volver';
+  boton.addEventListener('click', () => verComoJugador(false));
+  document.body.appendChild(boton);
+}
+
+// Ver la app como la ve un jugador.
+//
+// El admin no tiene manera de saber como le queda a la plantilla lo que
+// escribe: el escribe un aviso y lo siguiente que ve es su lista de avisos, no
+// la nota en el tablon de ellos. Esto le deja mirar con su propia ficha —su
+// nombre, su dorsal, sus cuotas—, que es lo unico honesto: los datos son
+// reales, la unica mentira es que se le esconde la consola.
+//
+// Vive en sessionStorage y no en localStorage a proposito: si algo se
+// atraganta, basta con cerrar la app y abrirla para volver a la consola. Nadie
+// se puede quedar encerrado.
+//
+// No es un modo de seguridad y no lo aparenta: lo que puede hacer lo sigue
+// decidiendo Postgres, que le ve como admin. Es una ventana, no un disfraz.
+const CLAVE_PREVIA = 'atlantics-ver-como-jugador';
+export const viendoComoJugador = () => {
+  try { return sessionStorage.getItem(CLAVE_PREVIA) === '1'; } catch { return false; }
+};
+export function verComoJugador(activar) {
+  try {
+    if (activar) sessionStorage.setItem(CLAVE_PREVIA, '1');
+    else sessionStorage.removeItem(CLAVE_PREVIA);
+  } catch { /* en navegacion privada no se guarda: se queda en la consola */ }
+  location.hash = '#/';
+  iniciar();
 }
 
 // Sin llaves no se rompe nada: se sigue como jugador y ya está. Por eso la

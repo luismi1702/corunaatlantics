@@ -1470,3 +1470,26 @@ body.jugador.tablon .menu-pie { color: rgba(212,168,67,.6); transform: rotate(-1
   body.jugador.tablon .menu-pie,
   .dorsal-pared, .escudo-clavado { transform: none; }
 }
+
+/* --- Volver a la consola ---------------------------------------------------
+   El aviso de que estás en la previa y la salida son la misma cosa: si fueran
+   dos, el aviso acabaría siendo un adorno que se deja de leer. Va flotando
+   sobre la barra de abajo, a la altura de los avisos emergentes, y se ve en
+   todas las pantallas. */
+.volver-consola {
+  position: fixed; left: 50%; transform: translateX(-50%);
+  bottom: calc(5.2rem + var(--safe-b)); z-index: 50;
+  max-width: calc(100vw - 2rem);
+  padding: .6rem 1.1rem;
+  border: 1px solid rgba(212,168,67,.55);
+  border-radius: 999px;
+  background: rgba(24,20,10,.94);
+  backdrop-filter: blur(8px);
+  color: var(--goldf);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: .82rem; letter-spacing: .1em; text-transform: uppercase;
+  box-shadow: 0 8px 22px rgba(0,0,0,.6);
+  cursor: pointer;
+}
+.volver-consola:active { transform: translateX(-50%) scale(.97); }
+.volver-consola:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
