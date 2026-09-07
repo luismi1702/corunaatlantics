@@ -538,6 +538,8 @@ function pantallaApp(app, ctx, vistas, tabs) {
     // de sus pantallas se quedan con el campo y el dorsal gigante, que es lo
     // que aguanta leer y tocar mucho rato.
     document.body.classList.toggle('tablon', !ctx.esStaff && r === '/');
+    // La ruta, para que el CSS pueda dar a cada pantalla su marca de fondo.
+    document.body.dataset.ruta = ctx.esStaff ? '' : r;
 
     document.querySelectorAll('.tabbar a').forEach(a =>
       a.dataset.ruta === r ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current'));

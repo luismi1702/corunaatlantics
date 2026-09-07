@@ -1590,3 +1590,40 @@ body.jugador.tablon .relieve-evento {
 /* En la tira de "y después" no cabe uno grande: va a la mitad y más al borde. */
 .siguiente .relieve-evento { right: -14px; bottom: -30px; }
 .siguiente .relieve-evento svg { width: 92px; height: 92px; }
+
+
+/* --- La marca de fondo de cada pantalla del jugador ------------------------
+   Hoy es el tablon y tiene su pared; el resto de sus pantallas llevan el dorsal
+   gigante y, ademas, un logo distinto abajo a la derecha. No es decoracion
+   repartida al azar: cada pantalla lleva el suyo siempre, asi que al segundo dia
+   sabes donde estas sin leer la barra.
+
+   Sale por el borde derecho a proposito. Un logo entero y centrado compite con
+   el contenido; cortado por el canto se lee como marca y no como imagen.
+
+   Al 5% no hace falta que sea nitido, por eso los ficheros van a 440 px y con
+   calidad baja: los tres juntos pesan menos que el logotipo principal. */
+.marca-pantalla {
+  display: none;
+  position: fixed; right: -2.6rem; bottom: calc(4.8rem + var(--safe-b));
+  width: 200px; height: 240px;
+  background: no-repeat right center / contain;
+  opacity: .055;
+  pointer-events: none; z-index: 0;
+}
+
+body.jugador[data-ruta="/agenda"]  .marca-pantalla,
+body.jugador[data-ruta="/equipo"]  .marca-pantalla,
+body.jugador[data-ruta="/mificha"] .marca-pantalla { display: block; }
+
+body.jugador[data-ruta="/agenda"]  .marca-pantalla { background-image: url('../img/circular.webp'); }
+body.jugador[data-ruta="/equipo"]  .marca-pantalla { background-image: url('../img/balon.webp'); }
+body.jugador[data-ruta="/mificha"] .marca-pantalla { background-image: url('../img/football.webp'); }
+
+/* El de Mi ficha lleva letras, asi que necesita mas ancho y menos alto para que
+   se reconozca; los otros dos son formas y aguantan cualquier tamaño. */
+body.jugador[data-ruta="/mificha"] .marca-pantalla { width: 250px; height: 200px; }
+
+/* En una seccion del club que lleve un delegado no pinta nada: alli esta
+   gestionando, igual que se apaga el dorsal. */
+body.club .marca-pantalla { display: none; }

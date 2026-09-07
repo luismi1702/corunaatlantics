@@ -21,6 +21,12 @@
   <link rel="stylesheet" href="./css/app.css">
 </head>
 <body>
+  <!-- La marca de la pantalla. Va fuera de #app y no como pseudoelemento suyo
+       porque #app es un contenedor flex: un ::before ahi seria un hijo mas y
+       empujaria el contenido. Vacia y oculta salvo en las pantallas que tienen
+       una asignada. -->
+  <div class="marca-pantalla" aria-hidden="true"></div>
+
   <div id="app">
     <div class="cargando"><div class="spinner"></div></div>
   </div>
