@@ -5,7 +5,7 @@ import { camiseta } from './camiseta.js';
 import {
   html, crudo, $, $$, euros, fecha, nombreCompleto, tag, TAG_JUGADOR, TAG_CUOTA,
   POSICIONES, UNIDADES, SECCIONES, SECCION, hoyISO, hoja, confirmar, avisar, fallo,
-  conRespaldo, cargando, vacio, enlaceLlamada, enlaceWhatsApp
+  conRespaldo, cargando, vacio, enlaceLlamada, enlaceWhatsApp, descargarCSV, numeroCSV
 } from '../ui.js';
 
 let filtro = 'activo';
@@ -35,6 +35,11 @@ export async function render(ctx, cont) {
     <div id="resumen"></div>
     <div id="lista"></div>
     <button class="btn primario ancho" id="nuevo" style="margin-top:1rem">+ Añadir jugador</button>
+    <button class="btn ancho" id="csv" style="margin-top:.6rem">Exportar la plantilla a CSV</button>
+    <p class="ayuda" style="text-align:center;margin-top:.5rem;line-height:1.6">
+      El plan gratuito de la base de datos no guarda copias que se puedan recuperar.
+      Descárgalo de vez en cuando y ya tienes la plantilla a salvo.
+    </p>
   `;
 
   const { ataque: ATAQUE, defensa: DEFENSA } = UNIDADES;
@@ -99,6 +104,23 @@ export async function render(ctx, cont) {
     $$('#filtros button').forEach(o => o.setAttribute('aria-pressed', o === b));
     pintar();
   }));
+  // Todo lo que ha tecleado el club, incluidas las bajas: una copia de
+  // seguridad que se deja fuera a la mitad de la gente no es una copia.
+  $('#csv').addEventListener('click', () => descargarCSV(
+    'atlantics-plantilla-' + ctx.temporada.nombre,
+    [['Dorsal','Nombre','Apellidos','Nombre en la camiseta','Posiciones','Capitán',
+      'Estado','Acceso','Rol','Email','Teléfono','Fecha nacimiento','DNI','Talla',
+      'Alta','Baja','Cuota pendiente','Notas'],
+     ...plantilla.map(p => {
+       const c = cuotaDe.get(p.id);
+       return [
+         p.dorsal, p.nombre, p.apellidos, p.apodo, (p.posiciones ?? []).join(' '),
+         p.es_capitan ? 'Sí' : '', p.estado, p.acceso, p.rol, p.email, p.telefono,
+         p.fecha_nacimiento, p.dni, p.talla_equipacion, p.alta_en, p.baja_en,
+         c ? numeroCSV(c.importe_pendiente) : '', p.notas_staff
+       ];
+     })]));
+
   $('#nuevo').addEventListener('click', () => abrirFicha(ctx, null, () => render(ctx, cont)));
 
   pintar();

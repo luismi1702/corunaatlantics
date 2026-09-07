@@ -7,7 +7,7 @@
 import * as db from '../db.js';
 import {
   html, crudo, $, $$, euros, fecha, hoyISO,
-  hoja, confirmar, avisar, fallo, cargando, vacio
+  hoja, confirmar, avisar, fallo, cargando, vacio, descargarCSV, numeroCSV
 } from '../ui.js';
 
 let filtro = 'todos';
@@ -253,30 +253,16 @@ function abrirMovimiento(ctx, m, alGuardar) {
 // --- Exportación ----------------------------------------------------------
 
 function exportarCSV(ctx, movimientos, resumen) {
-  const celda = (v) => {
-    const s = v == null ? '' : String(v);
-    return /[";\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
-  };
-
-  const filas = [
-    ['Fecha','Tipo','Categoría','Concepto','Importe','Método','Justificante','Nota'].join(';'),
+  descargarCSV('atlantics-tesoreria-' + ctx.temporada.nombre, [
+    ['Fecha','Tipo','Categoría','Concepto','Importe','Método','Justificante','Nota'],
     ...movimientos.map(m => [
       m.fecha, m.tipo, etiqueta(m.categoria), m.concepto,
-      String(m.importe).replace('.', ','), m.metodo, m.justificante_url, m.nota
-    ].map(celda).join(';')),
-    '',
-    ['', '', '', 'Cuotas cobradas', String(resumen?.ingresos_cuotas ?? 0).replace('.', ',')].join(';'),
-    ['', '', '', 'Otros ingresos',  String(resumen?.ingresos_otros ?? 0).replace('.', ',')].join(';'),
-    ['', '', '', 'Gastos',          String(resumen?.gastos_total ?? 0).replace('.', ',')].join(';'),
-    ['', '', '', 'Saldo',           String(resumen?.saldo ?? 0).replace('.', ',')].join(';')
-  ];
-
-  const csv = '﻿' + filas.join('\r\n');
-  const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8;' }));
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `atlantics-tesoreria-${ctx.temporada.nombre}.csv`;
-  a.click();
-  URL.revokeObjectURL(url);
-  avisar('CSV descargado');
+      numeroCSV(m.importe), m.metodo, m.justificante_url, m.nota
+    ]),
+    [],
+    ['', '', '', 'Cuotas cobradas', numeroCSV(resumen?.ingresos_cuotas)],
+    ['', '', '', 'Otros ingresos',  numeroCSV(resumen?.ingresos_otros)],
+    ['', '', '', 'Gastos',          numeroCSV(resumen?.gastos_total)],
+    ['', '', '', 'Saldo',           numeroCSV(resumen?.saldo)]
+  ]);
 }

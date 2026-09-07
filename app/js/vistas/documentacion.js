@@ -7,7 +7,7 @@ import * as db from '../db.js';
 import { DIAS_AVISO_CADUCIDAD } from '../config.js';
 import {
   html, crudo, $, $$, fecha, diasHasta, nombreCompleto, TAG_DOC,
-  hoja, avisar, fallo, cargando, vacio
+  hoja, avisar, fallo, cargando, vacio, descargarCSV
 } from '../ui.js';
 
 let filtro = 'falta';
@@ -182,29 +182,14 @@ async function abrirDoc(f, alGuardar) {
 // --- Exportación ----------------------------------------------------------
 
 function exportarCSV(ctx, filas) {
-  const cabecera = ['Dorsal','Nombre','Apellidos','DNI','Fecha nacimiento','Email','Teléfono',
-                    'Licencia','Licencia caduca','DNI entregado','Foto entregada'];
-
-  const celda = (v) => {
-    const s = v == null ? '' : String(v);
-    return /[";\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
-  };
-
-  const lineas = filas.map(f => [
-    f.jugador.dorsal, f.jugador.nombre, f.jugador.apellidos, f.jugador.dni,
-    f.jugador.fecha_nacimiento, f.jugador.email, f.jugador.telefono,
-    f.doc.licencia_estado, f.doc.licencia_caduca_en,
-    f.doc.dni_entregado ? 'Sí' : 'No', f.doc.foto_entregada ? 'Sí' : 'No'
-  ].map(celda).join(';'));
-
-  // Punto y coma y BOM: es lo que abre bien en el Excel en español sin tener
-  // que pelearse con el asistente de importación.
-  const csv = '﻿' + [cabecera.join(';'), ...lineas].join('\r\n');
-  const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8;' }));
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = `atlantics-documentacion-${ctx.temporada.nombre}.csv`;
-  a.click();
-  URL.revokeObjectURL(url);
-  avisar('CSV descargado');
+  descargarCSV('atlantics-documentacion-' + ctx.temporada.nombre, [
+    ['Dorsal','Nombre','Apellidos','DNI','Fecha nacimiento','Email','Teléfono',
+     'Licencia','Licencia caduca','DNI entregado','Foto entregada'],
+    ...filas.map(f => [
+      f.jugador.dorsal, f.jugador.nombre, f.jugador.apellidos, f.jugador.dni,
+      f.jugador.fecha_nacimiento, f.jugador.email, f.jugador.telefono,
+      f.doc.licencia_estado, f.doc.licencia_caduca_en,
+      f.doc.dni_entregado ? 'Sí' : 'No', f.doc.foto_entregada ? 'Sí' : 'No'
+    ])
+  ]);
 }

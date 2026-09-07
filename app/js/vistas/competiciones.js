@@ -10,7 +10,7 @@
 
 import * as db from '../db.js';
 import {
-  html, crudo, $, $$, cuando, hoja, confirmar, avisar, fallo, cargando, vacio
+  html, crudo, $, $$, cuando, hoja, confirmar, avisar, fallo, cargando, vacio, descargarCSV
 } from '../ui.js';
 import { abrirEstadisticas } from './stats-partido.js';
 
@@ -130,12 +130,34 @@ async function abrirCompeticion(ctx, comp, alGuardar) {
         lista y se meten las estadísticas de cada jugador.
       </p>`) : ''}
 
-    <div style="display:flex;gap:.6rem;margin-top:1.4rem">
+    <button class="btn ancho" id="csv" style="margin-top:1.4rem">Exportar a CSV</button>
+
+    <div style="display:flex;gap:.6rem;margin-top:.6rem">
       <button class="btn peligro" id="borrar">Borrar</button>
       <button class="btn primario" style="flex:1" id="editar">Editar</button>
     </div>`);
 
   const recargar = () => abrirCompeticion(ctx, comp, alGuardar);
+
+  // La tabla y los partidos en el mismo fichero, separados por una linea en
+  // blanco. La clasificacion se calcula, asi que sin los partidos no se puede
+  // reconstruir: guardar solo la tabla seria guardar el resultado y tirar el
+  // dato.
+  $('#csv', panel).addEventListener('click', () => descargarCSV(
+    'atlantics-' + comp.nombre.replace(/[^\wáéíóúñÁÉÍÓÚÑ ]+/g, '').trim() + '-' + ctx.temporada.nombre,
+    [['Clasificación', comp.nombre, TIPOS[comp.tipo], ctx.temporada.nombre],
+     ['Pos','Equipo','J','G','E','P','PF','PC','Dif','Pts'],
+     ...tabla.map((f, i) => [
+       i + 1, f.equipo, f.jugados, f.ganados, f.empatados, f.perdidos,
+       f.puntos_favor, f.puntos_contra, f.diferencia, f.puntos
+     ]),
+     [],
+     ['Partidos'],
+     ['Jornada','Fecha','Local','Visitante','Puntos local','Puntos visitante','Nuestro'],
+     ...partidos.map(p => [
+       p.jornada, p.fecha, nombreDe(p.local_id), nombreDe(p.visitante_id),
+       p.puntos_local, p.puntos_visitante, esNuestro(p) ? 'Sí' : ''
+     ])]));
 
   $$('[data-equipo]', panel).forEach(b => b.addEventListener('click', () => {
     panel.cerrar();

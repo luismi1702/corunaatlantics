@@ -331,6 +331,37 @@ export const marcaEvento = (e) => {
          '<svg viewBox="0 0 24 24" aria-hidden="true">' + TIPOS_EVENTO[clase].icono + '</svg></span>';
 };
 
+// Descargar una tabla como CSV.
+//
+// Estaba escrito dos veces, palabra por palabra, en Tesoreria y en Documentos.
+// Ahora que son cuatro, va en un sitio: si algun dia el separador o la
+// codificacion dan guerra, se arregla aqui y no en cuatro ficheros.
+//
+// Punto y coma y BOM al principio: es lo que hace que el Excel en español lo
+// abra de un doble clic, sin pasar por el asistente de importacion. Con coma,
+// que es lo estandar, lo mete todo en una columna.
+//
+// `filas` es un array de arrays; la primera es la cabecera. Una fila vacia
+// dibuja una linea en blanco, que sirve para separar bloques.
+export function descargarCSV(nombre, filas) {
+  const celda = (v) => {
+    const s = v == null ? '' : String(v);
+    return /[";\n]/.test(s) ? '"' + s.replace(/"/g, '""') + '"' : s;
+  };
+
+  const csv = '\ufeff' + filas.map(f => f.map(celda).join(';')).join('\r\n');
+  const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8;' }));
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = nombre.endsWith('.csv') ? nombre : nombre + '.csv';
+  a.click();
+  URL.revokeObjectURL(url);
+  avisar('CSV descargado');
+}
+
+// Los numeros con coma decimal, que es como los espera el Excel en español.
+export const numeroCSV = (n) => String(n ?? 0).replace('.', ',');
+
 export const NOMBRE_UNIDAD = {
   todos: 'Todo el equipo', ataque: 'Ataque', defensa: 'Defensa', especiales: 'Equipos especiales'
 };
