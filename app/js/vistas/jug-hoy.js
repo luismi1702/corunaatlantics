@@ -8,7 +8,7 @@ import * as db from '../db.js';
 import {
   html, crudo, $, $$, euros, cuando, hora, hoyISO, fechaCorta, diasHasta, DIAS,
   unidadDe, esDeUnidad, NOMBRE_UNIDAD, OPCIONES_ASISTENCIA as OPCIONES, conRespaldo,
-  SECCIONES, avisar, fallo, cargando, TIPOS_EVENTO, claseEvento, marcaEvento
+  SECCIONES, avisar, fallo, cargando, TIPOS_EVENTO, claseEvento, relieveEvento
 } from '../ui.js';
 
 const DICHO = {
@@ -104,7 +104,6 @@ export async function render(ctx, cont) {
       <article class="entrada ${evento.tipo === 'partido' ? 'partido' : ''}">
         <div class="entrada-cuerpo">
           <div class="entrada-fecha">
-            ${crudo(marcaEvento(evento))}
             <span class="dia">${diaCorto(evento.fecha)}</span>
             <span class="num">${Number(evento.fecha.slice(8))}</span>
             <span class="mes">${mesCorto(evento.fecha)}</span>
@@ -131,6 +130,8 @@ export async function render(ctx, cont) {
 
         <div class="entrada-corte"></div>
 
+        ${crudo(relieveEvento(evento))}
+
         <div class="entrada-respuesta">
           <p class="pregunta" id="pregunta">${respuesta ? DICHO[respuesta] : '¿Vas a ir?'}</p>
           <div class="respuesta" id="respuesta">
@@ -152,6 +153,7 @@ export async function render(ctx, cont) {
 
     ${siguiente ? crudo(html`
       <a class="siguiente" href="#/agenda">
+        ${crudo(relieveEvento(siguiente))}
         <span class="et">Y después</span>
         <span class="que">${titulo(siguiente)}</span>
         <span class="cuando">${cuando(siguiente.fecha)}${siguiente.hora ? ' · ' + hora(siguiente.hora) : ''}</span>

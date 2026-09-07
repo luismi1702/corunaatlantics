@@ -308,6 +308,19 @@ export const TIPOS_EVENTO = {
   }
 };
 
+// El dibujo grande, hundido en la tarjeta. Va suelto, sin chapa ni fondo: lo
+// que lo hace legible no es el contraste sino el relieve —la linea oscura con
+// un filo claro justo debajo—, como si estuviera prensado en el papel. Por eso
+// puede ser enorme y aun asi no pelearse con el texto de encima.
+//
+// Solo donde hay alto de sobra. En una fila de 52 px no cabe un relieve, y ahi
+// sigue estando la marca pequeña.
+export const relieveEvento = (e) => {
+  const clase = claseEvento(e);
+  return '<span class="relieve-evento ' + clase + '" aria-hidden="true">' +
+         '<svg viewBox="0 0 24 24">' + TIPOS_EVENTO[clase].icono + '</svg></span>';
+};
+
 // La marca que se clava en la esquina de la casilla de la fecha.
 export const marcaEvento = (e) => {
   const clase = claseEvento(e);

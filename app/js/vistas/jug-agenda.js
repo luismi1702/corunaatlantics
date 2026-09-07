@@ -6,7 +6,7 @@
 import * as db from '../db.js';
 import {
   html, crudo, $, $$, cuando, hora, hoyISO, esDeUnidad, NOMBRE_UNIDAD,
-  OPCIONES_ASISTENCIA as OPCIONES, avisar, fallo, cargando, vacio, TIPOS_EVENTO, claseEvento, marcaEvento
+  OPCIONES_ASISTENCIA as OPCIONES, avisar, fallo, cargando, vacio, TIPOS_EVENTO, claseEvento, relieveEvento
 } from '../ui.js';
 
 let filtro = 'proximos';
@@ -51,11 +51,10 @@ export async function render(ctx, cont) {
       const futuro = e.fecha >= hoy;
       return html`
         <div class="card evento-jug">
+          ${crudo(relieveEvento(e))}
           <div style="display:flex;align-items:flex-start;gap:.8rem">
             <div class="info">
-              <div class="nom" style="font-size:1.1rem;display:flex;align-items:center;gap:.45rem">
-                ${crudo(marcaEvento(e))}${titulo(e)}
-              </div>
+              <div class="nom" style="font-size:1.1rem">${titulo(e)}</div>
               <div class="meta">
                 ${cuando(e.fecha)}${e.hora ? ' · ' + hora(e.hora) : ''}${e.lugar ? ' · ' + e.lugar : ''}
               </div>

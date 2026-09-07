@@ -1527,3 +1527,40 @@ body.jugador.tablon .marca-evento { border-color: #eee6d8; }
   background: none; border: 0; flex: 0 0 auto;
 }
 .nom .marca-evento svg { width: 17px; height: 17px; }
+
+/* --- El dibujo en relieve --------------------------------------------------
+   Grande, girado y saliéndose por la esquina de la tarjeta, que lo recorta. No
+   se lee por contraste —es casi del color del papel— sino por el filo claro
+   justo debajo del trazo: el ojo lo interpreta como algo prensado, igual que un
+   sello en seco. Por eso puede ocupar media tarjeta sin estorbar al texto. */
+.relieve-evento {
+  position: absolute; right: -18px; bottom: -22px; z-index: 0;
+  pointer-events: none; user-select: none;
+  transform: rotate(-9deg);
+  color: rgba(238,244,246,.055);
+  filter: drop-shadow(0 1.5px 0 rgba(0,0,0,.45));
+}
+.relieve-evento svg {
+  display: block; width: 156px; height: 156px;
+  fill: none; stroke: currentColor; stroke-width: 1;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+
+/* En el papel del tablón se invierte: la tinta se hunde y la luz asoma debajo. */
+body.jugador.tablon .relieve-evento {
+  color: rgba(29,42,48,.13);
+  filter: drop-shadow(0 1.5px 0 rgba(255,255,255,.9));
+}
+
+/* La tarjeta tiene que recortarlo, y su contenido ir por encima. */
+.entrada, .siguiente, .card.evento-jug { position: relative; overflow: hidden; }
+/* El :not() no es cosmetico: sin el, esta misma regla le quita el absolute al
+   relieve —es un span hijo directo— y el dibujo se cuela en la fila como un
+   elemento mas, empujando el texto. */
+.entrada-cuerpo, .entrada-nota, .entrada-corte, .entrada-respuesta, .otra-unidad,
+.card.evento-jug > :not(.relieve-evento),
+.siguiente > span:not(.relieve-evento) { position: relative; z-index: 1; }
+
+/* En la tira de "y después" no cabe uno grande: va a la mitad y más al borde. */
+.siguiente .relieve-evento { right: -14px; bottom: -30px; }
+.siguiente .relieve-evento svg { width: 92px; height: 92px; }
