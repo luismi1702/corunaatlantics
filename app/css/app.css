@@ -20,6 +20,12 @@
 
   --r:      14px;
   --safe-b: env(safe-area-inset-bottom, 0px);
+  /* Arriba tambien hay zona prohibida: el reloj, la señal y, en los iPhone
+     nuevos, la isla. Con viewport-fit=cover y la barra de estado en
+     translucido, la app se dibuja por debajo de todo eso, asi que hay que
+     apartarse a mano. Faltaba, y en el movil instalado la cabecera y el icono
+     de la tienda quedaban debajo del reloj, sin poder tocarlos. */
+  --safe-t: env(safe-area-inset-top, 0px);
 }
 
 * { box-sizing: border-box; }
@@ -42,7 +48,19 @@ html, body {
    el contenido no llega abajo del todo, iOS pinta de blanco la franja del
    indicador de inicio: se ve una banda clara bajo una pantalla oscura. */
 html { background: var(--ink); }
-body { background: linear-gradient(180deg, #061119 0%, var(--ink) 42%); min-height: 100dvh; }
+
+/* El body va transparente y el degradado se pinta DENTRO de la capa de la
+   filigrana, como su ultima franja.
+
+   Por que: la capa va en body::before con z-index -1, y un hijo con z-index
+   negativo se pinta por detras del fondo de su propio padre. Con un degradado
+   opaco en el body, la filigrana quedaba tapada por el. Llevaba asi desde
+   siempre —las lineas del campo no se han visto nunca— y solo salio a la luz al
+   poner encima algo que si se tenia que notar: los tridentes del tablon.
+
+   Subir el z-index a 0 no vale: entonces la capa taparia el contenido que no
+   esta posicionado, como la pantalla de entrar. */
+body { background: transparent; min-height: 100dvh; }
 
 body::before {
   content: '';
@@ -59,10 +77,12 @@ body::before {
       transparent 0 219px, rgba(238,244,246,.11) 219px 221px),
     /* línea de yarda */
     repeating-linear-gradient(to bottom,
-      transparent 0 43px, rgba(238,244,246,.055) 43px 44px);
-  background-size: auto, 26px 100%, auto, auto;
-  background-position: center, center, center, center;
-  background-repeat: no-repeat, repeat-y, repeat, repeat;
+      transparent 0 43px, rgba(238,244,246,.055) 43px 44px),
+    /* el fondo, la ultima franja: debajo de todo lo demas */
+    linear-gradient(180deg, #061119 0%, var(--ink) 42%);
+  background-size: auto, 26px 100%, auto, auto, auto;
+  background-position: center, center, center, center, center;
+  background-repeat: no-repeat, repeat-y, repeat, repeat, no-repeat;
 }
 
 h1, h2, h3 { font-family: 'Anton', sans-serif; letter-spacing: .03em; margin: 0; font-weight: 400; }
@@ -85,7 +105,7 @@ html, body { overflow-x: hidden; }
   position: sticky; top: 0; z-index: 20;
   isolation: isolate;
   display: flex; align-items: center; gap: .75rem;
-  padding: .9rem 1rem;
+  padding: calc(.9rem + var(--safe-t)) 1rem .9rem;
   background: linear-gradient(180deg, var(--deep), rgba(7,21,32,.92));
   border-bottom: 1px solid var(--line);
   backdrop-filter: blur(8px);
@@ -553,7 +573,8 @@ button.fila:active { transform: scale(.995); }
 .login {
   min-height: 100dvh;
   display: flex; flex-direction: column; align-items: center; justify-content: center;
-  padding: 2rem 1.5rem; text-align: center; gap: .5rem;
+  padding: calc(2rem + var(--safe-t)) 1.5rem calc(2rem + var(--safe-b));
+  text-align: center; gap: .5rem;
 }
 .login .login-marca { width: min(66vw, 260px); margin-bottom: 1rem; }
 .login h1 { font-size: 2rem; }
@@ -1259,9 +1280,9 @@ body.jugador.club::after { content: none; }
 
    Todo lo de aquí es apariencia: ni una sola regla cambia qué se enseña. */
 
-body.jugador.tablon {
-  background: linear-gradient(168deg, #0b3138 0%, #072429 100%);
-}
+/* La pared va dentro de la capa, igual que el campo: si se queda en el body,
+   tapa la trama que tiene que dejar ver. */
+body.jugador.tablon { background: transparent; }
 
 /* La pared. Dos rejillas de tridentes, balones y rayos a distinto tamaño y
    paso —148 y 83 px, que no son múltiplos— así que la repetición no se ve
@@ -1271,11 +1292,13 @@ body.jugador.tablon::before {
   background-image:
     radial-gradient(120% 70% at 50% -10%, rgba(160,255,250,.13), transparent 60%),
     radial-gradient(140% 100% at 50% 50%, transparent 58%, rgba(0,12,15,.34) 100%),
-    url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22148%22%20height%3D%22148%22%20viewBox%3D%220%200%20148%20148%22%3E%3Cg%20transform%3D%22translate%2816%2C10%29%20rotate%28-14%29%20scale%281%29%22%3E%3Cg%20stroke%3D%22rgba%28255%2C255%2C255%2C0.19%29%22%20stroke-width%3D%221.7%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%3E%3Cpath%20d%3D%22M11%2034%20V14%22%2F%3E%3Cpath%20d%3D%22M11%2014%20V3%22%2F%3E%3Cpath%20d%3D%22M3%2014%20V6%22%2F%3E%3Cpath%20d%3D%22M19%2014%20V6%22%2F%3E%3Cpath%20d%3D%22M3%2014%20H19%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%2892%2C30%29%20rotate%2818%29%20scale%281%29%22%3E%3Cg%20stroke%3D%22rgba%28255%2C255%2C255%2C0.19%29%22%20stroke-width%3D%221.6%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%3E%3Cellipse%20cx%3D%2213%22%20cy%3D%229%22%20rx%3D%2212%22%20ry%3D%227.5%22%2F%3E%3Cpath%20d%3D%22M6%209%20H20%22%2F%3E%3Cpath%20d%3D%22M10%206.5%20V11.5%22%2F%3E%3Cpath%20d%3D%22M13%206.5%20V11.5%22%2F%3E%3Cpath%20d%3D%22M16%206.5%20V11.5%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%2840%2C86%29%20rotate%289%29%20scale%281%29%22%3E%3Cpath%20d%3D%22M14%201%20L4%2015%20H10%20L8%2025%20L18%2011%20H12%20Z%22%20fill%3D%22rgba%28255%2C255%2C255%2C0.19%29%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%28108%2C92%29%20rotate%2824%29%20scale%280.8%29%22%3E%3Cg%20stroke%3D%22rgba%28255%2C255%2C255%2C0.19%29%22%20stroke-width%3D%221.7%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%3E%3Cpath%20d%3D%22M11%2034%20V14%22%2F%3E%3Cpath%20d%3D%22M11%2014%20V3%22%2F%3E%3Cpath%20d%3D%22M3%2014%20V6%22%2F%3E%3Cpath%20d%3D%22M19%2014%20V6%22%2F%3E%3Cpath%20d%3D%22M3%2014%20H19%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%286%2C118%29%20rotate%28-9%29%20scale%280.75%29%22%3E%3Cg%20stroke%3D%22rgba%28255%2C255%2C255%2C0.19%29%22%20stroke-width%3D%221.6%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%3E%3Cellipse%20cx%3D%2213%22%20cy%3D%229%22%20rx%3D%2212%22%20ry%3D%227.5%22%2F%3E%3Cpath%20d%3D%22M6%209%20H20%22%2F%3E%3Cpath%20d%3D%22M10%206.5%20V11.5%22%2F%3E%3Cpath%20d%3D%22M13%206.5%20V11.5%22%2F%3E%3Cpath%20d%3D%22M16%206.5%20V11.5%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"),
-    url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2283%22%20height%3D%2283%22%20viewBox%3D%220%200%2083%2083%22%3E%3Cg%20transform%3D%22translate%2810%2C8%29%20rotate%28-18%29%20scale%280.58%29%22%3E%3Cpath%20d%3D%22M14%201%20L4%2015%20H10%20L8%2025%20L18%2011%20H12%20Z%22%20fill%3D%22rgba%28255%2C255%2C255%2C0.125%29%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%2846%2C44%29%20rotate%2812%29%20scale%280.5%29%22%3E%3Cg%20stroke%3D%22rgba%28255%2C255%2C255%2C0.125%29%22%20stroke-width%3D%221.6%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%3E%3Cellipse%20cx%3D%2213%22%20cy%3D%229%22%20rx%3D%2212%22%20ry%3D%227.5%22%2F%3E%3Cpath%20d%3D%22M6%209%20H20%22%2F%3E%3Cpath%20d%3D%22M10%206.5%20V11.5%22%2F%3E%3Cpath%20d%3D%22M13%206.5%20V11.5%22%2F%3E%3Cpath%20d%3D%22M16%206.5%20V11.5%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%2862%2C12%29%20rotate%2826%29%20scale%280.45%29%22%3E%3Cpath%20d%3D%22M14%201%20L4%2015%20H10%20L8%2025%20L18%2011%20H12%20Z%22%20fill%3D%22rgba%28255%2C255%2C255%2C0.125%29%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
-  background-size: auto, auto, 148px 148px, 83px 83px;
-  background-position: center, center, 0 0, 31px 19px;
-  background-repeat: no-repeat, no-repeat, repeat, repeat;
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22148%22%20height%3D%22148%22%20viewBox%3D%220%200%20148%20148%22%3E%3Cg%20transform%3D%22translate%2816%2C10%29%20rotate%28-14%29%20scale%281%29%22%3E%3Cg%20stroke%3D%22rgba%28255%2C255%2C255%2C0.155%29%22%20stroke-width%3D%221.7%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%3E%3Cpath%20d%3D%22M11%2034%20V14%22%2F%3E%3Cpath%20d%3D%22M11%2014%20V3%22%2F%3E%3Cpath%20d%3D%22M3%2014%20V6%22%2F%3E%3Cpath%20d%3D%22M19%2014%20V6%22%2F%3E%3Cpath%20d%3D%22M3%2014%20H19%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%2892%2C30%29%20rotate%2818%29%20scale%281%29%22%3E%3Cg%20stroke%3D%22rgba%28255%2C255%2C255%2C0.155%29%22%20stroke-width%3D%221.6%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%3E%3Cellipse%20cx%3D%2213%22%20cy%3D%229%22%20rx%3D%2212%22%20ry%3D%227.5%22%2F%3E%3Cpath%20d%3D%22M6%209%20H20%22%2F%3E%3Cpath%20d%3D%22M10%206.5%20V11.5%22%2F%3E%3Cpath%20d%3D%22M13%206.5%20V11.5%22%2F%3E%3Cpath%20d%3D%22M16%206.5%20V11.5%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%2840%2C86%29%20rotate%289%29%20scale%281%29%22%3E%3Cpath%20d%3D%22M14%201%20L4%2015%20H10%20L8%2025%20L18%2011%20H12%20Z%22%20fill%3D%22rgba%28255%2C255%2C255%2C0.155%29%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%28108%2C92%29%20rotate%2824%29%20scale%280.8%29%22%3E%3Cg%20stroke%3D%22rgba%28255%2C255%2C255%2C0.155%29%22%20stroke-width%3D%221.7%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%3E%3Cpath%20d%3D%22M11%2034%20V14%22%2F%3E%3Cpath%20d%3D%22M11%2014%20V3%22%2F%3E%3Cpath%20d%3D%22M3%2014%20V6%22%2F%3E%3Cpath%20d%3D%22M19%2014%20V6%22%2F%3E%3Cpath%20d%3D%22M3%2014%20H19%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%286%2C118%29%20rotate%28-9%29%20scale%280.75%29%22%3E%3Cg%20stroke%3D%22rgba%28255%2C255%2C255%2C0.155%29%22%20stroke-width%3D%221.6%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%3E%3Cellipse%20cx%3D%2213%22%20cy%3D%229%22%20rx%3D%2212%22%20ry%3D%227.5%22%2F%3E%3Cpath%20d%3D%22M6%209%20H20%22%2F%3E%3Cpath%20d%3D%22M10%206.5%20V11.5%22%2F%3E%3Cpath%20d%3D%22M13%206.5%20V11.5%22%2F%3E%3Cpath%20d%3D%22M16%206.5%20V11.5%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"),
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2283%22%20height%3D%2283%22%20viewBox%3D%220%200%2083%2083%22%3E%3Cg%20transform%3D%22translate%2810%2C8%29%20rotate%28-18%29%20scale%280.58%29%22%3E%3Cpath%20d%3D%22M14%201%20L4%2015%20H10%20L8%2025%20L18%2011%20H12%20Z%22%20fill%3D%22rgba%28255%2C255%2C255%2C0.10%29%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%2846%2C44%29%20rotate%2812%29%20scale%280.5%29%22%3E%3Cg%20stroke%3D%22rgba%28255%2C255%2C255%2C0.10%29%22%20stroke-width%3D%221.6%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%3E%3Cellipse%20cx%3D%2213%22%20cy%3D%229%22%20rx%3D%2212%22%20ry%3D%227.5%22%2F%3E%3Cpath%20d%3D%22M6%209%20H20%22%2F%3E%3Cpath%20d%3D%22M10%206.5%20V11.5%22%2F%3E%3Cpath%20d%3D%22M13%206.5%20V11.5%22%2F%3E%3Cpath%20d%3D%22M16%206.5%20V11.5%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%2862%2C12%29%20rotate%2826%29%20scale%280.45%29%22%3E%3Cpath%20d%3D%22M14%201%20L4%2015%20H10%20L8%2025%20L18%2011%20H12%20Z%22%20fill%3D%22rgba%28255%2C255%2C255%2C0.10%29%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E"),
+    /* la pared, debajo de la trama */
+    linear-gradient(168deg, #0b3138 0%, #072429 100%);
+  background-size: auto, auto, 148px 148px, 83px 83px, auto;
+  background-position: center, center, 0 0, 31px 19px, center;
+  background-repeat: no-repeat, no-repeat, repeat, repeat, no-repeat;
 }
 
 /* El marco del tablón. Reutiliza el pseudoelemento del dorsal gigante, que
@@ -1287,6 +1310,7 @@ body.jugador.tablon::after {
   position: fixed; inset: 0; z-index: 5;
   background: none;
   border: 7px solid #06181d;
+  border-top-width: calc(7px + var(--safe-t));
   box-shadow: inset 0 0 0 1px rgba(0,0,0,.55), inset 0 0 22px rgba(0,0,0,.5);
   -webkit-text-stroke: 0;
   pointer-events: none;
