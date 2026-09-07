@@ -36,8 +36,13 @@ html, body {
   color: var(--text);
   font-family: 'Barlow', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
-  overscroll-behavior-y: none;
 }
+
+/* Nada de tirar hacia abajo para recargar: la app no se recarga a mano, y ese
+   gesto en mitad de una lista es siempre un accidente.
+   Va SOLO en html. En el body no serviria de nada —solo afecta a contenedores
+   de scroll— y ademas fue la mitad del fallo de mas abajo. */
+html { overscroll-behavior-y: none; }
 
 /* El campo, visto desde la banda: líneas de yarda, las de cada cinco más
    marcadas, y las marcas de hash en el centro.
@@ -97,8 +102,18 @@ button { cursor: pointer; }
 #app { min-height: 100dvh; display: flex; flex-direction: column; }
 
 /* Cinturón: por muy larga que sea una palabra o un importe, la página no se
-   desplaza en horizontal. Un desborde asi es siempre un fallo, no un diseño. */
-html, body { overflow-x: hidden; }
+   desplaza en horizontal. Un desborde asi es siempre un fallo, no un diseño.
+
+   SOLO en html, y esto no es una manía de estilo. Cuando html lleva un overflow
+   distinto de `visible`, el del body deja de propagarse al viewport y el body
+   pasa a ser SU PROPIO contenedor de scroll. Como el body crece con lo que
+   tiene dentro, ese contenedor nunca desborda: no tiene recorrido. La rueda y
+   el dedo apuntan primero a el, no consiguen moverlo, y el gesto deberia
+   encadenarse al de arriba… salvo que overscroll-behavior-y: none es
+   exactamente lo que bloquea ese encadenamiento. Resultado: la pagina solo
+   bajaba arrastrando la barra lateral, que mueve el viewport por otro camino.
+   Con el overflow solo en html, el body vuelve a ser un bloque normal. */
+html { overflow-x: hidden; }
 .vista, .hoja-panel { overflow-wrap: anywhere; }
 
 .topbar {
