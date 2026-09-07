@@ -1270,9 +1270,9 @@ body.jugador.tablon {
 body.jugador.tablon::before {
   background-image:
     radial-gradient(120% 70% at 50% -10%, rgba(160,255,250,.13), transparent 60%),
-    radial-gradient(140% 100% at 50% 50%, transparent 42%, rgba(0,12,15,.62) 100%),
-    url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22148%22%20height%3D%22148%22%20viewBox%3D%220%200%20148%20148%22%3E%3Cg%20transform%3D%22translate%2816%2C10%29%20rotate%28-14%29%20scale%281%29%22%3E%3Cg%20stroke%3D%22rgba%28255%2C255%2C255%2C0.105%29%22%20stroke-width%3D%221.7%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%3E%3Cpath%20d%3D%22M11%2034%20V14%22%2F%3E%3Cpath%20d%3D%22M11%2014%20V3%22%2F%3E%3Cpath%20d%3D%22M3%2014%20V6%22%2F%3E%3Cpath%20d%3D%22M19%2014%20V6%22%2F%3E%3Cpath%20d%3D%22M3%2014%20H19%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%2892%2C30%29%20rotate%2818%29%20scale%281%29%22%3E%3Cg%20stroke%3D%22rgba%28255%2C255%2C255%2C0.105%29%22%20stroke-width%3D%221.6%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%3E%3Cellipse%20cx%3D%2213%22%20cy%3D%229%22%20rx%3D%2212%22%20ry%3D%227.5%22%2F%3E%3Cpath%20d%3D%22M6%209%20H20%22%2F%3E%3Cpath%20d%3D%22M10%206.5%20V11.5%22%2F%3E%3Cpath%20d%3D%22M13%206.5%20V11.5%22%2F%3E%3Cpath%20d%3D%22M16%206.5%20V11.5%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%2840%2C86%29%20rotate%289%29%20scale%281%29%22%3E%3Cpath%20d%3D%22M14%201%20L4%2015%20H10%20L8%2025%20L18%2011%20H12%20Z%22%20fill%3D%22rgba%28255%2C255%2C255%2C0.105%29%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%28108%2C92%29%20rotate%2824%29%20scale%280.8%29%22%3E%3Cg%20stroke%3D%22rgba%28255%2C255%2C255%2C0.105%29%22%20stroke-width%3D%221.7%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%3E%3Cpath%20d%3D%22M11%2034%20V14%22%2F%3E%3Cpath%20d%3D%22M11%2014%20V3%22%2F%3E%3Cpath%20d%3D%22M3%2014%20V6%22%2F%3E%3Cpath%20d%3D%22M19%2014%20V6%22%2F%3E%3Cpath%20d%3D%22M3%2014%20H19%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%286%2C118%29%20rotate%28-9%29%20scale%280.75%29%22%3E%3Cg%20stroke%3D%22rgba%28255%2C255%2C255%2C0.105%29%22%20stroke-width%3D%221.6%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%3E%3Cellipse%20cx%3D%2213%22%20cy%3D%229%22%20rx%3D%2212%22%20ry%3D%227.5%22%2F%3E%3Cpath%20d%3D%22M6%209%20H20%22%2F%3E%3Cpath%20d%3D%22M10%206.5%20V11.5%22%2F%3E%3Cpath%20d%3D%22M13%206.5%20V11.5%22%2F%3E%3Cpath%20d%3D%22M16%206.5%20V11.5%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"),
-    url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2283%22%20height%3D%2283%22%20viewBox%3D%220%200%2083%2083%22%3E%3Cg%20transform%3D%22translate%2810%2C8%29%20rotate%28-18%29%20scale%280.58%29%22%3E%3Cpath%20d%3D%22M14%201%20L4%2015%20H10%20L8%2025%20L18%2011%20H12%20Z%22%20fill%3D%22rgba%28255%2C255%2C255%2C0.07%29%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%2846%2C44%29%20rotate%2812%29%20scale%280.5%29%22%3E%3Cg%20stroke%3D%22rgba%28255%2C255%2C255%2C0.07%29%22%20stroke-width%3D%221.6%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%3E%3Cellipse%20cx%3D%2213%22%20cy%3D%229%22%20rx%3D%2212%22%20ry%3D%227.5%22%2F%3E%3Cpath%20d%3D%22M6%209%20H20%22%2F%3E%3Cpath%20d%3D%22M10%206.5%20V11.5%22%2F%3E%3Cpath%20d%3D%22M13%206.5%20V11.5%22%2F%3E%3Cpath%20d%3D%22M16%206.5%20V11.5%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%2862%2C12%29%20rotate%2826%29%20scale%280.45%29%22%3E%3Cpath%20d%3D%22M14%201%20L4%2015%20H10%20L8%2025%20L18%2011%20H12%20Z%22%20fill%3D%22rgba%28255%2C255%2C255%2C0.07%29%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
+    radial-gradient(140% 100% at 50% 50%, transparent 58%, rgba(0,12,15,.34) 100%),
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22148%22%20height%3D%22148%22%20viewBox%3D%220%200%20148%20148%22%3E%3Cg%20transform%3D%22translate%2816%2C10%29%20rotate%28-14%29%20scale%281%29%22%3E%3Cg%20stroke%3D%22rgba%28255%2C255%2C255%2C0.19%29%22%20stroke-width%3D%221.7%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%3E%3Cpath%20d%3D%22M11%2034%20V14%22%2F%3E%3Cpath%20d%3D%22M11%2014%20V3%22%2F%3E%3Cpath%20d%3D%22M3%2014%20V6%22%2F%3E%3Cpath%20d%3D%22M19%2014%20V6%22%2F%3E%3Cpath%20d%3D%22M3%2014%20H19%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%2892%2C30%29%20rotate%2818%29%20scale%281%29%22%3E%3Cg%20stroke%3D%22rgba%28255%2C255%2C255%2C0.19%29%22%20stroke-width%3D%221.6%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%3E%3Cellipse%20cx%3D%2213%22%20cy%3D%229%22%20rx%3D%2212%22%20ry%3D%227.5%22%2F%3E%3Cpath%20d%3D%22M6%209%20H20%22%2F%3E%3Cpath%20d%3D%22M10%206.5%20V11.5%22%2F%3E%3Cpath%20d%3D%22M13%206.5%20V11.5%22%2F%3E%3Cpath%20d%3D%22M16%206.5%20V11.5%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%2840%2C86%29%20rotate%289%29%20scale%281%29%22%3E%3Cpath%20d%3D%22M14%201%20L4%2015%20H10%20L8%2025%20L18%2011%20H12%20Z%22%20fill%3D%22rgba%28255%2C255%2C255%2C0.19%29%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%28108%2C92%29%20rotate%2824%29%20scale%280.8%29%22%3E%3Cg%20stroke%3D%22rgba%28255%2C255%2C255%2C0.19%29%22%20stroke-width%3D%221.7%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%3E%3Cpath%20d%3D%22M11%2034%20V14%22%2F%3E%3Cpath%20d%3D%22M11%2014%20V3%22%2F%3E%3Cpath%20d%3D%22M3%2014%20V6%22%2F%3E%3Cpath%20d%3D%22M19%2014%20V6%22%2F%3E%3Cpath%20d%3D%22M3%2014%20H19%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%286%2C118%29%20rotate%28-9%29%20scale%280.75%29%22%3E%3Cg%20stroke%3D%22rgba%28255%2C255%2C255%2C0.19%29%22%20stroke-width%3D%221.6%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%3E%3Cellipse%20cx%3D%2213%22%20cy%3D%229%22%20rx%3D%2212%22%20ry%3D%227.5%22%2F%3E%3Cpath%20d%3D%22M6%209%20H20%22%2F%3E%3Cpath%20d%3D%22M10%206.5%20V11.5%22%2F%3E%3Cpath%20d%3D%22M13%206.5%20V11.5%22%2F%3E%3Cpath%20d%3D%22M16%206.5%20V11.5%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3C%2Fsvg%3E"),
+    url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%2283%22%20height%3D%2283%22%20viewBox%3D%220%200%2083%2083%22%3E%3Cg%20transform%3D%22translate%2810%2C8%29%20rotate%28-18%29%20scale%280.58%29%22%3E%3Cpath%20d%3D%22M14%201%20L4%2015%20H10%20L8%2025%20L18%2011%20H12%20Z%22%20fill%3D%22rgba%28255%2C255%2C255%2C0.125%29%22%2F%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%2846%2C44%29%20rotate%2812%29%20scale%280.5%29%22%3E%3Cg%20stroke%3D%22rgba%28255%2C255%2C255%2C0.125%29%22%20stroke-width%3D%221.6%22%20fill%3D%22none%22%20stroke-linecap%3D%22round%22%3E%3Cellipse%20cx%3D%2213%22%20cy%3D%229%22%20rx%3D%2212%22%20ry%3D%227.5%22%2F%3E%3Cpath%20d%3D%22M6%209%20H20%22%2F%3E%3Cpath%20d%3D%22M10%206.5%20V11.5%22%2F%3E%3Cpath%20d%3D%22M13%206.5%20V11.5%22%2F%3E%3Cpath%20d%3D%22M16%206.5%20V11.5%22%2F%3E%3C%2Fg%3E%3C%2Fg%3E%3Cg%20transform%3D%22translate%2862%2C12%29%20rotate%2826%29%20scale%280.45%29%22%3E%3Cpath%20d%3D%22M14%201%20L4%2015%20H10%20L8%2025%20L18%2011%20H12%20Z%22%20fill%3D%22rgba%28255%2C255%2C255%2C0.125%29%22%2F%3E%3C%2Fg%3E%3C%2Fsvg%3E");
   background-size: auto, auto, 148px 148px, 83px 83px;
   background-position: center, center, 0 0, 31px 19px;
   background-repeat: no-repeat, no-repeat, repeat, repeat;
@@ -1493,3 +1493,37 @@ body.jugador.tablon .menu-pie { color: rgba(212,168,67,.6); transform: rotate(-1
 }
 .volver-consola:active { transform: translateX(-50%) scale(.97); }
 .volver-consola:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+
+/* --- La marca de qué clase de cita es --------------------------------------
+   Va clavada en la esquina de la casilla de la fecha, en el mismo sitio que el
+   galón del capitán: ahí ya sabes mirar. Cada clase tiene su color, así que en
+   una lista larga se distingue un entreno de un partido sin leer una palabra. */
+.marca-evento {
+  position: absolute; top: -8px; left: -8px; z-index: 2;
+  width: 25px; height: 25px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: var(--surf-2);
+  border: 2px solid var(--ink);
+  color: var(--teal);
+}
+.marca-evento svg {
+  width: 15px; height: 15px;
+  fill: none; stroke: currentColor; stroke-width: 1.9;
+}
+.marca-evento.amistoso    { color: var(--goldf); }
+.marca-evento.competicion { color: var(--goldf); background: #3a2c10; }
+.marca-evento.video       { color: #b48ce8; }
+.marca-evento.otro        { color: var(--muted); }
+
+/* En la nota del jugador la casilla de la fecha es clara por fuera y oscura por
+   dentro, así que la marca se apoya en el papel y no en el fondo de la app. */
+.entrada-fecha { position: relative; }
+body.jugador.tablon .marca-evento { border-color: #eee6d8; }
+
+/* Al lado de un título, en línea, la marca no lleva ni fondo ni borde: ahí no
+   está clavada en nada, solo acompaña a la palabra. */
+.nom .marca-evento {
+  position: static; width: 17px; height: 17px;
+  background: none; border: 0; flex: 0 0 auto;
+}
+.nom .marca-evento svg { width: 17px; height: 17px; }

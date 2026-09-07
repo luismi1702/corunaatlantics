@@ -7,7 +7,7 @@
 import * as db from '../db.js';
 import {
   html, crudo, $, $$, cuando, hora, nombreCompleto,
-  hoja, avisar, fallo, cargando, vacio
+  hoja, avisar, fallo, cargando, vacio, TIPOS_EVENTO, claseEvento
 } from '../ui.js';
 import { abrirEvento } from './calendario.js';
 import { render as renderDisponibilidad } from './disponibilidad.js';
@@ -27,18 +27,29 @@ export async function render(ctx, cont, eventoId) {
   if (!eventoId) { location.hash = ctx.enlace('calendario'); return; }
   cont.innerHTML = cargando();
 
-  const [ev, plantilla, asistencias] = await Promise.all([
-    db.evento(eventoId),
-    db.roster(),
-    db.asistenciasDe(eventoId)
-  ]);
+  let ev, plantilla, asistencias;
+  try {
+    [ev, plantilla, asistencias] = await Promise.all([
+      db.evento(eventoId),
+      db.roster(),
+      db.asistenciasDe(eventoId)
+    ]);
+  } catch (err) {
+    // El evento puede no estar: lo acabas de borrar, o lo borro otro mientras
+    // tenias la pantalla abierta. Sin esto la consulta lanza y el "cargando" se
+    // queda para siempre, porque aqui no llega el try del enrutador.
+    console.error(err);
+    avisar('Ese evento ya no existe.', 'error');
+    location.hash = ctx.enlace('calendario');
+    return;
+  }
 
   const convocados = plantilla.filter(p => p.estado !== 'baja');
   const estado = new Map(asistencias.map(a => [a.jugador_id, a.estado]));
 
   const titulo = ev.tipo === 'partido'
     ? (ev.rival ? (ev.es_local ? 'vs ' : 'en ') + ev.rival : 'Partido')
-    : 'Entreno';
+    : TIPOS_EVENTO[claseEvento(ev)].etiqueta;
 
   cont.innerHTML = html`
     <div class="card" style="margin-bottom:.9rem">
@@ -158,7 +169,9 @@ export async function render(ctx, cont, eventoId) {
   });
 
   $('#editar').addEventListener('click', () =>
-    abrirEvento(ctx, ev, () => render(ctx, cont, eventoId)));
+    abrirEvento(ctx, ev,
+      () => render(ctx, cont, eventoId),
+      () => { location.hash = ctx.enlace('calendario'); }));
 
   $('#resultado')?.addEventListener('submit', async (e) => {
     e.preventDefault();

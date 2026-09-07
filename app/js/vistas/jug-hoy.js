@@ -8,7 +8,7 @@ import * as db from '../db.js';
 import {
   html, crudo, $, $$, euros, cuando, hora, hoyISO, fechaCorta, diasHasta, DIAS,
   unidadDe, esDeUnidad, NOMBRE_UNIDAD, OPCIONES_ASISTENCIA as OPCIONES, conRespaldo,
-  SECCIONES, avisar, fallo, cargando
+  SECCIONES, avisar, fallo, cargando, TIPOS_EVENTO, claseEvento, marcaEvento
 } from '../ui.js';
 
 const DICHO = {
@@ -73,7 +73,7 @@ export async function render(ctx, cont) {
 
   const titulo = (e) => e.tipo === 'partido'
     ? (e.rival ? (e.es_local ? 'vs ' : 'en ') + e.rival : 'Partido')
-    : 'Entreno';
+    : TIPOS_EVENTO[claseEvento(e)].etiqueta;
 
   const diaCorto = (iso) => DIAS[(new Date(iso + 'T12:00:00').getDay() + 6) % 7].slice(0, 3);
   const mesCorto = (iso) => fechaCorta(iso).split(' ').pop().replace('.', '');
@@ -104,12 +104,15 @@ export async function render(ctx, cont) {
       <article class="entrada ${evento.tipo === 'partido' ? 'partido' : ''}">
         <div class="entrada-cuerpo">
           <div class="entrada-fecha">
+            ${crudo(marcaEvento(evento))}
             <span class="dia">${diaCorto(evento.fecha)}</span>
             <span class="num">${Number(evento.fecha.slice(8))}</span>
             <span class="mes">${mesCorto(evento.fecha)}</span>
           </div>
           <div class="entrada-datos">
-            <p class="tipo">${evento.tipo === 'partido' ? 'Partido' : 'Entreno'}</p>
+            <p class="tipo">${evento.tipo === 'partido'
+              ? (evento.competicion_id ? 'Competición' : 'Partido')
+              : TIPOS_EVENTO[claseEvento(evento)].etiqueta}</p>
             <h3>${titulo(evento)}</h3>
             <p class="detalle fuerte">
               ${cuentaAtras(evento.fecha)}${evento.hora ? ' · ' + hora(evento.hora) : ''}

@@ -256,6 +256,65 @@ export const UNIDADES = {
   especiales: ['K','P','LS','KR','PR']
 };
 
+// Qué clase de cita es, mirando el evento entero y no solo su columna `tipo`.
+// Un partido de liga y un amistoso son los dos 'partido' en la base de datos:
+// lo que los separa es tener competición o no, que ya se guardaba. Por eso esto
+// es una función y no un diccionario por tipo.
+export function claseEvento(e) {
+  if (e.tipo === 'partido') return e.competicion_id ? 'competicion' : 'amistoso';
+  if (e.tipo === 'video')   return 'video';
+  if (e.tipo === 'evento')  return 'otro';
+  return 'entreno';
+}
+
+// Dibujos, no emojis: heredan el color del texto, se escalan sin romperse y no
+// cambian de forma según el móvil. Van a 24x24 y solo con trazo, como el resto
+// de iconos de la app.
+export const TIPOS_EVENTO = {
+  entreno: {
+    etiqueta: 'Entreno',
+    // Un cono: el trapecio, la franja y la base.
+    icono: '<path d="M12 3.5L16.8 17.5H7.2z" stroke-linejoin="round"/>' +
+           '<path d="M9.6 11.5h4.8" stroke-linecap="round"/>' +
+           '<path d="M4.5 20.5h15" stroke-linecap="round"/>'
+  },
+  amistoso: {
+    etiqueta: 'Amistoso',
+    // Un balón con sus costuras.
+    icono: '<ellipse cx="12" cy="12" rx="9.2" ry="5.6" transform="rotate(-28 12 12)"/>' +
+           '<path d="M8.4 14.4l7.2-4.8" stroke-linecap="round"/>' +
+           '<path d="M10.1 10.7l1.3 2.1M12 9.6l1.3 2.1M13.9 8.5l1.3 2.1" stroke-linecap="round"/>'
+  },
+  competicion: {
+    etiqueta: 'Competición',
+    // Un trofeo: la copa, las asas, el pie y la peana.
+    icono: '<path d="M7.5 3.5h9v5a4.5 4.5 0 01-9 0z" stroke-linejoin="round"/>' +
+           '<path d="M7.5 5h-3v1.5a3 3 0 003 3M16.5 5h3v1.5a3 3 0 01-3 3" stroke-linecap="round"/>' +
+           '<path d="M12 13v4M8.5 20.5h7" stroke-linecap="round"/>'
+  },
+  video: {
+    etiqueta: 'Sesión de vídeo',
+    // Una tele con su antena y el triángulo de reproducir.
+    icono: '<rect x="3.5" y="7.5" width="17" height="12" rx="2"/>' +
+           '<path d="M8.5 4l3.5 3.5L15.5 4" stroke-linecap="round" stroke-linejoin="round"/>' +
+           '<path d="M10.8 11.3l4 2.2-4 2.2z" stroke-linejoin="round"/>'
+  },
+  otro: {
+    etiqueta: 'Evento',
+    // Una chincheta, que es lo que se hace con lo que no encaja en el resto.
+    icono: '<path d="M9 3.5h6M12 3.5v5" stroke-linecap="round"/>' +
+           '<path d="M7.5 13.5c0-2.8 1.6-5 4.5-5s4.5 2.2 4.5 5z" stroke-linejoin="round"/>' +
+           '<path d="M6 13.5h12M12 13.5v7" stroke-linecap="round"/>'
+  }
+};
+
+// La marca que se clava en la esquina de la casilla de la fecha.
+export const marcaEvento = (e) => {
+  const clase = claseEvento(e);
+  return '<span class="marca-evento ' + clase + '" title="' + TIPOS_EVENTO[clase].etiqueta + '">' +
+         '<svg viewBox="0 0 24 24" aria-hidden="true">' + TIPOS_EVENTO[clase].icono + '</svg></span>';
+};
+
 export const NOMBRE_UNIDAD = {
   todos: 'Todo el equipo', ataque: 'Ataque', defensa: 'Defensa', especiales: 'Equipos especiales'
 };

@@ -6,12 +6,10 @@
 import * as db from '../db.js';
 import {
   html, crudo, $, $$, cuando, fecha, hora, hoyISO, diasHasta,
-  hoja, avisar, fallo, cargando, vacio
+  hoja, avisar, fallo, cargando, vacio, TIPOS_EVENTO, claseEvento, marcaEvento
 } from '../ui.js';
 
 let filtro = 'proximos';
-
-const ETIQUETA_TIPO = { entreno: 'Entreno', partido: 'Partido', evento: 'Evento' };
 const ETIQUETA_UNIDAD = { todos: '', ataque: 'Ataque', defensa: 'Defensa', especiales: 'Equipos especiales' };
 
 export async function render(ctx, cont) {
@@ -39,9 +37,10 @@ export async function render(ctx, cont) {
 
     <div id="lista" class="lista"></div>
 
-    <div style="display:flex;gap:.6rem;margin-top:1rem">
+    <div style="display:flex;gap:.5rem;margin-top:1rem">
       <button class="btn primario" id="nuevo-entreno" style="flex:1">+ Entreno</button>
       <button class="btn oro" id="nuevo-partido" style="flex:1">+ Partido</button>
+      <button class="btn" id="nuevo-video" style="flex:1">+ Vídeo</button>
     </div>
 
     ${lista.length === 0 ? crudo(html`
@@ -61,13 +60,16 @@ export async function render(ctx, cont) {
       return html`
         <a class="fila" href="${ctx.enlace('lista')}/${e.id}" style="text-decoration:none;color:inherit">
           <div class="dorsal ${e.tipo === 'partido' ? 'partido' : ''}" style="flex-basis:52px">
+            ${crudo(marcaEvento(e))}
             <span style="font-size:.72rem;line-height:1.1;text-align:center">
               ${cuando(e.fecha).slice(0, 3).toUpperCase()}<br>${e.fecha.slice(8)}
             </span>
           </div>
           <div class="info">
             <div class="nom">
-              ${e.tipo === 'partido' ? (e.rival ? (e.es_local ? 'vs ' : 'en ') + e.rival : 'Partido') : ETIQUETA_TIPO[e.tipo]}
+              ${e.tipo === 'partido'
+                ? (e.rival ? (e.es_local ? 'vs ' : 'en ') + e.rival : 'Partido')
+                : TIPOS_EVENTO[claseEvento(e)].etiqueta}
               ${e.unidad !== 'todos' ? ' · ' + ETIQUETA_UNIDAD[e.unidad] : ''}
             </div>
             <div class="meta">
@@ -97,13 +99,20 @@ export async function render(ctx, cont) {
     abrirEvento(ctx, { tipo: 'entreno' }, () => render(ctx, cont)));
   $('#nuevo-partido').addEventListener('click', () =>
     abrirEvento(ctx, { tipo: 'partido' }, () => render(ctx, cont)));
+  $('#nuevo-video').addEventListener('click', () =>
+    abrirEvento(ctx, { tipo: 'video' }, () => render(ctx, cont)));
 
   pintar();
 }
 
 // --- Alta y edición de un evento ------------------------------------------
 
-export async function abrirEvento(ctx, e, alGuardar) {
+// alBorrar es aparte de alGuardar a proposito. Quien abre esta hoja desde el
+// calendario quiere quedarse donde esta; quien la abre desde la pantalla del
+// propio evento no puede quedarse: acaba de borrar lo que estaba mirando. Con
+// un solo callback, esa segunda pantalla se quedaba pintando un evento que ya
+// no existe y el "cargando" no se iba nunca.
+export async function abrirEvento(ctx, e, alGuardar, alBorrar = alGuardar) {
   const esNuevo = !e.id;
   const tipo = e.tipo;
   const comps = tipo === 'partido'
@@ -111,7 +120,8 @@ export async function abrirEvento(ctx, e, alGuardar) {
     : [];
 
   const panel = hoja(
-    esNuevo ? (tipo === 'partido' ? 'Nuevo partido' : 'Nuevo entreno') : 'Editar',
+    esNuevo ? 'Nuev' + (tipo === 'video' ? 'a ' : 'o ') +
+              TIPOS_EVENTO[claseEvento(e)].etiqueta.toLowerCase() : 'Editar',
     html`
     <form id="ev">
       <div class="dos">
@@ -198,7 +208,7 @@ export async function abrirEvento(ctx, e, alGuardar) {
       await db.borrarEvento(e.id);
       avisar('Evento borrado');
       panel.cerrar();
-      alGuardar();
+      alBorrar();
     } catch (err) { fallo(err); }
   });
 }

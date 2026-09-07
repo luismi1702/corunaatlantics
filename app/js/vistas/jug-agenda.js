@@ -6,7 +6,7 @@
 import * as db from '../db.js';
 import {
   html, crudo, $, $$, cuando, hora, hoyISO, esDeUnidad, NOMBRE_UNIDAD,
-  OPCIONES_ASISTENCIA as OPCIONES, avisar, fallo, cargando, vacio
+  OPCIONES_ASISTENCIA as OPCIONES, avisar, fallo, cargando, vacio, TIPOS_EVENTO, claseEvento, marcaEvento
 } from '../ui.js';
 
 let filtro = 'proximos';
@@ -33,7 +33,7 @@ export async function render(ctx, cont) {
 
   const titulo = (e) => e.tipo === 'partido'
     ? (e.rival ? (e.es_local ? 'vs ' : 'en ') + e.rival : 'Partido')
-    : 'Entreno';
+    : TIPOS_EVENTO[claseEvento(e)].etiqueta;
 
   cont.innerHTML = html`
     <div class="filtros" id="filtros">
@@ -53,7 +53,9 @@ export async function render(ctx, cont) {
         <div class="card evento-jug">
           <div style="display:flex;align-items:flex-start;gap:.8rem">
             <div class="info">
-              <div class="nom" style="font-size:1.1rem">${titulo(e)}</div>
+              <div class="nom" style="font-size:1.1rem;display:flex;align-items:center;gap:.45rem">
+                ${crudo(marcaEvento(e))}${titulo(e)}
+              </div>
               <div class="meta">
                 ${cuando(e.fecha)}${e.hora ? ' · ' + hora(e.hora) : ''}${e.lugar ? ' · ' + e.lugar : ''}
               </div>
