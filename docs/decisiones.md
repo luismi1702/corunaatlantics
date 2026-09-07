@@ -265,3 +265,64 @@ estaban bien.
 expirado y la renovación automática había fallado, no iba a arreglarse); mover el sitio a
 Cloudflare Pages o Netlify para tener control del certificado (cambio de hosting
 desproporcionado para un fallo puntual y reversible en dos comandos).
+
+## [2026-09-07] — El tablón sólo en Hoy, y con papel claro
+
+**Decisión:** la pantalla Hoy del jugador se dibuja como un corcho de vestuario —pared
+turquesa con trama del club, notas de papel claro con chincheta— y las demás pantallas
+conservan el fondo de campo con el dorsal gigante.
+
+**Motivo:** Hoy se abre veinte veces por semana para mirar una sola cosa, y el papel claro
+la hace legible de un vistazo; el color del papel (crema, amarillo, verde) distingue lo
+normal de lo urgente y de lo del club sin leer una palabra. En Agenda, Equipo y Mi ficha
+se lee y se toca mucho más rato, y ahí el fondo oscuro cansa menos.
+
+**Alternativas descartadas:** corcho marrón de verdad (chocaba con el teal y el oro del
+club, y con dos fondos ya en marcha habría sido un tercero peleándose); el tablón en todas
+las pantallas del jugador (el papel claro a pantalla completa cansa en las pantallas de
+uso largo); notas oscuras sobre la pared turquesa (dejan de leerse como notas y parecen
+pantallas pegadas al corcho).
+
+## [2026-09-07] — El partido de liga no es un tipo de evento
+
+**Decisión:** `tipo_evento` gana el valor `video` pero **no** un valor `liga`. Un amistoso
+y un partido de competición son los dos `partido`; lo que los separa es tener
+`competicion_id` o no, que ya se guardaba.
+
+**Motivo:** añadir `liga` sería guardar dos veces el mismo hecho, y el día que un partido
+tuviera `tipo = 'liga'` y `competicion_id` nulo —o al revés— no habría forma de saber cuál
+manda. La sesión de vídeo sí es un hecho nuevo: no se va al campo, no cuenta igual para la
+asistencia y no cabía en el comodín `evento` sin quedarse sin nombre en la app.
+
+**Alternativas descartadas:** un enum con `entreno / partido / liga / torneo / video`;
+una columna booleana `es_oficial` (mismo problema de duplicar el dato).
+
+## [2026-09-07] — La filigrana del fondo va dentro de su propia capa
+
+**Decisión:** el degradado de fondo de la app se pinta como última franja de
+`body::before`, y el `body` queda transparente. No se sube el `z-index` de esa capa a 0.
+
+**Motivo:** un pseudoelemento con `z-index: -1` se pinta por detrás del fondo de su propio
+padre. Con un degradado opaco en el `body`, la capa quedaba tapada y las líneas del campo
+no se vieron nunca desde que se escribieron. Subir el z-index a 0 lo arreglaría, pero
+entonces la capa taparía todo el contenido que no está posicionado, empezando por la
+pantalla de entrar.
+
+**Alternativas descartadas:** mover el degradado a `html` (obliga a un `:has()` para
+distinguir el tablón del resto, y deja de funcionar la franja de color del indicador de
+inicio de iOS); `z-index: 0` en la capa.
+
+## [2026-09-07] — Zona segura arriba, no sólo abajo
+
+**Decisión:** existe `--safe-t: env(safe-area-inset-top)` y lo aplican la cabecera, la
+pantalla de entrar y el marco del tablón.
+
+**Motivo:** con `viewport-fit=cover` y `apple-mobile-web-app-status-bar-style:
+black-translucent`, la app **instalada** se dibuja por debajo del reloj y de la isla
+dinámica. Había `--safe-b` para el borde de abajo y nada para el de arriba, así que la
+cabecera y el icono de la tienda quedaban tapados y sin poder tocarse. **En Safari no se
+nota**: ahí la barra de estado la pinta el navegador. Todo lo que se toque de la cabecera
+hay que probarlo con la app instalada, no en el navegador.
+
+**Alternativas descartadas:** quitar `black-translucent` (se pierde el fondo del club
+detrás de la barra de estado y aparece una banda gris).

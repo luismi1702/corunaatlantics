@@ -1,5 +1,25 @@
 # Changelog — Coruña Atlantics Web
 
+## [2026-09-07] — El tablón del jugador, y tres fallos que llevaban ahí desde el principio
+
+**Qué se hizo:**
+- **Hoy pasa a ser un tablón de anuncios**: pared turquesa con una trama de tridentes, balones y rayos, notas de papel claro clavadas con chincheta y un poco torcidas, el dorsal pintado en cobre en la esquina y el logotipo clavado abajo. Sólo en Hoy; el resto de pantallas conservan el campo
+- **Cada clase de cita tiene su dibujo**, en relieve sobre la tarjeta: cono el entreno, balón el amistoso, trofeo la competición, tele la sesión de vídeo (`27_sesiones_de_video.sql`)
+- **Ajustes → Ver como jugador**: abre la app del jugador con su propia ficha, para comprobar cómo le llega a la plantilla lo que publica
+- **Un logo de fondo por pestaña**: circular en Agenda, balón en Equipo, Football 2 en Avisos; Mi ficha se queda con el dorsal
+- **Exportar a CSV la plantilla y cada competición**, que era lo único sin respaldo. `descargarCSV()` deja de estar escrito cuatro veces y vive en `ui.js`
+- Cerrada la vista `companeros` (`26_companeros_cerrado.sql`): un registrado sin aprobar podía pedírsela a la API y leer apellidos, ids y quién estaba lesionado
+- En la web, el formulario "Quiero jugar" deja de abrir el correo del visitante y lleva a la app. Añadidos descripción, Open Graph y favicon
+
+**Tres fallos viejos, invisibles hasta ahora:**
+- La filigrana del fondo vive en `body::before` con `z-index: -1`, y un hijo con z-index negativo se pinta **por detrás del fondo de su propio padre**. Con el degradado opaco del body encima, las líneas del campo no se habían visto nunca. Ahora el degradado va dentro de esa misma capa
+- Faltaba `--safe-t`. Con `viewport-fit=cover` y la barra de estado en translúcido, en la app **instalada** la cabecera quedaba bajo el reloj y el icono de la tienda no se podía tocar. En Safari no se notaba
+- `pantallaApp` registraba un oyente de `hashchange` por arranque sin quitar el anterior. Con una sola app la duplicidad no se veía; con dos caras provocaba saltos a la consola
+
+**Archivos modificados:** `app/css/app.css`, `app/js/app.js`, `app/js/ui.js`, `app/js/db.js`, `app/index.html`, `app/sw.js` (v55 → v70), las vistas `jug-hoy`, `jug-agenda`, `calendario`, `lista`, `competiciones`, `roster`, `ajustes`, `tesoreria`, `documentacion`; `app/db/25`, `26` y `27`; `app/img/{circular,balon,football}.webp`; `index.html` y `web/`.
+
+**Pendiente:** guardar `vapid.txt` fuera del ordenador; fijar el importe de la cuota y el horario de entrenos; probar con un correo ajeno que un registrado sin aprobar no ve nada; impedir borrar un producto de la tienda con pedidos ya cobrados.
+
 ## [2026-09-05] — Repaso: la web, el jugador y los documentos
 
 **Qué se hizo:**

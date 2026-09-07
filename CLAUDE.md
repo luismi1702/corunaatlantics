@@ -31,8 +31,8 @@ Hashtag: #WeAreAtlantics · Mascota: Poseidón (teal, tridente dorado)
 - videos/GUION_REEL_HYPE.md — guión y flujo de montaje de Reels
 
 ## Vídeos de fondo
-- storm.mp4 — fondo principal (autoplay)
-- waves.mp4 — crossfade cada 20s vía JS
+- storm.mp4 — fondo principal (autoplay), el único que carga la web
+- waves.mp4 — ya no se usa (87 MB, sin referencias)
 
 ## Logos archivados
 logos-antiguos/ — branding anterior al rebranding de mayo 2026
@@ -51,3 +51,9 @@ decisiones de diseño en app/README.md y docs/app-plan.md.
 Regla: los datos económicos y la documentación ajena los protege Postgres con Row
 Level Security, nunca la interfaz. Si una pantalla necesita esconder algo, el
 permiso va en app/db/02_rls.sql.
+
+Regla: lo que se toque de la cabecera o de los bordes hay que probarlo con la app
+INSTALADA en el móvil, no en Safari. La app usa viewport-fit=cover y la barra de
+estado en translúcido, así que instalada se dibuja por debajo del reloj y de la isla
+dinámica; en Safari la barra la pinta el navegador y el fallo no se ve. Para eso están
+--safe-t y --safe-b.
