@@ -326,3 +326,27 @@ hay que probarlo con la app instalada, no en el navegador.
 
 **Alternativas descartadas:** quitar `black-translucent` (se pierde el fondo del club
 detrás de la barra de estado y aparece una banda gris).
+
+## [2026-09-08] — El cinturón horizontal va sólo en `html`, nunca en `html, body`
+
+**Decisión:** `overflow-x: hidden` y `overscroll-behavior-y: none` se declaran únicamente
+sobre `html`. Nunca sobre `body`, aunque parezca que no hace daño.
+
+**Motivo:** el overflow del `body` sólo se propaga al viewport mientras el de `html` sea
+`visible`. En cuanto `html` lleva `overflow-x: hidden`, esa propagación se corta y el
+`body` se convierte en **su propio contenedor de scroll**. Y como el `body` crece con lo
+que tiene dentro, ese contenedor nunca desborda: no tiene recorrido. La rueda y el dedo
+apuntan primero a él, no consiguen moverlo, y el gesto debería encadenarse al de arriba,
+salvo que `overscroll-behavior-y: none` es exactamente la propiedad que bloquea ese
+encadenamiento. Resultado: la app sólo bajaba arrastrando la barra lateral, que mueve el
+viewport sin pasar por el gesto.
+
+El síntoma engaña: parece un fallo de la pantalla concreta que estás mirando, y es del
+CSS global. Y no se reproduce igual en todos los navegadores, así que "a mí me va" no
+sirve como comprobación.
+
+**Alternativas descartadas:** quitar sólo `overscroll-behavior-y` del body (rompe la
+cadena de causas, pero deja el body convertido en contenedor de scroll, que es la trampa
+de fondo y volvería a morder con cualquier regla futura); poner `height: 100%` en `html,
+body` con `overflow-y: auto` en el body (funciona, pero obliga a que todo lo de dentro
+gestione su propia altura y rompe `position: sticky` en la cabecera).

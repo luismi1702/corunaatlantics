@@ -1,5 +1,19 @@
 # Changelog — Coruña Atlantics Web
 
+## [2026-09-08] — La app no bajaba con la rueda ni con el dedo
+
+**Qué se hizo:**
+- Arreglado el fallo que impedía **hacer scroll en la app**: sólo bajaba arrastrando la barra lateral. `overflow-x: hidden` y `overscroll-behavior-y: none` estaban en `html, body`; pasan a `html` a secas
+- La causa, para no repetirla: cuando `html` lleva un overflow distinto de `visible`, el del `body` **deja de propagarse al viewport** y el body pasa a ser su propio contenedor de scroll. Como crece con su contenido, ese contenedor nunca desborda, así que no tiene recorrido; el gesto debería encadenarse al de arriba y `overscroll-behavior-y: none` es justo lo que lo bloquea
+- Comprobado con el CSS real sobre una réplica de la pantalla de alta: el body queda en `overflow: visible` y la rueda llega hasta el botón de enviar
+- Verificado de paso que **la app sí cumple los requisitos para instalarse** en Android: manifest servido con el tipo correcto y enlazado, los tres iconos responden, y el service worker tiene su manejador de `fetch`
+
+**Archivos modificados:** `app/css/app.css`, `app/sw.js` (v70 → v71).
+
+**Pendiente:**
+- Decidir qué hacer con `app/js/instalar.js`: escrito y sin enganchar a ninguna pantalla. Ofrecería un botón "Instalar en este móvil" en Android —capturando `beforeinstallprompt`— y las instrucciones exactas en iPhone, donde esa API no existe. Hoy la app no dice en ningún sitio cómo instalarse, y de ahí salió el "por internet no se puede bajar"
+- Lo que ya venía de antes: guardar `vapid.txt` fuera del ordenador; fijar el importe de la cuota y el horario de entrenos; probar con un correo ajeno que un registrado sin aprobar no ve nada; impedir borrar un producto de la tienda con pedidos ya cobrados
+
 ## [2026-09-07] — El tablón del jugador, y tres fallos que llevaban ahí desde el principio
 
 **Qué se hizo:**
