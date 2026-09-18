@@ -282,7 +282,11 @@ export const apuntarTiendaEnTesoreria = (productoId) => {
 export const guardarSuscripcion = () => demora(null);
 export const borrarSuscripcion = () => demora(null);
 export const movilesConAvisos = () => demora(9);
-export const avisarAlMovil = () => demora({ enviados: 9, caducados: 0, fallidos: 0 });
+// En la demo tiene el móvil activado más o menos uno de cada dos.
+export const avisarAlMovil = (titulo, cuerpo, url, para = null) => {
+  const personas = para ? Math.ceil(para.length / 2) : 9;
+  return demora({ enviados: personas, personas, caducados: 0, fallidos: 0 });
+};
 
 // --- Permisos por seccion --------------------------------------------------
 

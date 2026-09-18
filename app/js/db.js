@@ -1,10 +1,12 @@
 // Acceso a datos. Todo lo que habla con Supabase pasa por aquí, para que las
 // vistas no tengan que saber cómo está montada la base de datos.
 
-// Version fija a proposito. Con @2 el CDN sirve la ultima que haya salido, asi
-// que la app podia cambiar de comportamiento una mañana sin que nadie tocara
-// nada. Para algo de lo que depende un equipo, eso no compensa.
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.115.0/+esm';
+// La libreria vive en el repositorio, no en un CDN. Este codigo corre dentro de
+// corunaatlantics.com y ve la sesion de quien use la app: si un dia el CDN
+// sirviera otra cosa, el navegador se la tragaria igual, porque un modulo ESM
+// no admite comprobacion de integridad. Bajada en app/js/vendor, lo que se
+// publica es lo que se ha revisado. Se actualiza con vendor/actualizar.py.
+import { createClient } from './vendor/supabase-supabase-js-2.115.0.js';
 import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js';
 import { hoyISO } from './ui.js';
 
@@ -503,11 +505,12 @@ export const borrarSuscripcion = (endpoint) =>
 
 export const movilesConAvisos = () => sb.rpc('moviles_con_avisos').then(ok);
 
-// Manda la notificacion a todo el equipo. Lo hace una funcion en el servidor:
-// desde aqui no se pueden leer las suscripciones de los demas, ni debe poderse.
-export async function avisarAlMovil(titulo, cuerpo, url) {
+// Manda la notificacion a todo el equipo o, con `para` (ids de perfil), solo a
+// esas personas. Lo hace una funcion en el servidor: desde aqui no se pueden
+// leer las suscripciones de los demas, ni debe poderse.
+export async function avisarAlMovil(titulo, cuerpo, url, para = null) {
   const { data, error } = await sb.functions.invoke('enviar-push', {
-    body: { titulo, cuerpo, url }
+    body: para ? { titulo, cuerpo, url, para } : { titulo, cuerpo, url }
   });
   if (!error) return data;
 

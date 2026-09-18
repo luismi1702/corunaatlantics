@@ -350,3 +350,58 @@ cadena de causas, pero deja el body convertido en contenedor de scroll, que es l
 de fondo y volvería a morder con cualquier regla futura); poner `height: 100%` en `html,
 body` con `overflow-y: auto` en el body (funciona, pero obliga a que todo lo de dentro
 gestione su propia altura y rompe `position: sticky` en la cabecera).
+
+## [2026-09-17] — Los avisos al móvil van a una lista de personas, no a todos
+
+**Decisión:** `enviar-push` acepta `para` (ids de perfil) y la base de datos filtra las
+suscripciones por esa lista (`28_push_dirigido.sql`). Pueden mandar quien lleva avisos,
+calendario o tesorería. Se usa en cuatro sitios: avisos de una unidad, cambio o
+cancelación de un evento, quien no ha respondido a un entreno y quien debe la cuota.
+
+**Motivo:** hasta ahora un aviso "solo para la defensa" se veía solo en el tablón de la
+defensa, pero **sonaba en todos los móviles**. Y cancelar un entreno desde el calendario
+no avisaba a nadie. Si la gente recibe notificaciones que no van con ella, aprende a no
+hacerles caso, y entonces tampoco se entera de lo importante.
+
+Tres detalles a propósito:
+- Una lista vacía es "a nadie", no "a todos". Si la función las confundiera, un filtro
+  que no encuentra a nadie mandaría la notificación a la plantilla entera.
+- Se cuentan personas, no móviles, y la app dice a cuántos de la lista les ha llegado:
+  los que faltan son los que hay que perseguir por otro lado.
+- El aviso de cuota no lleva el importe. Sale en la pantalla bloqueada.
+
+**Alternativas descartadas:** avisar sin casilla de cada edición de un evento (corregir
+una nota haría sonar cincuenta móviles); hacerlo desde un disparador en la base de datos
+(obligaría a llamar a la función desde Postgres con una clave guardada en la base, justo
+lo que quitó `23_push_sin_clave_servidor.sql`).
+
+## [2026-09-17] — Sin acceso no hay nada, y ninguna librería viene de fuera al arrancar
+
+**Decisión 1:** `es_staff()` y `es_admin()` exigen `acceso = 'aprobado'` además del rol
+(`29_acceso_manda.sql`).
+
+**Motivo:** las dos funciones miraban solo el rol. Quitarle el acceso a alguien pone su
+`acceso` en 'rechazado' y le echa de la app, pero si su rol era `staff` o `admin` seguían
+diciendo que sí: con su cuenta de correo, que sigue viva, podía volver a entrar y pedirle
+a la API la plantilla entera —teléfonos, DNI, fechas de nacimiento, notas del staff—.
+A los jugadores el corte sí les funcionaba, así que lo único que quedaba expuesto era
+justo lo de la persona de la que uno se querría proteger.
+
+La migración **repara antes de apretar**: un admin nombrado con `03_arranque.sql` podía
+tener el rol puesto y el acceso en 'nuevo', y se habría quedado fuera de su propio club.
+Se reparan 'nuevo' y 'pendiente'; a 'rechazado' no se le toca, que es el caso a cerrar.
+`03_arranque.sql` pasa a poner también el acceso.
+
+**Decisión 2:** `supabase-js` y `qrcode-generator` se sirven desde `app/js/vendor/`, y
+`index.html` lleva una Content-Security-Policy que solo permite código propio.
+
+**Motivo:** se cargaban de jsDelivr al abrir la app. Ese código corre dentro de nuestro
+dominio y ve la sesión de quien la esté usando, o sea todo lo que esa persona pueda leer.
+Un módulo ESM no admite `integrity`, así que no hay forma de comprobar que lo que llega
+es lo que se revisó. Son 277 KB y diez ficheros, bajados con `vendor/actualizar.py`, que
+falla si queda una sola referencia a internet.
+
+**Alternativas descartadas:** dejar el CDN con la versión fijada (fija la versión, no el
+contenido); `frame-ancestors` en la CSP (en un `<meta>` el navegador lo ignora, y en
+GitHub Pages no se pueden poner cabeceras); quitar `'unsafe-inline'` de `style-src`
+(la app usa atributos `style=""` y se quedaría sin maquetar).

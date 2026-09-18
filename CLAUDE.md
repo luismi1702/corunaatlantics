@@ -27,6 +27,7 @@ Hashtag: #WeAreAtlantics · Mascota: Poseidón (teal, tridente dorado)
 - docs/app-plan.md — plan del proyecto de la app
 - docs/legal-reactivacion.md — checklist legal refundación
 - docs/decisiones.md — registro de decisiones técnicas
+- docs/pendiente.md — lo que tiene que hacer él a mano (Supabase, pruebas en el móvil)
 - docs/contacto-esn-coruna.md — textos de contacto con ESN y universidades
 - videos/GUION_REEL_HYPE.md — guión y flujo de montaje de Reels
 

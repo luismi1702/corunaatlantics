@@ -139,7 +139,7 @@ export function cuando(iso) {
 // hay conexión no se puede cargar, así que siempre queda el enlace a mano.
 export async function pintarQR(cont, texto) {
   try {
-    const { default: qrcode } = await import('https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/+esm');
+    const { default: qrcode } = await import('./vendor/qrcode-generator-1.4.4.js');
     const qr = qrcode(0, 'M');
     qr.addData(texto);
     qr.make();
@@ -165,6 +165,26 @@ export function avisar(texto, tipo = '') {
   el.textContent = texto;
   zona.appendChild(el);
   setTimeout(() => el.remove(), 4000);
+}
+
+// Lo que se le dice a quien acaba de mandar una notificacion. Se dice siempre,
+// tambien cuando son cero: "no ha sonado" y "no habia a quien mandarlo" son
+// problemas distintos y desde fuera se parecen.
+//
+// Con `total` (cuantas personas habia en la lista) dice ademas a cuantas no les
+// ha llegado, que son las que hay que perseguir por WhatsApp.
+export function contarEnvio(r, total) {
+  const llegan = r?.personas ?? r?.enviados ?? 0;
+  if (!llegan) {
+    avisar(total === 0 ? 'No había nadie a quien avisar'
+      : r?.diagnostico ?? 'Nadie de la lista tiene los avisos activados', 'error');
+    return;
+  }
+  const texto = total == null
+    ? 'Enviado a ' + llegan + (llegan === 1 ? ' persona' : ' personas')
+    : 'Llega a ' + llegan + ' de ' + total +
+      (llegan < total ? ' · el resto no tiene los avisos activados' : '');
+  avisar(texto);
 }
 
 export const fallo = (e) => {

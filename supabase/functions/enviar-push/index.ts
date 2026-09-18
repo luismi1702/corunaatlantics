@@ -1,9 +1,12 @@
-// Manda una notificación a todos los móviles del equipo.
+// Manda una notificación a los móviles del equipo, o solo a los de una lista
+// de personas (`para`: ids de perfil).
 //
-// La llama la app cuando se publica un aviso. Necesita leer las suscripciones
-// de todo el mundo, y eso obliga a correr con permisos de servidor; por eso
-// comprueba por su cuenta quién llama, preguntándole a la base de datos con el
-// token de quien llama si esa persona lleva la sección de avisos. Sin eso,
+// La llama la app al publicar un aviso, al cancelar o mover un entreno y al
+// reclamar a quien no ha respondido o debe la cuota. Necesita leer las
+// suscripciones de todo el mundo, y eso obliga a correr con permisos de
+// servidor; por eso comprueba por su cuenta quién llama, preguntándole a la
+// base de datos con el token de quien llama si puede mandar avisos al móvil
+// (lleva avisos, calendario o tesorería: `app/db/28_push_dirigido.sql`). Sin eso,
 // cualquiera con la clave pública del proyecto podría mandarle una notificación
 // a la plantilla entera.
 //
@@ -221,7 +224,7 @@ const responder = (cuerpo: unknown, estado = 200) =>
 // Version del codigo. Sirve para una cosa muy concreta: saber desde fuera si lo
 // que esta corriendo es lo que uno cree que subio. Sin esto, un despliegue que
 // no llego a hacerse y un fallo de verdad se parecen demasiado.
-const VERSION = 3;
+const VERSION = 4;
 
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: CORS });
@@ -264,8 +267,8 @@ Deno.serve(async (req) => {
       method: 'POST', headers: comoQuienLlama, body: JSON.stringify(cuerpo)
     });
 
-  // ¿Quién llama, y lleva los avisos?
-  const permiso = await rpc('puede', { _seccion: 'avisos' });
+  // ¿Quién llama, y puede mandar avisos al móvil?
+  const permiso = await rpc('puede_avisar_al_movil', {});
 
   // Con el motivo dentro: un 401 a secas no dice si falta la clave, si el token
   // no vale o si la funcion `puede` no esta.
@@ -274,14 +277,27 @@ Deno.serve(async (req) => {
       error: 'Comprobando quién llama: ' + permiso.status + ' ' + (await permiso.text()).slice(0, 300)
     }, 401);
   }
-  if (await permiso.json() !== true) return responder({ error: 'No llevas los avisos' }, 403);
+  if (await permiso.json() !== true) {
+    return responder({ error: 'No llevas avisos, calendario ni tesorería' }, 403);
+  }
 
-  const { titulo, cuerpo, url } = await req.json().catch(() => ({}));
+  const { titulo, cuerpo, url, para } = await req.json().catch(() => ({}));
   if (!titulo) return responder({ error: 'Falta el título' }, 400);
+
+  // Sin `para`, todo el equipo. Con `para`, solo esas personas; y una lista
+  // vacía es "a nadie", no "a todos": confundirlas mandaría a los cincuenta lo
+  // que no era para ninguno.
+  if (para !== undefined && para !== null &&
+      !(Array.isArray(para) && para.every((x: unknown) => typeof x === 'string'))) {
+    return responder({ error: '`para` tiene que ser una lista de ids' }, 400);
+  }
+  if (Array.isArray(para) && para.length === 0) {
+    return responder({ enviados: 0, personas: 0, caducados: 0, fallidos: 0 });
+  }
 
   // La base de datos decide qué se puede leer; aquí no hay ninguna llave que
   // se salte las políticas.
-  const consulta = await rpc('suscripciones_para_enviar', {});
+  const consulta = await rpc('suscripciones_para_enviar', { p_perfiles: para ?? null });
   const crudo = await consulta.text();
 
   if (!consulta.ok) {
@@ -296,7 +312,7 @@ Deno.serve(async (req) => {
   // igual, y distinguirlos a base de conjeturas cuesta una tarde.
   if (!suscripciones.length) {
     return responder({
-      enviados: 0, caducados: 0, fallidos: 0,
+      enviados: 0, personas: 0, caducados: 0, fallidos: 0,
       diagnostico: 'rpc ' + consulta.status + ' · ' + crudo.slice(0, 200) +
         ' · version ' + VERSION + ' · clave ' + (CLAVE_PROYECTO ?? '').slice(0, 12)
     });
@@ -315,10 +331,10 @@ Deno.serve(async (req) => {
       if (r.status >= 400 && !fallo) {
         fallo = new URL(s.endpoint).host + ' → ' + (await r.text()).slice(0, 150);
       }
-      return { id: s.id, estado: r.status };
+      return { id: s.id, perfil: s.perfil_id, estado: r.status };
     } catch (e) {
       if (!fallo) fallo = 'excepción: ' + (e instanceof Error ? e.message : String(e));
-      return { id: s.id, estado: 0 };
+      return { id: s.id, perfil: s.perfil_id, estado: 0 };
     }
   }));
 
@@ -327,13 +343,20 @@ Deno.serve(async (req) => {
   const muertas = resultados.filter(r => r.estado === 404 || r.estado === 410).map(r => r.id);
   if (muertas.length) await rpc('borrar_suscripciones', { p_ids: muertas });
 
-  const enviados = resultados.filter(r => r.estado >= 200 && r.estado < 300).length;
+  const entregados = resultados.filter(r => r.estado >= 200 && r.estado < 300);
+  const enviados = entregados.length;
+
+  // Personas, no aparatos: quien tiene móvil y tablet cuenta una vez. Es el
+  // número que sirve para saber a cuántos de la lista hay que perseguir por
+  // otro lado.
+  const personas = new Set(entregados.map(r => r.perfil)).size;
 
   // Si no salio ninguno, se dice que contesto cada destino. "Cero enviados"
   // puede ser que no haya nadie apuntado o que el servidor de push los haya
   // rechazado todos, y sin los codigos no hay forma de distinguirlo.
   return responder({
     enviados,
+    personas,
     caducados: muertas.length,
     fallidos:  resultados.length - enviados - muertas.length,
     ...(enviados === 0 ? {

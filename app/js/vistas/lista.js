@@ -6,8 +6,8 @@
 
 import * as db from '../db.js';
 import {
-  html, crudo, $, $$, cuando, hora, nombreCompleto,
-  hoja, avisar, fallo, cargando, vacio, TIPOS_EVENTO, claseEvento
+  html, crudo, $, $$, cuando, hora, hoyISO, nombreCompleto, esDeUnidad,
+  hoja, confirmar, avisar, contarEnvio, fallo, cargando, vacio, TIPOS_EVENTO, claseEvento
 } from '../ui.js';
 import { abrirEvento } from './calendario.js';
 import { render as renderDisponibilidad } from './disponibilidad.js';
@@ -46,6 +46,13 @@ export async function render(ctx, cont, eventoId) {
 
   const convocados = plantilla.filter(p => p.estado !== 'baja');
   const estado = new Map(asistencias.map(a => [a.jugador_id, a.estado]));
+
+  // Quien no ha dicho ni que va ni que no, de los que estan llamados a esta
+  // sesion. Solo tiene sentido antes de que pase y si sigue en pie.
+  const respondieron = new Set(asistencias.filter(a => a.confirmacion).map(a => a.jugador_id));
+  const sinResponder = !ev.cancelado && ev.fecha >= hoyISO()
+    ? convocados.filter(p => esDeUnidad(p.posiciones, ev.unidad) && !respondieron.has(p.id))
+    : [];
 
   const titulo = ev.tipo === 'partido'
     ? (ev.rival ? (ev.es_local ? 'vs ' : 'en ') + ev.rival : 'Partido')
@@ -88,6 +95,11 @@ export async function render(ctx, cont, eventoId) {
         <button class="btn" style="flex:1" id="quien-juega">¿Quién puede jugar?</button>
         <button class="btn" style="flex:1" id="stats">Estadísticas</button>
       </div>`) : ''}
+
+    ${sinResponder.length ? crudo(html`
+      <button class="btn oro ancho" id="reclamar-respuesta" style="margin-bottom:.9rem">
+        Avisar a ${sinResponder.length === 1 ? 'quien no ha' : 'los ' + sinResponder.length + ' que no han'} respondido
+      </button>`) : ''}
 
     <div class="cifras" id="marcador"></div>
 
@@ -184,6 +196,22 @@ export async function render(ctx, cont, eventoId) {
       await db.sincronizarPartidoDeEvento(guardado);
       avisar('Resultado guardado');
       render(ctx, cont, eventoId);
+    } catch (err) { fallo(err); }
+  });
+
+  $('#reclamar-respuesta')?.addEventListener('click', async () => {
+    if (!await confirmar('Avisar al móvil',
+      'Le suena solo a ' + sinResponder.length +
+      (sinResponder.length === 1 ? ' persona' : ' personas') +
+      ': las convocadas que todavía no han dicho si vienen.', 'Avisar')) return;
+    try {
+      const r = await db.avisarAlMovil(
+        '¿Vienes? · ' + titulo,
+        [cuando(ev.fecha), hora(ev.hora), ev.lugar].filter(Boolean).join(' · ') +
+          '. Dinos si vas en la app.',
+        '/app/#/agenda',
+        sinResponder.map(p => p.id));
+      contarEnvio(r, sinResponder.length);
     } catch (err) { fallo(err); }
   });
 

@@ -13,9 +13,12 @@ on conflict (nombre) do nothing;
 -- 2) Nómbrate administrador.
 --    Entra ANTES una vez en la app con tu email para que exista la cuenta,
 --    y luego ejecuta esto cambiando el email por el tuyo.
+--    El acceso va junto al rol y no por separado: desde
+--    29_acceso_manda.sql, un admin sin acceso aprobado no manda en nada.
 update perfiles
-set    rol = 'admin'
+set    rol = 'admin',
+       acceso = 'aprobado'
 where  lower(email) = lower('CAMBIA_ESTO@ejemplo.com');
 
--- Comprobación: debe devolver tu fila con rol = admin.
-select id, nombre, email, rol from perfiles where rol = 'admin';
+-- Comprobación: debe devolver tu fila con rol = admin y acceso = aprobado.
+select id, nombre, email, rol, acceso from perfiles where rol = 'admin';

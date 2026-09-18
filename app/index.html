@@ -14,6 +14,25 @@
   <meta name="apple-mobile-web-app-title" content="Atlantics">
   <link rel="apple-touch-icon" href="./icons/icono-192.png">
 
+  <!-- Lo que el navegador puede cargar, y de donde. Con todo el codigo servido
+       desde aqui, un script ajeno no se ejecuta ni aunque alguien consiga
+       colarlo en la pagina. Las fuentes son de Google y las fotos de la tienda
+       de Supabase: lo demas, de casa.
+       Ojo al tocarlo: los atributos style="" del HTML necesitan
+       'unsafe-inline' en style-src, y quitarlo deja la app sin maquetar.
+       No lleva frame-ancestors: en un <meta> el navegador lo ignora y solo
+       vale como cabecera, que en GitHub Pages no se puede poner. -->
+  <meta http-equiv="Content-Security-Policy" content="
+    default-src 'self';
+    script-src 'self';
+    style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+    font-src 'self' https://fonts.gstatic.com;
+    img-src 'self' data: blob: https://*.supabase.co;
+    connect-src 'self' https://*.supabase.co wss://*.supabase.co;
+    base-uri 'none';
+    form-action 'none';
+    object-src 'none'">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">

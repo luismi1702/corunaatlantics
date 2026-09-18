@@ -7,7 +7,7 @@
 import * as db from '../db.js';
 import {
   html, crudo, $, $$, euros, fecha, hoyISO, nombreCompleto, tag, TAG_CUOTA,
-  hoja, confirmar, avisar, fallo, cargando, vacio, enlaceWhatsApp
+  hoja, confirmar, avisar, contarEnvio, fallo, cargando, vacio, enlaceWhatsApp
 } from '../ui.js';
 
 let filtro = 'pendientes';
@@ -75,7 +75,10 @@ export async function render(ctx, cont) {
       </button>
       <p class="ayuda" style="text-align:center;margin-top:.5rem">
         Copia los nombres y lo que debe cada uno, listo para pegar en WhatsApp.
-      </p>`) : ''}
+      </p>
+      <button class="btn ancho" id="avisar-morosos" style="margin-top:.6rem">
+        Avisar al móvil a ${morosos.length === 1 ? 'quien debe' : 'los ' + morosos.length + ' que deben'}
+      </button>`) : ''}
   `;
 
   $('#aplicar')?.addEventListener('click', async () => {
@@ -89,6 +92,20 @@ export async function render(ctx, cont) {
       avisar(n ? n + (n === 1 ? ' cuota actualizada' : ' cuotas actualizadas')
                : 'Cuotas al día');
       render(ctx, cont);
+    } catch (err) { fallo(err); }
+  });
+
+  // La notificacion no lleva el importe: sale en la pantalla bloqueada, a la
+  // vista de quien este al lado. La cifra la ve cada uno en su ficha.
+  $('#avisar-morosos')?.addEventListener('click', async () => {
+    if (!await confirmar('Avisar al móvil',
+      'Le suena solo a ' + morosos.length + (morosos.length === 1 ? ' persona' : ' personas') +
+      '. El mensaje no dice cuánto debe: eso lo ve cada uno en su ficha.', 'Avisar')) return;
+    try {
+      const r = await db.avisarAlMovil('Cuota pendiente',
+        'Tienes parte de la cuota de la temporada sin pagar. Lo tienes en Mi ficha.',
+        '/app/#/mificha', morosos.map(c => c.jugador_id));
+      contarEnvio(r, morosos.length);
     } catch (err) { fallo(err); }
   });
 

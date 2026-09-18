@@ -5,8 +5,8 @@
 
 import * as db from '../db.js';
 import {
-  html, crudo, $, $$, cuando, fecha, hora, hoyISO, diasHasta,
-  hoja, avisar, fallo, cargando, vacio, TIPOS_EVENTO, claseEvento, marcaEvento
+  html, crudo, $, $$, cuando, fecha, hora, hoyISO, diasHasta, esDeUnidad,
+  hoja, avisar, contarEnvio, fallo, cargando, vacio, TIPOS_EVENTO, claseEvento, marcaEvento
 } from '../ui.js';
 
 let filtro = 'proximos';
@@ -170,6 +170,15 @@ export async function abrirEvento(ctx, e, alGuardar, alBorrar = alGuardar) {
         <p class="ayuda">Cancelar no borra la sesión ni la asistencia ya apuntada,
            y deja de contar para los porcentajes.</p>`) : ''}
 
+      ${!esNuevo && e.fecha >= hoyISO() ? crudo(html`
+        <div class="check">
+          <input type="checkbox" id="avisar-cambio" name="avisar_cambio" checked>
+          <label for="avisar-cambio" style="margin:0;letter-spacing:0;text-transform:none;font-size:1rem;color:var(--text)">
+            Avisar al móvil de los convocados</label>
+        </div>
+        <p class="ayuda">Solo suena si lo cancelas o cambias el día, la hora o el
+           lugar. Corregir una nota no molesta a nadie.</p>`) : ''}
+
       <div style="display:flex;gap:.6rem;margin-top:1.2rem">
         ${!esNuevo ? crudo(html`<button type="button" class="btn peligro" id="borrar">Borrar</button>`) : ''}
         <button type="submit" class="btn primario" style="flex:1">Guardar</button>
@@ -200,7 +209,20 @@ export async function abrirEvento(ctx, e, alGuardar, alBorrar = alGuardar) {
       avisar('Guardado');
       panel.cerrar();
       alGuardar();
-    } catch (err) { fallo(err); }
+    } catch (err) { fallo(err); return; }
+
+    // Va despues del guardado y aparte: si el aviso falla, el cambio ya esta
+    // hecho y en la app. Se dice, pero no se deshace nada.
+    const aviso = !esNuevo && f.get('avisar_cambio') === 'on' && avisoDeCambio(e, datos);
+    if (!aviso) return;
+    try {
+      const para = await convocadosDe(datos.unidad);
+      contarEnvio(await db.avisarAlMovil(aviso.titulo, aviso.cuerpo, '/app/#/agenda', para),
+        para?.length);
+    } catch (err) {
+      console.error(err);
+      avisar('Guardado, pero los móviles no: ' + (err?.message ?? ''), 'error');
+    }
   });
 
   $('#borrar', panel)?.addEventListener('click', async () => {
@@ -211,4 +233,41 @@ export async function abrirEvento(ctx, e, alGuardar, alBorrar = alGuardar) {
       alBorrar();
     } catch (err) { fallo(err); }
   });
+}
+
+// --- Avisar de un cambio --------------------------------------------------
+
+// Que le suene a alguien solo lo que le cambia el plan: que se cancele, que
+// vuelva, o que cambie cuando o donde. Si no, null y no suena nada.
+export function avisoDeCambio(antes, despues) {
+  const ev = { ...antes, ...despues };
+  const nombre = ev.tipo === 'partido'
+    ? (ev.rival ? 'Partido ' + (ev.es_local ? 'vs ' : 'en ') + ev.rival : 'Partido')
+    : TIPOS_EVENTO[claseEvento(ev)].etiqueta;
+
+  const cuandoYDonde = (x) => [cuando(x.fecha), hora(x.hora), x.lugar].filter(Boolean).join(' · ');
+
+  if (!antes.cancelado && despues.cancelado) {
+    return { titulo: 'Cancelado · ' + nombre, cuerpo: 'Era ' + cuandoYDonde(antes) };
+  }
+  if (antes.cancelado && !despues.cancelado) {
+    return { titulo: 'Vuelve · ' + nombre, cuerpo: 'Al final sí: ' + cuandoYDonde(ev) };
+  }
+  if (despues.cancelado) return null;
+
+  const movido = antes.fecha !== despues.fecha ||
+    (hora(antes.hora) || null) !== (despues.hora || null) ||
+    (antes.lugar || null) !== (despues.lugar || null);
+
+  return movido ? { titulo: 'Cambio · ' + nombre, cuerpo: 'Ahora: ' + cuandoYDonde(ev) } : null;
+}
+
+// A quien va. Todo el equipo es null (todos los moviles, staff incluido, como
+// los avisos); una unidad son solo sus jugadores en activo.
+export async function convocadosDe(unidad) {
+  if (unidad === 'todos') return null;
+  const plantilla = await db.roster();
+  return plantilla
+    .filter(p => p.estado !== 'baja' && esDeUnidad(p.posiciones, unidad))
+    .map(p => p.id);
 }

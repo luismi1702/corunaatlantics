@@ -7,7 +7,7 @@
 import * as db from '../db.js';
 import {
   html, crudo, $, $$, fecha, nombreCompleto, NOMBRE_UNIDAD, esDeUnidad,
-  hoja, confirmar, avisar, fallo, cargando, vacio
+  hoja, confirmar, avisar, contarEnvio, fallo, cargando, vacio
 } from '../ui.js';
 
 const cuandoTexto = (iso) => {
@@ -60,7 +60,7 @@ export async function render(ctx, cont) {
     abrirAviso(ctx, lista.find(a => a.id === b.dataset.id), activos, () => render(ctx, cont))));
 
   $('#nuevo').addEventListener('click', () =>
-    editarAviso(ctx, {}, () => render(ctx, cont)));
+    editarAviso(ctx, {}, activos, () => render(ctx, cont)));
 }
 
 // --- Un aviso publicado ---------------------------------------------------
@@ -117,7 +117,7 @@ async function abrirAviso(ctx, a, activos, alGuardar) {
 
   $('#editar', panel).addEventListener('click', () => {
     panel.cerrar();
-    editarAviso(ctx, a, alGuardar);
+    editarAviso(ctx, a, activos, alGuardar);
   });
 
   $('#borrar', panel).addEventListener('click', async () => {
@@ -135,7 +135,7 @@ async function abrirAviso(ctx, a, activos, alGuardar) {
 
 // --- Publicar o editar ----------------------------------------------------
 
-function editarAviso(ctx, a, alGuardar) {
+function editarAviso(ctx, a, activos, alGuardar) {
   const esNuevo = !a.id;
 
   const panel = hoja(esNuevo ? 'Publicar aviso' : 'Editar aviso', html`
@@ -195,15 +195,15 @@ function editarAviso(ctx, a, alGuardar) {
       //
       // Y va aparte del guardado: si fallara el envio, el aviso ya esta
       // publicado y en la app. Se dice, pero no se deshace nada.
+      //
+      // Un aviso para la defensa solo le suena a la defensa. Antes sonaba a
+      // todos, y el ataque aprendia que los avisos no iban con el.
       if (esNuevo) {
+        const para = datos.destinatarios === 'todos' ? null
+          : activos.filter(p => esDeUnidad(p.posiciones, datos.destinatarios)).map(p => p.id);
         try {
-          const r = await db.avisarAlMovil(datos.titulo, datos.cuerpo ?? '', '/app/#/avisos');
-          // Se dice siempre, tambien cuando son cero: "no ha sonado" y "no habia
-          // a quien mandarlo" son problemas distintos y desde fuera se parecen.
-          avisar(r?.enviados
-            ? 'Enviado a ' + r.enviados + (r.enviados === 1 ? ' móvil' : ' móviles')
-            : (r?.diagnostico ?? 'Nadie tiene los avisos activados todavía'),
-            r?.enviados ? undefined : 'error');
+          const r = await db.avisarAlMovil(datos.titulo, datos.cuerpo ?? '', '/app/#/avisos', para);
+          contarEnvio(r, para?.length);
         } catch (err) {
           console.error(err);
           avisar('Publicado, pero los móviles no: ' + (err?.message ?? ''), 'error');

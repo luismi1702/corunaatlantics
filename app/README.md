@@ -65,6 +65,10 @@ una pegada. Los sueltos siguen ahí para leerlos por partes:
 | `23_push_sin_clave_servidor.sql` | Mandar avisos sin la clave de servidor del proyecto |
 | `24_plantilla_publica.sql` | El roster de la web: solo lo que va en la camiseta |
 | `25_sin_seguro_ni_reconocimiento.sql` | Documentos: solo licencia, DNI y foto |
+| `26_companeros_cerrado.sql` | La vista de compañeros, cerrada a quien no está aprobado |
+| `27_sesiones_de_video.sql` | Las sesiones de vídeo, como clase de cita propia |
+| `28_push_dirigido.sql` | Avisos al móvil solo a quien le toca, también desde calendario y tesorería |
+| `29_acceso_manda.sql` | Sin acceso no hay nada, tampoco para el staff |
 
 `00_instalar.sql` está **generado**: si tocas un archivo suelto, vuelve a
 generarlo con `python generar_instalador.py` desde `app/db`.
@@ -217,7 +221,24 @@ lo garantiza un índice único.
 entreno. El generador se carga de internet solo al abrir esa pantalla; sin
 conexión no sale el código, pero el enlace sigue ahí.
 
-**Todavía no:** playbook y notificaciones push.
+**Avisos al móvil dirigidos:** una notificación no tiene por qué ir a todos.
+Un aviso para la defensa solo le suena a la defensa. Al cancelar un entreno o
+cambiarle el día, la hora o el lugar, suena a los convocados de esa unidad
+(una casilla en la ficha del evento, marcada por defecto). En la pantalla de
+un entreno próximo hay un botón para avisar solo a quien no ha dicho si viene,
+y en Cuotas otro para quien debe; ese mensaje **no lleva el importe**, porque
+sale en la pantalla bloqueada. Tras cada envío la app dice a cuántos de la
+lista les ha llegado: el resto no tiene los avisos activados y hay que
+perseguirlo por WhatsApp. Pueden mandar quien lleva avisos, calendario o
+tesorería.
+
+Para ponerlo en marcha, **en este orden**: ejecutar `28_push_dirigido.sql` y
+después volver a desplegar la función `enviar-push`. Al revés, la función nueva
+pediría a la base de datos algo que todavía no existe y no sonaría nada. Con el
+SQL puesto y la función vieja, todo sigue como antes. Para saber qué versión
+corre, abrir la URL de la función en el navegador: tiene que decir `version: 4`.
+
+**Todavía no:** playbook.
 
 ## Sacar a alguien del equipo
 
@@ -276,3 +297,29 @@ Los datos económicos de la plantilla los ve solo el rol `admin`, y eso lo
 impone Postgres con Row Level Security, no la interfaz: trastear con el
 navegador no lo salta. Cada jugador puede leer su propia ficha y su propia
 cuota, nunca las de otro.
+
+**Quitar el acceso corta también por la API.** Hasta `29_acceso_manda.sql`,
+`es_staff()` y `es_admin()` miraban el rol y no el acceso: a alguien del staff a
+quien se le quitaba el acceso se le cerraba la app, pero su cuenta de correo
+seguía viva y podía pedirle la plantilla entera a la API. Ahora sin
+`acceso = 'aprobado'` no hay nada, sea cual sea el rol. Ojo con el orden: esa
+migración empieza reparando a los admin que tuvieran el acceso en `nuevo`
+—`03_arranque.sql` solo tocaba el rol— porque si no se quedarían fuera de su
+propio club.
+
+**Nada de código ajeno en tiempo de ejecución.** La librería de Supabase y la
+del QR viven en `app/js/vendor/`, no en un CDN. Ese código corre dentro de
+`corunaatlantics.com` y ve la sesión de quien esté usando la app; como un módulo
+ESM no admite `integrity`, el navegador se tragaría lo que sirviera el CDN. Se
+actualizan a mano con `python actualizar.py` desde esa carpeta, y **después hay
+que entrar en la app** para comprobar que la versión nueva no ha roto nada.
+
+La app lleva además una **Content-Security-Policy** en el `<head>` de
+`index.html`: solo se ejecuta código de casa. Si algún día añades una librería o
+un dominio nuevo, hay que abrirle la puerta ahí o no cargará. `demo.html` no la
+lleva, porque su mapa de importaciones es un script en línea.
+
+Lo que queda fuera del alcance de la app: la cuenta se abre con un enlace o un
+código al correo, así que **el correo del administrador es la llave del club** y
+conviene protegerlo con verificación en dos pasos. El cerrojo de Face ID es un
+cerrojo local del dispositivo, no un segundo factor.
