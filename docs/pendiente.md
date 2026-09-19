@@ -4,30 +4,34 @@ Lo que no se puede hacer desde el código: pasos en el panel de Supabase, prueba
 con el móvil en la mano y decisiones del club. Al hacer algo, se tacha y se
 borra de aquí.
 
-Última revisión: 18 de septiembre de 2026.
+Última revisión: 19 de septiembre de 2026.
 
-## Ahora mismo: poner en marcha lo de esta sesión
+## Ahora mismo: probarlo con el equipo dentro
 
-Hay que hacerlo **en este orden**. El paso 1 y el 2 juntos, en la misma tarde:
-con el SQL puesto y la función vieja todo sigue como antes, pero al revés no
-suena ninguna notificación.
+Hecho el 19 de septiembre: los dos SQL ejecutados —el `select` de control
+devolvió `Luis Miguel · admin · aprobado`—, la función `enviar-push`
+desplegada y respondiendo `version: 4` con sus secretos en orden, y el código
+publicado en GitHub Pages.
 
-1. **SQL Editor de Supabase → `app/db/28_push_dirigido.sql`.**
-   Avisos al móvil dirigidos a una lista de personas.
-2. **SQL Editor → `app/db/29_acceso_manda.sql`.**
-   Sin acceso aprobado no hay nada, tampoco para el staff. Empieza reparando a
-   los admin que tuvieran el acceso en `nuevo`.
-   **Comprueba el `select` del final: tiene que salir tu fila.** Si no sales
-   ahí, no sigas y dilo.
-3. **Volver a desplegar la función `enviar-push`** con el `index.ts` nuevo.
-   Para comprobarlo, abre la URL de la función en el navegador: `version: 4`.
-4. **Publicar la web** (es GitHub Pages, con subir el repo vale) y **entrar en
-   la app con tu correo**. Es lo primero que hay que mirar: la librería de
-   Supabase ya no viene del CDN, viene de `app/js/vendor/`.
-5. **Probarlo con la app instalada en el móvil**, no en Safari:
-   - cancela un entreno de prueba y mira que llega la notificación;
-   - en un entreno próximo, el botón de avisar a quien no ha respondido;
-   - en Cuotas, el de avisar a quien debe.
+Queda comprobarlo con gente y con datos de verdad, **desde el móvil con la app
+instalada** en la pantalla de inicio: en iPhone, sin instalar no llegan las
+notificaciones.
+
+1. **Entrar en la app** con tu correo, en <https://corunaatlantics.com/app/>.
+   Es lo único que no se pudo probar antes de publicar: la librería de Supabase
+   ya no viene del CDN, viene de `app/js/vendor/`. Si el login va, eso está
+   bien. Si la pantalla se queda en blanco, es de ahí y se revierte en un
+   minuto.
+2. **Cancelar un entreno de prueba** y ver que suena «Cancelado · Entreno».
+   Desmarcar *Cancelado* y guardar otra vez lo deja como estaba y manda
+   «Vuelve · Entreno».
+3. **Avisar a quien no ha respondido**, desde la pantalla de un entreno
+   próximo. Necesita gente que haya entrado y no haya confirmado.
+4. **Avisar a quien debe la cuota**, en Cuotas. Necesita que haya cuotas
+   abiertas, o sea el importe de la temporada puesto en Ajustes.
+
+Los tres avisos dicen a cuántos de la lista ha llegado. Que el número sea bajo
+al principio es normal: solo cuenta a quien tenga las notificaciones activadas.
 
 ## Seguridad: lo que quedó del análisis del 17 de septiembre
 
