@@ -10,24 +10,20 @@ borra de aquí.
 
 Hecho el 19 de septiembre: los dos SQL ejecutados —el `select` de control
 devolvió `Luis Miguel · admin · aprobado`—, la función `enviar-push`
-desplegada y respondiendo `version: 4` con sus secretos en orden, y el código
-publicado en GitHub Pages.
+desplegada y respondiendo `version: 4` con sus secretos en orden, el código
+publicado en GitHub Pages y **la app comprobada**: se entra con normalidad, o
+sea que la librería de Supabase bajada a `app/js/vendor/` y la CSP están bien.
 
 Queda comprobarlo con gente y con datos de verdad, **desde el móvil con la app
 instalada** en la pantalla de inicio: en iPhone, sin instalar no llegan las
 notificaciones.
 
-1. **Entrar en la app** con tu correo, en <https://corunaatlantics.com/app/>.
-   Es lo único que no se pudo probar antes de publicar: la librería de Supabase
-   ya no viene del CDN, viene de `app/js/vendor/`. Si el login va, eso está
-   bien. Si la pantalla se queda en blanco, es de ahí y se revierte en un
-   minuto.
-2. **Cancelar un entreno de prueba** y ver que suena «Cancelado · Entreno».
+1. **Cancelar un entreno de prueba** y ver que suena «Cancelado · Entreno».
    Desmarcar *Cancelado* y guardar otra vez lo deja como estaba y manda
    «Vuelve · Entreno».
-3. **Avisar a quien no ha respondido**, desde la pantalla de un entreno
+2. **Avisar a quien no ha respondido**, desde la pantalla de un entreno
    próximo. Necesita gente que haya entrado y no haya confirmado.
-4. **Avisar a quien debe la cuota**, en Cuotas. Necesita que haya cuotas
+3. **Avisar a quien debe la cuota**, en Cuotas. Necesita que haya cuotas
    abiertas, o sea el importe de la temporada puesto en Ajustes.
 
 Los tres avisos dicen a cuántos de la lista ha llegado. Que el número sea bajo
