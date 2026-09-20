@@ -1,5 +1,23 @@
 # Changelog — Coruña Atlantics Web
 
+## [2026-09-19] — Avisos al móvil a quien le toca, y dos agujeros de seguridad
+
+**Qué se hizo:**
+- **Las notificaciones van a una lista de personas**, no siempre a todo el equipo (`28_push_dirigido.sql`). Un aviso para la defensa se veía solo en su tablón pero sonaba en los cincuenta móviles: eso queda arreglado
+- **Cancelar o mover un evento avisa a los convocados**, con una casilla en la ficha del evento marcada por defecto. Solo suena si cambia el día, la hora, el lugar o se cancela; corregir una nota no molesta a nadie
+- **Dos botones nuevos:** avisar a quien no ha dicho si viene a un entreno, y a quien debe la cuota. El de la cuota no lleva el importe, porque sale en la pantalla bloqueada
+- Se cuentan personas y no aparatos, y tras cada envío la app dice a cuántos de la lista ha llegado: el resto hay que perseguirlo por WhatsApp
+- **Auditada la app entera** —23 tablas, políticas, vistas, funciones, navegador, service worker e historial de git— a raíz de una pregunta sobre seguridad. El modelo de permisos aguantó; salieron dos cosas
+- **Quitarle el acceso a alguien del staff no le cerraba la API** (`29_acceso_manda.sql`): `es_staff()` y `es_admin()` miraban el rol y no el acceso, así que con su correo podía seguir leyendo teléfonos, DNI y notas. La migración repara antes a los admin con el acceso en `nuevo`, que si no se quedarían fuera de su propio club
+- **`supabase-js` y el generador de QR ya no se bajan de un CDN al arrancar**: viven en `app/js/vendor/` y se actualizan con `vendor/actualizar.py`, que falla si queda una referencia a internet. `index.html` lleva además una Content-Security-Policy
+- Encontrado de paso que `generar_instalador.py` se había quedado sin los archivos 26 y 27: el instalador los tenía, pero se habrían perdido al regenerarlo
+- **Analizados Abler, 360Player y Veo** a petición: lo que merece la pena copiar está en la respuesta de cada uno; de Veo la conclusión es que no, 800-1.400 € al año más la cámara
+- Probado con navegador automático sobre la demo y sobre la app: los cuatro envíos, la CSP sin violaciones, el QR con la copia local y cero peticiones al CDN
+
+**Archivos modificados:** `app/db/28_push_dirigido.sql` y `29_acceso_manda.sql` (nuevos), `app/db/00_instalar.sql`, `03_arranque.sql`, `generar_instalador.py`, `app/js/vendor/` (nuevo), `app/index.html`, `app/js/db.js`, `db-demo.js`, `ui.js`, `vistas/{avisos,calendario,cuotas,lista}.js`, `app/sw.js` (v71 → v73), `supabase/functions/enviar-push/index.ts` (v4), `app/README.md`, `docs/decisiones.md`, `docs/pendiente.md` (nuevo), `CLAUDE.md`.
+
+**Pendiente:** todo lo que queda vive ahora en `docs/pendiente.md`, para no ir persiguiéndolo por el changelog. Lo inmediato: probar los tres avisos con la app instalada en el móvil (el SQL, la función y el login ya están comprobados). Sigue ahí lo de que los delegados leen el DNI y las notas del staff, las fuentes de Google por el RGPD, `vapid.txt` fuera del ordenador, el importe de la cuota y el horario, y `app/js/instalar.js` sin enganchar.
+
 ## [2026-09-08] — La app no bajaba con la rueda ni con el dedo
 
 **Qué se hizo:**
