@@ -10,6 +10,7 @@
   --line:   #1d4056;
   --teal:   #4ECDC8;
   --teal-d: #2a9a96;
+  --equip:  #006E82; /* teal de la equipacion: rellenos con texto blanco */
   --gold:   #D4A843;
   --goldf:  #F0C060;
   --text:   #EEF4F6;
@@ -460,8 +461,8 @@ button.fila:active { transform: scale(.995); }
   min-height: 46px;
 }
 .btn:hover { border-color: var(--teal-d); }
-.btn.primario { background: var(--teal); border-color: var(--teal); color: var(--ink); }
-.btn.primario:hover { background: var(--goldf); border-color: var(--goldf); }
+.btn.primario { background: var(--equip); border-color: var(--equip); color: #fff; }
+.btn.primario:hover { background: var(--goldf); border-color: var(--goldf); color: var(--ink); }
 .btn.oro { background: var(--gold); border-color: var(--gold); color: var(--ink); }
 .btn.fantasma { background: transparent; }
 .btn.peligro { color: var(--bad); border-color: var(--bad); background: transparent; }
@@ -538,7 +539,7 @@ button.fila:active { transform: scale(.995); }
   padding: .45rem .8rem; border-radius: 999px;
   background: transparent; border: 1px solid var(--line); color: var(--muted);
 }
-.filtros button[aria-pressed="true"] { background: var(--teal); border-color: var(--teal); color: var(--ink); font-weight: 600; }
+.filtros button[aria-pressed="true"] { background: var(--equip); border-color: var(--equip); color: #fff; font-weight: 600; }
 
 /* --- Hoja modal ---------------------------------------------------------- */
 
