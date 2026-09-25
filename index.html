@@ -26,7 +26,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
     :root {
       --ink:    #040d12;
@@ -158,9 +158,9 @@
     }
     .hero-kicker::before { content: ''; width: 32px; height: 2px; background: var(--teal); }
     .hero-title {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: clamp(5.5rem, 13vw, 12rem);
-      line-height: 0.88; letter-spacing: 0.03em;
+      font-family: 'Anton', sans-serif;
+      font-size: clamp(4.4rem, 10.5vw, 9.6rem);
+      line-height: 0.92; letter-spacing: 0.01em;
       color: var(--text); margin-bottom: 1.2rem;
     }
     .hero-title .t { color: var(--teal); }
@@ -486,8 +486,8 @@
     .ig-btn {
       display: flex; align-items: center; justify-content: center; gap: 0.5rem;
       width: 100%; padding: 0.6rem 1rem;
-      background: linear-gradient(135deg, #405DE6, #833AB4, #E1306C, #FD1D1D);
-      color: var(--text); border-radius: 4px;
+      background: var(--gold);
+      color: var(--ink); border-radius: 4px;
       font-family: 'Barlow Condensed', sans-serif;
       font-weight: 700; font-size: 0.8rem;
       letter-spacing: 0.1em; text-transform: uppercase;
@@ -682,7 +682,11 @@
         </div>
       </div>
       <div class="hero-mascot">
-        <img src="avatar Sin fondo.png" alt="Poseidón — Mascota Coruña Atlantics">
+        <picture>
+          <source media="(max-width: 960px)" srcset="web/avatar-hero-movil.webp" type="image/webp">
+          <source srcset="web/avatar-hero.webp" type="image/webp">
+          <img src="web/avatar-hero.png" alt="Poseidón — Mascota Coruña Atlantics">
+        </picture>
       </div>
     </div>
     <div class="hero-scroll" aria-hidden="true">
@@ -769,7 +773,7 @@
           <div class="sec-label">Quiénes somos</div>
           <h2 class="sec-title">Nacidos en <span class="t">el Atlántico</span></h2>
           <p style="font-size:0.95rem;color:var(--dim);line-height:1.75;margin-bottom:0.8rem;">
-            Coruña Atlantics nació con una idea simple: llevar el football americano a A Coruña con la misma intensidad con que el océano golpea nuestra costa. Temporada 2026: volvemos a por todo.
+            Coruña Atlantics nació con una idea simple: llevar el football americano a A Coruña con la misma intensidad con que el océano golpea nuestra costa. Venimos a por todo.
           </p>
           <p style="font-size:0.95rem;color:var(--dim);line-height:1.75;">
             No importa si tienes experiencia o si eres nuevo en el football americano. Si tienes ganas, nosotros ponemos el resto: entrenamiento, compañerismo y una camiseta con el tridente.
@@ -786,7 +790,7 @@
     <img src="Atlantics Balón sin fondo.png" alt="" aria-hidden="true" class="roster-bg" loading="lazy">
     <div class="container" style="position:relative;z-index:1;">
       <h2 class="sec-title">El <span class="t">Roster</span></h2>
-      <p style="font-size:0.92rem;color:var(--dim);margin-top:0.3rem;">Los jugadores que visten el tridente. Temporada 2026-27.</p>
+      <p style="font-size:0.92rem;color:var(--dim);margin-top:0.3rem;">Los jugadores que visten el tridente.</p>
 
       <!-- Se rellena con la plantilla de verdad al cargar. Si no hay conexion
            con la base del club, la seccion entera se oculta: mejor no enseñar
