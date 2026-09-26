@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&display=swap');
+:root{--teal:#4ECDC4;--gold:#D4A843;--ink:#040d12;--deep:#0a3a44;--foam:#eef3f2;}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1080px;height:1350px;overflow:hidden;background:var(--ink)}
+.slide{position:relative;width:1080px;height:1350px;overflow:hidden}
+
+/* Carta náutica: curvas batimétricas + retícula de latitud/longitud */
+.sea{background:
+  url(carta-oscura.png) 0 0/1080px 1350px,
+  linear-gradient(90deg,rgba(78,205,196,.07) 1px,transparent 1px) 0 0/135px 135px,
+  linear-gradient(0deg,rgba(78,205,196,.07) 1px,transparent 1px) 0 0/135px 135px,
+  radial-gradient(ellipse at 50% 40%,#0f5e66 0%,#093a44 40%,#051a22 75%,var(--ink) 100%);}
+.chart{background:
+  url(carta-clara.png) 0 0/1080px 1350px,
+  linear-gradient(90deg,rgba(10,58,68,.06) 1px,transparent 1px) 0 0/135px 135px,
+  linear-gradient(0deg,rgba(10,58,68,.06) 1px,transparent 1px) 0 0/135px 135px,
+  radial-gradient(ellipse at 45% 35%,#ffffff,var(--foam) 60%,#dae6e4);}
+
+/* Parche bordado */
+.patch{filter:
+  drop-shadow(6px 0 0 #f4f1ea) drop-shadow(-6px 0 0 #f4f1ea)
+  drop-shadow(0 6px 0 #f4f1ea) drop-shadow(0 -6px 0 #f4f1ea)
+  drop-shadow(1.5px 0 0 #b9b2a3) drop-shadow(-1.5px 0 0 #b9b2a3)
+  drop-shadow(0 16px 18px rgba(0,0,0,.6)) drop-shadow(0 3px 3px rgba(0,0,0,.45));}
+
+/* Cabecera: marca + coordenadas de A Coruña */
+.head{position:absolute;top:52px;left:64px;right:64px;display:flex;justify-content:space-between;align-items:center;z-index:5;
+  font:600 26px 'Barlow Condensed';letter-spacing:4px;color:#fff}
+.head .brand{display:flex;align-items:center;gap:14px}
+.head img{height:54px}
+.head .coord{color:var(--teal);letter-spacing:3px}
+.light .head{color:var(--ink)} .light .head .coord{color:var(--deep)}
+
+/* Ola inferior */
+.wave{position:absolute;left:0;bottom:0;width:1080px;z-index:4}
+.foot{position:absolute;left:64px;right:64px;bottom:54px;display:flex;justify-content:space-between;align-items:baseline;z-index:6;
+  font:500 28px 'Barlow';color:#fff}
+.foot b{font:400 36px 'Anton';letter-spacing:1.5px;color:var(--gold)}

@@ -5,3 +5,5 @@ assets/*.mp4
 assets/*.mov
 assets/*.mp3
 assets/*.wav
+assets/**/*.mp4
+assets/**/*.mov

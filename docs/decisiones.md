@@ -405,3 +405,30 @@ falla si queda una sola referencia a internet.
 contenido); `frame-ancestors` en la CSP (en un `<meta>` el navegador lo ignora, y en
 GitHub Pages no se pueden poner cabeceras); quitar `'unsafe-inline'` de `style-src`
 (la app usa atributos `style=""` y se quedaría sin maquetar).
+
+
+## [2026-09-26] — Material de redes fuera de la web y del repo
+
+**Decisión:** las plantillas y los posts de Instagram viven en `redes/`, se generan desde HTML
+con Playwright (`redes/plantillas/_editables/render.py`) y, por ahora, **no entran en git**.
+
+**Motivo:** son unos 30 MB de imágenes que no pinta la web, y el repo es público y lo sirve
+GitHub Pages. Generarlas desde HTML permite cambiar un rival, un marcador o un color y volver
+a sacar el PNG sin programas de diseño de pago.
+
+**Alternativas descartadas:** Canva o Figma (dependen de otra cuenta y no se regeneran por
+lotes); subirlas al repo (lo engordan sin que la web las use); plantillas de CapCut para
+las imágenes (no mantienen la marca).
+
+## [2026-09-26] — Correo del club: atlantics@ es un reenvío, no una cuenta de Google
+
+**Decisión:** los correos del club se envían desde el Gmail del club (coruna.atlantics@gmail.com).
+Para que salgan como atlantics@corunaatlantics.com, la vía es "Enviar como" en Gmail con el
+SMTP gratuito de Brevo, que ya tiene un código de verificación en los TXT del dominio.
+
+**Motivo:** el dominio tiene reenvío de Namecheap (MX eforward), así que atlantics@ recibe
+pero no tiene buzón ni cuenta de Google, y el conector de Gmail no puede usarlo. El conector
+estaba en una cuenta personal ajena al club.
+
+**Alternativas descartadas:** Google Workspace (de pago); enviar desde la cuenta personal
+(mezcla cosas que no son del club).

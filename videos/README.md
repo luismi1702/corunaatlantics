@@ -29,6 +29,30 @@ Convención de nombres en `output/`: `YYYY-MM-DD_tema_plataforma.mp4`
 - Hashtag: **#WeAreAtlantics** · Mascota: Poseidón
 - Logos: usar SIEMPRE las versiones "sin fondo" (están en la raíz del proyecto)
 
+## Color de marca (LUT Atlantics)
+
+Todos los vídeos llevan el mismo etalonaje para que casen con las plantillas:
+sombras azul noche, cielo y campo en teal, amarillos hacia el oro, piel natural,
+algo de grano y viñeta.
+
+    python estilo_atlantics.py brutos\IMG_1298.MOV                  # estilo completo
+    python estilo_atlantics.py brutos\IMG_1298.MOV --intensidad 0.6 # más suave
+    python estilo_atlantics.py brutos\clip.mp4 --vertical           # horizontal -> 9:16
+
+Sale en `output/<nombre>_atlantics.mp4` (1080×1920). El LUT suelto está en
+`assets/lut/atlantics.cube`: se importa en CapCut de ordenador (Ajustar > LUT) o en DaVinci.
+
+## Cierre de marca
+
+**Cierre oficial (elegido en sept. 2026):** `assets/cierre_atlantics_tormenta.mp4` (4 s): el cierre de tormenta de siempre con el avatar nuevo,
+1080×1920 y #WEAREATLANTICS + @ al final. Se rehace con las capas de `assets/cierre/`
+(tormenta_original.mov + capa_avatar.png + mascara_logo.png + capa_textos.png).
+
+Descartado (se guarda por si acaso): `assets/cierre_atlantics_3s.mp4` (y la imagen fija `cierre_atlantics_1080x1920.png`):
+el tridente sale del mar y aparece #WEAREATLANTICS. Va al final de todos los Reels,
+también los hechos con plantilla de CapCut (añádelo como último clip). Se rehace desde
+`assets/cierre/cierre.html`. El antiguo `endcard_3s.mp4` es del estilo anterior.
+
 ## Recetas rápidas (ffmpeg)
 
 ```powershell

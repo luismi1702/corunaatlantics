@@ -1,5 +1,20 @@
 # Changelog — Coruña Atlantics Web
 
+## [2026-09-26] — La marca nueva en todo: guía, plantillas, web, app, vídeo y patrocinio
+
+**Qué se hizo:**
+- **Guía de marca** publicada (https://claude.ai/artifact/TjT3b29EXEJF58LczDB4RE, copia en `redes/guia-marca/`). Teal de la equipación elegido: **#006E82** (CMYK C85 M35 Y28 K14 con perfil SWOP); el negro no es de la equipación; fondo de casa en azul noche #0A1626
+- **Plantillas de Instagram** en `redes/plantillas/<tipo>/<estilo>-<color>.png` (Game Day, Victoria, Resultado final, Resultados 3/4 partidos, Clasificación, MVP, Training Day, Patrocinador, portadas de Reel), casi todas en 4 colores. Editables y `render.py`/`catalogo.py` en `_editables/`; índice en `redes/LEEME.md` y `CATALOGO.png`
+- **Posts listos** en `redes/posts/`: carrusel de identidad (publicado), O'Culto (publicado el 26/09), Nanys y ROJO, 7 razones para jugar, Glosario NFL #01–#06, posiciones tackle y flag, Halloween, NFL Madrid y cartel de captación A4
+- **Web:** título en Anton (fuera Bebas Neue), avatar nuevo en WebP, botón de Instagram en oro y quitadas las temporadas para que sea atemporal (commit `cdf5565`)
+- **App:** logo nuevo, botones y filtros en teal G, "Mi ficha" de la demo arreglada (faltaba `VAPID_PUBLICA` en `config-demo.js`) y service worker v74 (commit `4a80935`)
+- **Vídeo:** LUT de marca y `videos/estilo_atlantics.py` para los clips; cierre oficial `videos/assets/cierre_atlantics_tormenta.mp4`, con el logo animado y sin marca de IA. Instalado `rembg` para recortar jugadores
+- **Patrocinio:** dossier en PDF A4 sin niveles ni precios, con datos contrastados de la NFL en España (`redes/dossier/`), contactos de hamburgueserías y mensajes para enviarlo. Calendario de octubre publicado (https://claude.ai/artifact/Q8xMfTCwNadWvqTi8cuU7m)
+
+**Archivos modificados:** `index.html`, `web/avatar-hero*.{png,webp}` (nuevos), `avatar sin fondo v2.png` (nuevo; borrado `avatar Sin fondo.png`), `boceto camis flag*.png`, `app/img/logo-principal.webp`, `app/css/app.css`, `app/js/config-demo.js`, `app/sw.js`, `videos/estilo_atlantics.py` y `videos/assets/{lut,cierre}/` (nuevos), `videos/README.md`, `redes/` (nuevo, fuera de git).
+
+**Pendiente:** enviar el dossier a las hamburgueserías desde el Gmail del club (el conector de Gmail está en otra cuenta), @ de Instagram de Nanys y ROJO, versión para Instagram del cartel de captación y decidir si `redes/` entra en git.
+
 ## [2026-09-19] — Avisos al móvil a quien le toca, y dos agujeros de seguridad
 
 **Qué se hizo:**
