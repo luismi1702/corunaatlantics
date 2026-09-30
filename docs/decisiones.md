@@ -432,3 +432,18 @@ estaba en una cuenta personal ajena al club.
 
 **Alternativas descartadas:** Google Workspace (de pago); enviar desde la cuenta personal
 (mezcla cosas que no son del club).
+
+## [2026-09-30] — Venir a probar es un mensaje por Instagram, no un alta en la app
+
+**Decisión:** la tarjeta "Quiero jugar" de la web pasa a "Ven a probar" y lleva a un DM de
+Instagram (ig.me/m/corunaatlantics). La app queda como enlace pequeño para quien ya es del
+equipo; al que viene a probar y se queda se le da de alta después, en persona.
+
+**Motivo:** entrar en la app pedía correo, código, ficha y esperar la aprobación del club:
+era darse de alta en el equipo antes de haber pisado un entreno, y frenaba la captación.
+Instagram es donde ya escribe la gente y lo que dicen los posts ("escríbenos por DM").
+En la web no van el día, la hora ni el sitio del entreno: se cuentan por mensaje.
+
+**Alternativas descartadas:** WhatsApp (obliga a publicar un número); un formulario que
+guarde en Supabase (tabla, RLS y pantalla nuevas para algo que un DM resuelve); volver al
+formulario con mailto (en móviles sin correo configurado no hacía nada).
