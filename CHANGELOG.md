@@ -1,5 +1,20 @@
 # Changelog — Coruña Atlantics Web
 
+## [2026-09-30] — Ropa del club en bocetos, captación por Instagram y entrenos en jueves
+
+**Qué se hizo:**
+- **Web:** la tarjeta "Quiero jugar" pasa a "Ven a probar" y abre un DM de Instagram; la app queda como enlace pequeño para los que ya son del equipo (commit `1a9e69c`, publicado y comprobado en corunaatlantics.com)
+- **Entrenos los jueves:** calendario de octubre rehecho (Training Day los jueves, Reel el martes siguiente, Nanys al sábado 3) y el post de la NFL en Madrid corregido; hoy se publicó el carrusel de las 7 razones
+- **Uniformes de flag** en ficha técnica (`equipacion/generar.py`): local teal con pantalón negro y franjas en los hombros, visitante blanca con los tridentes del club en las mangas; números de bloque dibujados a mano con doble perfil, PLAYER NAME a la espalda y fila de colores al pie
+- **Sudaderas y chándales** (`equipacion/generar_ropa.py`): cuatro rondas de 6 + 6 diseños inspirados en NFL/college (Sideline, Starter, Pro Standard, Mitchell & Ness, Kith, Tech Fleece), guardadas en `equipacion/rondaN/`, y catálogo numerado S1–S24 / C1–C24 (`catalogo.py`)
+- **Definitivas** pulidas una a una con `equipacion/mejoras.py`: sudaderas S6, S18 y S21 y chándales C2, C12 y C19 (`mejoras-*FINAL.png`, cada una con sus códigos de color)
+- **Redes:** los carruseles del glosario y de posiciones alternan fondo azul noche / teal / teal oscuro (`redes/plantillas/_editables/cambiar_fondo.py`); los azules de antes quedan en `_copia-fondo-azul/`
+- Logo principal nuevo pasado a PNG transparente y enviado al móvil
+
+**Archivos modificados:** `index.html`, `docs/decisiones.md`, `CLAUDE.md`, `equipacion/` (nuevo, sin subir), `redes/calendario/calendario-octubre-2026.html`, `redes/posts/fechas/nfl-madrid.*`, `redes/posts/glosario-0{1,2,4,6}-*/`, `redes/posts/posiciones-general/`, `redes/plantillas/_editables/` (`cambiar_fondo.py` y fondos), `redes/LEEME.md`.
+
+**Pendiente:** decidir con qué definitivas se queda el club y pedir a la proveedora Pantone y muestra impresa; subir `CLAUDE.md` y decidir si `equipacion/` entra en git; aparecen borrados en git `Game Day.png`, `MVP.png`, `game day 3.png`, `gameday 2.png` y `resultado final.png` en la raíz (no los borró esta sesión: revisar); falta el @ de Nanys antes del sábado 3.
+
 ## [2026-09-26] — La marca nueva en todo: guía, plantillas, web, app, vídeo y patrocinio
 
 **Qué se hizo:**

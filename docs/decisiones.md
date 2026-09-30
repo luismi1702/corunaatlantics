@@ -447,3 +447,11 @@ En la web no van el día, la hora ni el sitio del entreno: se cuentan por mensaj
 **Alternativas descartadas:** WhatsApp (obliga a publicar un número); un formulario que
 guarde en Supabase (tabla, RLS y pantalla nuevas para algo que un DM resuelve); volver al
 formulario con mailto (en móviles sin correo configurado no hacía nada).
+
+## [2026-09-30] — El negro solo va en el pantalón de la local
+
+**Decisión:** la equipación de flag local es teal con pantalón negro (#16191C); en el resto de prendas del club (visitante, sudaderas, chándales) no hay negro y el color oscuro es el azul marino #0F2640.
+
+**Motivo:** lo pidió él al ver el boceto ("el pantalón del azul es negro"). El negro sigue sin ser color del club (el Ink #040d12 es solo fondo de la web); el marino de la ropa es un punto más claro que el azul noche de las plantillas para que en tela no parezca negro.
+
+**Alternativas descartadas:** pantalón teal a juego con la camiseta (no le gustó); usar el azul noche #0A1626 en la ropa (en tela se confunde con negro).

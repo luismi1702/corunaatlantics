@@ -16,7 +16,7 @@ Usar SIEMPRE las versiones sin fondo (transparentes) para logos y mascotas en la
 Las versiones FONDO.png / CON FONDO.png son solo para uso fuera de la web.
 
 ## Identidad visual (rebranding mayo 2026)
-Colores: Teal #4ECDC4 (web) / #006E82 (equipación, CMYK C85 M35 Y28 K14) · Gold #D4A843 · Ink #040d12 (solo fondo; el negro no es de la equipación)
+Colores: Teal #4ECDC4 (web) / #006E82 (equipación, CMYK C85 M35 Y28 K14) · Gold #D4A843 · Ink #040d12 (fondo de la web; en la equipación el negro solo va en el pantalón de la local)
 Tipografía: Anton (titulares) · Barlow Condensed (UI) · Barlow (cuerpo)
 Hashtag: #WeAreAtlantics · Mascota: Poseidón (teal, tridente dorado)
 
@@ -30,6 +30,7 @@ Hashtag: #WeAreAtlantics · Mascota: Poseidón (teal, tridente dorado)
 - docs/pendiente.md — lo que tiene que hacer él a mano (Supabase, pruebas en el móvil)
 - docs/contacto-esn-coruna.md — textos de contacto con ESN y universidades
 - videos/GUION_REEL_HYPE.md — guión y flujo de montaje de Reels
+- equipacion/ — bocetos de ropa: uniformes (generar.py), sudaderas y chándales (generar_ropa.py, rondas en rondaN/, definitivas con mejoras.py)
 - redes/ — plantillas y posts de Instagram (fuera de git); índice en redes/LEEME.md, guía de marca en redes/guia-marca/
 
 ## Vídeos de fondo
