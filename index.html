@@ -376,6 +376,31 @@
       pointer-events: none;
     }
 
+    /* ── PATROCINADORES ── */
+    .patro { background: var(--deep); text-align: center; }
+    .patro .sec-label { justify-content: center; }
+    .patro-list {
+      display: flex; flex-wrap: wrap; justify-content: center; gap: 1.5rem;
+      margin: 2.5rem 0 2rem;
+    }
+    .patro-item {
+      display: flex; flex-direction: column; align-items: center; gap: 1rem;
+      padding: 2.2rem 2.8rem; min-width: min(100%, 320px);
+      border: 1px solid rgba(212,168,67,0.25); border-radius: 6px;
+      background: rgba(4,13,18,0.45);
+      transition: border-color .3s, transform .3s;
+    }
+    .patro-item:hover { border-color: var(--gold); transform: translateY(-3px); }
+    .patro-item img { height: 80px; width: 260px; max-width: 100%; object-fit: contain; }
+    .patro-item span {
+      font-family: 'Barlow Condensed', sans-serif; font-weight: 600;
+      font-size: 0.8rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--dim);
+    }
+    .patro-cta { font-size: 0.92rem; color: var(--dim); }
+    .patro-cta a { color: var(--gold); text-decoration: none; border-bottom: 1px solid rgba(212,168,67,0.4); }
+    .patro-cta a:hover { color: var(--goldf); border-color: var(--goldf); }
+
     /* ── INSTAGRAM ── */
     .instagram { background: var(--deep); position: relative; overflow: hidden; }
     .ig-trident-bg {
@@ -800,6 +825,27 @@
 
   <div class="divider"></div>
 
+  <!-- PATROCINADORES -->
+  <section class="section patro" id="patrocinadores">
+    <div class="container">
+      <div class="sec-label">Patrocinadores</div>
+      <h2 class="sec-title">Reman <span class="g">con nosotros</span></h2>
+      <div class="patro-list">
+        <a href="https://instagram.com/descubreoculto_" target="_blank" rel="noopener" class="patro-item" aria-label="O'Culto en Instagram">
+          <img src="web/patrocinador-oculto.png" alt="O'Culto" width="260" height="80" loading="lazy">
+          <span>Nuestro tercer tiempo · Panaderas&nbsp;26</span>
+        </a>
+        <a href="https://instagram.com/nanysfotomaton" target="_blank" rel="noopener" class="patro-item" aria-label="Nanys Fotomatón en Instagram">
+          <img src="web/patrocinador-nanys.png" alt="Nanys Fotomatón" width="132" height="80" loading="lazy">
+          <span>Bodas, cumpleaños y eventos</span>
+        </a>
+      </div>
+      <p class="patro-cta">¿Quieres ver tu marca aquí? <a href="mailto:atlantics@corunaatlantics.com?subject=Patrocinio">Escríbenos</a></p>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
   <!-- INSTAGRAM -->
   <section class="section instagram" id="instagram">
     <img src="tridente sin fondo.png" alt="" aria-hidden="true" class="ig-trident-bg" loading="lazy">
@@ -846,6 +892,7 @@
           <a href="#nosotros">Nosotros</a>
           <a href="#roster">Roster</a>
           <a href="#unete">Únete al equipo</a>
+          <a href="#patrocinadores">Patrocinadores</a>
           <a href="#instagram">Instagram</a>
         </nav>
       </div>

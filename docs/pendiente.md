@@ -68,7 +68,7 @@ al principio es normal: solo cuenta a quien tenga las notificaciones activadas.
 - **Dossier a las hamburgueserías.** Correos listos (Hermes' Journey, Uptown Burgers) y DM para
   el resto en `redes/dossier/`. Enviar desde el Gmail del club: el conector de Gmail está en otra
   cuenta. Adjuntar `Dossier-Patrocinio-Coruna-Atlantics-ligero.pdf`.
-- **@ de Instagram de Nanys y de ROJO**, para cerrar sus posts. ROJO: publicar y añadir al dossier cuando sea oficial.
+- **@ de Instagram de ROJO**, para cerrar su post (el de Nanys es @nanysfotomaton). ROJO: publicar y añadir al dossier cuando sea oficial.
 - **Versión para Instagram del cartel de captación** (sábado 10 de octubre).
 - **Clips de cada martes** para los Reels de los jueves.
 - **Decidir si `redes/` entra en git** (unos 30 MB).
