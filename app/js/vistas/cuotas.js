@@ -43,8 +43,28 @@ export async function render(ctx, cont) {
     todos:      () => true
   };
 
+  // El importe vivía solo en Ajustes, y es en Tesorería donde se busca. Lo
+  // cambia el admin (la temporada es suya); el tesorero lo ve.
+  const importe = Number(ctx.temporada.importe_cuota) || 0;
+  const esAdmin = ctx.perfil.rol === 'admin';
+
   cont.innerHTML = html`
     <div id="por-validar"></div>
+
+    ${esAdmin ? crudo(html`
+      <form id="importe" class="card importe-cuota ${importe <= 0 ? 'falta' : ''}">
+        <label for="importe-cuota">Cuota de ${ctx.temporada.nombre}</label>
+        <div class="fila-importe campo">
+          <input id="importe-cuota" name="importe" type="number" step="0.01" min="1"
+                 inputmode="decimal" value="${importe > 0 ? importe : ''}" placeholder="170" required>
+          <button class="btn primario" type="submit">${importe > 0 ? 'Cambiar' : 'Poner la cuota'}</button>
+        </div>
+        <p class="ayuda">${importe > 0
+          ? 'Se aplica a quien no la tenga o la tenga a cero. No toca a quien ya ha pagado algo, tiene un importe propio o está exento.'
+          : 'Todavía no hay importe: a la plantilla le sale "Cuota por fijar". Al ponerlo, se aplica a todos.'}</p>
+      </form>`) : crudo(html`
+      <p class="ayuda" style="margin:0 0 1rem">Cuota de ${ctx.temporada.nombre}:
+        <strong>${importe > 0 ? euros(importe) : 'sin fijar'}</strong>. La cambia el administrador.</p>`)}
 
     <div class="cifras">
       <div class="cifra ok"><div class="n">${euros(cobrado)}</div><div class="l">Cobrado</div></div>
@@ -87,6 +107,22 @@ export async function render(ctx, cont) {
   // Lo primero que se ve: lo que los jugadores dicen haber pagado y espera a
   // que alguien lo compruebe. Al validar se repinta todo, cifras incluidas.
   pintarPorValidar($('#por-validar', cont), ctx, () => render(ctx, cont));
+
+  $('#importe')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const nuevo = Number(new FormData(e.target).get('importe'));
+    if (!(nuevo > 0)) return;
+    const boton = e.target.querySelector('button');
+    boton.disabled = true;
+    try {
+      await db.guardarTemporada(ctx.temporada.id, { importe_cuota: nuevo });
+      ctx.temporada.importe_cuota = nuevo;
+      await db.abrirTemporada(ctx.temporada.id);
+      const n = await db.aplicarImporteCuota(ctx.temporada.id);
+      avisar('Cuota de ' + euros(nuevo) + (n ? ' aplicada a ' + n + (n === 1 ? ' persona' : ' personas') : ' guardada'));
+      render(ctx, cont);
+    } catch (err) { fallo(err); boton.disabled = false; }
+  });
 
   $('#aplicar')?.addEventListener('click', async () => {
     if (!await confirmar('Aplicar el importe',

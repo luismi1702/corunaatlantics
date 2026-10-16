@@ -6,6 +6,7 @@
 - **Auditoría completa** con la app ya repartida (`docs/auditoria-app-2026-10-16.md`). Desde fuera, contra el Supabase real, no se lee nada salvo la plantilla pública de la web, que es a propósito. Las escrituras y las 31 funciones especiales están bien protegidas, no hay hueco de inyección y las 19 pantallas cargan sin error
 - **Arreglado (`32_privacidad.sql`):** la ficha entera solo la leen roster y documentos; el resto de secciones usa `plantilla_club`. Las notas del staff pasan a tablas propias que el jugador no lee. Disponibilidad ya no marca a todos como no aptos a quien lleva el calendario. Las fotos de la tienda solo las cambia quien lleva la tienda
 - **Cuota sin importe:** sale "Por fijar" en vez de "Al día"
+- **El importe de la cuota se pone en Tesorería → Cuotas**, arriba, y un solo botón lo guarda y lo aplica a la plantilla. Antes solo estaba en Ajustes y no lo encontraba (sw v82)
 - **RGPD:** texto de para qué se piden los documentos y cuándo se borran; el alta explica el tratamiento y, si es menor de 14 años, pide los datos del tutor y el consentimiento es suyo (`registrar_tutor`)
 - **Tesorero que no es admin:** en Hoy, "N por validar" junto a Tesorería
 - **Fuentes servidas desde `app/fonts/`** (16 archivos woff2, 348 KB) y fuera de la CSP los dominios de Google

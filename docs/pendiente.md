@@ -9,8 +9,8 @@ borra de aquí.
 ## Arreglos de la auditoría (16 oct)
 
 1. ~~Ejecutar `app/db/32_privacidad.sql`~~ — hecho el 16 oct, salieron las tres filas. Código publicado.
-2. **Fijar la cuota**: Ajustes → importe 170 € → guardar, y en Tesorería → Cuotas pulsar
-   *Aplicar el importe a la plantilla*. Hasta entonces a todos les sale "Cuota por fijar".
+2. **Fijar la cuota**: Tesorería → Cuotas → arriba, *Cuota de 2026-27* → 170 → *Poner la cuota*
+   (guarda el importe y lo aplica a la plantilla). Hasta entonces a todos les sale "Cuota por fijar".
 3. **Comprobar el correo de los códigos**: Supabase → Authentication → Emails → SMTP Settings.
    Si no hay SMTP propio, Supabase manda muy pocos correos por hora y a parte del equipo no le
    llegará el código. Brevo es gratis.
