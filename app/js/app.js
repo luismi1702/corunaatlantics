@@ -5,7 +5,7 @@ import { html, crudo, $, avisar, fallo, confirmar, cargando, SECCIONES } from '.
 import * as cerrojo from './cerrojo.js';
 // Se carga al arrancar porque el aviso de Chrome de que ya se puede instalar
 // llega una sola vez y muy pronto: si se espera a abrir la pantalla, se pierde.
-import './instalar.js';
+import { pintarInstalar } from './instalar.js';
 
 // La app tiene dos caras y cada una tiene su propio mapa de pantallas: lo que
 // ve el staff no se parece en nada a lo que ve un jugador, y no es cuestión de
@@ -342,6 +342,7 @@ function pantallaLogin(app, db) {
     <div class="login">
       <img class="login-marca" src="./img/logo-principal.webp" alt="Coruña Atlantics">
       <p>La app del equipo: entrenos, partidos y tu ficha.</p>
+      <div id="instalar" class="login-instalar"></div>
       <form id="entrar">
         <div class="campo">
           <label>Email</label>
@@ -355,6 +356,11 @@ function pantallaLogin(app, db) {
         revisará tu solicitud.
       </p>
     </div>`;
+
+  // Antes del correo, no después: en iPhone la app instalada no comparte la
+  // sesión con Safari, así que quien entra primero y luego instala tiene que
+  // volver a pedir el código. Instalada, el bloque no pinta nada.
+  pintarInstalar($('#instalar'));
 
   $('#entrar').addEventListener('submit', async (e) => {
     e.preventDefault();

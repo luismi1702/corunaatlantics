@@ -14,7 +14,7 @@ borra de aquí.
 3. **Probarlo con la app instalada en el móvil**: Mi ficha → Documento de identidad → tocar
    *Cara*, hacer la foto con la cámara y ver que aparece en la casilla. Luego, en la consola,
    Documentos → *Descargar todo en un ZIP* y abrirlo.
-   De paso, en Safari o Chrome **sin instalar**: en Hoy tiene que salir "Instalar la app" con
+   De paso, en Safari o Chrome **sin instalar**: en la pantalla de entrada tiene que salir "Instalar la app" con
    los pasos (en Android puede salir el botón "Instalar en este móvil"); instalada, no sale.
 4. Cuando la federación tenga los documentos: **Documentos → Borrar todos los documentos
    subidos**.

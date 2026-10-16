@@ -596,6 +596,9 @@ button.fila:active { transform: scale(.995); }
 .login h1 { font-size: 2rem; }
 .login p { color: var(--muted); max-width: 34ch; line-height: 1.55; margin: .2rem 0 1.2rem; }
 .login form { width: 100%; max-width: 340px; text-align: left; }
+.login-instalar { width: 100%; max-width: 340px; text-align: left; margin-bottom: 1.4rem; }
+.login-instalar:empty { display: none; }
+.login-instalar .card p { margin: 0 0 .9rem; max-width: none; }
 .aviso-cerrojo {
   color: var(--goldf); font-size: .92rem; line-height: 1.5;
   max-width: 32ch; margin: 0 0 1rem;
