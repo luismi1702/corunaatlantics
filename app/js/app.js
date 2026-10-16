@@ -107,6 +107,7 @@ function rutaActual(vistas) {
 // ---------------------------------------------------------------------------
 
 let yaDesbloqueado = false;
+let hayVersionNueva = false;
 
 async function iniciar() {
   const app = $('#app');
@@ -533,6 +534,10 @@ function pantallaApp(app, ctx, vistas, tabs) {
     <main class="vista" id="vista"></main>`;
 
   async function navegar() {
+    // Si se ha publicado una versión mientras la app estaba abierta, se
+    // recarga al cambiar de pantalla en vez de mezclar piezas viejas y nuevas.
+    if (hayVersionNueva) { location.reload(); return; }
+
     const { ruta: r, param } = rutaActual(vistas);
     const v = vistas[r];
 
@@ -584,7 +589,9 @@ function pantallaApp(app, ctx, vistas, tabs) {
 // fallo de nada, solo mala suerte con el momento, y se arregla recargando.
 // Se recarga una sola vez por minuto: si el modulo falta de verdad, o no hay
 // conexion, se enseña el error en vez de quedarse en un bucle.
-const MODULO_PERDIDO = /dynamically imported module|Importing a module script failed|error loading dynamically imported/i;
+// El último caso es la misma mala suerte con otra cara: la pantalla nueva
+// llama a una función que el db.js viejo, cargado al abrir la app, no tiene.
+const MODULO_PERDIDO = /dynamically imported module|Importing a module script failed|error loading dynamically imported|db\.\w+ is not a function/i;
 const CLAVE_RECARGA = 'atlantics-recarga-modulo';
 
 function recargarSiFaltaModulo(e) {
@@ -609,4 +616,15 @@ iniciar().catch((e) => {
 // una pantalla con la otra.
 if ('serviceWorker' in navigator && !location.pathname.endsWith('demo.html')) {
   window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}));
+
+  // Cuando entra una versión nueva del service worker, la página sigue con los
+  // módulos que cargó al abrirse, y las pantallas que se abren después ya
+  // llegan nuevas: la mezcla rompe en cuanto una pieza nueva pide algo que la
+  // vieja no tiene (pasó el 16 oct: "db.plantillaClub is not a function"). Se
+  // apunta aquí y navegar() recarga en el siguiente cambio de pantalla. La
+  // primera instalación también dispara el evento, y esa no cuenta.
+  const habiaControlador = !!navigator.serviceWorker.controller;
+  navigator.serviceWorker.addEventListener('controllerchange', () => {
+    if (habiaControlador) hayVersionNueva = true;
+  });
 }

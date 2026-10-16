@@ -10,6 +10,7 @@
 - **Tesorero que no es admin:** en Hoy, "N por validar" junto a Tesorería
 - **Fuentes servidas desde `app/fonts/`** (16 archivos woff2, 348 KB) y fuera de la CSP los dominios de Google
 - La pantalla de error escapa el mensaje
+- **Versiones mezcladas al publicar:** con la app abierta durante la publicación, Tesorería dio "db.plantillaClub is not a function" (pantalla nueva, `db.js` viejo en memoria). Ahora, cuando entra un service worker nuevo, la app se recarga en el siguiente cambio de pantalla, y ese error concreto también provoca una recarga (sw v81)
 - Envío del mensaje a David (Phenix) para añadir el logo de Artabro 0 % a las camisetas: preparado, a falta de saber dónde va el logo
 
 **Archivos modificados:** `app/db/32_privacidad.sql` (nuevo), `app/db/00_instalar.sql`, `app/db/generar_instalador.py`, `app/fonts/` (nuevo), `app/index.html`, `app/demo.html`, `app/js/app.js`, `app/js/db.js`, `app/js/db-demo.js`, `app/js/vistas/{alta,jug-ficha,jug-hoy,roster,documentacion,avisos,calendario,competiciones,cuotas,disponibilidad,estadisticas,lista,material,pago-avisado,tienda}.js`, `app/css/app.css`, `app/sw.js` (v80), `app/README.md`, `docs/auditoria-app-2026-10-16.md` (nuevo), `docs/pendiente.md`, `docs/decisiones.md`.
