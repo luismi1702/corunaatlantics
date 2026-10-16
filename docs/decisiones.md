@@ -599,3 +599,24 @@ de datos y una vez por aviso. La función `enviar-push` la usa sin pedir la llav
 puede cambiar el importe al validar. Las notificaciones no llevan importes, como el resto, porque
 salen en la pantalla bloqueada. De paso, el documento y la foto subidos desde la app ya cuentan
 como entregados en Hoy y en el menú del staff: antes solo contaba la casilla que marcaba el staff.
+
+## [2026-10-16] — Auditoría de la app: cada sección ve solo lo que necesita
+
+**Decisión:** la ficha entera de un jugador (correo, fecha de nacimiento, número de documento)
+la leen solo admin, roster y documentos. Las demás secciones trabajan con la vista
+`plantilla_club`, que lleva nombre, dorsal, posiciones, estado, teléfono y talla. Las notas del
+staff salen de las filas del jugador y pasan a `notas_ficha` (roster) y `notas_documentacion`
+(documentos). Las fuentes se sirven desde `app/fonts/`.
+
+**Motivo:** auditoría del 16 de octubre (`docs/auditoria-app-2026-10-16.md`). Con la app ya en
+manos del equipo y el número del documento guardado en la ficha, cualquiera con una llave
+(material, tienda…) podía sacar desde la API los datos personales de toda la plantilla, y cada
+jugador las notas que el club escribía sobre él. No se veía en pantalla, pero la regla del
+proyecto es que lo protege Postgres, no la interfaz.
+
+**Detalles:** el teléfono se queda en la vista porque tesorería lo usa para el WhatsApp de la
+cuota. Disponibilidad pasa a calcularse en la base de datos: antes, quien lleva el calendario sin
+llevar documentos veía a todos como no aptos. En el alta, si la fecha de nacimiento es de un
+menor de 14 años, aparecen los datos del tutor y el consentimiento es suyo (LOPDGDD art. 7). El
+texto de la subida del documento dice para qué es, quién lo ve, cuándo se borra y a quién
+escribir (RGPD art. 13).

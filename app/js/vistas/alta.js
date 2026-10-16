@@ -45,14 +45,41 @@ export async function render(ctx, cont) {
         <div class="campo"><label>Talla de equipación</label>
           <input name="talla_equipacion" value="${yo.talla_equipacion ?? ''}" placeholder="M, L, XL…"></div>
 
+        <!-- Menores de 14: en España el consentimiento lo da el padre, la madre
+             o el tutor (LOPDGDD, art. 7). Sale solo si la fecha lo pide. -->
+        <div id="tutor" hidden>
+          <p class="eyebrow">Padre, madre o tutor</p>
+          <p class="ayuda" style="margin:-.2rem 0 .8rem;line-height:1.6">
+            Al ser menor de 14 años, esta solicitud tiene que hacerla tu padre, tu madre
+            o tu tutor legal, con sus datos.</p>
+          <div class="dos">
+            <div class="campo"><label>Nombre y apellidos</label>
+              <input name="tutor_nombre"></div>
+            <div class="campo"><label>Teléfono</label>
+              <input name="tutor_telefono" type="tel"></div>
+          </div>
+          <div class="dos">
+            <div class="campo"><label>Email</label>
+              <input name="tutor_email" type="email" placeholder="Opcional"></div>
+            <div class="campo"><label>Relación</label>
+              <input name="tutor_relacion" placeholder="Madre, padre, tutor…"></div>
+          </div>
+        </div>
+
         <div class="check" style="align-items:flex-start;margin-top:.6rem">
           <input type="checkbox" id="consiento" required>
-          <label for="consiento" style="margin:0;letter-spacing:0;text-transform:none;font-size:.95rem;color:var(--text);line-height:1.5">
+          <label for="consiento" id="texto-consiento" style="margin:0;letter-spacing:0;text-transform:none;font-size:.95rem;color:var(--text);line-height:1.5">
             Autorizo al Coruña Atlantics a guardar estos datos para gestionar mi
-            participación en el equipo. Puedo consultarlos, cambiarlos o pedir
-            que se borren cuando quiera.
+            participación en el equipo.
           </label>
         </div>
+        <!-- Lo que hay que decir al recoger datos (RGPD, art. 13), en corto. -->
+        <p class="ayuda" style="margin:.5rem 0 0;line-height:1.6">
+          Los trata el Coruña Atlantics, solo para la gestión del equipo (entrenos,
+          cuotas, licencia federativa) y no se ceden a nadie salvo a la federación
+          para la licencia. Se guardan mientras estés en el equipo. Puedes consultarlos,
+          cambiarlos o pedir que se borren escribiendo a coruna.atlantics@gmail.com.
+        </p>
 
         <button class="btn primario ancho" type="submit" style="margin-top:1.2rem">
           Enviar solicitud</button>
@@ -60,6 +87,26 @@ export async function render(ctx, cont) {
           Salir</button>
       </form>
     </div>`;
+
+  // Edad a fecha de hoy, contando si ya ha cumplido este año.
+  const edad = (iso) => {
+    if (!iso) return null;
+    const n = new Date(iso + 'T12:00:00'), h = new Date();
+    return h.getFullYear() - n.getFullYear() -
+      (h.getMonth() < n.getMonth() || (h.getMonth() === n.getMonth() && h.getDate() < n.getDate()) ? 1 : 0);
+  };
+  const esMenor = () => { const e = edad($('[name=fecha_nacimiento]', cont).value); return e !== null && e < 14; };
+
+  const ajustarTutor = () => {
+    const menor = esMenor();
+    $('#tutor', cont).hidden = !menor;
+    for (const n of ['tutor_nombre', 'tutor_telefono']) $(`[name=${n}]`, cont).required = menor;
+    $('#texto-consiento', cont).textContent = menor
+      ? 'Soy su padre, madre o tutor legal y autorizo al Coruña Atlantics a guardar estos datos para gestionar su participación en el equipo.'
+      : 'Autorizo al Coruña Atlantics a guardar estos datos para gestionar mi participación en el equipo.';
+  };
+  $('[name=fecha_nacimiento]', cont).addEventListener('change', ajustarTutor);
+  ajustarTutor();
 
   $('#alta', cont).addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -69,10 +116,19 @@ export async function render(ctx, cont) {
     const f = new FormData(e.target);
     const datos = Object.fromEntries(f.entries());
     delete datos.consiento;
+    const tutor = {
+      nombre: datos.tutor_nombre, telefono: datos.tutor_telefono,
+      email: datos.tutor_email, relacion: datos.tutor_relacion
+    };
+    for (const k of Object.keys(datos)) if (k.startsWith('tutor_')) delete datos[k];
     datos.consentimiento_rgpd_en = new Date().toISOString();
     for (const k of ['apodo', 'talla_equipacion']) if (datos[k] === '') datos[k] = null;
 
     try {
+      // El tutor va antes: en cuanto se entrega la solicitud, el jugador ya no
+      // puede apuntarlo (registrar_tutor solo deja hacerlo con la ficha sin
+      // entregar).
+      if (esMenor()) await db.registrarTutor(tutor);
       await db.entregarSolicitud(yo.id, datos);
       avisar('Solicitud enviada');
       ctx.recargar();

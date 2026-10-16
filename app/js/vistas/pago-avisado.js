@@ -113,7 +113,7 @@ export async function pintarPorValidar(cont, ctx, alCambiar) {
   if (!cont) return;
   const [avisos, plantilla, cuotas] = await Promise.all([
     conRespaldo(db.pagosPorValidar(), []),
-    conRespaldo(db.roster(), []),
+    conRespaldo(db.plantillaClub(), []),
     conRespaldo(db.cuotasDe(ctx.temporada.id), [])
   ]);
   if (!avisos.length) { cont.innerHTML = ''; return; }

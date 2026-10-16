@@ -14,10 +14,12 @@ let busqueda = '';
 export async function render(ctx, cont) {
   cont.innerHTML = cargando();
 
-  const [plantilla, cuotas] = await Promise.all([
+  const [plantilla, cuotas, notas] = await Promise.all([
     db.roster(),
-    db.cuotasDe(ctx.temporada.id)
+    db.cuotasDe(ctx.temporada.id),
+    db.notasFicha().catch(() => [])
   ]);
+  const notaDe = new Map(notas.map(n => [n.perfil_id, n.texto]));
   const cuotaDe = new Map(cuotas.map(c => [c.jugador_id, c]));
 
   cont.innerHTML = html`
@@ -117,7 +119,7 @@ export async function render(ctx, cont) {
          p.dorsal, p.nombre, p.apellidos, p.apodo, (p.posiciones ?? []).join(' '),
          p.es_capitan ? 'Sí' : '', p.estado, p.acceso, p.rol, p.email, p.telefono,
          p.fecha_nacimiento, p.dni, p.talla_equipacion, p.alta_en, p.baja_en,
-         c ? numeroCSV(c.importe_pendiente) : '', p.notas_staff
+         c ? numeroCSV(c.importe_pendiente) : '', notaDe.get(p.id) ?? ''
        ];
      })]));
 
@@ -132,8 +134,10 @@ async function abrirFicha(ctx, id, alGuardar) {
   const p = id ? await db.jugador(id) : {
     nombre: '', apellidos: '', apodo: '', dorsal: null, posiciones: [],
     email: '', telefono: '', fecha_nacimiento: null, dni: '', talla_equipacion: '',
-    estado: 'activo', notas_staff: ''
+    estado: 'activo'
   };
+  // Las notas van en su propia tabla: la ficha la puede leer el propio jugador.
+  const nota = id ? await db.notaFicha(id).catch(() => '') : '';
 
   const cuota = id ? await db.cuotaDe(id, ctx.temporada.id) : null;
 
@@ -231,7 +235,7 @@ async function abrirFicha(ctx, id, alGuardar) {
       </p>
 
       <div class="campo"><label>Notas del club</label>
-        <textarea name="notas_staff" placeholder="Solo lo ve el staff">${p.notas_staff ?? ''}</textarea></div>
+        <textarea name="nota" placeholder="Solo lo ve quien lleva el roster">${nota}</textarea></div>
 
       ${cuota ? crudo(html`
         <p class="eyebrow">Cuota ${ctx.temporada.nombre}</p>
@@ -326,8 +330,10 @@ async function abrirFicha(ctx, id, alGuardar) {
     datos.fecha_nacimiento = datos.fecha_nacimiento || null;
     datos.posiciones = [...posiciones];
     datos.es_capitan = f.get('es_capitan') === 'on';
+    const notaNueva = (datos.nota ?? '').trim();
+    delete datos.nota;
     for (const k of ['apodo','email','telefono','dni','talla_equipacion',
-                     'apellidos','notas_staff']) {
+                     'apellidos']) {
       if (datos[k] === '') datos[k] = null;
     }
     if (datos.estado === 'baja' && p.estado !== 'baja') datos.baja_en = hoyISO();
@@ -336,8 +342,10 @@ async function abrirFicha(ctx, id, alGuardar) {
     try {
       if (id) {
         await db.guardarJugador(id, datos);
+        if (notaNueva !== nota.trim()) await db.guardarNotaFicha(id, notaNueva);
       } else {
         const nuevo = await db.crearJugador(datos);
+        if (notaNueva) await db.guardarNotaFicha(nuevo.id, notaNueva);
         // El disparador de la base de datos crea la cuota; si la temporada se
         // abrió después del alta, esto la garantiza igual.
         await db.asegurarCuota(nuevo.id, ctx.temporada);

@@ -602,7 +602,7 @@ iniciar().catch((e) => {
   console.error(e);
   if (recargarSiFaltaModulo(e)) return;
   document.getElementById('app').innerHTML =
-    '<div class="login"><h1>Algo ha fallado</h1><p>' + e.message + '</p></div>';
+    html`<div class="login"><h1>Algo ha fallado</h1><p>${e?.message ?? ''}</p></div>`;
 });
 
 // En la demo no se registra: cachearía el armazón de la app real y confundiría

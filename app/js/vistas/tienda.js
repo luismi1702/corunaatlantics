@@ -19,7 +19,7 @@ export async function render(ctx, cont) {
   cont.innerHTML = cargando();
 
   const [lista, todos, plantilla] = await Promise.all([
-    db.productos(), db.pedidos(), db.roster()
+    db.productos(), db.pedidos(), db.plantillaClub()
   ]);
   const porId = new Map(plantilla.map(p => [p.id, p]));
   const vivos = todos.filter(p => p.estado !== 'cancelado');

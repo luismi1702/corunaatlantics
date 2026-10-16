@@ -380,7 +380,7 @@ function editarPartido(ctx, comp, partido, equipos, alGuardar) {
 // Los numeros del partido: la plantilla, sin las bajas, sobre su evento.
 async function numerosDelPartido(eventoId) {
   try {
-    const [ev, plantilla] = await Promise.all([db.evento(eventoId), db.roster()]);
+    const [ev, plantilla] = await Promise.all([db.evento(eventoId), db.plantillaClub()]);
     await abrirEstadisticas(ev, plantilla.filter(p => p.estado !== 'baja'));
   } catch (err) { fallo(err); }
 }

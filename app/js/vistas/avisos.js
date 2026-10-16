@@ -23,7 +23,7 @@ export async function render(ctx, cont) {
 
   const [lista, plantilla] = await Promise.all([
     db.avisos(ctx.temporada.id),
-    db.roster()
+    db.plantillaClub()
   ]);
   const activos = plantilla.filter(p => p.estado !== 'baja');
 

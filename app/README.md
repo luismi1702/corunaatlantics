@@ -71,6 +71,7 @@ una pegada. Los sueltos siguen ahí para leerlos por partes:
 | `29_acceso_manda.sql` | Sin acceso no hay nada, tampoco para el staff |
 | `30_identidad.sql` | El jugador sube su documento y su foto; almacén privado |
 | `31_pago_avisado.sql` | El jugador avisa de que ha pagado y tesorería lo valida |
+| `32_privacidad.sql` | Cada sección ve solo lo que necesita; notas del staff aparte; tutor de los menores |
 
 `00_instalar.sql` está **generado**: si tocas un archivo suelto, vuelve a
 generarlo con `python generar_instalador.py` desde `app/db`.

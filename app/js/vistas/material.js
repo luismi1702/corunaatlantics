@@ -27,7 +27,7 @@ const CLASE_ESTADO = { nuevo: 'ok', bueno: 'ok', usado: 'warn', retirado: 'n' };
 export async function render(ctx, cont) {
   cont.innerHTML = cargando();
 
-  const [piezas, plantilla] = await Promise.all([db.material(), db.roster()]);
+  const [piezas, plantilla] = await Promise.all([db.material(), db.plantillaClub()]);
   const porId = new Map(plantilla.map(p => [p.id, p]));
 
   const prestadas = piezas.filter(m => m.jugador_id);

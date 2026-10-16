@@ -17,7 +17,7 @@ export async function render(ctx, cont) {
   cont.innerHTML = cargando();
 
   const [plantilla, apt] = await Promise.all([
-    db.roster(),
+    db.plantillaClub(),
     db.aptitud(ctx.temporada.id)
   ]);
 

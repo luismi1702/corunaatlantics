@@ -266,7 +266,7 @@ export function avisoDeCambio(antes, despues) {
 // los avisos); una unidad son solo sus jugadores en activo.
 export async function convocadosDe(unidad) {
   if (unidad === 'todos') return null;
-  const plantilla = await db.roster();
+  const plantilla = await db.plantillaClub();
   return plantilla
     .filter(p => p.estado !== 'baja' && esDeUnidad(p.posiciones, unidad))
     .map(p => p.id);

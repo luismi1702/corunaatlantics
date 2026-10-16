@@ -1,5 +1,21 @@
 # Changelog — Coruña Atlantics Web
 
+## [2026-10-16] — Auditoría de la app y sus arreglos
+
+**Qué se hizo:**
+- **Auditoría completa** con la app ya repartida (`docs/auditoria-app-2026-10-16.md`). Desde fuera, contra el Supabase real, no se lee nada salvo la plantilla pública de la web, que es a propósito. Las escrituras y las 31 funciones especiales están bien protegidas, no hay hueco de inyección y las 19 pantallas cargan sin error
+- **Arreglado (`32_privacidad.sql`):** la ficha entera solo la leen roster y documentos; el resto de secciones usa `plantilla_club`. Las notas del staff pasan a tablas propias que el jugador no lee. Disponibilidad ya no marca a todos como no aptos a quien lleva el calendario. Las fotos de la tienda solo las cambia quien lleva la tienda
+- **Cuota sin importe:** sale "Por fijar" en vez de "Al día"
+- **RGPD:** texto de para qué se piden los documentos y cuándo se borran; el alta explica el tratamiento y, si es menor de 14 años, pide los datos del tutor y el consentimiento es suyo (`registrar_tutor`)
+- **Tesorero que no es admin:** en Hoy, "N por validar" junto a Tesorería
+- **Fuentes servidas desde `app/fonts/`** (16 archivos woff2, 348 KB) y fuera de la CSP los dominios de Google
+- La pantalla de error escapa el mensaje
+- Envío del mensaje a David (Phenix) para añadir el logo de Artabro 0 % a las camisetas: preparado, a falta de saber dónde va el logo
+
+**Archivos modificados:** `app/db/32_privacidad.sql` (nuevo), `app/db/00_instalar.sql`, `app/db/generar_instalador.py`, `app/fonts/` (nuevo), `app/index.html`, `app/demo.html`, `app/js/app.js`, `app/js/db.js`, `app/js/db-demo.js`, `app/js/vistas/{alta,jug-ficha,jug-hoy,roster,documentacion,avisos,calendario,competiciones,cuotas,disponibilidad,estadisticas,lista,material,pago-avisado,tienda}.js`, `app/css/app.css`, `app/sw.js` (v80), `app/README.md`, `docs/auditoria-app-2026-10-16.md` (nuevo), `docs/pendiente.md`, `docs/decisiones.md`.
+
+**Pendiente:** ejecutar `32_privacidad.sql` antes de publicar; fijar la cuota de 170 € y aplicarla; comprobar el SMTP de Supabase.
+
 ## [2026-10-16] — "Ya he pagado" y los documentos subidos cuentan como entregados
 
 **Qué se hizo:**

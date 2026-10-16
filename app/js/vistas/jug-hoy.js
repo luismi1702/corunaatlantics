@@ -31,7 +31,7 @@ export async function render(ctx, cont) {
 
   const yo = ctx.perfil;
   const [agenda, mias, cuota, docs, resumen, tablon, lecturas,
-         catalogo, misEncargos, subidos] = await Promise.all([
+         catalogo, misEncargos, subidos, porValidar] = await Promise.all([
     conRespaldo(db.eventos(ctx.temporada.id, { desde: hoyISO() }), []),
     conRespaldo(db.misAsistencias(yo.id), []),
     conRespaldo(db.cuotaDe(yo.id, ctx.temporada.id), null),
@@ -41,7 +41,10 @@ export async function render(ctx, cont) {
     conRespaldo(db.misLecturas(yo.id), []),
     conRespaldo(db.productos(), []),
     conRespaldo(db.misPedidos(yo.id), []),
-    conRespaldo(subidosPorJugador(), new Map())
+    conRespaldo(subidosPorJugador(), new Map()),
+    // Quien lleva la tesorería sin ser admin no ve el menú de la consola: los
+    // pagos que esperan a que los valide se le cuentan aquí.
+    ctx.puede('tesoreria') ? conRespaldo(db.pagosPorValidar(), []) : []
   ]);
 
 
@@ -178,7 +181,9 @@ export async function render(ctx, cont) {
               <div class="nom">${s.nombre}</div>
               <div class="meta">${s.pie}</div>
             </div>
-            <div class="dcha"><span class="tag teal">Abrir</span></div>
+            <div class="dcha">${s.clave === 'tesoreria' && porValidar.length
+              ? crudo(html`<span class="tag oro">${porValidar.length} por validar</span>`)
+              : crudo(html`<span class="tag teal">Abrir</span>`)}</div>
           </a>`)}
       </div>`) : ''}
 

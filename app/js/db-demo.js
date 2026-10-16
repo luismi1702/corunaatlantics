@@ -44,7 +44,7 @@ const nombres = [
   foto_url: null, estado,
   alta_en: '2026-09-0' + ((i % 8) + 1),
   baja_en: estado === 'baja' ? '2027-01-15' : null,
-  notas_staff: null, acceso: 'aprobado',
+  acceso: 'aprobado',
   es_capitan: i === 0 || i === 5,
   creado_en: '2026-09-01T10:00:00Z', actualizado_en: '2026-09-01T10:00:00Z'
 }));
@@ -55,12 +55,12 @@ const SOLICITUDES = [
     dorsal: null, posiciones: [], rol: 'jugador', email: 'aaron.ferrol@ejemplo.com',
     telefono: '622114477', fecha_nacimiento: '2001-03-14', dni: null,
     talla_equipacion: 'L', foto_url: null, estado: 'activo', es_capitan: false,
-    acceso: 'pendiente', solicitado_en: enDias(-2) + 'T18:20:00Z', notas_staff: null },
+    acceso: 'pendiente', solicitado_en: enDias(-2) + 'T18:20:00Z' },
   { id: 's2', user_id: 'u91', nombre: 'Lucas', apellidos: 'Bergantiños', apodo: 'Berga',
     dorsal: null, posiciones: [], rol: 'jugador', email: 'lucas.b@ejemplo.com',
     telefono: '699887766', fecha_nacimiento: '2009-07-02', dni: null,
     talla_equipacion: 'XXL', foto_url: null, estado: 'activo',
-    acceso: 'pendiente', solicitado_en: enDias(-1) + 'T09:05:00Z', notas_staff: null }
+    acceso: 'pendiente', solicitado_en: enDias(-1) + 'T09:05:00Z' }
 ];
 
 // Pagos repartidos para que se vean los tres estados de cuota.
@@ -81,7 +81,7 @@ const DOCS = nombres.map((p, i) => ({
   licencia_estado: i % 4 === 0 ? 'pendiente' : 'validado',
   licencia_caduca_en: i % 6 === 0 ? enDias(12) : enDias(200),
   dni_entregado: i % 2 === 0, foto_entregada: i % 3 !== 0,
-  notas_staff: null, actualizado_en: '2026-09-01T10:00:00Z'
+  actualizado_en: '2026-09-01T10:00:00Z'
 }));
 
 const calcular = (c) => {
@@ -376,7 +376,7 @@ const RECIEN_LLEGADO = {
   id: 'nuevo1', user_id: 'u99', nombre: 'Nuevo', apellidos: '', apodo: null,
   dorsal: null, posiciones: [], rol: 'jugador', email: 'nuevo@ejemplo.com',
   telefono: null, fecha_nacimiento: null, dni: null, talla_equipacion: null,
-  foto_url: null, estado: 'activo', acceso: 'nuevo', notas_staff: null
+  foto_url: null, estado: 'activo', acceso: 'nuevo'
 };
 
 export const miPerfil = () => {
@@ -404,6 +404,16 @@ export const roster = () => demora([...nombres].sort((a, b) =>
   (a.dorsal ?? 999) - (b.dorsal ?? 999) ||
   a.nombre.localeCompare(b.nombre)));
 export const jugador = (id) => demora(nombres.find(p => p.id === id));
+// En la demo la plantilla del club es la misma lista, sin los campos privados.
+const PRIVADOS = ['email', 'fecha_nacimiento', 'dni', 'documento_tipo', 'user_id'];
+const sinPrivados = (p) => Object.fromEntries(Object.entries(p).filter(([k]) => !PRIVADOS.includes(k)));
+export const plantillaClub = async () => (await roster()).map(sinPrivados);
+export const jugadorClub = async (id) => sinPrivados(await jugador(id));
+const NOTAS_FICHA = new Map([['p3', 'Viene de rugby. Quiere probar de linebacker.']]);
+const NOTAS_DOC = new Map();
+export const notasFicha = () => demora([...NOTAS_FICHA].map(([perfil_id, texto]) => ({ perfil_id, texto })));
+export const notaFicha = (id) => demora(NOTAS_FICHA.get(id) ?? '');
+export const guardarNotaFicha = (id, texto) => { texto ? NOTAS_FICHA.set(id, texto) : NOTAS_FICHA.delete(id); return demora(null); };
 export const crearJugador = () => noDisponible();
 export const guardarJugador = (id, cambios) => {
   // Mismo bloqueo que el índice único de la base de datos.
@@ -603,7 +613,7 @@ export const resolverSolicitud = (id, aprobar) => {
     nombres.push(p);
     DOCS.push({ id: 'd-' + p.id, jugador_id: p.id, temporada_id: 't1',
       licencia_estado: 'pendiente', licencia_caduca_en: null,
-      dni_entregado: false, foto_entregada: false, notas_staff: null,
+      dni_entregado: false, foto_entregada: false,
       actualizado_en: new Date().toISOString() });
     CUOTAS.push({ id: 'c-' + p.id, jugador_id: p.id, temporada_id: 't1',
       importe_total: 180, exento: false, exento_nota: null, nota: null });
@@ -820,6 +830,9 @@ export const estadisticasHistorico = () => demora(agregar());
 export const documentacionDe = () => demora(DOCS);
 export const asegurarDocumentacion = (jugadorId) => demora(DOCS.find(d => d.jugador_id === jugadorId));
 export const guardarDocumentacion = () => noDisponible();
+export const notaDocumentacion = (id) => demora(NOTAS_DOC.get(id) ?? '');
+export const guardarNotaDocumentacion = (id, texto) => { texto ? NOTAS_DOC.set(id, texto) : NOTAS_DOC.delete(id); return demora(null); };
+export const registrarTutor = () => demora('tutor-demo');
 
 // Documento de identidad: en memoria, como lo demás. Dos jugadores ya lo han
 // subido para que la consola tenga algo que enseñar; sus imágenes se dibujan

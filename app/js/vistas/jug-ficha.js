@@ -26,6 +26,9 @@ export async function render(ctx, cont) {
     db.companeros()
   ]);
   const doc = docs.find(d => d.jugador_id === yo.id);
+  // Una cuota a 0 € no tiene nada pendiente, y sin esto salía "Al día" a toda
+  // la plantilla mientras el club no fijaba el importe.
+  const sinImporte = cuota && !cuota.exento && Number(cuota.importe_total) <= 0;
 
   // Quién lleva cada número, para pintar los ocupados y saber de quién son.
   const dueno = new Map();
@@ -105,20 +108,31 @@ export async function render(ctx, cont) {
     </form>
     <div id="subidas" style="margin-top:.8rem"></div>
     <p class="ayuda" style="margin-top:.6rem;line-height:1.6">
-      Lo pide la federación para sacarte la licencia. Haz las fotos con luz, sin
-      reflejos y que se lea todo. Solo las ve quien lleva los documentos del club,
-      y se borran cuando se mandan.
+      Haz las fotos con luz, sin reflejos y que se lea todo.
+    </p>
+    <!-- Lo que la ley obliga a decir al pedir una copia de un documento de
+         identidad (RGPD, art. 13): quien, para que, cuanto tiempo y como
+         pedir que se borre. -->
+    <p class="ayuda" style="margin-top:.4rem;line-height:1.6">
+      <strong>Para qué:</strong> solo para tramitar tu licencia con la federación.
+      Las guarda el Coruña Atlantics en un almacén privado; las ve únicamente quien
+      lleva los documentos del club y <strong>se borran en cuanto se envían</strong>.
+      Para pedir que se borren antes, o cualquier duda, escribe a
+      coruna.atlantics@gmail.com.
     </p>
 
     ${cuota ? crudo(html`
       <p class="eyebrow">Tu cuota</p>
       <div class="card" style="text-align:center">
         <div style="font-family:'Anton',sans-serif;font-size:2rem;line-height:1;color:${
-          cuota.exento ? 'var(--teal)' : Number(cuota.importe_pendiente) > 0 ? 'var(--goldf)' : 'var(--ok)'}">
-          ${cuota.exento ? 'Exento' : Number(cuota.importe_pendiente) > 0 ? euros(cuota.importe_pendiente) : 'Al día'}
+          cuota.exento ? 'var(--teal)' : sinImporte ? 'var(--muted)'
+            : Number(cuota.importe_pendiente) > 0 ? 'var(--goldf)' : 'var(--ok)'}">
+          ${cuota.exento ? 'Exento' : sinImporte ? 'Por fijar'
+            : Number(cuota.importe_pendiente) > 0 ? euros(cuota.importe_pendiente) : 'Al día'}
         </div>
         <p class="muted" style="margin:.6rem 0 0;font-size:.9rem">
           ${cuota.exento ? 'No te corresponde pagar cuota esta temporada'
+            : sinImporte ? 'El club todavía no ha puesto el importe de ' + ctx.temporada.nombre
             : 'Has pagado ' + euros(cuota.importe_pagado) + ' de ' + euros(cuota.importe_total) + ' · ' + ctx.temporada.nombre}
         </p>
       </div>

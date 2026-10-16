@@ -6,12 +6,23 @@ borra de aquí.
 
 Última revisión: 19 de septiembre de 2026.
 
+## Arreglos de la auditoría (16 oct)
+
+1. **Ejecutar `app/db/32_privacidad.sql`** en Supabase → SQL Editor, entero. Tienen que salir
+   tres filas: `notas_documentacion`, `notas_ficha` y `plantilla_club`. Las notas del staff que
+   hubiera se pasan solas a sus tablas nuevas. **Ejecutarlo antes de publicar el código**: la
+   app nueva lee de `plantilla_club` y de las tablas de notas.
+2. **Fijar la cuota**: Ajustes → importe 170 € → guardar, y en Tesorería → Cuotas pulsar
+   *Aplicar el importe a la plantilla*. Hasta entonces a todos les sale "Cuota por fijar".
+3. **Comprobar el correo de los códigos**: Supabase → Authentication → Emails → SMTP Settings.
+   Si no hay SMTP propio, Supabase manda muy pocos correos por hora y a parte del equipo no le
+   llegará el código. Brevo es gratis.
+
 ## "Ya he pagado": avisos de pago (16 oct)
 
 1. ~~Ejecutar `app/db/31_pago_avisado.sql`~~ — hecho el 16 oct: `pagos_avisados · true`. Código publicado.
-2. **Desplegar otra vez la función `enviar-push`** (Edge Functions → enviar-push → pegar
-   `supabase/functions/enviar-push/index.ts` → Deploy). Al abrir su URL en el navegador tiene
-   que decir `version: 5`. Sin esto todo funciona, pero a tesorería no le suena el móvil.
+2. ~~Desplegar `enviar-push` v5~~ — no hace falta (16 oct): le basta con verlo en la app
+   (menú y Tesorería). Si algún día quiere la notificación, desplegar la versión 5.
 3. **Probarlo**: desde la cuenta de un jugador, Mi ficha → *Ya he pagado*; tiene que sonarte
    el móvil y salir en Tesorería → Cuotas → *Pagos por validar*. Validarlo y comprobar que
    su cuota pasa a al día.
@@ -54,12 +65,9 @@ al principio es normal: solo cuenta a quien tenga las notificaciones activadas.
 
 ## Seguridad: lo que quedó del análisis del 17 de septiembre
 
-- **Los delegados leen el DNI y las notas del staff de todos.** Quien lleva el
-  material no necesita eso. Se arregla dejando esos dos campos solo para quien
-  lleva roster o documentos. Decidir si se hace.
-- **Las fuentes vienen de Google.** Cada jugador que abre la app le manda su IP
-  a Google. Es asunto de RGPD, no de seguridad: se quita sirviéndolas desde el
-  repositorio.
+- ~~Los delegados leen el DNI y las notas del staff de todos~~ y ~~las fuentes vienen de
+  Google~~: arreglados el 16 oct (`32_privacidad.sql` y `app/fonts/`). La web pública
+  (`index.html` de la raíz) sigue cargándolas de Google.
 - **Verificación en dos pasos en el correo del administrador.** La cuenta se
   abre con un enlace o un código al correo, así que ese correo es la llave del
   club. Esto no es del código: es de tu cuenta de Gmail.

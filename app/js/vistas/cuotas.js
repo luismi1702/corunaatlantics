@@ -17,7 +17,7 @@ export async function render(ctx, cont) {
   cont.innerHTML = cargando();
 
   const [plantilla, cuotas] = await Promise.all([
-    db.roster(),
+    db.plantillaClub(),
     db.cuotasDe(ctx.temporada.id)
   ]);
 
@@ -173,7 +173,7 @@ export async function render(ctx, cont) {
 
 async function abrirCuota(ctx, jugadorId, alGuardar) {
   const [jug, cuota] = await Promise.all([
-    db.jugador(jugadorId),
+    db.jugadorClub(jugadorId),
     db.cuotaDe(jugadorId, ctx.temporada.id)
   ]);
   const pagos = cuota ? await db.pagosDe(cuota.id) : [];

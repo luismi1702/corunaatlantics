@@ -16,7 +16,7 @@ export async function render(ctx, cont) {
   cont.innerHTML = cargando();
 
   const [plantilla, deTemporada, historico] = await Promise.all([
-    db.roster(),
+    db.plantillaClub(),
     db.estadisticasTemporada(ctx.temporada.id),
     db.estadisticasHistorico()
   ]);

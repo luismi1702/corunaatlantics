@@ -443,6 +443,7 @@ button.fila:active { transform: scale(.995); }
 .tag.bad  { color: var(--bad); }
 .tag.n    { color: var(--muted); }
 .tag.teal { color: var(--teal); }
+.tag.oro  { color: var(--goldf); }
 
 .puntos { display: flex; gap: .3rem; }
 .punto { width: 9px; height: 9px; border-radius: 50%; background: var(--line); }

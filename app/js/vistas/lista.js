@@ -31,7 +31,7 @@ export async function render(ctx, cont, eventoId) {
   try {
     [ev, plantilla, asistencias] = await Promise.all([
       db.evento(eventoId),
-      db.roster(),
+      db.plantillaClub(),
       db.asistenciasDe(eventoId)
     ]);
   } catch (err) {

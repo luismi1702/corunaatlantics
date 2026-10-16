@@ -4,7 +4,7 @@
 // datos: una lista de cuotas guardada de la semana pasada sería peor que no
 // tener nada, porque parecería actual. Sin conexión, la app abre y avisa.
 
-const VERSION = 'atlantics-gestion-v79';
+const VERSION = 'atlantics-gestion-v80';
 
 const ARMAZON = [
   './',
@@ -58,6 +58,15 @@ const ARMAZON = [
   './js/vistas/jug-agenda.js',
   './js/vistas/jug-equipo.js',
   './js/vistas/jug-ficha.js',
+  './fonts/fuentes.css',
+  './fonts/anton-400-latin.woff2',
+  './fonts/barlow-300-latin.woff2',
+  './fonts/barlow-400-latin.woff2',
+  './fonts/barlow-500-latin.woff2',
+  './fonts/barlow-600-latin.woff2',
+  './fonts/barlow-condensed-400-latin.woff2',
+  './fonts/barlow-condensed-600-latin.woff2',
+  './fonts/barlow-condensed-700-latin.woff2',
   './manifest.webmanifest',
   './img/logo-principal.webp',
   './img/tridente.webp',

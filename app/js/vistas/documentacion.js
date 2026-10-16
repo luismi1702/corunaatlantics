@@ -171,6 +171,8 @@ export async function render(ctx, cont) {
 
 async function abrirDoc(f, alGuardar) {
   const d = f.doc;
+  // Las notas van aparte de la fila de documentación, que el jugador puede leer.
+  const nota = await db.notaDocumentacion(d.id).catch(() => '');
 
   const panel = hoja(nombreCompleto(f.jugador), html`
     <form id="doc">
@@ -205,7 +207,7 @@ async function abrirDoc(f, alGuardar) {
       </div>
 
       <div class="campo" style="margin-top:1rem"><label>Notas</label>
-        <textarea name="notas_staff">${d.notas_staff ?? ''}</textarea></div>
+        <textarea name="nota" placeholder="Solo las ve quien lleva los documentos">${nota}</textarea></div>
 
       <button class="btn primario ancho" type="submit">Guardar</button>
       <p class="ayuda" style="margin-top:.8rem">Última modificación: ${fecha(d.actualizado_en?.slice(0, 10))}</p>
@@ -222,14 +224,15 @@ async function abrirDoc(f, alGuardar) {
     e.preventDefault();
     const fd = new FormData(e.target);
     const cambios = { dni_entregado: fd.get('dni_entregado') === 'on',
-                      foto_entregada: fd.get('foto_entregada') === 'on',
-                      notas_staff: fd.get('notas_staff') || null };
+                      foto_entregada: fd.get('foto_entregada') === 'on' };
     for (const x of DOCS) {
       cambios[x.clave + '_estado'] = fd.get(x.clave + '_estado');
       cambios[x.clave + '_caduca_en'] = fd.get(x.clave + '_caduca_en') || null;
     }
     try {
       await db.guardarDocumentacion(d.id, cambios);
+      const notaNueva = (fd.get('nota') || '').trim();
+      if (notaNueva !== nota.trim()) await db.guardarNotaDocumentacion(d.id, notaNueva);
       avisar('Documentación actualizada');
       cambiado = false;
       panel.cerrar();

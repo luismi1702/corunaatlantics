@@ -136,6 +136,33 @@ export const roster = () =>
 export const jugador = (id) =>
   sb.from('perfiles').select('*').eq('id', id).single().then(ok);
 
+// La plantilla para las secciones del club que no son roster ni documentos:
+// sin correo, fecha de nacimiento, documento ni notas (32_privacidad.sql). La
+// ficha entera solo la leen quienes llevan roster o documentos.
+export const plantillaClub = () =>
+  sb.from('plantilla_club')
+    .select('*')
+    .in('acceso', ['aprobado', 'rechazado'])
+    .order('estado')
+    .order('dorsal', { ascending: true, nullsFirst: false })
+    .order('nombre')
+    .then(ok);
+
+export const jugadorClub = (id) =>
+  sb.from('plantilla_club').select('*').eq('id', id).single().then(ok);
+
+// Las notas del staff viven fuera de la ficha: el jugador puede leer su ficha
+// y no debe leer lo que el club apunta de él.
+export const notasFicha = () =>
+  sb.from('notas_ficha').select('perfil_id, texto').then(ok);
+
+export const notaFicha = async (perfilId) =>
+  (await sb.from('notas_ficha').select('texto').eq('perfil_id', perfilId).then(ok))[0]?.texto ?? '';
+
+export const guardarNotaFicha = (perfilId, texto) => texto
+  ? sb.from('notas_ficha').upsert({ perfil_id: perfilId, texto, actualizado_en: new Date().toISOString() }).then(ok)
+  : sb.from('notas_ficha').delete().eq('perfil_id', perfilId).then(ok);
+
 export const crearJugador = (datos) =>
   sb.from('perfiles').insert(datos).select().single().then(ok);
 
@@ -257,6 +284,20 @@ export async function asegurarDocumentacion(jugadorId, temporadaId) {
 
 export const guardarDocumentacion = (id, cambios) =>
   sb.from('documentacion').update(cambios).eq('id', id).select().single().then(ok);
+
+export const notaDocumentacion = async (documentacionId) =>
+  (await sb.from('notas_documentacion').select('texto')
+    .eq('documentacion_id', documentacionId).then(ok))[0]?.texto ?? '';
+
+export const guardarNotaDocumentacion = (documentacionId, texto) => texto
+  ? sb.from('notas_documentacion').upsert({ documentacion_id: documentacionId, texto,
+      actualizado_en: new Date().toISOString() }).then(ok)
+  : sb.from('notas_documentacion').delete().eq('documentacion_id', documentacionId).then(ok);
+
+// Menores de 14: el tutor lo apunta el propio jugador al darse de alta.
+export const registrarTutor = ({ nombre, telefono, email, relacion }) =>
+  sb.rpc('registrar_tutor', { p_nombre: nombre, p_telefono: telefono,
+    p_email: email || null, p_relacion: relacion || null }).then(ok);
 
 // --- Documento de identidad y foto ------------------------------------------
 // Viven en el bucket privado 'identidad', en una carpeta por jugador con tres
