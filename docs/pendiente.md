@@ -6,6 +6,17 @@ borra de aquí.
 
 Última revisión: 19 de septiembre de 2026.
 
+## "Ya he pagado": avisos de pago (16 oct)
+
+1. **Ejecutar `app/db/31_pago_avisado.sql`** en Supabase → SQL Editor, entero. El `select`
+   del final tiene que devolver `pagos_avisados · true`.
+2. **Desplegar otra vez la función `enviar-push`** (Edge Functions → enviar-push → pegar
+   `supabase/functions/enviar-push/index.ts` → Deploy). Al abrir su URL en el navegador tiene
+   que decir `version: 5`. Sin esto todo funciona, pero a tesorería no le suena el móvil.
+3. **Probarlo**: desde la cuenta de un jugador, Mi ficha → *Ya he pagado*; tiene que sonarte
+   el móvil y salir en Tesorería → Cuotas → *Pagos por validar*. Validarlo y comprobar que
+   su cuota pasa a al día.
+
 ## Documento de identidad desde la app (16 oct)
 
 1. ~~Ejecutar `app/db/30_identidad.sql`~~ — hecho el 16 oct: devolvió

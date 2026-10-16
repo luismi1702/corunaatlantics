@@ -581,3 +581,21 @@ reglamento de FEFAPA (art. 27) admite DNI, NIE y pasaporte, y hay jugadores de E
 después si hace falta. El reglamento no dice qué formato pide LEVERADE. El ZIP se hace en el
 navegador sin librería, porque los JPEG no se comprimen más. Las casillas "en papel" se
 mantienen para lo que llegue por otro lado.
+
+## [2026-10-16] — "Ya he pagado": el jugador avisa y tesorería valida
+
+**Decisión:** el jugador avisa desde Mi ficha de que ha pagado la cuota. El aviso va a su propia
+tabla (`pagos_avisados`) y no cuenta como cobrado: a tesorería le suena el móvil, lo comprueba en
+la cuenta y lo valida o lo rechaza. Validar inserta un pago normal, y la cuota pasa a al día sola
+porque `cuotas_estado` se calcula a partir de los pagos.
+
+**Motivo:** si el botón del jugador apuntara el pago directamente, cualquiera podría ponerse al día
+sin pagar. Nadie escribe en la tabla: todo va por funciones que comprueban quién llama
+(`31_pago_avisado.sql`). El jugador no puede mandar notificaciones, y no debe; para el aviso a
+tesorería hay una función que le da solo los móviles de tesorería, con el texto escrito en la base
+de datos y una vez por aviso. La función `enviar-push` la usa sin pedir la llave de avisos.
+
+**Detalles:** un aviso pendiente por cuota; si vuelve a avisar, se corrige el que había. Tesorería
+puede cambiar el importe al validar. Las notificaciones no llevan importes, como el resto, porque
+salen en la pantalla bloqueada. De paso, el documento y la foto subidos desde la app ya cuentan
+como entregados en Hoy y en el menú del staff: antes solo contaba la casilla que marcaba el staff.

@@ -1,5 +1,18 @@
 # Changelog — Coruña Atlantics Web
 
+## [2026-10-16] — "Ya he pagado" y los documentos subidos cuentan como entregados
+
+**Qué se hizo:**
+- **Avisos de pago:** en Mi ficha, botón *Ya he pagado* (cuánto, cuándo, cómo y una nota). Mientras espera pone "Pendiente de confirmar" y deja quitar el aviso; si el club lo rechaza, se le dice y puede volver a avisar. En Hoy, la cuota pasa a "Avisado: falta que lo confirme el club"
+- **Tesorería:** arriba de Cuotas, *Pagos por validar*. Cada uno se valida (con el importe corregible) o se marca como no encontrado. Validar apunta el pago y la cuota pasa sola a al día. Al jugador le llega un aviso al móvil en los dos casos. En el menú del staff, "N pagos por validar" el primero de lo urgente
+- **Aviso al móvil de tesorería** al avisar el jugador: `enviar-push` v5 acepta `pago_avisado` y solo manda lo que devuelve `aviso_pago_al_staff`. Las notificaciones no llevan importes
+- **Documentos:** lo que sube el jugador cuenta como entregado en su Hoy y en la baldosa de Documentos del staff. Antes le seguía saliendo "Falta la copia del DNI"
+- Probado en la demo: avisar, ver la espera en Mi ficha y en Hoy, validar desde Tesorería y que pase a al día; sin errores en consola. El SQL se ha comprobado con un analizador de sintaxis, no contra Supabase
+
+**Archivos modificados:** `app/db/31_pago_avisado.sql` (nuevo), `app/db/00_instalar.sql`, `app/db/generar_instalador.py`, `supabase/functions/enviar-push/index.ts` (v5), `app/js/vistas/pago-avisado.js` (nuevo), `app/js/vistas/{jug-ficha,jug-hoy,cuotas,menu}.js`, `app/js/db.js`, `app/js/db-demo.js`, `app/css/app.css`, `app/sw.js` (v79), `app/README.md`, `docs/pendiente.md`, `docs/decisiones.md`.
+
+**Pendiente:** ejecutar `31_pago_avisado.sql`, desplegar `enviar-push` v5 y probar el circuito con un jugador de verdad.
+
 ## [2026-10-16] — La app explica cómo instalarse
 
 **Qué se hizo:**

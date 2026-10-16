@@ -224,7 +224,7 @@ const responder = (cuerpo: unknown, estado = 200) =>
 // Version del codigo. Sirve para una cosa muy concreta: saber desde fuera si lo
 // que esta corriendo es lo que uno cree que subio. Sin esto, un despliegue que
 // no llego a hacerse y un fallo de verdad se parecen demasiado.
-const VERSION = 4;
+const VERSION = 5;
 
 Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') return new Response('ok', { headers: CORS });
@@ -267,6 +267,31 @@ Deno.serve(async (req) => {
       method: 'POST', headers: comoQuienLlama, body: JSON.stringify(cuerpo)
     });
 
+  const peticion = await req.json().catch(() => ({}));
+
+  // Un jugador avisa de que ha pagado la cuota. No puede mandar avisos al
+  // movil, y no debe: aqui solo se le deja disparar UNO, el de su propio pago,
+  // hacia quien lleva la tesoreria, con el texto escrito en la base de datos
+  // (`aviso_pago_al_staff`, app/db/31_pago_avisado.sql). Esa funcion ya
+  // comprueba que el aviso es suyo y que no se ha mandado antes.
+  if (typeof peticion.pago_avisado === 'string') {
+    const r = await rpc('aviso_pago_al_staff', { p_aviso: peticion.pago_avisado });
+    const crudoPago = await r.text();
+    if (!r.ok) {
+      return responder({ error: 'Aviso de pago: ' + r.status + ' ' + crudoPago.slice(0, 300) }, 500);
+    }
+    let destinos: Record<string, string>[] = [];
+    try { destinos = JSON.parse(crudoPago); } catch { /* cero */ }
+    const vapidPago = { publica: VAPID_PUB, privada: VAPID_PRIV, contacto: CONTACTO };
+    const codigos = await Promise.all(destinos.map(async (d) => {
+      try {
+        const mensajePago = JSON.stringify({ titulo: d.titulo, cuerpo: d.cuerpo, url: '/app/#/dinero' });
+        return (await enviar(d as { endpoint: string; p256dh: string; auth: string }, mensajePago, vapidPago)).status;
+      } catch { return 0; }
+    }));
+    return responder({ enviados: codigos.filter(c => c >= 200 && c < 300).length, destinos: destinos.length });
+  }
+
   // ¿Quién llama, y puede mandar avisos al móvil?
   const permiso = await rpc('puede_avisar_al_movil', {});
 
@@ -281,7 +306,7 @@ Deno.serve(async (req) => {
     return responder({ error: 'No llevas avisos, calendario ni tesorería' }, 403);
   }
 
-  const { titulo, cuerpo, url, para } = await req.json().catch(() => ({}));
+  const { titulo, cuerpo, url, para } = peticion;
   if (!titulo) return responder({ error: 'Falta el título' }, 400);
 
   // Sin `para`, todo el equipo. Con `para`, solo esas personas; y una lista

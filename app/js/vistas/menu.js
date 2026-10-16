@@ -14,6 +14,7 @@
 import * as db from '../db.js';
 import { DIAS_AVISO_CADUCIDAD } from '../config.js';
 import { html, crudo, diasHasta, cuando, hoyISO, conRespaldo, cargando } from '../ui.js';
+import { subidosPorJugador, documentoCompleto } from './identidad.js';
 
 const ICONOS = {
   calendario:'<rect x="3.5" y="5" width="17" height="15.5" rx="2.5"/><path d="M3.5 10h17M8 3v4M16 3v4" stroke-linecap="round"/>',
@@ -33,7 +34,7 @@ export async function render(ctx, cont) {
   // Cada consulta con su respaldo: si una falla, esa baldosa sale sin número y
   // el menú se pinta igual.
   const [plantilla, cuotas, docs, agenda, pendientes, tablon, piezas,
-         catalogo, encargos, ligas] = await Promise.all([
+         catalogo, encargos, ligas, porValidar, subidos] = await Promise.all([
     conRespaldo(db.roster(), []),
     conRespaldo(db.cuotasDe(ctx.temporada.id), []),
     conRespaldo(db.documentacionDe(ctx.temporada.id), []),
@@ -43,7 +44,9 @@ export async function render(ctx, cont) {
     conRespaldo(db.material(), []),
     conRespaldo(db.productos(), []),
     conRespaldo(db.pedidos(), []),
-    conRespaldo(db.competiciones(ctx.temporada.id), [])
+    conRespaldo(db.competiciones(ctx.temporada.id), []),
+    ctx.puede('tesoreria') ? conRespaldo(db.pagosPorValidar(), []) : [],
+    conRespaldo(subidosPorJugador(), new Map())
   ]);
 
   const proximo = agenda.find(e => !e.cancelado);
@@ -58,8 +61,12 @@ export async function render(ctx, cont) {
   const abiertos  = encargos.filter(p => p.estado !== 'cancelado' && p.estado !== 'entregado');
   const sinCobrar = abiertos.filter(p => !p.pagado).length;
 
+  // El documento cuenta como entregado si lo marcó el staff o si lo ha subido
+  // el jugador: si no, la baldosa seguía avisando de papeles ya subidos.
   const papelesPendientes = docs.filter(d => vivo(d.jugador_id) && (
-    d.licencia_estado !== 'validado' || !d.dni_entregado
+    d.licencia_estado !== 'validado' ||
+    (!d.dni_entregado && !documentoCompleto(porId.get(d.jugador_id)?.documento_tipo,
+                                            subidos.get(d.jugador_id) ?? new Set()))
   )).length;
 
   const caducan = docs.filter(d => vivo(d.jugador_id) &&
@@ -73,6 +80,8 @@ export async function render(ctx, cont) {
 
   // Lo urgente, en cuentas y nunca en euros.
   const urgente = [
+    porValidar.length && { que: porValidar.length === 1 ? 'Un pago por validar'
+                                : porValidar.length + ' pagos por validar', a: '#/dinero' },
     pendientes.length && { que: pendientes.length === 1 ? 'Una solicitud por resolver'
                                 : pendientes.length + ' solicitudes por resolver', a: '#/roster' },
     caducan && { que: caducan === 1 ? 'Un documento caduca pronto'

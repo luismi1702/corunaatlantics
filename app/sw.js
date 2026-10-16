@@ -4,7 +4,7 @@
 // datos: una lista de cuotas guardada de la semana pasada sería peor que no
 // tener nada, porque parecería actual. Sin conexión, la app abre y avisa.
 
-const VERSION = 'atlantics-gestion-v78';
+const VERSION = 'atlantics-gestion-v79';
 
 const ARMAZON = [
   './',
@@ -49,6 +49,7 @@ const ARMAZON = [
   './js/vistas/tesoreria.js',
   './js/vistas/documentacion.js',
   './js/vistas/identidad.js',
+  './js/vistas/pago-avisado.js',
   './js/zip.js',
   './js/vistas/ajustes.js',
   './js/vistas/jug-hoy.js',

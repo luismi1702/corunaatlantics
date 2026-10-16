@@ -9,6 +9,7 @@ import {
   html, crudo, $, $$, euros, fecha, hoyISO, nombreCompleto, tag, TAG_CUOTA,
   hoja, confirmar, avisar, contarEnvio, fallo, cargando, vacio, enlaceWhatsApp
 } from '../ui.js';
+import { pintarPorValidar } from './pago-avisado.js';
 
 let filtro = 'pendientes';
 
@@ -43,6 +44,8 @@ export async function render(ctx, cont) {
   };
 
   cont.innerHTML = html`
+    <div id="por-validar"></div>
+
     <div class="cifras">
       <div class="cifra ok"><div class="n">${euros(cobrado)}</div><div class="l">Cobrado</div></div>
       <div class="cifra gold"><div class="n">${euros(pendiente)}</div><div class="l">Pendiente</div></div>
@@ -80,6 +83,10 @@ export async function render(ctx, cont) {
         Avisar al móvil a ${morosos.length === 1 ? 'quien debe' : 'los ' + morosos.length + ' que deben'}
       </button>`) : ''}
   `;
+
+  // Lo primero que se ve: lo que los jugadores dicen haber pagado y espera a
+  // que alguien lo compruebe. Al validar se repinta todo, cifras incluidas.
+  pintarPorValidar($('#por-validar', cont), ctx, () => render(ctx, cont));
 
   $('#aplicar')?.addEventListener('click', async () => {
     if (!await confirmar('Aplicar el importe',

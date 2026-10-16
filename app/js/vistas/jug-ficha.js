@@ -10,6 +10,7 @@ import { pintarAjuste as pintarAvisosMovil } from './avisos-ajuste.js';
 import { pintarCompartir } from './compartir.js';
 import { pintarInstalar } from '../instalar.js';
 import { pintarSubidas, TIPOS_DOCUMENTO } from './identidad.js';
+import { pintarAvisoPago } from './pago-avisado.js';
 import {
   html, crudo, $, euros, fecha, nombreCompleto, tag, TAG_DOC, TAG_JUGADOR,
   avisar, fallo, cargando
@@ -120,7 +121,8 @@ export async function render(ctx, cont) {
           ${cuota.exento ? 'No te corresponde pagar cuota esta temporada'
             : 'Has pagado ' + euros(cuota.importe_pagado) + ' de ' + euros(cuota.importe_total) + ' · ' + ctx.temporada.nombre}
         </p>
-      </div>`) : ''}
+      </div>
+      <div id="aviso-pago"></div>`) : ''}
 
     <div id="compartir-app"></div>
 
@@ -176,6 +178,7 @@ export async function render(ctx, cont) {
   });
 
   pintarCompartir($('#compartir-app'), { staff: false });
+  pintarAvisoPago($('#aviso-pago'), { cuota, alCambiar: () => render(ctx, cont) });
   pintarInstalar($('#instalar'));
   pintarAvisosMovil($('#avisos-movil'), yo);
   cerrojo.pintarAjuste($('#cerrojo'), yo);

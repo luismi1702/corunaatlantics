@@ -203,6 +203,44 @@ export const borrarPago = (id) =>
 export const guardarCuota = (id, cambios) =>
   sb.from('cuotas').update(cambios).eq('id', id).select().single().then(ok);
 
+// --- Pagos avisados por el jugador -----------------------------------------
+// Lo que dice el jugador no es un pago hasta que tesorería lo valida
+// (app/db/31_pago_avisado.sql).
+
+export const pagosPorValidar = () =>
+  sb.from('pagos_avisados').select('*').eq('estado', 'pendiente')
+    .order('creado_en').then(ok);
+
+// El último de cada estado le basta al jugador: el pendiente, o cómo acabó el
+// anterior.
+export const misPagosAvisados = (cuotaId) =>
+  sb.from('pagos_avisados').select('*').eq('cuota_id', cuotaId)
+    .order('creado_en', { ascending: false }).limit(5).then(ok);
+
+// Devuelve si le ha sonado el móvil a alguien de tesorería. Que no suene no
+// deshace el aviso: tesorería lo ve igual al abrir la app.
+export async function avisarPago({ cuotaId, importe, metodo, fecha, nota }) {
+  const id = await sb.rpc('avisar_pago', {
+    p_cuota: cuotaId, p_importe: importe, p_metodo: metodo,
+    p_fecha: fecha, p_nota: nota || null
+  }).then(ok);
+  let enviados = 0;
+  try {
+    const { data } = await sb.functions.invoke('enviar-push', { body: { pago_avisado: id } });
+    enviados = data?.enviados ?? 0;
+  } catch { /* sin aviso al móvil: queda en la app */ }
+  return { id, enviados };
+}
+
+export const retirarPagoAvisado = (id) =>
+  sb.rpc('retirar_pago_avisado', { p_aviso: id }).then(ok);
+
+export const validarPagoAvisado = (id, importe = null) =>
+  sb.rpc('validar_pago_avisado', { p_aviso: id, p_importe: importe }).then(ok);
+
+export const rechazarPagoAvisado = (id, motivo = null) =>
+  sb.rpc('rechazar_pago_avisado', { p_aviso: id, p_motivo: motivo }).then(ok);
+
 // --- Documentación --------------------------------------------------------
 
 export const documentacionDe = (temporadaId) =>

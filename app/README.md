@@ -70,6 +70,7 @@ una pegada. Los sueltos siguen ahí para leerlos por partes:
 | `28_push_dirigido.sql` | Avisos al móvil solo a quien le toca, también desde calendario y tesorería |
 | `29_acceso_manda.sql` | Sin acceso no hay nada, tampoco para el staff |
 | `30_identidad.sql` | El jugador sube su documento y su foto; almacén privado |
+| `31_pago_avisado.sql` | El jugador avisa de que ha pagado y tesorería lo valida |
 
 `00_instalar.sql` está **generado**: si tocas un archivo suelto, vuelve a
 generarlo con `python generar_instalador.py` desde `app/db`.
@@ -237,7 +238,16 @@ Para ponerlo en marcha, **en este orden**: ejecutar `28_push_dirigido.sql` y
 después volver a desplegar la función `enviar-push`. Al revés, la función nueva
 pediría a la base de datos algo que todavía no existe y no sonaría nada. Con el
 SQL puesto y la función vieja, todo sigue como antes. Para saber qué versión
-corre, abrir la URL de la función en el navegador: tiene que decir `version: 4`.
+corre, abrir la URL de la función en el navegador: tiene que decir `version: 5`.
+
+**"Ya he pagado":** en Mi ficha, debajo de la cuota, el jugador avisa de que ha
+pagado (cuánto, cuándo y cómo). A quien lleva la tesorería le suena el móvil y
+le aparece arriba de Tesorería y en el menú; comprueba la cuenta y lo valida,
+pudiendo corregir el importe, o dice que no lo encuentra. Validar apunta el
+pago de verdad y la cuota pasa sola a al día; al jugador le llega un aviso en
+los dos casos. Lo que dice el jugador no cuenta como cobrado hasta que se
+valida. Ninguna de estas notificaciones lleva importes. Para ponerlo en marcha:
+`31_pago_avisado.sql` y desplegar otra vez `enviar-push` (versión 5).
 
 **Todavía no:** playbook.
 

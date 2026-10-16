@@ -1698,3 +1698,16 @@ body.jugador[data-ruta="/equipo"]::after { content: none; }
 /* En una seccion del club que lleve un delegado no pinta nada: alli esta
    gestionando, igual que se apaga el dorsal. */
 body.club .marca-pantalla { display: none; }
+
+/* --- "Ya he pagado" --------------------------------------------------------- */
+/* Debajo de la cuota, en Mi ficha. Dorado mientras espera a que el club lo
+   confirme; rojo apagado si el club no lo encontró. */
+.aviso-pago {
+  margin-top: .8rem; padding: .85rem 1rem; border-radius: 12px;
+  border-left: 3px solid var(--gold); background: rgba(212,168,67,.10);
+  line-height: 1.55;
+}
+.aviso-pago p { margin: 0; }
+.aviso-pago.rechazo { border-left-color: var(--bad); background: rgba(220,90,80,.10); }
+.aviso-pago .btn { margin-top: .7rem; width: 100%; }
+.lista.por-validar { margin-bottom: 1.2rem; }

@@ -441,6 +441,42 @@ export const registrarPago = () => noDisponible();
 export const borrarPago = () => noDisponible();
 export const guardarCuota = () => noDisponible();
 
+// Avisos de pago: en memoria, para poder probar el circuito entero. Uno ya
+// esperando, de alguien que debe toda la cuota.
+const AVISADOS = [{
+  id: 'pa1', cuota_id: 'c2', jugador_id: nombres[2].id, importe: 180, metodo: 'bizum',
+  fecha: enDias(-1), nota: 'Bizum al 600 del club', estado: 'pendiente', motivo: null,
+  pago_id: null, creado_en: new Date(Date.now() - 3 * 3600e3).toISOString()
+}];
+export const pagosPorValidar = () => demora(AVISADOS.filter(a => a.estado === 'pendiente'));
+export const misPagosAvisados = (cuotaId) =>
+  demora(AVISADOS.filter(a => a.cuota_id === cuotaId).reverse().slice(0, 5));
+export function avisarPago({ cuotaId, importe, metodo, fecha, nota }) {
+  const cuota = CUOTAS.find(c => c.id === cuotaId);
+  let a = AVISADOS.find(x => x.cuota_id === cuotaId && x.estado === 'pendiente');
+  if (!a) { a = { id: 'pa' + (AVISADOS.length + 1), cuota_id: cuotaId, estado: 'pendiente' }; AVISADOS.push(a); }
+  Object.assign(a, { jugador_id: cuota.jugador_id, importe: Number(importe), metodo, fecha,
+                     nota: nota || null, motivo: null, creado_en: new Date().toISOString() });
+  return demora({ id: a.id, enviados: 1 });
+}
+export function retirarPagoAvisado(id) {
+  const i = AVISADOS.findIndex(a => a.id === id && a.estado === 'pendiente');
+  if (i >= 0) AVISADOS.splice(i, 1);
+  return demora(null);
+}
+export function validarPagoAvisado(id, importe = null) {
+  const a = AVISADOS.find(x => x.id === id);
+  const pago = { id: 'g-' + id, cuota_id: a.cuota_id, importe: Number(importe ?? a.importe),
+                 fecha: a.fecha, metodo: a.metodo, referencia: 'Avisado desde la app', nota: a.nota };
+  PAGOS.push(pago);
+  Object.assign(a, { estado: 'validado', pago_id: pago.id, importe: pago.importe });
+  return demora(pago.id);
+}
+export function rechazarPagoAvisado(id, motivo = null) {
+  Object.assign(AVISADOS.find(x => x.id === id), { estado: 'rechazado', motivo });
+  return demora(null);
+}
+
 export const movimientosDe = () => demora(MOVIMIENTOS);
 export const registrarMovimiento = () => noDisponible();
 export const guardarMovimiento = () => noDisponible();

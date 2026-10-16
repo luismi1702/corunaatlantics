@@ -10,6 +10,7 @@ import {
   unidadDe, esDeUnidad, NOMBRE_UNIDAD, OPCIONES_ASISTENCIA as OPCIONES, conRespaldo,
   SECCIONES, avisar, fallo, cargando, TIPOS_EVENTO, claseEvento, relieveEvento
 } from '../ui.js';
+import { subidosPorJugador, documentoCompleto } from './identidad.js';
 
 const DICHO = {
   voy:    'Has dicho que vas',
@@ -30,7 +31,7 @@ export async function render(ctx, cont) {
 
   const yo = ctx.perfil;
   const [agenda, mias, cuota, docs, resumen, tablon, lecturas,
-         catalogo, misEncargos] = await Promise.all([
+         catalogo, misEncargos, subidos] = await Promise.all([
     conRespaldo(db.eventos(ctx.temporada.id, { desde: hoyISO() }), []),
     conRespaldo(db.misAsistencias(yo.id), []),
     conRespaldo(db.cuotaDe(yo.id, ctx.temporada.id), null),
@@ -39,7 +40,8 @@ export async function render(ctx, cont) {
     conRespaldo(db.avisos(ctx.temporada.id), []),
     conRespaldo(db.misLecturas(yo.id), []),
     conRespaldo(db.productos(), []),
-    conRespaldo(db.misPedidos(yo.id), [])
+    conRespaldo(db.misPedidos(yo.id), []),
+    conRespaldo(subidosPorJugador(), new Map())
   ]);
 
 
@@ -53,12 +55,20 @@ export async function render(ctx, cont) {
   const miUnidad = unidadDe(yo.posiciones);
   const respuesta = evento ? porEvento.get(evento.id)?.confirmacion ?? null : null;
 
+  // El documento y la foto cuentan como entregados en cuanto los sube él:
+  // antes solo valía la casilla que marcaba el staff, y quien ya los había
+  // subido seguía viendo que le faltaban.
+  const suyos = subidos.get(yo.id) ?? new Set();
   const pendientes = [];
-  if (miDoc) {
-    if (miDoc.licencia_estado !== 'validado') pendientes.push('la licencia');
-    if (!miDoc.dni_entregado) pendientes.push('la copia del DNI');
-  }
+  if (miDoc?.licencia_estado && miDoc.licencia_estado !== 'validado') pendientes.push('la licencia');
+  if (!miDoc?.dni_entregado && !documentoCompleto(yo.documento_tipo, suyos)) pendientes.push('el documento');
+  if (!miDoc?.foto_entregada && !suyos.has('foto')) pendientes.push('la foto');
   const debe = cuota && !cuota.exento && Number(cuota.importe_pendiente) > 0;
+  // Si ya ha avisado de que pagó, no se le sigue diciendo que debe: se le dice
+  // que falta que lo confirme el club.
+  const pagoAvisado = debe
+    ? (await conRespaldo(db.misPagosAvisados(cuota.id), [])).find(a => a.estado === 'pendiente')
+    : null;
   const sinDorsal = yo.dorsal == null;
 
   // Equipacion: si debe algo se le recuerda, y si no, se le enseña que existe.
@@ -217,7 +227,8 @@ export async function render(ctx, cont) {
           <a class="tira aviso" href="#/mificha">
             <span class="cifra-grande" style="color:var(--goldf)">${euros(cuota.importe_pendiente)}</span>
             <span class="et">Cuota</span>
-            <span class="pie">Pendiente de ${ctx.temporada.nombre}</span>
+            <span class="pie">${pagoAvisado ? 'Avisado: falta que lo confirme el club'
+                                            : 'Pendiente de ' + ctx.temporada.nombre}</span>
           </a>` : ''}
       </div>`) : ''}
 
