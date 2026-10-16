@@ -4,6 +4,7 @@ import * as db from '../db.js';
 import * as cerrojo from '../cerrojo.js';
 import { pintarAjuste as pintarAvisosMovil } from './avisos-ajuste.js';
 import { pintarCompartir } from './compartir.js';
+import { pintarInstalar } from '../instalar.js';
 import { verComoJugador } from '../app.js';
 import {
   html, crudo, $, $$, euros, fecha, nombreCompleto, DIAS, hora, enDiasISO,
@@ -94,6 +95,7 @@ export async function render(ctx, cont) {
 
     <div id="compartir-app"></div>
 
+    <div id="instalar"></div>
     <div id="avisos-movil"></div>
     <div id="cerrojo"></div>
 
@@ -131,6 +133,7 @@ export async function render(ctx, cont) {
   $('#ver-jugador').addEventListener('click', () => verComoJugador(true));
 
   pintarCompartir($('#compartir-app'));
+  pintarInstalar($('#instalar'));
   pintarAvisosMovil($('#avisos-movil'), ctx.perfil);
   cerrojo.pintarAjuste($('#cerrojo'), ctx.perfil);
 

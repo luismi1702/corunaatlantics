@@ -10,6 +10,7 @@ import {
   unidadDe, esDeUnidad, NOMBRE_UNIDAD, OPCIONES_ASISTENCIA as OPCIONES, conRespaldo,
   SECCIONES, avisar, fallo, cargando, TIPOS_EVENTO, claseEvento, relieveEvento
 } from '../ui.js';
+import { pintarInstalar } from '../instalar.js';
 
 const DICHO = {
   voy:    'Has dicho que vas',
@@ -151,6 +152,8 @@ export async function render(ctx, cont) {
         </p>
       </div>`)}
 
+    <div id="instalar"></div>
+
     ${siguiente ? crudo(html`
       <a class="siguiente" href="#/agenda">
         ${crudo(relieveEvento(siguiente))}
@@ -226,6 +229,10 @@ export async function render(ctx, cont) {
     <div class="escudo-clavado"><img src="./img/logo-principal.webp" alt="Coruña Atlantics"></div>
     <p class="menu-pie">#WeAreAtlantics</p>
   `;
+
+  // Fuera de la app instalada, en iPhone no llegan los avisos: por eso va en
+  // la primera pantalla y no escondido en un ajuste. Instalada, no pinta nada.
+  pintarInstalar($('#instalar', cont));
 
   if (!evento) return;
 

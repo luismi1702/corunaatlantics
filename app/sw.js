@@ -4,7 +4,7 @@
 // datos: una lista de cuotas guardada de la semana pasada sería peor que no
 // tener nada, porque parecería actual. Sin conexión, la app abre y avisa.
 
-const VERSION = 'atlantics-gestion-v75';
+const VERSION = 'atlantics-gestion-v76';
 
 const ARMAZON = [
   './',
@@ -14,6 +14,7 @@ const ARMAZON = [
   './js/ui.js',
   './js/cerrojo.js',
   './js/avisos-movil.js',
+  './js/instalar.js',
   './js/db.js',
   './js/config.js',
   './js/vendor/supabase-supabase-js-2.115.0.js',

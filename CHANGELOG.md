@@ -1,5 +1,17 @@
 # Changelog — Coruña Atlantics Web
 
+## [2026-10-16] — La app explica cómo instalarse
+
+**Qué se hizo:**
+- **Enganchado `app/js/instalar.js`**, escrito en septiembre y sin usar. Sale en Hoy (debajo del próximo entreno), en Mi ficha y en Ajustes, y solo si la app no está instalada. En Android, botón "Instalar en este móvil" cuando Chrome lo permite; si no, y en iPhone, los pasos numerados (Compartir → Añadir a pantalla de inicio)
+- El módulo se carga al arrancar la app, porque el aviso de Chrome llega una sola vez y muy pronto
+- Probado en la demo con iPhone, Android y simulando la app instalada: sale, sale y no sale; sin errores en consola
+- Publicado antes el documento de identidad (commit df59638) y ejecutado `30_identidad.sql` en Supabase
+
+**Archivos modificados:** `app/js/instalar.js` (nuevo en git), `app/js/app.js`, `app/js/vistas/jug-hoy.js`, `app/js/vistas/jug-ficha.js`, `app/js/vistas/ajustes.js`, `app/css/app.css`, `app/sw.js` (v76), `docs/pendiente.md`.
+
+**Pendiente:** probar en el móvil sin instalar y ya instalada; probar la subida del documento con la app instalada.
+
 ## [2026-10-16] — Árbitros de tres jornadas y el documento de identidad en la app
 
 **Qué se hizo:**

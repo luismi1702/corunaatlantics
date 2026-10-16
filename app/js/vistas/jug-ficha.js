@@ -8,6 +8,7 @@ import * as db from '../db.js';
 import * as cerrojo from '../cerrojo.js';
 import { pintarAjuste as pintarAvisosMovil } from './avisos-ajuste.js';
 import { pintarCompartir } from './compartir.js';
+import { pintarInstalar } from '../instalar.js';
 import { pintarSubidas, TIPOS_DOCUMENTO } from './identidad.js';
 import {
   html, crudo, $, euros, fecha, nombreCompleto, tag, TAG_DOC, TAG_JUGADOR,
@@ -123,6 +124,7 @@ export async function render(ctx, cont) {
 
     <div id="compartir-app"></div>
 
+    <div id="instalar"></div>
     <div id="avisos-movil"></div>
     <div id="cerrojo"></div>
 
@@ -174,6 +176,7 @@ export async function render(ctx, cont) {
   });
 
   pintarCompartir($('#compartir-app'), { staff: false });
+  pintarInstalar($('#instalar'));
   pintarAvisosMovil($('#avisos-movil'), yo);
   cerrojo.pintarAjuste($('#cerrojo'), yo);
 

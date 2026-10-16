@@ -3,6 +3,9 @@
 import { estaConfigurado } from './config.js';
 import { html, crudo, $, avisar, fallo, confirmar, cargando, SECCIONES } from './ui.js';
 import * as cerrojo from './cerrojo.js';
+// Se carga al arrancar porque el aviso de Chrome de que ya se puede instalar
+// llega una sola vez y muy pronto: si se espera a abrir la pantalla, se pierde.
+import './instalar.js';
 
 // La app tiene dos caras y cada una tiene su propio mapa de pantallas: lo que
 // ve el staff no se parece en nada a lo que ve un jugador, y no es cuestión de

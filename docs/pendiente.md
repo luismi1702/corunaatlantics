@@ -14,6 +14,8 @@ borra de aquí.
 3. **Probarlo con la app instalada en el móvil**: Mi ficha → Documento de identidad → tocar
    *Cara*, hacer la foto con la cámara y ver que aparece en la casilla. Luego, en la consola,
    Documentos → *Descargar todo en un ZIP* y abrirlo.
+   De paso, en Safari o Chrome **sin instalar**: en Hoy tiene que salir "Instalar la app" con
+   los pasos (en Android puede salir el botón "Instalar en este móvil"); instalada, no sale.
 4. Cuando la federación tenga los documentos: **Documentos → Borrar todos los documentos
    subidos**.
 
@@ -67,9 +69,6 @@ al principio es normal: solo cuenta a quien tenga las notificaciones activadas.
 
 ## Cosas del código que quedaron a medias
 
-- **`app/js/instalar.js`** está escrito y sin enganchar a ninguna pantalla.
-  Ofrecería un botón "Instalar en este móvil" en Android y las instrucciones en
-  iPhone. Hoy la app no dice en ningún sitio cómo instalarse.
 - **Impedir borrar un producto de la tienda** que ya tenga pedidos cobrados.
 - **Subir los justificantes a Supabase Storage**: hoy se guarda un enlace.
 

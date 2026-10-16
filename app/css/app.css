@@ -835,6 +835,22 @@ button.fila:active { transform: scale(.995); }
   font-family: 'Barlow Condensed', sans-serif; font-size: .9rem; color: var(--muted);
 }
 
+/* --- Instalar la app ------------------------------------------------------- */
+/* Pasos numerados con el número en dorado: se leen con el móvil en la otra
+   mano, buscando el botón, así que tienen que verse de un vistazo. */
+.pasos-instalar { list-style: none; margin: 0; padding: 0; counter-reset: paso; }
+.pasos-instalar li {
+  counter-increment: paso; position: relative;
+  padding: .45rem 0 .45rem 2.3rem; line-height: 1.45;
+}
+.pasos-instalar li::before {
+  content: counter(paso); position: absolute; left: 0; top: .4rem;
+  width: 1.6rem; height: 1.6rem; border-radius: 50%;
+  display: grid; place-items: center;
+  font-family: 'Anton', sans-serif; font-size: .9rem;
+  color: var(--ink, #040d12); background: var(--gold);
+}
+
 /* --- Elegir dorsal --------------------------------------------------------- */
 /* Una casilla y a correr. Antes habia una rejilla de cien numeros que ocupaba
    la pantalla entera de Mi ficha, para algo que se elige una vez. */
