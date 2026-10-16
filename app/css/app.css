@@ -810,6 +810,31 @@ button.fila:active { transform: scale(.995); }
   color: var(--muted); text-align: center; padding: 1rem;
 }
 
+/* --- Documento de identidad ------------------------------------------------ */
+/* Tres casillas iguales, apaisadas como una tarjeta. La foto de carnet es
+   vertical: se enseña entera en vez de recortarla. */
+.identidad-rejilla {
+  display: grid; gap: .7rem;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+}
+.identidad-casilla .subir-foto {
+  position: relative;
+  width: 100%; min-height: 0; aspect-ratio: 1.58; padding: 0;
+  font: inherit; color: inherit;
+}
+/* Absoluta: con aspect-ratio la altura en % no se resuelve y la imagen se
+   saldría por abajo. */
+.identidad-casilla .subir-foto img {
+  position: absolute; inset: 0; width: 100%; height: 100%; max-height: none;
+}
+.identidad-casilla .subir-foto.retrato img { object-fit: contain; }
+.identidad-casilla .subir-foto .pista { padding: .5rem; line-height: 1.3; }
+.identidad-pie {
+  display: flex; justify-content: space-between; align-items: center; gap: .4rem;
+  margin-top: .35rem;
+  font-family: 'Barlow Condensed', sans-serif; font-size: .9rem; color: var(--muted);
+}
+
 /* --- Elegir dorsal --------------------------------------------------------- */
 /* Una casilla y a correr. Antes habia una rejilla de cien numeros que ocupaba
    la pantalla entera de Mi ficha, para algo que se elige una vez. */

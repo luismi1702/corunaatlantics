@@ -455,3 +455,129 @@ formulario con mailto (en móviles sin correo configurado no hacía nada).
 **Motivo:** lo pidió él al ver el boceto ("el pantalón del azul es negro"). El negro sigue sin ser color del club (el Ink #040d12 es solo fondo de la web); el marino de la ropa es un punto más claro que el azul noche de las plantillas para que en tela no parezca negro.
 
 **Alternativas descartadas:** pantalón teal a juego con la camiseta (no le gustó); usar el azul noche #0A1626 en la ropa (en tela se confunde con negro).
+
+## [2026-10-07] — Ampliar imágenes con Real-ESRGAN en local
+
+**Decisión:** para sacar en grande una imagen pequeña (p. ej. el render del proveedor que llegó
+como captura de 261 px) se usa Real-ESRGAN x4plus en local con `spandrel` + PyTorch CPU ya
+instalado; el modelo `.pth` se baja de GitHub al scratchpad y no entra en el repo.
+
+**Motivo:** es gratis y sin cuentas (regla de solo herramientas gratuitas), y reconstruye bordes
+de texto y números mucho mejor que un reescalado normal. Aun así no inventa lo que no está:
+si el original es muy pequeño, lo mejor sigue siendo pedir la imagen original.
+
+**Alternativas descartadas:** redibujar el render con SVG (no quedaba "igual" a la foto, lo
+rechazó él); servicios web de ampliación con IA (créditos o marca de agua).
+
+## [2026-10-09] — Vectorizar el tridente con vtracer
+
+**Decisión:** el tridente solo existe como PNG (327 × 520 px útiles en `tridente sin fondo.png`).
+Para dárselo al proveedor en vectorial se amplía ×4, se reduce a 12 colores planos (mediana +
+`quantize` MEDIANCUT + filtro de moda) y se traza con `vtracer` (pip, gratuito). Sale
+`equipacion/tridente-vector.svg` y el mismo trazado en PDF (Playwright).
+
+**Motivo:** el proveedor necesita trazados para cambiar los códigos de color, y no hay archivo
+original en vectorial. Con 12 colores se conservan los brillos y las sombras del relieve y el
+archivo queda manejable (174 trazados).
+
+**Alternativas descartadas:** trazar sin cuantizar (2.871 trazados, 3 MB, ineditable); 8 colores
+(pierde los brillos blancos); `quantize` MAXCOVERAGE (colores falsos, amarillos y naranjas);
+potrace/Inkscape (no instalados y potrace solo traza en un color).
+
+## [2026-10-12] — Números de la equipación: Jersey M54, y cómo se cambian en los renders
+
+**Decisión:** los dorsales van en Jersey M54 (`equipacion/fuentes/Jersey M54.ttf`). En la manga,
+número en la local y tridente en la visitante. Los renders del proveedor son una imagen, no un
+dibujo editable, así que el número se cambia con `equipacion/numeros_render.py`: máscara de color
+del dorsal antiguo, relleno con la tela de alrededor (`cv2.inpaint`) y el número nuevo pintado
+encima con la perspectiva del render. Parte siempre de `render-proveedor-<kit>-original.png`.
+
+**Motivo:** se quería una fuente de bloque tipo NFL y se eligió viéndola puesta en la camiseta, no
+suelta. Rehacer el render entero para cambiar un número habría perdido el aspecto del original.
+
+**Alternativas descartadas:** Freshman (gustó suelta, puesta quedaba demasiado ancha); College y
+Graduate; repintar los números pequeños de la manga (salen cortados y curvados, quedaba peor).
+Ojo: Jersey M54 es gratuita solo para uso personal; para uso comercial pide donación o licencia.
+
+## [2026-10-13] — Equipación de flag: se pide a David (Phenix)
+
+**Decisión:** los 24 conjuntos se encargan a David Young (Shenzhen Phenix): 504 USD ≈ 441 € con
+envío, aranceles e IVA incluidos, 3-4 semanas.
+
+**Motivo:** es el corte que más gusta, respondió a todo y corrigió los bocetos, y admite
+reposiciones desde 3 conjuntos (20 USD cada uno más envío), que es lo que hace falta cuando entre
+gente nueva.
+
+**Alternativas descartadas:** Gloria (Normzl), 463 USD: la más barata, pero reposición mínima de
+10 y no enseñó ninguna camiseta de fútbol hecha por ellos. Winnie (Kuzhida), 485,56 USD: sin
+mínimo claro y con el envío caro en pedidos pequeños.
+
+## [2026-10-13] — Playbook: generado con un script y con nombres de NFL Flag
+
+**Decisión:** el playbook sale de `playbook/generar.py`, que dibuja formaciones y jugadas en SVG a
+partir de coordenadas y genera a la vez la versión A4 (`playbook.html`, a PDF con Chrome) y la del
+móvil (`playbook-movil.html`, publicada como artifact privado). Formaciones con los nombres de NFL
+Flag: Spread, Twins, Trips, Bunch y Trips Stacked. Sin RB, quarterback siempre en shotgun y un solo
+audible, "Blanco".
+
+**Motivo:** el playbook de 2016-2017 era un PDF que no se podía editar y cada cambio obligaba a
+redibujar. Con los nombres de NFL Flag, lo que se ve en su web y lo que se canta en el campo es lo
+mismo.
+
+**Alternativas descartadas:** editar el PDF antiguo; mantener sus nombres (Wins, Close) y sus
+formaciones con RB en el backfield; audibles distintos para carrera y pase.
+
+## [2026-10-14] — Hamburgueserías: "la hamburguesería del equipo", sin pedir visita
+
+**Decisión:** a las hamburgueserías se les ofrece ser "la hamburguesería del equipo" (cenas de
+equipo y celebraciones), no "nuestro sitio después de los partidos". Los DM terminan con "si os
+apetece ser nuestros patrocinadores, escribidnos" y no ofrecen ir al local ni mandar el dossier; el
+PDF solo va en los correos o cuando contestan.
+
+**Motivo:** el tercer tiempo ya es de O'Culto ("Nos vemos en Panaderas 26 después de cada
+jornada"). Ofrecer visitas o el dossier sin que lo pidan suena insistente.
+
+**Alternativas descartadas:** el texto genérico del 26/09 ("nuestro sitio después de entrenos y
+partidos", "¿nos pasamos un día?"). Se descartan las cadenas que deciden fuera de Coruña; La Pepita
+entra porque sus locales de Coruña los lleva un franquiciado local.
+
+## [2026-10-15] — Equipación: 12 conjuntos de cada aunque seamos 10
+
+**Decisión:** el pedido a David (Phenix) se mantiene en 12 local + 12 visitante (504 USD ≈ 441 €)
+aunque la plantilla inicial sea de 10 jugadores. Los gastos se reparten entre los 10: ≈ 148 € por
+persona sin árbitros (desglose en `pendiente.md`).
+
+**Motivo:** que quien se apunte durante la temporada pueda jugar desde el primer día. Una
+reposición cuesta 20 USD por conjunto más envío, con un mínimo de 3, y tarda 3-4 semanas.
+
+**Alternativas descartadas:** pedir solo 10 de cada (≈ 368 €, 141 €/persona), que ahorra unos 7 €
+por persona pero deja sin camiseta a cualquier alta nueva.
+
+## [2026-10-15] — Cuota de jugador: 170 €
+
+**Decisión:** la cuota de la temporada es de 170 € por jugador. Con 10 jugadores y el patrocinio de
+500 € entran 2.200 €; los gastos fijos son ≈ 1.481 € y quedan ≈ 719 € de margen.
+
+**Motivo:** los árbitros de local están sin cerrar (30 € por partido y árbitro, más dieta y
+kilometraje si vienen de Asturias) y faltan la licencia de staff y la cuenta del club. Es más fácil
+devolver lo que sobre que pedir una derrama a mitad de liga.
+
+**Alternativas descartadas:** 150 € (≈ 519 € de margen) y 100-120 €, que con el patrocinio cubren
+lo fijo pero dejan poco o nada para los árbitros.
+
+## [2026-10-16] — El documento de identidad lo sube cada jugador a un almacén privado
+
+**Decisión:** cada jugador sube desde Mi ficha la cara y el dorso de su documento y la foto
+de carnet. Van al bucket privado `identidad` de Supabase (una carpeta por ficha, tres nombres
+fijos, solo JPEG de hasta 3 MB). Quien lleva Documentos lo ve todo, lo baja en un ZIP con un
+CSV y lo borra cuando la federación ya lo tiene.
+
+**Motivo:** las copias llegaban por WhatsApp y había que guardarlas y renombrarlas a mano. La
+protección la ponen las políticas de `storage.objects` (`30_identidad.sql`), no la interfaz,
+como el resto de los datos delicados. Se habla de "documento" y no de DNI porque el
+reglamento de FEFAPA (art. 27) admite DNI, NIE y pasaporte, y hay jugadores de Erasmus.
+
+**Detalles:** imágenes y no PDF, porque una imagen vale en cualquier portal y se convierte
+después si hace falta. El reglamento no dice qué formato pide LEVERADE. El ZIP se hace en el
+navegador sin librería, porque los JPEG no se comprimen más. Las casillas "en papel" se
+mantienen para lo que llegue por otro lado.

@@ -69,6 +69,7 @@ una pegada. Los sueltos siguen ahí para leerlos por partes:
 | `27_sesiones_de_video.sql` | Las sesiones de vídeo, como clase de cita propia |
 | `28_push_dirigido.sql` | Avisos al móvil solo a quien le toca, también desde calendario y tesorería |
 | `29_acceso_manda.sql` | Sin acceso no hay nada, tampoco para el staff |
+| `30_identidad.sql` | El jugador sube su documento y su foto; almacén privado |
 
 `00_instalar.sql` está **generado**: si tocas un archivo suelto, vuelve a
 generarlo con `python generar_instalador.py` desde `app/db`.

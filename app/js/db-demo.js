@@ -784,3 +784,42 @@ export const estadisticasHistorico = () => demora(agregar());
 export const documentacionDe = () => demora(DOCS);
 export const asegurarDocumentacion = (jugadorId) => demora(DOCS.find(d => d.jugador_id === jugadorId));
 export const guardarDocumentacion = () => noDisponible();
+
+// Documento de identidad: en memoria, como lo demás. Dos jugadores ya lo han
+// subido para que la consola tenga algo que enseñar; sus imágenes se dibujan
+// al vuelo, porque no hay fotos de DNI de verdad que meter en una demo.
+const IDENTIDAD = new Map();
+for (const [id, archivos] of [['p1', ['documento_cara', 'documento_dorso', 'foto']],
+                              ['p2', ['documento_cara', 'foto']]]) {
+  for (const a of archivos) IDENTIDAD.set(`${id}/${a}.jpg`, { blob: null, subido_en: enDias(-3) });
+}
+
+function dibujoDemo(ruta) {
+  const foto = ruta.endsWith('foto.jpg');
+  const lienzo = document.createElement('canvas');
+  lienzo.width = foto ? 300 : 480; lienzo.height = foto ? 400 : 300;
+  const c = lienzo.getContext('2d');
+  c.fillStyle = foto ? '#cfd8dc' : '#e0f2f1'; c.fillRect(0, 0, lienzo.width, lienzo.height);
+  c.fillStyle = '#006E82'; c.font = 'bold 28px sans-serif'; c.textAlign = 'center';
+  c.fillText(foto ? 'FOTO' : ruta.includes('dorso') ? 'DORSO' : 'CARA', lienzo.width / 2, lienzo.height / 2);
+  c.font = '16px sans-serif'; c.fillText('demo', lienzo.width / 2, lienzo.height / 2 + 30);
+  return new Promise(r => lienzo.toBlob(r, 'image/jpeg', 0.8));
+}
+
+const blobDemo = async (ruta) => {
+  const e = IDENTIDAD.get(ruta);
+  if (!e) throw new Error('Object not found');
+  return e.blob ?? (e.blob = await dibujoDemo(ruta));
+};
+
+export const archivosIdentidad = () => demora([...IDENTIDAD].map(([ruta, e]) => ({
+  jugador_id: ruta.split('/')[0], archivo: ruta.split('/')[1], subido_en: e.subido_en
+})));
+export const subirIdentidad = async (jugadorId, archivo, cual) => {
+  IDENTIDAD.set(`${jugadorId}/${cual}.jpg`, { blob: archivo, subido_en: new Date().toISOString() });
+  return demora(null);
+};
+export const verIdentidad = async (rutas) => Object.fromEntries(await Promise.all(
+  rutas.filter(r => IDENTIDAD.has(r)).map(async r => [r, URL.createObjectURL(await blobDemo(r))])));
+export const bajarIdentidad = (ruta) => blobDemo(ruta);
+export const borrarIdentidad = (rutas) => { rutas.forEach(r => IDENTIDAD.delete(r)); return demora([]); };

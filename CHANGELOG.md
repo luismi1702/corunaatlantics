@@ -1,5 +1,116 @@
 # Changelog — Coruña Atlantics Web
 
+## [2026-10-16] — Árbitros de tres jornadas y el documento de identidad en la app
+
+**Qué se hizo:**
+- **Árbitros:** tras hablar con el presidente, hay que pagar 3 jornadas. Con 3 árbitros a 30 € salen 270 €, y hasta ≈ 765 € con dietas completas, frente a ≈ 719 € de margen
+- **Qué documentación pide FEFAPA:** el reglamento de flag 2026-27 no dice el formato. Para la revisión en el partido acepta DNI, NIE, pasaporte o carnet de conducir
+- **App: documento de identidad.** El jugador sube cara, dorso (no en el pasaporte) y foto de carnet desde Mi ficha. El staff los ve en Documentos, los baja en un ZIP con `jugadores.csv` y los borra cuando ya no hacen falta. Almacén privado con permisos en Postgres (`30_identidad.sql`). Probado en la demo: subida, cambio a pasaporte, ZIP válido y sin errores en consola
+
+**Archivos modificados:** `app/db/30_identidad.sql` (nuevo), `app/db/00_instalar.sql`, `app/db/generar_instalador.py`, `app/js/zip.js` (nuevo), `app/js/vistas/identidad.js` (nuevo), `app/js/vistas/jug-ficha.js`, `app/js/vistas/documentacion.js`, `app/js/db.js`, `app/js/db-demo.js`, `app/css/app.css`, `app/sw.js` (v75), `app/README.md`, `docs/pendiente.md`, `docs/decisiones.md`.
+
+**Pendiente:** ejecutar `30_identidad.sql` en Supabase, publicar y probar la subida con la app instalada en el móvil; en LEVERADE, mirar qué formato piden para los documentos.
+
+## [2026-10-15] — Presupuesto de la liga con 10 jugadores, avatar de redes y acuerdo con Nerion
+
+**Qué se hizo:**
+- **Training Day de flag** (teal oscuro, la foto que quedaba libre) con tres textos en `redes/posts/training-day-flag/`; recomendado el C, el de captar
+- **Avatar para redes** en 1080×1080 (`redes/avatar/generar_avatar.py`): Poseidón, cabeza y escudo sobre el teal de los destacados. El logo se encaja midiendo hasta dónde llega el dibujo, no su rectángulo, porque las letras de ATLANTICS pisaban el aro
+- **Revisión del acuerdo con Nerion Athletics:** firmable con cambios. Hay que quitar la cesión de la imagen de los jugadores, que la terminación valga para las dos partes, quitar la obligación de buscarles compradores y añadir CIF y domicilio. Además, los balones KS1 tienen el mismo 10 % que el código público y quedan restos de una plantilla de tackle
+- **Presupuesto de la Liga Norte:** 10 jugadores, 12 equipaciones de cada, patrocinio de 500 € y cuota de 170 €. Gastos fijos de ≈ 1.481 €, entran 2.200 € y quedan ≈ 719 € para árbitros, staff y cuenta
+- **Inscripción en FEFAPA:** el club ya está federado en FEFA y nadie ha pedido registros. En el calendario están la llamada del viernes 16 al presidente de la liga, con sus preguntas, y el límite del domingo 18 a las 23:59
+
+**Archivos modificados:** `docs/pendiente.md`, `docs/decisiones.md`, `CHANGELOG.md`. Fuera de git: `redes/posts/training-day-flag/` (nuevo), `redes/avatar/` (nuevo) y `redes/calendario/calendario-octubre-2026.html`, republicado en la misma URL.
+
+**Pendiente:** llamar el viernes 16 al presidente de la liga y hacer la inscripción en LEVERADE antes del domingo 18 a las 23:59 (400 € + 100 €, con el documento de FEFA); elegir el avatar y, si es la cabeza, cambiar también `web/avatar-ig.png`; responder a Nerion con los cambios del acuerdo; mandar a David las tallas, nombres y números de los 10, más 2 conjuntos comodín; poner la cuota de 170 € en la app; apuntar en `redes/LEEME.md` el día en que salga el Training Day de flag.
+
+## [2026-10-14] — Artabro, nuevo patrocinador, y patrocinio a las hamburgueserías
+
+**Qué se hizo:**
+- **Planning del jueves 15:** Training Day de las botas en el feed y en story, sesión 1 del entreno (`entrenos/sesion-1.pdf`) y grabar clips para el Reel del martes 20
+- **Cartel de patrocinador de Artabro Organic Gin** (modelo tridente-especial) en `redes/posts/patrocinador-artabro/`, con dos textos. El logo se recortó de una captura de su Instagram y se dejó en blanco, sin fondo
+- **Dossier al día:** Artabro aparece junto a O'Culto y Nanys en "Nuestros patrocinadores". Se rehicieron los dos PDF; el ligero pesa 636 KB
+- **Mensajes para 19 hamburgueserías**, uno por local, en `redes/dossier/mensajes-hamburgueserias.md`: 3 correos (Hermes' Journey, Uptown y Feypo) y 16 DM. Llevan la frase de la bacon cheeseburger y terminan con "si os apetece ser nuestros patrocinadores", sin pedir visita
+- **Contactos comprobados en la web de cada local y en Páxinas Galegas.** ROJO figura como cerrado temporalmente, en el local de La Burguería ahora está Jack's, la web de Devoto está hackeada y los locales de La Pepita en Coruña los lleva un franquiciado de la ciudad
+- **Envío por el navegador:** no se pudo, porque Chrome no tiene abierta la sesión de Instagram del club
+
+**Archivos modificados:** `docs/pendiente.md`, `docs/decisiones.md`. Fuera de git, en `redes/`: `posts/patrocinador-artabro/` (nuevo), `plantillas/_editables/logo-artabro-blanco.png` y su HTML, `dossier/dossier-patrocinio.html`, los dos PDF del dossier, `dossier/img/logo-artabro-blanco.png`, `dossier/mensajes-hamburgueserias.md` (nuevo), `dossier/mensajes-patrocinio.txt` y `LEEME.md`.
+
+**Pendiente:** enviar los 19 mensajes, de 4 a 5 al día; el @ de Instagram de Artabro y el día de su post; preguntar a ROJO si sigue abierto antes de publicar su cartel; pedir a Artabro el logo en buena calidad.
+
+## [2026-10-13] — Equipación con David (Phenix), playbook del club y hoja del entreno
+
+**Qué se hizo:**
+- **Proveedor elegido: David Young (Phenix)**, 504 USD ≈ 441 € por 24 conjuntos con envío, aranceles e IVA incluidos, 3-4 semanas. Se le comunicó por Alibaba; las tallas van a finales de semana y después el pago
+- **Datos nuevos de los tres** en `docs/proveedores-equipacion.md`: telas (David camiseta 180 g y pantalón interlock 160 g; Winnie 180 g, malla 230 g a +1 USD), pedido mínimo de reposición (David 3 conjuntos a 20 USD más envío; Gloria 10; Winnie sin cifra) y bocetos corregidos
+- **Playbook del club** (`playbook/generar.py`): el de 2016-2017 pasado a nuestro formato y puesto al día: sin RB, quarterback siempre en shotgun, nombres de NFL Flag (Spread, Twins, Trips, Bunch, Trips Stacked), audible único "Blanco" y 12 jugadas con su explicación
+- **Playbook en el móvil:** versión adaptable publicada como artifact privado y fijado; se republica en la misma URL
+- **Hoja del entreno del jueves** (`entrenos/sesion-1.pdf`, 2 A4): ataque y defensa trabajan a la vez en grupos fijos (rutas y tres jugadas; backpedal y zona 2-1-2), scrimmage final y hoja de jugadas (Spread 1, Spread 2, Trips Stacked 1)
+- **Redes:** portada de Reel de las vallas (teal oscuro) entregada con tres textos en `redes/posts/reel-training-day-vallas/texto.txt`; sin publicar
+- **Alibaba:** un mensaje para David salió por error en el chat de Gloria; desde entonces se envía chat a chat comprobando el nombre antes de pulsar Enviar
+
+**Archivos modificados:** `docs/proveedores-equipacion.md`, `docs/pendiente.md`, `docs/decisiones.md`, `CLAUDE.md`; nuevos y fuera de git: `playbook/` (`generar.py`, `playbook.html`, `playbook.pdf`, `playbook-movil.html`), `entrenos/sesion-1.html` y `.pdf`, `redes/posts/reel-training-day-vallas/`.
+
+**Pendiente:** lista de tallas, nombres y números para David y el pago (con "DDP, import duties and Spanish VAT included" y Trade Assurance); avisar a Winnie y a Gloria; contrastar las reglas del playbook con el reglamento actual; shotgun a 6 o 6,5 yardas; publicar el Reel de las vallas; inscripción en la liga antes del 18 oct.
+
+## [2026-10-12] — Equipación: tres finalistas con boceto, números en Jersey M54 y sudaderas con TeamPrinted
+
+**Qué se hizo:**
+- **Proveedores (10-12 oct):** quedan tres. Gloria (Normzl) bajó el envío a 103 USD DDP → 463 USD ≈ 405 €; Winnie (Kuzhida) 485,56 USD ≈ 425 €; David (Phenix) 504 USD ≈ 441 €. Fichas, ofertas y el estado de cada boceto en `docs/proveedores-equipacion.md`
+- **Bocetos:** Winnie lleva tres rondas y solo le falta poner el tridente vertical y centrado en la manga de la visitante; David corrigió "AYLANTICS" y le falta el canesú de la espalda; Gloria aún no ha mandado ninguno. A él le gusta más la base (corte) de David
+- **Tipografía de los números: Jersey M54**, elegida viéndola puesta en la camiseta con el 17 (antes gustó Freshman y se descartó). Enviada a David y a Winnie con una prueba; manga: número en la local, tridente en la visitante
+- **Fichas del proveedor regeneradas** con los dorsales de pecho y espalda en Jersey M54 (`equipacion/numeros_render.py`); los renders originales quedan guardados como `-original.png`
+- **Sudaderas de calle para vender:** se harán con TeamPrinted (desde 15,20 €/pieza), más adelante y sin fecha; las de Alibaba quedan descartadas. Pasos y mensaje de WhatsApp en `docs/pendiente.md`
+- **Redes:** Reel del entreno publicado el 10 oct con la portada `training-day-qb2-local.png`; calendario del móvil republicado
+- De paso: muñequera de QB (Cutters Playmaker Triple, 17,50 € en Forelle) y comparativa de la tipografía de los Commanders
+
+**Archivos modificados:** `docs/proveedores-equipacion.md`, `docs/pendiente.md`, `docs/decisiones.md`; fuera de git: `equipacion/numeros_render.py`, `equipacion/fuentes/`, `equipacion/pruebas-numeros/`, `equipacion/render-proveedor-*` y `ficha-proveedor-*`, `redes/posts/reel-training-day-qb2/`, `redes/calendario/calendario-octubre-2026.html`, `redes/LEEME.md`.
+
+**Pendiente:** bocetos del 13 oct (David con el canesú, el primero de Gloria, el de Winnie con el tridente) y elegir proveedor; que el pedido diga "DDP, import duties and Spanish VAT included" y vaya con Trade Assurance (a Gloria no se le dio correo); lista de tallas, nombres y números; decidir si el ATLANTICS del pecho y los nombres cambian de fuente; inscripción en la liga antes del 18 oct.
+
+## [2026-10-09] — Proveedor de la equipación de flag: comparativa en Alibaba y tridente en vectorial
+
+**Qué se hizo:**
+- **Comparativa de proveedores** para 24 conjuntos (12 local + 12 visitante, sublimados, nombre y número distintos, entrega en A Coruña), a 0,875 €/USD: revisadas las conversaciones y los perfiles de Alibaba, abiertos chats nuevos y negociado precio con mensajes aprobados uno a uno
+- **Estilo aclarado a todos:** es flag, se quiere corte de réplica/fan NFL (tipo Fanatics), no camiseta de tackle; el corte de fútbol vale solo como segunda opción si sale más barato
+- **En principio se trabaja con David Young (Shenzhen Phenix):** réplica a 21 USD/conjunto con envío y tasas incluidos = 504 USD ≈ 441 € (36,75 €/jugador), 3-4 semanas en total, reposición mínima 5 conjuntos; corte fútbol 18 USD
+- **Resto:** Jenny Gu (Vosea) 457,63 € y no baja el envío de 199 USD; Ella Qi 343 € pero solo corte fútbol; Borsco réplica 623,88 €; Rhea Lin rechazó la contraoferta; Misha, Kuzhida, Lishang y Aowei sin precio cerrado
+- **Tridente en vectorial** para la manga (David lo pidió para editar los colores): trazado del PNG con `vtracer` a 12 colores planos → `equipacion/tridente-vector.{svg,pdf,zip}`, enviado junto con la tipografía (Graduate)
+- **Alibaba:** apagada la traducción automática de los mensajes enviados (salían en chino); ahora salen en inglés tal cual
+- De paso: inflador eléctrico de balones en Amazon (Pumteck MY01, 25,99 €) y material/colaboración con Nerion Athletics, con borrador de mensaje para que lo envíe él
+
+**Archivos modificados:** `equipacion/tridente-vector.svg`, `.pdf`, `.zip` y `tridente-vector-comparativa.png` (nuevos, fuera de git), `docs/decisiones.md`, `docs/pendiente.md`.
+
+**Pendiente:** boceto de David con los dos diseños y el teal/oro en CMYK, y saber si le vale el vectorial; decidir la semana del 12 oct; lista de tallas, nombres y números de los 12; que el pedido diga por escrito "DDP, aranceles e IVA español incluidos" y vaya con Trade Assurance; bocetos de Jenny el lunes 12; enviar el mensaje a Nerion.
+
+## [2026-10-08] — Training Day de la escalera y búsqueda de cuenta para el club
+
+**Qué se hizo:**
+- **Instagram:** publicado el Training Day de la escalera en azul noche (`foto-escalera-local.png`) con el texto B; imagen y los tres textos en `redes/posts/training-day-escalera/`
+- **Registro de Training Day subidos** en `redes/LEEME.md`: balón (1 oct) y escalera (8 oct) publicados, botas (15) y lanzamiento (29) programados, flag y flags libres
+- **Calendario del móvil** republicado en la misma dirección: el jueves 8 como publicado, la llamada al Sabadell el viernes 9 (962 000 610, se toca para llamar) y un color nuevo "Gestión del club"
+- **Cuenta bancaria del club:** comparadas las opciones. No hay ninguna gratuita y 100 % online para una asociación: Revolut, ING, Openbank, imagin y N26 no las admiten. A 0 € solo Sabadell (línea Tercer Sector, por correo); online de pago, NeusBank (unos 40 €/año) y Qonto (desde 9 €/mes)
+- Revisado el aviso de protección de datos del alta online de CaixaBank (estándar, no compromete)
+
+**Archivos modificados:** `docs/pendiente.md`, `redes/LEEME.md`, `redes/calendario/calendario-octubre-2026.html`, `redes/posts/training-day-escalera/` (nuevo). Todo `redes/` sigue fuera de git.
+
+**Pendiente:** llamar al Sabadell el viernes 9 y pedir las condiciones por escrito; confirmar que el alta de CaixaBank es para la asociación y no personal, y qué comisión lleva; averiguar si la cuenta antigua del club sigue abierta; la inscripción en la liga sigue venciendo el 18 oct.
+
+## [2026-10-07] — Patrocinadores en la web, calendario en el móvil, varsity, liga y renders de la equipación
+
+**Qué se hizo:**
+- **Web:** sección "Nuestros patrocinadores" con O'Culto y Nanys Fotomatón entre el roster y el Instagram, con CTA de patrocinio (commits `cc12f47` y `aff1206`, publicados y comprobados)
+- **Calendario de redes en el móvil:** artifact privado (https://claude.ai/artifact/WaU3rgqeaLjonN6rE7emSk) que marca el día de hoy y deja tachar lo publicado (se guarda en su base, colección `hecho`)
+- **Instagram:** portadas de destacados (`generar_destacados.py`, El juego con la cabeza de Poseidón), marco transparente vacío para fotos (`generar_marcos.py`), textos del Training Day y @nanysfotomaton en su post
+- **Chaqueta varsity** (`equipacion/generar_varsity.py`): 12 opciones inspiradas en NFL/streetwear; elegida la **2C** con el punto del proveedor **JKS-63** (teal con raya blanca), ficha final `equipacion/varsity/final-2c-3.png`
+- **Equipación de flag:** renders de catálogo (`generar_render.py`), el render del proveedor ampliado con Real-ESRGAN y fichas con los colores y dónde va cada uno (`ficha_proveedor.py` → `ficha-proveedor-{local,visitante}.png`)
+- **Montaje** de un jugador NFL con la equipación de football de Atlantics (casco negro con tridentes): `equipacion/montaje-jugador-football.jpg`, solo como boceto, no publicable
+- **Liga Norte FEFAPA:** leída la convocatoria; checklist con plazos y costes en `docs/pendiente.md` y borrador de correo a FEFAPA en `docs/correo-fefapa.md`
+
+**Archivos modificados:** `index.html`, `web/patrocinador-{oculto,nanys}.png`, `docs/pendiente.md`, `docs/correo-fefapa.md` (nuevo), `equipacion/` (`generar_varsity.py`, `generar_render.py`, `ficha_proveedor.py`, `varsity/`, renders y fichas; fuera de git), `redes/` (destacados, marcos, calendario, posts; fuera de git).
+
+**Pendiente:** inscripción en la liga **antes del 18 oct a las 23:59** (registro de entidades deportivas, cuenta del club, correo a FEFAPA) y 6 licencias antes del 15 nov; día de publicación de Nanys y mover el post de posiciones (ya publicado el 6) en el calendario; @ de ROJO; siguen sin revisar los PNG borrados de la raíz (`Game Day.png`, `MVP.png`…).
+
 ## [2026-09-30] — Ropa del club en bocetos, captación por Instagram y entrenos en jueves
 
 **Qué se hizo:**

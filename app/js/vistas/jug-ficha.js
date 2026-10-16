@@ -8,6 +8,7 @@ import * as db from '../db.js';
 import * as cerrojo from '../cerrojo.js';
 import { pintarAjuste as pintarAvisosMovil } from './avisos-ajuste.js';
 import { pintarCompartir } from './compartir.js';
+import { pintarSubidas, TIPOS_DOCUMENTO } from './identidad.js';
 import {
   html, crudo, $, euros, fecha, nombreCompleto, tag, TAG_DOC, TAG_JUGADOR,
   avisar, fallo, cargando
@@ -82,20 +83,29 @@ export async function render(ctx, cont) {
           </div>
           <div class="dcha">${tag(TAG_DOC, d.estado ?? 'pendiente')}</div>
         </div>`)}
-      <div class="fila">
-        <div class="info">
-          <div class="nom">Copia del DNI</div>
-          <div class="meta">Se entrega al club</div>
-        </div>
-        <div class="dcha">
-          ${doc?.dni_entregado ? crudo('<span class="tag ok">Entregada</span>')
-                               : crudo('<span class="tag bad">Pendiente</span>')}
-        </div>
-      </div>
     </div>
     <p class="ayuda" style="margin-top:.6rem;line-height:1.6">
-      Esto lo actualiza el club cuando recibe cada documento. Si algo lleva mucho
-      en pendiente, habla con el staff.
+      La licencia la tramita el club. Si lleva mucho en pendiente, habla con el staff.
+    </p>
+
+    <p class="eyebrow">Documento de identidad</p>
+    <form id="identidad" class="card">
+      <div class="dos">
+        <div class="campo"><label>Documento</label>
+          <select name="documento_tipo">
+            ${Object.entries(TIPOS_DOCUMENTO).map(([v, t]) => html`
+              <option value="${v}" ${(yo.documento_tipo ?? 'dni') === v ? crudo('selected') : ''}>${t}</option>`)}
+          </select></div>
+        <div class="campo"><label>Número</label>
+          <input name="dni" value="${yo.dni ?? ''}" autocomplete="off" placeholder="12345678Z"></div>
+      </div>
+      <button class="btn primario ancho" type="submit">Guardar</button>
+    </form>
+    <div id="subidas" style="margin-top:.8rem"></div>
+    <p class="ayuda" style="margin-top:.6rem;line-height:1.6">
+      Lo pide la federación para sacarte la licencia. Haz las fotos con luz, sin
+      reflejos y que se lea todo. Solo las ve quien lleva los documentos del club,
+      y se borran cuando se mandan.
     </p>
 
     ${cuota ? crudo(html`
@@ -143,6 +153,22 @@ export async function render(ctx, cont) {
     try {
       await db.elegirDorsal(yo.id, n);
       avisar(n === null ? 'Has soltado tu dorsal' : '¡El ' + n + ' es tuyo!');
+      ctx.recargar();
+    } catch (err) { fallo(err); }
+  });
+
+  const subidas = pintarSubidas($('#subidas'), {
+    jugadorId: yo.id, tipo: yo.documento_tipo ?? 'dni'
+  });
+  const formId = $('#identidad');
+  formId.documento_tipo.addEventListener('change', (e) => subidas.tipo(e.target.value));
+  formId.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const f = new FormData(e.target);
+    const numero = f.get('dni').trim().toUpperCase().replace(/[\s-]/g, '');
+    try {
+      await db.guardarJugador(yo.id, { documento_tipo: f.get('documento_tipo'), dni: numero || null });
+      avisar('Documento guardado');
       ctx.recargar();
     } catch (err) { fallo(err); }
   });

@@ -220,6 +220,64 @@ export async function asegurarDocumentacion(jugadorId, temporadaId) {
 export const guardarDocumentacion = (id, cambios) =>
   sb.from('documentacion').update(cambios).eq('id', id).select().single().then(ok);
 
+// --- Documento de identidad y foto ------------------------------------------
+// Viven en el bucket privado 'identidad', en una carpeta por jugador con tres
+// nombres fijos (ver 30_identidad.sql). Nombre fijo y upsert: volver a subir
+// la cara pisa la anterior, y no se quedan copias viejas de un DNI por ahí.
+
+const IDENTIDAD = 'identidad';
+const rutaIdentidad = (jugadorId, archivo) => `${jugadorId}/${archivo}.jpg`;
+
+// [{ jugador_id, archivo: 'documento_cara.jpg', subido_en }]
+export const archivosIdentidad = () => sb.rpc('identidad_subida').then(ok);
+
+// A diferencia de la foto de la tienda, aquí no se sube la original si no se
+// puede convertir: el bucket solo admite JPEG, y es mejor decirlo en el
+// momento que dejar al jugador pensando que ya lo ha mandado.
+async function aJPEG(archivo, lado = 1600, calidad = 0.85) {
+  if (!archivo.type.startsWith('image/')) {
+    throw new Error('Tiene que ser una foto. Si lo tienes en PDF, hazle una captura.');
+  }
+  let bitmap;
+  try { bitmap = await createImageBitmap(archivo); }
+  catch { throw new Error('No se puede abrir esa imagen. Prueba a hacer la foto desde la app o con una captura.'); }
+
+  const escala = Math.min(1, lado / Math.max(bitmap.width, bitmap.height));
+  const lienzo = document.createElement('canvas');
+  lienzo.width  = Math.round(bitmap.width  * escala);
+  lienzo.height = Math.round(bitmap.height * escala);
+  const c = lienzo.getContext('2d');
+  c.fillStyle = '#fff';                  // un PNG transparente no sale negro
+  c.fillRect(0, 0, lienzo.width, lienzo.height);
+  c.drawImage(bitmap, 0, 0, lienzo.width, lienzo.height);
+  bitmap.close?.();
+
+  const jpg = await new Promise(r => lienzo.toBlob(r, 'image/jpeg', calidad));
+  if (!jpg) throw new Error('No se ha podido preparar la foto. Prueba otra vez.');
+  return jpg;
+}
+
+export async function subirIdentidad(jugadorId, archivo, cual) {
+  const jpg = await aJPEG(archivo);
+  const { error } = await sb.storage.from(IDENTIDAD)
+    .upload(rutaIdentidad(jugadorId, cual), jpg,
+            { upsert: true, contentType: 'image/jpeg', cacheControl: '0' });
+  if (error) throw error;
+}
+
+// URLs firmadas de cinco minutos, para enseñar las miniaturas.
+export async function verIdentidad(rutas) {
+  if (!rutas.length) return {};
+  const filas = await sb.storage.from(IDENTIDAD).createSignedUrls(rutas, 300).then(ok);
+  return Object.fromEntries(filas.filter(f => f.signedUrl).map(f => [f.path, f.signedUrl]));
+}
+
+export const bajarIdentidad = (ruta) =>
+  sb.storage.from(IDENTIDAD).download(ruta).then(ok);
+
+export const borrarIdentidad = (rutas) =>
+  rutas.length ? sb.storage.from(IDENTIDAD).remove(rutas).then(ok) : Promise.resolve([]);
+
 // --- Tesorería ------------------------------------------------------------
 // Los pagos de cuota NO se apuntan aquí: ya están en `pagos`, y el resumen los
 // suma por su lado. Duplicarlos inflaría el saldo.
