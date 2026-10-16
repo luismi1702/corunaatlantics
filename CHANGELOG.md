@@ -6,9 +6,10 @@
 - **Enganchado `app/js/instalar.js`**, escrito en septiembre y sin usar. Sale en la **pantalla de entrada, antes de poner el correo** (primero se pone en Hoy y él lo prefirió al entrar), en Mi ficha y en Ajustes, y solo si la app no está instalada. Antes del correo porque en iPhone la app instalada no comparte la sesión con Safari: quien entra y luego instala tiene que volver a pedir el código. En Android, botón "Instalar en este móvil" cuando Chrome lo permite; si no, y en iPhone, los pasos numerados (Compartir → Añadir a pantalla de inicio)
 - El módulo se carga al arrancar la app, porque el aviso de Chrome llega una sola vez y muy pronto
 - Probado en la demo con iPhone, Android y simulando la app instalada: sale, sale y no sale; sin errores en consola
+- **La app se recarga sola si un archivo falla al cargar.** Le salió "Algo ha fallado · Failed to fetch dynamically imported module: …/db.js" mientras se publicaba (tres subidas en 15 minutos: GitHub sirve unos archivos nuevos y otros viejos). Ahora recarga una vez por minuto como mucho; si vuelve a fallar enseña el error, sin bucle. Probado bloqueando `db.js` una vez (recarga y entra) y siempre (recarga una vez y enseña el error)
 - Publicado antes el documento de identidad (commit df59638) y ejecutado `30_identidad.sql` en Supabase
 
-**Archivos modificados:** `app/js/instalar.js` (nuevo en git), `app/js/app.js`, `app/js/vistas/jug-ficha.js`, `app/js/vistas/ajustes.js`, `app/css/app.css`, `app/sw.js` (v77), `docs/pendiente.md`.
+**Archivos modificados:** `app/js/instalar.js` (nuevo en git), `app/js/app.js`, `app/js/vistas/jug-ficha.js`, `app/js/vistas/ajustes.js`, `app/css/app.css`, `app/sw.js` (v78), `docs/pendiente.md`.
 
 **Pendiente:** probar en el móvil sin instalar y ya instalada; probar la subida del documento con la app instalada.
 

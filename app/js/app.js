@@ -559,6 +559,7 @@ function pantallaApp(app, ctx, vistas, tabs) {
       const modulo = await v.cargar();
       await modulo.render(ctx, cont, param);
     } catch (e) {
+      if (recargarSiFaltaModulo(e)) return;
       fallo(e);
       cont.innerHTML = html`<p class="vacio">No se ha podido cargar esta pantalla.<br>${e.message}</p>`;
     }
@@ -577,8 +578,29 @@ function pantallaApp(app, ctx, vistas, tabs) {
   navegar();
 }
 
+// Si se publica una version mientras alguien abre la app, durante un rato
+// GitHub sirve unos archivos nuevos y otros viejos, y el navegador no consigue
+// bajar un modulo: "Failed to fetch dynamically imported module". No es un
+// fallo de nada, solo mala suerte con el momento, y se arregla recargando.
+// Se recarga una sola vez por minuto: si el modulo falta de verdad, o no hay
+// conexion, se enseña el error en vez de quedarse en un bucle.
+const MODULO_PERDIDO = /dynamically imported module|Importing a module script failed|error loading dynamically imported/i;
+const CLAVE_RECARGA = 'atlantics-recarga-modulo';
+
+function recargarSiFaltaModulo(e) {
+  if (!MODULO_PERDIDO.test(e?.message || '')) return false;
+  try {
+    const antes = Number(sessionStorage.getItem(CLAVE_RECARGA) || 0);
+    if (Date.now() - antes < 60_000) return false;
+    sessionStorage.setItem(CLAVE_RECARGA, String(Date.now()));
+  } catch { return false; }   // sin sessionStorage no hay forma de evitar el bucle
+  location.reload();
+  return true;
+}
+
 iniciar().catch((e) => {
   console.error(e);
+  if (recargarSiFaltaModulo(e)) return;
   document.getElementById('app').innerHTML =
     '<div class="login"><h1>Algo ha fallado</h1><p>' + e.message + '</p></div>';
 });
