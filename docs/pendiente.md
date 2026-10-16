@@ -8,10 +8,7 @@ borra de aquí.
 
 ## Arreglos de la auditoría (16 oct)
 
-1. **Ejecutar `app/db/32_privacidad.sql`** en Supabase → SQL Editor, entero. Tienen que salir
-   tres filas: `notas_documentacion`, `notas_ficha` y `plantilla_club`. Las notas del staff que
-   hubiera se pasan solas a sus tablas nuevas. **Ejecutarlo antes de publicar el código**: la
-   app nueva lee de `plantilla_club` y de las tablas de notas.
+1. ~~Ejecutar `app/db/32_privacidad.sql`~~ — hecho el 16 oct, salieron las tres filas. Código publicado.
 2. **Fijar la cuota**: Ajustes → importe 170 € → guardar, y en Tesorería → Cuotas pulsar
    *Aplicar el importe a la plantilla*. Hasta entonces a todos les sale "Cuota por fijar".
 3. **Comprobar el correo de los códigos**: Supabase → Authentication → Emails → SMTP Settings.
