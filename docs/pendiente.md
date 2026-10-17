@@ -6,6 +6,14 @@ borra de aquí.
 
 Última revisión: 19 de septiembre de 2026.
 
+## Certificados para la Fundación Deporte Galego (17 oct)
+
+1. ~~Pedir la certificación de inscripción en el REDEGA~~ — pedida el 17 oct por solicitud genérica
+   (PR004A) a la Secretaría Xeral para o Deporte. Si el 31 oct no ha llegado nada, llamar o escribirles.
+2. **Certificación federativa actualizada**: pedírsela a la FEFA (o ver si vale el documento del 15 oct).
+3. **Cambiar el domicilio en el REDEGA** (PR946A, cambio de domicilio social): allí sale Luis Quintáns
+   Goyanes 4, 4º B, y el domicilio social es Fragas do Eume 28, 5º D, 15190.
+
 ## Tallas para el pedido de equipaciones (17 oct)
 
 1. **Ejecutar `app/db/33_tallas_pedido.sql`** en Supabase → SQL Editor (pegar y Run). Al final
