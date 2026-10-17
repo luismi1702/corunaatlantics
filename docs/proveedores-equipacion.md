@@ -150,3 +150,30 @@ así que ya no cuentan para elegir el proveedor de las camisetas.
 |---|---|---|---|
 | TeamPrinted (teamprinted.eu, marca de Emmano sp. z o.o., Polonia; tel. +48 698 493 676, WhatsApp) | ropa de club con el escudo impreso; modelo visto: "Musai - Premium Sports Jacket", media cremallera, 14 colores | desde 15,20 €/pieza con impresión e IVA incluidos; muestra de 1 pieza 15,20 €; pack de 3 muestras en 3 tallas 27,36 € (9,12 €/pieza, descuento único) | envío, diseño y personalización gratis; muestras impresas y enviadas en 3 días; tienda de club con enlace para que cada jugador elija talla, nombre y número y pague lo suyo; repetir desde 1 unidad al mismo precio. La página no da tejido ni gramaje |
 | Little Dream (littledreambrand.com, España; info@littledreambrand.com) | ropa bordada de diseños propios; borda logos de clientes bajo presupuesto | catálogo sin IVA: camiseta 18,93 €, sudadera sin capucha 28,02 €, con capucha 32,97 € (10 % menos por unidad, hasta 30 % con tres o más) | envío gratis desde 59 €; sin precios, mínimo ni plazo publicados para pedidos personalizados (formulario en /empresas) |
+
+### Tabla de tallas de David (17/10/2026, 18:32)
+
+Mandó dos imágenes ("it is inches"). Son medidas de la prenda en plano, pasadas a cm (× 2,54, redondeado).
+La de la camiseta es su tabla genérica "Replica A" (sale otra camiseta de ejemplo).
+
+**Camiseta** (adulto; también hace YXS–YXL de niño)
+
+| Talla | XS | S | M | L | XL | 2XL | 3XL | 4XL | 5XL |
+|---|---|---|---|---|---|---|---|---|---|
+| Largo | 68 | 71 | 74 | 76 | 79 | 81 | 83 | 86 | 88 |
+| Pecho (½, en plano) | 51 | 53 | 56 | 58 | 62 | 66 | 69 | 71 | 74 |
+| Contorno de pecho de la prenda | 103 | 107 | 112 | 117 | 124 | 132 | 137 | 142 | 147 |
+| Bajo (½) | 50 | 52 | 55 | 57 | 61 | 65 | 67 | 70 | 72 |
+
+**Pantalón** (solo hasta 2XL; de niño YS–YL)
+
+| Talla | S | M | L | XL | 2XL |
+|---|---|---|---|---|---|
+| Cintura relajada (½) | 33 | 36 | 38 | 39 | 41 |
+| Cintura estirada (½) | 41 | 43 | 46 | 48 | 51 |
+| Cadera (½, a 18 cm de la cinturilla) | 56 | 58 | 61 | 64 | 65 |
+| Largo | 44 | 46 | 48 | 50 | 51 |
+| Entrepierna | 18 | 18 | 22 | 22 | 22 |
+| Bajo de la pernera | 33 | 34 | 36 | 37 | 38 |
+
+Cinturilla de 4 cm. Ojo: el pantalón no tiene 3XL ni más.
