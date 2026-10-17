@@ -6,6 +6,14 @@ borra de aquí.
 
 Última revisión: 19 de septiembre de 2026.
 
+## Tallas para el pedido de equipaciones (17 oct)
+
+1. **Ejecutar `app/db/33_tallas_pedido.sql`** en Supabase → SQL Editor (pegar y Run). Al final
+   saca la lista de nombre de camiseta, dorsal y talla.
+2. Avisar a Claude: lee la vista `tallas_pedido`, marca a quien le falte talla o dorsal y prepara
+   el mensaje a David (lista, plazo de entrega y pago) para que lo apruebes antes de enviarlo.
+3. Con el pedido hecho: `drop view if exists tallas_pedido;`
+
 ## Arreglos de la auditoría (16 oct)
 
 1. ~~Ejecutar `app/db/32_privacidad.sql`~~ — hecho el 16 oct, salieron las tres filas. Código publicado.
