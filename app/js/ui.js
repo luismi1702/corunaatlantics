@@ -27,9 +27,21 @@ const resolver = (v) => {
 
 // El resultado ya es HTML válido, así que se marca como crudo: eso permite
 // anidar plantillas sin tener que envolverlas a mano en cada llamada.
+//
+// Un sí/no dentro de un atributo (aria-pressed="${a === b}") se escribe tal
+// cual, "true" o "false". Fuera de un atributo sigue sin pintarse nada, para
+// que ${cond && '...'} no deje un "false" a la vista. Antes también se borraba
+// dentro del atributo, y ningún botón salía marcado al abrir una pantalla: ni
+// los filtros ni el Voy/No voy que el jugador ya había contestado.
+const enAtributo = (trozo) => /=\s*"$/.test(trozo);
+
 export function html(trozos, ...valores) {
-  return crudo(trozos.reduce((acc, trozo, i) =>
-    i === 0 ? trozo : acc + resolver(valores[i - 1]) + trozo, ''));
+  return crudo(trozos.reduce((acc, trozo, i) => {
+    if (i === 0) return trozo;
+    const v = valores[i - 1];
+    const pintado = typeof v === 'boolean' && enAtributo(trozos[i - 1]) ? String(v) : resolver(v);
+    return acc + pintado + trozo;
+  }, ''));
 }
 
 export const $  = (sel, raiz = document) => raiz.querySelector(sel);
@@ -409,6 +421,13 @@ export const OPCIONES_ASISTENCIA = [
   { valor: 'no_voy', txt: 'No voy', clase: 'bad',
     icono: '<path d="M7 7l10 10M17 7L7 17" stroke-linecap="round"/>' }
 ];
+
+// Lo que ha contestado, dicho igual en Hoy y en Agenda.
+export const DICHO_ASISTENCIA = {
+  voy:    'Has dicho que vas',
+  duda:   'Has dicho que es duda',
+  no_voy: 'Has dicho que no vas'
+};
 
 // Las estadisticas que se llevan, pensadas para flag y para lo llamativo.
 // El catalogo vive aqui a proposito: añadir un concepto es una linea, y la

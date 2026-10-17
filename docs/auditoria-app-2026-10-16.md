@@ -1,8 +1,8 @@
 # Auditoría de la app — 16 de octubre de 2026
 
 **Estado:** los puntos 1, 2 (la parte del código), 4, 5, 6, 7, 8 y 9 se arreglaron el mismo día
-(`32_privacidad.sql`, ver CHANGELOG). Quedan en manos del club fijar la cuota (2) y comprobar
-el SMTP (3).
+(`32_privacidad.sql`, ver CHANGELOG). La cuota (2) la fijó él el mismo día. El SMTP (3) estaba bien: Brevo,
+desde atlantics@corunaatlantics.com, 30 correos por hora, DKIM y DMARC puestos.
 
 Hecha con la app ya repartida al equipo. Qué se miró y cómo:
 

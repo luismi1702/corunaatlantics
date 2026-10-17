@@ -21,6 +21,16 @@ const PINTA = {
   justificado: { clase: 'warn', txt: 'Justificado' }
 };
 
+// Lo que ha contestado cada jugador en su agenda. No es la lista: la lista la
+// pasa el staff en el campo; esto es lo que dijeron antes.
+const RESPUESTA = {
+  voy:    { clase: 'ok',   txt: 'Va',     grupo: 'Van' },
+  duda:   { clase: 'warn', txt: 'Duda',   grupo: 'En duda' },
+  no_voy: { clase: 'bad',  txt: 'No va',  grupo: 'No van' }
+};
+
+const corto = (p) => p.apodo || [p.nombre, p.apellidos?.[0] && p.apellidos[0] + '.'].filter(Boolean).join(' ');
+
 const ETIQUETA_UNIDAD = { todos: 'Todo el equipo', ataque: 'Ataque', defensa: 'Defensa', especiales: 'Equipos especiales' };
 
 export async function render(ctx, cont, eventoId) {
@@ -47,12 +57,18 @@ export async function render(ctx, cont, eventoId) {
   const convocados = plantilla.filter(p => p.estado !== 'baja');
   const estado = new Map(asistencias.map(a => [a.jugador_id, a.estado]));
 
-  // Quien no ha dicho ni que va ni que no, de los que estan llamados a esta
-  // sesion. Solo tiene sentido antes de que pase y si sigue en pie.
-  const respondieron = new Set(asistencias.filter(a => a.confirmacion).map(a => a.jugador_id));
-  const sinResponder = !ev.cancelado && ev.fecha >= hoyISO()
-    ? convocados.filter(p => esDeUnidad(p.posiciones, ev.unidad) && !respondieron.has(p.id))
-    : [];
+  // Lo que ha contestado cada uno, de los llamados a esta sesion.
+  const respuesta = new Map(asistencias.filter(a => a.confirmacion).map(a => [a.jugador_id, a.confirmacion]));
+  const llamados = convocados.filter(p => esDeUnidad(p.posiciones, ev.unidad));
+  const grupos = {
+    voy:    llamados.filter(p => respuesta.get(p.id) === 'voy'),
+    duda:   llamados.filter(p => respuesta.get(p.id) === 'duda'),
+    no_voy: llamados.filter(p => respuesta.get(p.id) === 'no_voy'),
+    nada:   llamados.filter(p => !respuesta.has(p.id))
+  };
+
+  // Reclamar respuesta solo tiene sentido antes de que pase y si sigue en pie.
+  const sinResponder = !ev.cancelado && ev.fecha >= hoyISO() ? grupos.nada : [];
 
   const titulo = ev.tipo === 'partido'
     ? (ev.rival ? (ev.es_local ? 'vs ' : 'en ') + ev.rival : 'Partido')
@@ -101,10 +117,25 @@ export async function render(ctx, cont, eventoId) {
         Avisar a ${sinResponder.length === 1 ? 'quien no ha' : 'los ' + sinResponder.length + ' que no han'} respondido
       </button>`) : ''}
 
-    <div class="cifras" id="marcador"></div>
+    ${llamados.length ? crudo(html`
+      <p class="eyebrow" style="margin-top:.4rem">Quién viene</p>
+      <div class="cifras cuatro">
+        <div class="cifra ok"><div class="n">${grupos.voy.length}</div><div class="l">Van</div></div>
+        <div class="cifra gold"><div class="n">${grupos.duda.length}</div><div class="l">Duda</div></div>
+        <div class="cifra bad"><div class="n">${grupos.no_voy.length}</div><div class="l">No van</div></div>
+        <div class="cifra"><div class="n">${grupos.nada.length}</div><div class="l">Sin responder</div></div>
+      </div>
+      <div class="card quien-viene">
+        ${[['voy', RESPUESTA.voy.grupo, 'ok'], ['duda', RESPUESTA.duda.grupo, 'warn'],
+           ['no_voy', RESPUESTA.no_voy.grupo, 'bad'], ['nada', 'Sin responder', 'n']]
+          .filter(([k]) => grupos[k].length)
+          .map(([k, titulo, clase]) => html`
+            <p><span class="tag ${clase}">${titulo}</span> ${grupos[k].map(corto).join(', ')}</p>`)}
+      </div>`) : ''}
 
     <p class="eyebrow">Lista</p>
-    <div id="lista" class="lista"></div>
+    <div class="cifras" id="marcador"></div>
+    <div id="lista" class="lista" style="margin-top:.7rem"></div>
 
     <button class="btn ancho" id="todos-presentes" style="margin-top:1rem">
       Marcar presentes a los que faltan por marcar
@@ -128,12 +159,14 @@ export async function render(ctx, cont, eventoId) {
     $('#lista').innerHTML = convocados.length ? convocados.map(p => {
       const e = estado.get(p.id) ?? null;
       const v = e ? PINTA[e] : null;
+      const r = RESPUESTA[respuesta.get(p.id)];
       return html`
         <button class="fila" data-id="${p.id}">
           <div class="dorsal ${p.dorsal == null ? 'sin' : ''}">${p.dorsal ?? '—'}</div>
           <div class="info">
             <div class="nom">${nombreCompleto(p)}</div>
-            <div class="meta">${p.posiciones.join(' · ') || 'Sin posición'}</div>
+            <div class="meta">${p.posiciones.join(' · ') || 'Sin posición'}
+              · ${r ? crudo(html`<span class="dijo ${r.clase}">${r.txt}</span>`) : 'Sin responder'}</div>
           </div>
           <div class="dcha">
             ${v ? crudo(html`<span class="tag ${v.clase}">${v.txt}</span>`)

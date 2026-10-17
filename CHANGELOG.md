@@ -1,5 +1,16 @@
 # Changelog — Coruña Atlantics Web
 
+## [2026-10-17] — Quién viene a cada cosa
+
+**Qué se hizo:**
+- **Pantalla del evento:** bloque "Quién viene" con cuántos van, dudan, no van y no han respondido, y los nombres de cada grupo. En la lista, debajo de cada nombre, lo que contestó. Solo cuentan los llamados a esa sesión (en un entreno de defensa no suma el "voy" de un QB)
+- **Calendario:** en los próximos eventos, "N van" y "N no" a la derecha
+- **Lo que contesta el jugador sale marcado**, en Hoy y en Agenda, que comparten la misma respuesta. La agenda dice encima de los botones "Has dicho que vas" o "Sin responder", y si no se guarda vuelve a como estaba
+- **Arreglo de fondo en `html```:** un sí/no dentro de un atributo (`aria-pressed="${a === b}"`) se borraba, así que ningún botón salía marcado al abrir una pantalla: ni el Voy/No voy ya contestado, ni los filtros, ni las posiciones o las llaves de la ficha. Ahora se escribe "true"/"false" (sw v84)
+- **`33_tallas_pedido.sql`:** vista con nombre de camiseta, dorsal y talla legible con la clave pública, para sacar la lista del pedido de equipaciones sin entrar en la app. Se puede borrar después del pedido (sw v83)
+
+**Por qué:** el jugador ya contestaba en su agenda, pero el staff solo veía cuántos no habían respondido, no quién iba.
+
 ## [2026-10-16] — Auditoría de la app y sus arreglos
 
 **Qué se hizo:**
@@ -12,7 +23,7 @@
 - **Fuentes servidas desde `app/fonts/`** (16 archivos woff2, 348 KB) y fuera de la CSP los dominios de Google
 - La pantalla de error escapa el mensaje
 - **Versiones mezcladas al publicar:** con la app abierta durante la publicación, Tesorería dio "db.plantillaClub is not a function" (pantalla nueva, `db.js` viejo en memoria). Ahora, cuando entra un service worker nuevo, la app se recarga en el siguiente cambio de pantalla, y ese error concreto también provoca una recarga (sw v81)
-- Envío del mensaje a David (Phenix) para añadir el logo de Artabro 0 % a las camisetas: preparado, a falta de saber dónde va el logo
+- **David (Phenix) y el logo de Artabro 0 %:** primero se pidió en el pecho; David lo quería en vectorial, así que se vectorizó aquí (vtracer, `redes/posts/patrocinador-artabro/vector/`, PDF a color y en blanco) y se le mandó con el cambio: **en la espalda, debajo del número**, blanco en la local y a color en la visitante. Pendiente de bocetos y de si cambia precio o plazo
 
 **Archivos modificados:** `app/db/32_privacidad.sql` (nuevo), `app/db/00_instalar.sql`, `app/db/generar_instalador.py`, `app/fonts/` (nuevo), `app/index.html`, `app/demo.html`, `app/js/app.js`, `app/js/db.js`, `app/js/db-demo.js`, `app/js/vistas/{alta,jug-ficha,jug-hoy,roster,documentacion,avisos,calendario,competiciones,cuotas,disponibilidad,estadisticas,lista,material,pago-avisado,tienda}.js`, `app/css/app.css`, `app/sw.js` (v80), `app/README.md`, `docs/auditoria-app-2026-10-16.md` (nuevo), `docs/pendiente.md`, `docs/decisiones.md`.
 

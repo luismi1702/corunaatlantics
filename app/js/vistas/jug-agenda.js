@@ -6,7 +6,7 @@
 import * as db from '../db.js';
 import {
   html, crudo, $, $$, cuando, hora, hoyISO, esDeUnidad, NOMBRE_UNIDAD,
-  OPCIONES_ASISTENCIA as OPCIONES, avisar, fallo, cargando, vacio, TIPOS_EVENTO, claseEvento, relieveEvento
+  OPCIONES_ASISTENCIA as OPCIONES, DICHO_ASISTENCIA as DICHO, avisar, fallo, cargando, vacio, TIPOS_EVENTO, claseEvento, relieveEvento
 } from '../ui.js';
 
 let filtro = 'proximos';
@@ -69,6 +69,8 @@ export async function render(ctx, cont) {
           </div>
 
           ${futuro && !e.cancelado ? crudo(html`
+            <p class="dicho ${mia?.confirmacion ? 'si' : ''}" data-dicho="${e.id}">
+              ${mia?.confirmacion ? DICHO[mia.confirmacion] : 'Sin responder: ¿vas a ir?'}</p>
             <div class="respuesta" data-evento="${e.id}">
               ${OPCIONES.map(o => html`
                 <button class="opcion ${o.clase}" data-v="${o.valor}"
@@ -83,12 +85,25 @@ export async function render(ctx, cont) {
       : 'Todavía no hay entrenos pasados.');
 
     $$('#lista .respuesta').forEach(grupo => {
+      const id = grupo.dataset.evento;
+      const texto = $(`[data-dicho="${id}"]`);
+      const marcar = (v) => {
+        $$('.opcion', grupo).forEach(o => o.setAttribute('aria-pressed', o.dataset.v === v));
+        texto.textContent = v ? DICHO[v] : 'Sin responder: ¿vas a ir?';
+        texto.classList.toggle('si', !!v);
+      };
       $$('.opcion', grupo).forEach(b => b.addEventListener('click', async () => {
-        $$('.opcion', grupo).forEach(o => o.setAttribute('aria-pressed', o === b));
+        const antes = porEvento.get(id)?.confirmacion ?? null;
+        marcar(b.dataset.v);
         try {
-          await db.confirmarAsistencia(grupo.dataset.evento, yo.id, b.dataset.v);
+          const fila = await db.confirmarAsistencia(id, yo.id, b.dataset.v);
+          // Que siga marcado al cambiar de pestaña sin recargar.
+          porEvento.set(id, { ...porEvento.get(id), ...fila, confirmacion: b.dataset.v });
           avisar('Anotado');
-        } catch (err) { fallo(err); }
+        } catch (err) {
+          marcar(antes);
+          fallo(err);
+        }
       }));
     });
   }

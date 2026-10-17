@@ -7,16 +7,11 @@
 import * as db from '../db.js';
 import {
   html, crudo, $, $$, euros, cuando, hora, hoyISO, fechaCorta, diasHasta, DIAS,
-  unidadDe, esDeUnidad, NOMBRE_UNIDAD, OPCIONES_ASISTENCIA as OPCIONES, conRespaldo,
+  unidadDe, esDeUnidad, NOMBRE_UNIDAD, OPCIONES_ASISTENCIA as OPCIONES, DICHO_ASISTENCIA as DICHO, conRespaldo,
   SECCIONES, avisar, fallo, cargando, TIPOS_EVENTO, claseEvento, relieveEvento
 } from '../ui.js';
 import { subidosPorJugador, documentoCompleto } from './identidad.js';
 
-const DICHO = {
-  voy:    'Has dicho que vas',
-  duda:   'Has dicho que es duda',
-  no_voy: 'Has dicho que no vas'
-};
 
 const cuentaAtras = (iso) => {
   const d = diasHasta(iso);
@@ -257,13 +252,21 @@ export async function render(ctx, cont) {
 
   $$('#respuesta .opcion').forEach(b => b.addEventListener('click', async () => {
     const valor = b.dataset.v;
-    $$('#respuesta .opcion').forEach(o => o.setAttribute('aria-pressed', o === b));
-    $('#pregunta').textContent = DICHO[valor];
+    const antes = $('#respuesta .opcion[aria-pressed="true"]')?.dataset.v ?? null;
+    const marcar = (v) => {
+      $$('#respuesta .opcion').forEach(o => o.setAttribute('aria-pressed', o.dataset.v === v));
+      $('#pregunta').textContent = v ? DICHO[v] : '¿Vas a ir?';
+    };
+    marcar(valor);
     try {
       await db.confirmarAsistencia(evento.id, yo.id, valor);
       avisar(valor === 'voy' ? '¡Nos vemos allí!' : valor === 'duda' ? 'Anotado, avisa cuando lo sepas' : 'Anotado');
       recuento();
-    } catch (err) { fallo(err); }
+    } catch (err) {
+      // Si no se ha guardado, que no parezca que sí.
+      marcar(antes);
+      fallo(err);
+    }
   }));
 
   recuento();

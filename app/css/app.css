@@ -1725,3 +1725,29 @@ body.club .marca-pantalla { display: none; }
 .importe-cuota .fila-importe input { flex: 1; min-width: 0; font-size: 1.2rem; }
 .importe-cuota .ayuda { margin: .6rem 0 0; line-height: 1.5; }
 .importe-cuota.falta { border-color: var(--gold); box-shadow: 0 0 0 1px var(--gold) inset; }
+
+/* --- Quién viene (pantalla del evento) ------------------------------------ */
+.cifras.cuatro { grid-template-columns: repeat(4, 1fr); gap: .45rem; }
+.cifras.cuatro .cifra { padding: .75rem .3rem; }
+.quien-viene { margin-top: .7rem; }
+.quien-viene p { margin: 0; line-height: 1.6; }
+.quien-viene p + p { margin-top: .55rem; }
+.quien-viene .tag { margin-right: .35rem; }
+.dijo.ok   { color: var(--ok); }
+.dijo.warn { color: var(--warn); }
+.dijo.bad  { color: var(--bad); }
+.respuestas {
+  display: flex; flex-direction: column; align-items: flex-end; gap: .1rem;
+  font-family: 'Barlow Condensed', sans-serif; font-size: .82rem; font-weight: 600;
+  white-space: nowrap;
+}
+.respuestas .ok  { color: var(--ok); }
+.respuestas .bad { color: var(--bad); }
+
+/* Agenda: lo que ha contestado, encima de los botones */
+.evento-jug .dicho {
+  margin: 0 0 -.3rem;
+  font-family: 'Barlow Condensed', sans-serif; font-size: .85rem;
+  letter-spacing: .1em; text-transform: uppercase; color: var(--goldf);
+}
+.evento-jug .dicho.si { color: var(--muted); }

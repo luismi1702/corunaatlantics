@@ -435,6 +435,13 @@ export const marcarAsistencia = (eventoId, jugadorId, estado, registradoPor) =>
 export const quitarAsistencia = (eventoId, jugadorId) =>
   sb.from('asistencias').delete().eq('evento_id', eventoId).eq('jugador_id', jugadorId).then(ok);
 
+// Lo que han contestado los jugadores en varios eventos a la vez, para el
+// recuento de la lista del calendario.
+export const confirmacionesDe = (eventoIds) => eventoIds.length
+  ? sb.from('asistencias').select('evento_id, jugador_id, confirmacion')
+      .in('evento_id', eventoIds).not('confirmacion', 'is', null).then(ok)
+  : Promise.resolve([]);
+
 export const resumenAsistencia = (temporadaId) =>
   sb.from('asistencia_resumen').select('*').eq('temporada_id', temporadaId).then(ok);
 

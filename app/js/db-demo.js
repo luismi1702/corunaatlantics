@@ -535,6 +535,10 @@ export const quitarAsistencia = (eventoId, jugadorId) => {
   return demora(null);
 };
 
+export const confirmacionesDe = (eventoIds) =>
+  demora(ASISTENCIAS.filter(a => eventoIds.includes(a.evento_id) && a.confirmacion)
+    .map(({ evento_id, jugador_id, confirmacion }) => ({ evento_id, jugador_id, confirmacion })));
+
 export const resumenAsistencia = () => {
   const porJugador = {};
   const cancelados = new Set(EVENTOS.filter(e => e.cancelado || e.tipo !== 'entreno').map(e => e.id));

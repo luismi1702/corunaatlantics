@@ -6,7 +6,7 @@
 import * as db from '../db.js';
 import {
   html, crudo, $, $$, cuando, fecha, hora, hoyISO, diasHasta, esDeUnidad,
-  hoja, avisar, contarEnvio, fallo, cargando, vacio, TIPOS_EVENTO, claseEvento, marcaEvento
+  hoja, avisar, contarEnvio, fallo, cargando, vacio, conRespaldo, TIPOS_EVENTO, claseEvento, marcaEvento
 } from '../ui.js';
 
 let filtro = 'proximos';
@@ -26,6 +26,24 @@ export async function render(ctx, cont) {
   const partidos = lista.filter(e => e.tipo === 'partido');
 
   const FILTROS = { proximos, pasados, partidos };
+
+  // Cuántos han dicho que van y que no, en lo que está por venir.
+  // Solo cuentan los llamados: en un entreno de defensa, el "voy" de un QB no
+  // suma (la pantalla del evento cuenta igual).
+  const [respuestas, plantilla] = await Promise.all([
+    conRespaldo(db.confirmacionesDe(proximos.filter(e => !e.cancelado).map(e => e.id)), []),
+    conRespaldo(db.plantillaClub(), [])
+  ]);
+  const posiciones = new Map(plantilla.filter(p => p.estado !== 'baja').map(p => [p.id, p.posiciones]));
+  const unidadDe = new Map(proximos.map(e => [e.id, e.unidad]));
+  const cuentas = new Map();
+  for (const r of respuestas) {
+    if (!posiciones.has(r.jugador_id)) continue;
+    if (!esDeUnidad(posiciones.get(r.jugador_id), unidadDe.get(r.evento_id))) continue;
+    const c = cuentas.get(r.evento_id) ?? { voy: 0, no_voy: 0, duda: 0 };
+    c[r.confirmacion]++;
+    cuentas.set(r.evento_id, c);
+  }
   const marcados = new Set(todasAsistencias.map(a => a.jugador_id));
 
   cont.innerHTML = html`
@@ -78,6 +96,11 @@ export async function render(ctx, cont) {
           </div>
           <div class="dcha">
             ${e.cancelado ? crudo('<span class="tag bad">Cancelado</span>')
+              : dias >= 0 && cuentas.has(e.id)
+                ? crudo(html`<span class="respuestas">
+                    <span class="ok">${cuentas.get(e.id).voy} van</span>
+                    ${cuentas.get(e.id).no_voy ? crudo(html`<span class="bad">${cuentas.get(e.id).no_voy} no</span>`) : ''}
+                  </span>`)
               : marcados.size && dias <= 0 && e.tipo === 'entreno'
                 ? crudo('<span class="tag n">Lista</span>')
                 : ''}
