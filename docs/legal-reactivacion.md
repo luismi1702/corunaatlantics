@@ -5,10 +5,20 @@ El club existe legalmente como asociación deportiva (paralizada desde COVID, no
 
 ---
 
+## Datos del club (17/10/2026)
+- **Nombre:** Coruña Atlantics
+- **CIF:** G70447065
+- **Domicilio social:** Calle Fragas do Eume nº 28, 5º D, 15190 A Coruña
+- **Email:** coruna.atlantics@gmail.com
+- **En trámites:** Persoa xurídica
+- **REDEGA** (Rexistro de Entidades Deportivas de Galicia): inscripción C-12232, sección C (club deportivo),
+  fútbol americano / fútbol flag. Ojo: ahí la dirección es otra, Rúa Luis Quintáns Goyanes 4, 4º B, A Coruña.
+  Si el domicilio bueno es el de Fragas do Eume, hay que actualizarlo en el registro.
+
 ## Checklist de reactivación
 
 ### 1. Verificar estado legal actual
-- [ ] Buscar el CIF/NIF de la asociación
+- [x] Buscar el CIF/NIF de la asociación (G70447065)
 - [ ] Localizar el certificado de inscripción en el Registro de Asociaciones de Galicia
 - [ ] Consultar estado en sede.xunta.gal (PR308A) — confirmar que sigue inscrita
 
