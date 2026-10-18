@@ -19,3 +19,7 @@ vapid.txt
 # portada se quedaria sin fondo sin que nadie entienda por que.
 !storm.mp4
 !waves.mp4
+
+# El playbook no se publica: la web sale de este repo con GitHub Pages y
+# cualquier rival podría leerlo. Se ve en el móvil como artifact privado.
+playbook/

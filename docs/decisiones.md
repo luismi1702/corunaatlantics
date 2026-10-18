@@ -620,3 +620,20 @@ llevar documentos veía a todos como no aptos. En el alta, si la fecha de nacimi
 menor de 14 años, aparecen los datos del tutor y el consentimiento es suyo (LOPDGDD art. 7). El
 texto de la subida del documento dice para qué es, quién lo ve, cuándo se borra y a quién
 escribir (RGPD art. 13).
+
+## [2026-10-18] — Playbook: jugadas con nombre propio y 5 jugadas nuevas
+
+**Decisión:** cada jugada se llama por su ruta o concepto clave, no por formación y número: Fly
+Out, In, Slant Go, Dagger, Doble Pase, Read Option (Spread); Doble Post, Choice, Silla, Mesh
+(Twins); Flood, Cruce, Delay (Trips); Tijera, Out Cruzado, Doble Corner (Bunch); Slant Swing (Trips
+Stacked). Las jugadas nuevas salen siempre de una de nuestras formaciones, con sus mismas
+posiciones; si la original viene de otra colocación se lleva a la más parecida y, si hace falta,
+se cambian las letras de los receptores sin tocar las rutas. Las jugadas con motion, laterales o
+ruta del QB se dibujan con `jugada_libre()` en `generar.py`; flechas rojas discontinuas para snap y
+laterales.
+
+**Motivo:** "Spread 1" no dice nada de la jugada y en el campo se confunde. Con el nombre de la
+ruta clave se recuerda qué hay que hacer.
+
+**Alternativas descartadas:** nombres temáticos del mar (Marea, Kraken…); quitar una ruta del Mesh
+Spot para que quepa en 5 contra 5 (se quedó fuera el Spot); la jugada con H en el backfield.
