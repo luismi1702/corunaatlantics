@@ -2,7 +2,8 @@
 //
 // Tres cosas en una pestaña, porque las tres responden a "¿cómo va el equipo?":
 // quién está en la plantilla, cómo va la liga y quién lleva los números. Una
-// pestaña para cada una habría dejado seis abajo, que no caben.
+// pestaña para cada una habría dejado seis abajo, que no caben. La cuarta, el
+// playbook, es lo que el equipo juega: vive en su propio módulo (jug-playbook).
 //
 // De los compañeros solo se ve lo que ya se ve en una camiseta: nombre, dorsal
 // y posición. Eso lo impone la vista `companeros` de la base de datos, no esta
@@ -10,6 +11,7 @@
 
 import * as db from '../db.js';
 import { camiseta } from './camiseta.js';
+import { pintarPlaybook } from './jug-playbook.js';
 import {
   html, crudo, $, $$, nombreCompleto, tag, TAG_JUGADOR,
   ESTADISTICAS, ESTADISTICA, conRespaldo, cargando, vacio
@@ -36,6 +38,7 @@ export async function render(ctx, cont) {
       <button data-v="plantilla"     aria-pressed="${vista === 'plantilla'}">Plantilla</button>
       <button data-v="clasificacion" aria-pressed="${vista === 'clasificacion'}">Clasificación</button>
       <button data-v="numeros"       aria-pressed="${vista === 'numeros'}">Estadísticas</button>
+      <button data-v="playbook"      aria-pressed="${vista === 'playbook'}">Playbook</button>
     </div>
     <div id="cuerpo"></div>
   `;
@@ -121,6 +124,7 @@ export async function render(ctx, cont) {
   };
 
   function pintar() {
+    if (vista === 'playbook') return pintarPlaybook($('#cuerpo'));
     $('#cuerpo').innerHTML = vista === 'plantilla' ? plantilla()
       : vista === 'clasificacion' ? clasificacion()
       : numerosVista();

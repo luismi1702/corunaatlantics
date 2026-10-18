@@ -20,6 +20,5 @@ vapid.txt
 !storm.mp4
 !waves.mp4
 
-# El playbook no se publica: la web sale de este repo con GitHub Pages y
-# cualquier rival podría leerlo. Se ve en el móvil como artifact privado.
-playbook/
+# Cache de Python (playbook/generar.py y demas scripts)
+__pycache__/

@@ -250,7 +250,7 @@ los dos casos. Lo que dice el jugador no cuenta como cobrado hasta que se
 valida. Ninguna de estas notificaciones lleva importes. Para ponerlo en marcha:
 `31_pago_avisado.sql` y desplegar otra vez `enviar-push` (versión 5).
 
-**Todavía no:** playbook.
+**Playbook:** en Equipo → Playbook. Las jugadas salen de `playbook/generar.py`, que escribe `app/js/playbook-datos.js` (no se edita a mano): se cambia el playbook, se ejecuta el script y se sube. El módulo va en la caché del service worker, así que se puede consultar sin cobertura.
 
 ## Sacar a alguien del equipo
 

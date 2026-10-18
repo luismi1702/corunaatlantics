@@ -637,3 +637,16 @@ ruta clave se recuerda qué hay que hacer.
 
 **Alternativas descartadas:** nombres temáticos del mar (Marea, Kraken…); quitar una ruta del Mesh
 Spot para que quepa en 5 contra 5 (se quedó fuera el Spot); la jugada con H en el backfield.
+
+## [2026-10-18] — Playbook en la app, y público en la web
+
+**Decisión:** el playbook vuelve al repositorio y la app lo enseña en Equipo → Playbook, una
+formación cada vez. `playbook/generar.py` escribe `app/js/playbook-datos.js` con los mismos dibujos
+que el PDF; el service worker lo guarda para usarlo sin cobertura. El PDF queda en
+corunaatlantics.com/playbook/playbook.pdf y la app lo enlaza.
+
+**Motivo:** con los datos en un archivo estático, actualizar es ejecutar el script y subir. Que
+sea público se asume: en flag 5 contra 5 el riesgo es pequeño y las jugadas de NFL Flag ya lo son.
+
+**Alternativas descartadas:** tabla en Supabase con permisos (privado, pero obliga a pegar SQL en
+cada cambio); subida automática con la clave de servicio guardada en local.

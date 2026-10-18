@@ -1751,3 +1751,49 @@ body.club .marca-pantalla { display: none; }
   letter-spacing: .1em; text-transform: uppercase; color: var(--goldf);
 }
 .evento-jug .dicho.si { color: var(--muted); }
+
+/* --- Playbook (Equipo -> Playbook) -------------------------------------- */
+
+/* Cada formación abre con la misma banda oscura que el PDF, para que se vea
+   dónde empieza cada una. Los campos son claros en la app y en el papel: son
+   los mismos dibujos y con fondo oscuro no se leerían las rutas en negro. */
+.pb-forma {
+  display: grid; grid-template-columns: 1fr minmax(0, 46%); align-items: center; gap: .9rem;
+  background: var(--ink); border: 1px solid var(--line); border-bottom: 4px solid var(--gold);
+  border-radius: var(--r); padding: .9rem; margin: .2rem 0 .9rem;
+}
+.pb-forma-txt { min-width: 0; }
+.pb-forma-txt span {
+  font-family: 'Barlow Condensed', sans-serif; font-size: .74rem; letter-spacing: .22em;
+  text-transform: uppercase; color: var(--teal);
+}
+.pb-forma h2 {
+  font-family: 'Anton', sans-serif; font-weight: 400; font-size: clamp(1.9rem, 9vw, 2.6rem);
+  line-height: 1; letter-spacing: .02em; text-transform: uppercase; margin: .15rem 0 .3rem;
+  overflow-wrap: anywhere;
+}
+.pb-forma-txt b {
+  font-family: 'Barlow Condensed', sans-serif; font-size: .82rem; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--gold);
+}
+.pb-campo svg { display: block; width: 100%; height: auto; border-radius: 8px; }
+
+.pb-jugada header { display: flex; align-items: baseline; flex-wrap: wrap; gap: .2rem .7rem; margin-bottom: .7rem; }
+.pb-jugada h3 {
+  font-family: 'Anton', sans-serif; font-weight: 400; font-size: 1.45rem; line-height: 1.1;
+  letter-spacing: .03em; text-transform: uppercase; color: var(--teal); margin: 0;
+}
+.pb-jugada header span {
+  font-family: 'Barlow Condensed', sans-serif; font-size: .78rem; letter-spacing: .14em;
+  text-transform: uppercase; color: var(--gold);
+}
+.pb-rutas { list-style: none; margin: .8rem 0 .6rem; padding: 0; display: grid; gap: .3rem; }
+.pb-rutas li { display: grid; grid-template-columns: 14px 1.4rem 1fr; align-items: baseline; line-height: 1.35; }
+.pb-rutas i { width: 10px; height: 10px; border-radius: 50%; align-self: center; box-shadow: 0 0 0 1.5px rgba(255,255,255,.35); }
+.pb-rutas b { font-family: 'Barlow Condensed', sans-serif; font-size: 1.05rem; }
+.pb-jugada p { margin: 0; color: var(--muted); line-height: 1.5; }
+.pb-pdf { margin-top: 1rem; }
+
+@media (max-width: 420px) {
+  .pb-forma { grid-template-columns: 1fr; }
+}
