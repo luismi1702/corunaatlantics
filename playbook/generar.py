@@ -222,6 +222,10 @@ pag("Índice", """
   <li><span>5.3. Trips</span><b>17</b></li>
   <li><span>5.4. Bunch</span><b>18</b></li>
   <li><span>5.5. Trips Stacked</span><b>19</b></li>
+  <li class="n1"><span>6. Defensa</span><b>20</b></li>
+  <li><span>6.1. Posiciones</span><b>20</b></li>
+  <li><span>6.2. Alineaciones</span><b>20</b></li>
+  <li><span>6.3. Coberturas</span><b>22</b></li>
 </ol>
 """)
 
@@ -775,6 +779,218 @@ pag("5 · Jugadas · Trips Stacked", forma(5, "Trips Stacked", F_STACKED_D, 1) +
 <div class="jugadas">""" + J_STACKED_1 + """</div>
 """)
 
+# ------------------------------------------------------------------ capítulo 6: defensa
+# Sistema de defensa de los Ducs (playbook de defensa 2025), con sus alineaciones
+# y sus coberturas tal cual, traducido y con las aclaraciones de su autora.
+# Mismo campo que las jugadas: el ataque abajo, en gris; la defensa con
+# triángulos de colores y las zonas sombreadas con el color de su defensor.
+
+DCOL = {"CS": "#006E82", "CW": "#37B8AE", "J": "#C9992E", "S": "#040d12", "R": "#c0392b"}
+DNOMBRE = {"CS": "Corner Strong", "CW": "Corner Weak", "J": "Joker", "S": "Safety", "R": "Rusher"}
+GRIS = "#8a9ba1"
+
+# Profundidades de salida (en yardas desde la LoS) y líneas de las zonas
+Y55, Y7, Y85 = LOS - 5.5 * UY, LOS - 7 * UY, LOS - 8.5 * UY
+CORTO, FONDO, LINEA = LOS - 8 * UY, 3, LOS - 2      # corto/profundo a unas 8 yd
+
+# El ataque de referencia, como lo dibujan los Ducs
+AT_NORMAL = {"WR": (45, 108), "WS": (98, 108), "C": (150, LOS), "WR ": (257, 108), "QB": (150, 152)}
+AT_TRIPS = {"WR": (45, 108), "WS": (81, 108), "WR ": (117, 108), "C": (150, LOS), "QB": (150, 152)}
+AT_BUNCH = {"WR": (106, 108), "WS": (128, 108), "C": (150, LOS), "WR ": (172, 108), "QB": (150, 152)}
+
+ALINEACIONES = {
+    "Zona clásica": (AT_NORMAL, {"CS": (78, Y55), "CW": (244, Y55), "J": (198, Y7), "S": (62, Y85), "R": (137, Y7)}),
+    "Zona variante": (AT_NORMAL, {"CS": (78, Y55), "CW": (197, Y55), "J": (244, Y7), "S": (112, Y85), "R": (137, Y7)}),
+    "Zona trips": (AT_TRIPS, {"CS": (67, Y55), "CW": (165, Y55), "J": (136, Y7), "S": (58, Y85), "R": (103, Y7)}),
+    "Hombre a hombre": (AT_NORMAL, {"S": (58, Y85), "J": (112, Y7), "CS": (165, Y55), "CW": (244, Y55), "R": (137, Y7)}),
+    "Bunch": (AT_BUNCH, {"CS": (93, Y55), "CW": (187, Y55), "S": (115, Y7), "R": (137, Y7), "J": (165, Y7)}),
+}
+
+
+def rect(x1, x2, y1=LINEA, y2=CORTO):
+    return f"M{x1} {y1} L{x2} {y1} L{x2} {y2} L{x1} {y2} z"
+
+
+def defensa_svg(alineacion, zonas=(), flechas=()):
+    ataque, defensores = ALINEACIONES[alineacion]
+    s = ['<svg viewBox="0 0 300 166" class="fig-jugada">',
+         '<rect x="0" y="0" width="300" height="166" rx="4" fill="#eef6f7"/>',
+         f'<line x1="12" y1="2" x2="12" y2="164" stroke="{TEAL}" stroke-width="1.4" opacity=".45"/>',
+         f'<line x1="288" y1="2" x2="288" y2="164" stroke="{TEAL}" stroke-width="1.4" opacity=".45"/>']
+    for k, d in zonas:
+        s.append(f'<path d="{d}" fill="{DCOL[k]}" fill-opacity=".14" stroke="{DCOL[k]}" stroke-opacity=".55" '
+                 f'stroke-width="1" stroke-dasharray="3 2" stroke-linejoin="round"/>')
+    for yd in (5, 7, 10):
+        y = LOS - yd * UY
+        s.append(f'<line x1="12" y1="{y}" x2="288" y2="{y}" stroke="{TEAL}" stroke-width=".6" opacity=".25"/>')
+        s.append(f'<text x="16" y="{y - 2}" font-family="Barlow Condensed, sans-serif" font-weight="600" font-size="7" fill="#5b6a70">{yd} yd</text>')
+    s.append(f'<line x1="12" y1="{LOS}" x2="288" y2="{LOS}" stroke="{GOLD}" stroke-width="1.6" stroke-dasharray="5 3"/>')
+    for k, d in flechas:
+        s.append(f'<path d="{d}" fill="none" stroke="{DCOL[k]}" stroke-width="2.2" stroke-linecap="round" marker-end="url(#flecha-d{k})"/>')
+    for k, (x, y) in ataque.items():
+        t = k.strip()
+        if t == "C":
+            s.append(f'<rect x="{x - 7}" y="{y - 7}" width="14" height="14" rx="2" fill="#fff" stroke="{GRIS}" stroke-width="1.6"/>')
+        else:
+            s.append(f'<circle cx="{x}" cy="{y}" r="7" fill="#fff" stroke="{GRIS}" stroke-width="1.6"/>')
+        s.append(f'<text x="{x}" y="{y + 2.6}" font-family="Barlow Condensed, sans-serif" font-weight="700" '
+                 f'font-size="{7 if len(t) > 1 else 8.5}" text-anchor="middle" fill="{GRIS}">{t}</text>')
+    for k, (x, y) in defensores.items():   # triángulo con la punta hacia el ataque
+        s.append(f'<path d="M{x - 9} {y - 7} L{x + 9} {y - 7} L{x} {y + 8} z" fill="{DCOL[k]}" stroke="#fff" stroke-width="1"/>'
+                 f'<text x="{x}" y="{y + 0.5}" font-family="Barlow Condensed, sans-serif" font-weight="700" '
+                 f'font-size="{7 if len(k) > 1 else 8.5}" text-anchor="middle" fill="#fff">{k}</text>')
+    s.append('</svg>')
+    return "".join(s)
+
+
+# Número de call de cada cobertura en la wristband y la playsheet: de un dígito,
+# para que no se confunda con las jugadas de ataque (11-51) ni con la estructura (22, 31...).
+DNUM = {"Rocco": 1, "Jonas": 2, "Simon": 3, "Ramone": 4, "Salomé": 5, "Bunch": 6, "Joachim": 7, "Valhalla": 8}
+
+# Coberturas y alineaciones apuntadas por nombre, para la wristband y la playsheet.
+COBERTURAS, ALINEACIONES_FICHA = {}, {}
+
+
+def ficha_def(nombre, sub, svg, lineas, notas=""):
+    (ALINEACIONES_FICHA if sub == "Alineación" else COBERTURAS)[nombre] = {
+        "nombre": nombre, "sub": sub, "svg": svg, "lineas": lineas, "notas": notas}
+    lista = "".join(f'<li><i style="background:{DCOL[k]}"></i><b>{k}</b><span>{v}</span></li>' for k, v in lineas.items())
+    return (f'<div class="jugada"><div class="j-fig">{svg}</div><div class="j-txt"><h4>{nombre} <small>{sub}</small></h4>'
+            f'<ul class="j-rutas">{lista}</ul>{notas}</div></div>')
+
+
+def debil(punto, solucion):
+    return f'<p class="debil"><b>Punto débil</b> {punto}</p><p class="solucion"><b>Solución</b> {solucion}</p>'
+
+
+RUSH = "M137 55 L148 141"                      # del rusher al QB
+
+# --- alineaciones
+A_CLASICA = ficha_def("Zona clásica", "Alineación", defensa_svg("Zona clásica"), {
+    "CS": "Centro interior entre WR y WS, a 5-6 yd", "CW": "Hombro interior del WR, a 5-6 yd",
+    "J": "Centro interior entre WR y C, a 7 yd", "S": "Centro exterior entre WS y WR, a 8-9 yd",
+    "R": "Frente al brazo fuerte del QB, a 7 yd"})
+A_VARIANTE = ficha_def("Zona variante", "Alineación", defensa_svg("Zona variante"), {
+    "CS": "Como en la zona clásica", "CW": "Centro interior entre WR y C, a 5-6 yd",
+    "J": "Hombro interior del WR, a 7 yd", "S": "Hombro interior del WS, a 8-9 yd",
+    "R": "Como en la zona clásica"})
+A_TRIPS = ficha_def("Zona trips", "Alineación", defensa_svg("Zona trips"), {
+    "CS": "Hombro exterior del WS, a 5-6 yd", "CW": "Hombro exterior del C, a 5-6 yd",
+    "J": "Entre el WR y el C, a 7 yd", "S": "Hombro interior del WR, a 8-9 yd",
+    "R": "Hombro exterior del WR, a 7 yd"},
+    '<p>Contra trips el rusher sale lejos del QB: primero molesta las rutas y luego va a por el QB.</p>')
+A_HOMBRE = ficha_def("Hombre a hombre", "Alineación", defensa_svg("Hombre a hombre"), {
+    "CS": "Hombro «exterior» del C, a 5-6 yd", "CW": "Hombro interior del WR, a 5-6 yd",
+    "J": "Hombro interior del WS, a 7 yd", "S": "Hombro interior del WR, a 8-9 yd",
+    "R": "Frente al brazo fuerte del QB, a 7 yd"})
+A_BUNCH = ficha_def("Bunch", "Alineación", defensa_svg("Bunch"), {
+    "CS": "Hombro exterior del WR, a 5-6 yd", "CW": "Hombro exterior del WR, a 5-6 yd",
+    "J": "Entre C y WR, a 7 yd", "S": "Entre el WR y el WS, a 7 yd", "R": "Lado fuerte, a 7 yd"})
+
+# --- coberturas de zona
+D_ROCCO = ficha_def("Rocco", "Cobertura 22 · Zona clásica", defensa_svg("Zona clásica",
+    zonas=[("CS", rect(14, 146)), ("S", rect(14, 146, CORTO, FONDO)),
+           ("J", f"M146 {LINEA} L176 {LINEA} L176 {CORTO} L255 {CORTO} L255 {FONDO} L146 {FONDO} z"),
+           ("CW", f"M176 {LINEA} L286 {LINEA} L286 {FONDO} L255 {FONDO} L255 {CORTO} L176 {CORTO} z")],
+    flechas=[("R", RUSH)]), {
+    "CS": "Corto", "CW": "Corto exterior y profundo exterior", "J": "Corto centro y profundo",
+    "S": "Profundo", "R": "Rush al QB"},
+    '<p>La más habitual. El CW tiene prioridad sobre el WR: si corre un Fly, se va con él; si no, se queda en la zona corta. '
+    'Así el J protege el fondo con prioridad en el centro, y aún puede cubrir una ruta profunda del WR, como un Post.</p>'
+    + debil("Caso 1: dos jugadores en la zona del J. Caso 2: tres jugadores en profundo.",
+            "Caso 1: el S ayuda y el J cubre esa zona. Caso 2: el CW cubre esa zona."))
+
+D_JONAS = ficha_def("Jonas", "Cobertura 22 · Zona variante", defensa_svg("Zona variante",
+    zonas=[("CS", rect(14, 152)), ("S", rect(14, 172, CORTO, FONDO)), ("CW", rect(152, 252)),
+           ("J", f"M252 {LINEA} L286 {LINEA} L286 {FONDO} L172 {FONDO} L172 {CORTO} L252 {CORTO} z")],
+    flechas=[("R", RUSH)]), {
+    "CS": "Corto", "CW": "Corto centro, corto y profundo centro", "J": "Profundo exterior y corto exterior",
+    "S": "Profundo y ayuda en el profundo centro", "R": "Rush al QB"},
+    '<p>Contra equipos que juegan corto y atacan por el centro.</p>'
+    + debil("Tres jugadores en profundo.", "El CW cubre esa zona."))
+
+D_SIMON = ficha_def("Simon", "Cobertura 31 · Zona clásica", defensa_svg("Zona clásica",
+    zonas=[("CS", rect(14, 105)), ("J", rect(105, 195)), ("CW", rect(195, 286)), ("S", rect(14, 286, CORTO, FONDO))],
+    flechas=[("R", RUSH)]), {
+    "CS": "Corto", "CW": "Corto exterior y ayuda en el profundo exterior", "J": "Corto centro",
+    "S": "Profundo", "R": "Rush al QB"},
+    debil("Más de un jugador en el fondo.", "El CW o el CS cubren la zona libre."))
+
+D_RAMONE = ficha_def("Ramone", "Cobertura 32 · Zona clásica · Sin rush", defensa_svg("Zona clásica",
+    zonas=[("CS", rect(14, 105)), ("R", rect(105, 194)), ("CW", rect(194, 286)),
+           ("S", rect(14, 152, CORTO, FONDO)), ("J", rect(152, 286, CORTO, FONDO))]), {
+    "CS": "Corto exterior", "CW": "Corto exterior y ayuda en el profundo exterior",
+    "J": "Profundo centro y profundo exterior", "S": "Profundo exterior", "R": "Corto centro"},
+    debil("Tres jugadores en profundo. Sin rush, el QB tiene más tiempo para lanzar.", "El R cubre esa zona."))
+
+D_SALOME = ficha_def("Salomé", "Cobertura 23 · Zona clásica · Sin rush", defensa_svg("Zona clásica",
+    zonas=[("CS", rect(14, 151)), ("R", rect(151, 286)),
+           ("S", rect(14, 105, CORTO, FONDO)), ("J", rect(105, 195, CORTO, FONDO)), ("CW", rect(195, 286, CORTO, FONDO))]), {
+    "CS": "Corto exterior", "CW": "Profundo exterior", "J": "Profundo centro",
+    "S": "Profundo exterior", "R": "Corto exterior"},
+    debil("Tres jugadores en profundo. Sin rush, el QB tiene más tiempo para lanzar.", "El CW cubre esa zona."))
+
+# --- hombre a hombre (cobertura 0)
+D_BUNCH = ficha_def("Bunch", "Cobertura 0 · Alineación bunch · Sin rush", defensa_svg("Bunch",
+    zonas=[("CS", rect(14, 118, LINEA, 66)), ("R", rect(118, 182, LINEA, 66)), ("CW", rect(182, 286, LINEA, 66)),
+           ("S", rect(64, 148, 66, FONDO)), ("J", rect(148, 233, 66, FONDO))],
+    flechas=[("R", "M137 55 L138 84")]), {
+    "CS": "Coge al primer jugador que sale", "CW": "Coge al primer jugador que sale",
+    "J": "Coge al jugador que queda de su lado", "S": "Coge al jugador que queda de su lado",
+    "R": "Amaga el rush y luego coge los cruces por delante"},
+    '<p>Sea cual sea la cobertura cantada, en cuanto el ataque sale en bunch se pasa a esta.</p>'
+    + debil("El CS o el CW pierden a su jugador por dentro.", "El R cubre esa zona: está para eso.")
+    + debil("El S o el J se quedan con dos jugadores de su lado.", "El S o el J cubren al jugador libre."))
+
+MARCAJE = [("S", "M58 44 L47 98"), ("J", "M112 56 L100 98"), ("CS", "M165 67 L155 96"), ("CW", "M244 67 L255 98")]
+
+D_JOACHIM = ficha_def("Joachim", "Cobertura 0 · Hombre a hombre", defensa_svg("Hombre a hombre",
+    flechas=MARCAJE + [("R", RUSH)]), {
+    "CS": "Coge al C", "CW": "Coge al WR", "J": "Coge al WS", "S": "Coge al WR", "R": "Rush al QB"},
+    '<p>El CS coge al center porque suele ser el DB más lento.</p>'
+    + debil("Cruces en las 3-5 primeras yardas.",
+            "Cantar «switch»: cuando dos receptores se cruzan, los dos defensores se intercambian los jugadores en vez de perseguirlos entre el tráfico, y cada uno se queda con el que entra en su lado. Mentalidad de zona a hombre, no de hombre a hombre."))
+
+D_VALHALLA = ficha_def("Valhalla", "Cobertura 0 · Hombre a hombre · Sin rush", defensa_svg("Hombre a hombre",
+    zonas=[("R", rect(14, 286, LINEA, LOS - 5 * UY))], flechas=MARCAJE), {
+    "CS": "Coge al C", "CW": "Coge al WR", "J": "Coge al WS", "S": "Coge al WR", "R": "Corto centro"},
+    '<p>Contra ataques que lanzan mucho y que desde la alineación normal de hombre a hombre cuestan de cubrir.</p>'
+    + debil("Responde al punto débil de Joachim, pero sin rush el QB tiene más tiempo para lanzar.",
+            "El R cubre al jugador que se escapa."))
+
+pag("6 · Defensa", cap(6, "Defensa") + """
+<p>Sistema de defensa basado en el playbook de los Ducs (2025), con sus alineaciones y sus coberturas, y las aclaraciones de su autora.</p>
+<h2>6.1. Posiciones</h2>
+<p class="def"><b>Corner Strong (CS)</b> Corner del lado fuerte: cubre a los receptores.</p>
+<p class="def"><b>Corner Weak (CW)</b> Corner del lado débil: cubre a los receptores.</p>
+<p class="def"><b>Joker (J)</b> Cubre la zona que queda libre: profunda, media o exterior. Es un linebacker muy versátil y rápido, que entiende bien el juego y trabaja mucho en combinación con el CW.</p>
+<p class="def"><b>Safety (S)</b> El último defensor, contra los pases largos.</p>
+<p class="def"><b>Rusher (R)</b> El blitzer: presiona al QB. Sale a 7 yardas de la LoS. Casi siempre hay rush, salvo que el QB se coloque muy atrás.</p>
+<h2>6.2. Alineaciones</h2>
+<p>Tres colocaciones antes del snap: zona, hombre a hombre y bunch. En zona hay varias, según la cobertura: los Ducs las usan porque no tenían bastantes jugadores rápidos para salir siempre igual y disimular la cobertura. Si los jugadores pueden colocarse siempre de la misma forma, mejor.</p>
+<div class="jugadas">""" + A_CLASICA + """</div>
+""")
+
+pag("6 · Defensa · Alineaciones", """
+<div class="jugadas">""" + A_VARIANTE + A_TRIPS + A_HOMBRE + A_BUNCH + """</div>
+""")
+
+pag("6 · Defensa · Coberturas", """
+<h2>6.3. Coberturas</h2>
+<p>La cobertura se canta según lo que suele hacer el rival. Hay cinco de zona (tres con rush y dos sin) y tres de hombre a hombre. El hombre a hombre se juega como «zona a hombre»: cada uno coge al primer jugador que entra en su zona, y así se pueden intercambiar los receptores. Ese intercambio es el <b>switch</b>: cuando dos receptores se cruzan, sus dos defensores lo cantan y cada uno se queda con el que entra en su lado, en vez de perseguir al suyo y chocar. Las zonas sombreadas son la responsabilidad de cada defensor.</p>
+<div class="nota"><b>Punto débil.</b> Ninguna cobertura es perfecta: todas tienen un punto débil, y es normal. Lo importante es saber dónde está, estar atentos y adaptarse lo mejor posible si el call no era el bueno. Si el ataque nos gana justo ahí, es responsabilidad de quien ha cantado la cobertura, no de los jugadores.</div>
+<div class="jugadas">""" + D_ROCCO + D_JONAS + """</div>
+""")
+
+pag("6 · Defensa · Coberturas", """
+<div class="jugadas">""" + D_SIMON + D_RAMONE + D_SALOME + """</div>
+""")
+
+pag("6 · Defensa · Coberturas", """
+<div class="jugadas">""" + D_BUNCH + D_JOACHIM + D_VALHALLA + """</div>
+""")
+
+
 # ------------------------------------------------------------------ documento
 
 CSS = """
@@ -897,6 +1113,9 @@ p + .forma { margin-top:5mm; }
 .j-rutas i { width:2.4mm; height:2.4mm; border-radius:50%; align-self:center; }
 .j-rutas b { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:10.5pt; }
 .j-txt p { text-align:left; font-size:8.8pt; line-height:1.3; margin:0; color:#27343a; hyphens:none; }
+.j-txt p + p { margin-top:1.2mm; }
+.j-txt p.debil b { color:#c0392b; margin-right:1mm; }
+.j-txt p.solucion b { color:var(--teal); margin-right:1mm; }
 
 @page { size:A4; margin:0; }
 @media print { body { background:none; } .hoja { margin:0; box-shadow:none; page-break-after:always; } .hoja:last-child { page-break-after:auto; } }
@@ -907,10 +1126,14 @@ MARCAS = "".join(
     f'<marker id="tope-{k}" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4.5" markerHeight="4.5"><circle cx="5" cy="5" r="4" fill="{c}"/></marker>'
     for k, c in COL.items())
 
+MARCAS_DEF = "".join(
+    f'<marker id="flecha-d{k}" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="{c}"/></marker>'
+    for k, c in DCOL.items())
+
 DEFS = f"""<svg width="0" height="0" style="position:absolute"><defs>
 <marker id="flecha" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M0 0 L10 5 L0 10 z" fill="{TEAL}"/></marker>
 <marker id="tope" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="4.5" markerHeight="4.5"><circle cx="5" cy="5" r="4" fill="{TEAL}"/></marker>
-{MARCAS}
+{MARCAS}{MARCAS_DEF}
 </defs></svg>"""
 
 html = [f"""<!DOCTYPE html>
@@ -1065,7 +1288,7 @@ _faltan = set(REGISTRO) - {n for _, _, ns in APP_FORMACIONES for n in ns}
 assert not _faltan, f"Jugadas que no salen en la app: {_faltan}"
 
 datos = {
-    "defs": DEFS,
+    "defs": DEFS.replace(MARCAS_DEF, ""),      # la app aún no enseña la defensa
     "formaciones": [{"nombre": nom, "fig": fig, "jugadas": [REGISTRO[n] for n in nombres]}
                     for nom, fig, nombres in APP_FORMACIONES],
 }

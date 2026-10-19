@@ -1,5 +1,31 @@
 # Changelog — Coruña Atlantics Web
 
+## [2026-10-18] — Playbook: nombres, jugadas nuevas, app, wristband, playsheet y defensa
+
+**Qué se hizo:**
+- **Jugadas de ataque con nombre propio** por su ruta clave (Fly Out, Mesh, Flood…) y **5 nuevas** dibujadas a partir de imágenes: Slant Go, Dagger, Doble Pase, Read Option y Mesh, todas desde nuestras formaciones. El capítulo 5 empieza cada formación en página nueva con su cabecera
+- **Playbook en la app** (Equipo → Playbook), solo ataque, generado desde `playbook/generar.py` y disponible sin cobertura. Publicado
+- **Wristband** para la Cutters Triple, ajustada después a la ventana medida (9 × 7 cm, tarjetas de 88 × 68 mm, jugadas en 2-3 columnas): carátula con la cabeza de Poseidón, jugadas numeradas por formación (11-16 Spread … 51 Trips Stacked). Ataque publicado
+- **Playsheet** A4 vertical: jugadas por formación y un primer reparto por situaciones (borrador para el staff). Ataque publicado
+- **Capítulo 6, Defensa:** sistema de los Ducs (5 alineaciones, 8 coberturas) con las aclaraciones de su autora; coberturas numeradas del 1 al 8 y cara de defensa en la wristband y la playsheet. Subido el 19 oct
+
+**Archivos modificados:** `playbook/generar.py`, `wristband.py`, `playsheet.py` y sus HTML/PDF, `app/js/vistas/jug-playbook.js`, `jug-equipo.js`, `app/js/playbook-datos.js`, `app/css/app.css`, `app/sw.js`, `app/README.md`, `.gitignore`, `docs/decisiones.md`, `docs/pendiente.md`.
+
+**Pendiente:** revisar el reparto de la playsheet de ataque; imprimir una wristband de prueba y comprobar que se lee; confirmar con la autora la profundidad del S en hombre a hombre.
+
+## [2026-10-17] — Guía de tallas, pagos de la liga y licencias FEFA
+
+**Qué se hizo:**
+- **Guía de tallas para el grupo** (`redes/posts/guia-tallas/`): primero completa (camiseta, pantalón, instrucciones), luego reducida a una tabla vertical solo de camiseta, XS a 5XL, axila a axila y largo, a petición. Conversiones de la tabla de David revisadas de nuevo y bien. A David no se le pregunta nada más
+- **Liga Norte (FEFAPA):** pagadas la inscripción (400 €) y la fianza (100 €) desde la cuenta personal; tesorería avisada desde la cuenta del club. La inscripción del equipo va por **Clupik**, no por LEVERADE como dice la convocatoria
+- **Licencias:** leídas enteras la convocatoria y las tarifas de FEFA 26-27. Aparte de los 15 € de FEFAPA, cada jugador necesita la licencia de FEFA con seguro: **Flag Senior 125 €** (85 + 40). Staff 85 €, parte de accidentes 30 €. Licencia de club sin territorial 300 €, ya pagada
+- **Cuentas del equipo** con 9 jugadores y el patrocinio: faltan ≈ 573 €. Se propone pedir 80 € más por jugador y se redacta el mensaje para el grupo
+- **Cobros en la cuenta personal** apuntados en `docs/pendiente.md` para pasarlos luego al club
+
+**Archivos modificados:** `docs/pendiente.md`, `redes/posts/guia-tallas/guia-tallas.html` y `.png` (fuera de git).
+
+**Pendiente:** inscribir al club y al equipo en Clupik con los justificantes (18 oct, 23:59); cobrar los 80 € y pagar 9 licencias FEFA + FEFAPA antes del 15 nov; pagar a David; ejecutar `33_tallas_pedido.sql`. `docs/pendiente.md` lleva ahora nombres e importes de jugadores: no subirlo así al repo público.
+
 ## [2026-10-17] — Quién viene a cada cosa
 
 **Qué se hizo:**

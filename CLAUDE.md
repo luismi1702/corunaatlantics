@@ -30,7 +30,8 @@ Hashtag: #WeAreAtlantics · Mascota: Poseidón (teal, tridente dorado)
 - docs/pendiente.md — lo que tiene que hacer él a mano (Supabase, pruebas en el móvil)
 - docs/contacto-esn-coruna.md — textos de contacto con ESN y universidades
 - videos/GUION_REEL_HYPE.md — guión y flujo de montaje de Reels
-- equipacion/ — bocetos de ropa: uniformes (generar.py), sudaderas y chándales (generar_ropa.py, rondas en rondaN/, definitivas con mejoras.py)
+- equipacion/ — bocetos de ropa: uniformes (generar.py), sudaderas y chándales (generar_ropa.py, rondas en rondaN/, definitivas con mejoras.py), varsity (generar_varsity.py) y renders/fichas para el proveedor (generar_render.py, ficha_proveedor.py)
+- playbook/ — playbook del club (generar.py saca el A4, la versión del móvil y app/js/playbook-datos.js; wristband.py y playsheet.py, las de ataque y defensa); entrenos/ — hojas de entrenamiento para imprimir (fuera de git)
 - redes/ — plantillas y posts de Instagram (fuera de git); índice en redes/LEEME.md, guía de marca en redes/guia-marca/
 
 ## Vídeos de fondo

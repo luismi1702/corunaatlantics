@@ -650,3 +650,19 @@ sea público se asume: en flag 5 contra 5 el riesgo es pequeño y las jugadas de
 
 **Alternativas descartadas:** tabla en Supabase con permisos (privado, pero obliga a pegar SQL en
 cada cambio); subida automática con la clave de servicio guardada en local.
+
+## [2026-10-18] — Defensa: el sistema de los Ducs, y números de call para todo
+
+**Decisión:** la defensa del playbook es la de los Ducs (playbook 2025), con sus nombres de cobertura
+(Rocco, Jonas, Simon, Ramone, Salomé, Bunch, Joachim, Valhalla), sus posiciones (CS, CW, J, S, R) y
+sus alineaciones tal cual. En la wristband y la playsheet cada call lleva número: ataque por formación
+en decenas (11-16 Spread, 21-24 Twins, 31-33 Trips, 41-43 Bunch, 51 Trips Stacked) y defensa de una
+cifra (1-5 zona, 6-8 hombre), para que no se confundan entre sí ni con la estructura de la cobertura
+(22, 31…), que solo sale en el playbook. La wristband tiene tres ventanas y la de arriba es una
+carátula que tapa las jugadas.
+
+**Motivo:** un sistema ya probado y explicado por su autora, en vez de inventarlo. Los números
+permiten mandar el call desde la banda.
+
+**Alternativas descartadas:** ponerles nombres propios a las coberturas; una sola alineación de zona
+para todas; repartir las jugadas de ataque en dos ventanas Spread + Twins / resto (no se leían).

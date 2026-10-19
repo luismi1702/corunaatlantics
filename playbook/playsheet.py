@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Playsheet de ataque para el staff: A4 vertical, para plastificar.
+"""Playsheet para el staff: A4 vertical, ataque por una cara y defensa por la otra, para plastificar.
 
 Arriba, todas las jugadas por formación con su número y su dibujo (la misma
 numeración que la wristband). Debajo, qué jugadas cantar en cada situación del
@@ -54,13 +54,45 @@ def situaciones():
     return "".join(bloques)
 
 
+# --- Defensa: qué cobertura cantar según el rival. Solo lo que explica la autora
+# del sistema (los Ducs); el resto lo irá decidiendo el staff.
+CANTAR = [
+    ("Por defecto", "Rocco", "la más habitual"),
+    ("Juegan corto y atacan por el centro", "Jonas", ""),
+    ("Salen en bunch", "Bunch", "siempre, sea cual sea el call"),
+    ("Lanzan mucho y en hombre a hombre cuesta cubrirlos", "Valhalla", ""),
+    ("Nos ganan con cruces cortos en Joachim", "Valhalla", "antes, recordar el switch a los defensores: si dos receptores se cruzan, se intercambian el marcaje"),
+    ("El QB se coloca muy atrás", "Una sin rush", "4 Ramone, 5 Salomé, 8 Valhalla"),
+]
+
+
+def cobertura_def(c):
+    import re
+    lineas = "".join(f'<li><i style="background:{g.DCOL[k]}"></i><b>{k}</b><span>{v}</span></li>' for k, v in c["lineas"].items())
+    debil = re.findall(r'<p class="debil"><b>Punto débil</b> (.*?)</p>', c["notas"])
+    debil = "".join(f'<p><b>Débil</b> {d}</p>' for d in debil)
+    return (f'<article class="cob"><header><b class="num">{g.DNUM[c["nombre"]]}</b><h3>{c["nombre"]}</h3>'
+            f'<small>{" · ".join(x for x in c["sub"].split(" · ") if not x.startswith("Cobertura"))}</small></header>'
+            f'<div class="cfig">{w.dibujo_def(c["svg"])}</div><ul>{lineas}</ul>{debil}</article>')
+
+
+def cara_defensa():
+    cobs = "".join(cobertura_def(c) for c in g.COBERTURAS.values())
+    def call(c):          # «Jonas» -> «2 · Jonas»; lo que no es una cobertura se deja tal cual
+        return " o ".join(f"{g.DNUM[x]} · {x}" if x in g.DNUM else x for x in c.split(" o "))
+    cantar = "".join(f'<li><span>{q}</span><b>{call(c)}</b>{f"<small>{n}</small>" if n else ""}</li>' for q, c, n in CANTAR)
+    return (f'<div class="cobs">{cobs}</div>'
+            f'<div class="pie-def"><section class="sit cantar"><h3>Qué cantar según el rival</h3><ul>{cantar}</ul></section>'
+            f'<div class="notas"><b>Notas del partido</b></div></div>')
+
+
 CSS = """
 @page { size:A4; margin:0; }
 * { box-sizing:border-box; margin:0; padding:0; }
 html { -webkit-print-color-adjust:exact; print-color-adjust:exact; }
 body { background:#cfd8da; font-family:'Barlow',sans-serif; color:#040d12; }
 .hoja { width:210mm; height:297mm; margin:8mm auto; background:#fff; display:flex; flex-direction:column; overflow:hidden; box-shadow:0 2mm 8mm rgba(4,13,18,.25); }
-@media print { body { background:none; } .hoja { margin:0; box-shadow:none; } }
+@media print { body { background:none; } .hoja { margin:0; box-shadow:none; break-after:page; } .hoja:last-of-type { break-after:auto; } }
 
 .barra { background:#040d12; color:#fff; display:flex; align-items:center; gap:3mm; padding:2mm 8mm 2mm 5mm; border-bottom:1.1mm solid #D4A843; flex:none; }
 .barra img { height:11mm; width:auto; }
@@ -104,6 +136,33 @@ body { background:#cfd8da; font-family:'Barlow',sans-serif; color:#040d12; }
 .notas { flex:1; border:.35mm solid #d5dee0; border-radius:1.2mm; padding:1.5mm 2mm; display:flex; flex-direction:column; min-height:0;
   background:repeating-linear-gradient(transparent 0 6.4mm, #d5dee0 6.4mm 6.7mm); background-position:0 6.5mm; }
 .notas b { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:8pt; letter-spacing:.14em; text-transform:uppercase; color:#5b6a70; }
+
+/* defensa */
+.cuerpo.def { gap:3mm; }
+.cobs { flex:0 0 203mm; display:grid; grid-template-columns:1fr 1fr; grid-template-rows:repeat(4,1fr); gap:2mm; min-height:0; }
+.cob { border:.35mm solid #d5dee0; border-top:1mm solid #c0392b; border-radius:1mm; padding:1.2mm 2mm 1.4mm; display:grid;
+  grid-template-columns:40mm 1fr; grid-template-rows:auto 1fr auto; column-gap:2mm; min-height:0; overflow:hidden; }
+.cob header { grid-column:1 / -1; display:flex; align-items:baseline; gap:2mm; }
+.cob .num { font-family:'Anton',sans-serif; font-weight:400; font-size:13pt; color:#c0392b; }
+.cob h3 { font-family:'Anton',sans-serif; font-weight:400; font-size:12pt; letter-spacing:.03em; text-transform:uppercase; color:#006E82; }
+.cob header small { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:7.5pt; letter-spacing:.06em; text-transform:uppercase; color:#9a7414; }
+.cfig { grid-row:2 / 4; align-self:center; }
+.cfig svg { width:100%; height:auto; display:block; border-radius:.8mm; }
+.cfig path { stroke-width:1.2; }
+.cfig text.tri { font-size:13px; }
+.cob ul { list-style:none; align-self:center; }
+.cob li { display:grid; grid-template-columns:2.6mm 5.5mm 1fr; align-items:baseline; font-size:7.3pt; line-height:1.22; }
+.cob li i { width:2mm; height:2mm; border-radius:50%; align-self:center; }
+.cob li b { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:8.2pt; }
+.cob p { grid-column:2; font-size:6.8pt; line-height:1.2; color:#27343a; }
+.cob p b { color:#c0392b; font-family:'Barlow Condensed',sans-serif; font-weight:700; text-transform:uppercase; font-size:7.2pt; margin-right:1mm; }
+.pie-def { flex:1; display:grid; grid-template-columns:1.15fr 1fr; gap:2mm; min-height:0; }
+.cantar h3 { background:#c0392b; }
+.cantar ul { display:grid; gap:.4mm; }
+.cantar li { display:grid; grid-template-columns:1fr auto; column-gap:2mm; align-items:baseline; border-bottom:.25mm dotted #d5dee0; padding:.2mm 0; }
+.cantar li span { font-family:'Barlow',sans-serif; font-weight:500; text-transform:none; font-size:8pt; letter-spacing:0; }
+.cantar li b { font-family:'Anton',sans-serif; font-weight:400; font-size:10pt; color:#006E82; width:auto; text-transform:uppercase; }
+.cantar li small { grid-column:1 / -1; font-size:6.6pt; line-height:1.1; color:#5b6a70; }
 
 /* un color por formación, el mismo que en la wristband */
 .f10 { border-color:#006E82; } .f20 { border-color:#D4A843; } .f30 { border-color:#006E82; } .f40 { border-color:#D4A843; } .f50 { border-color:#040d12; }
@@ -152,6 +211,10 @@ html = f"""<!DOCTYPE html>
       <div class="notas"><b>Notas del partido</b></div>
     </div>
   </div>
+</section>
+<section class="hoja">
+  <div class="barra"><img src="{w.ESCUDO}" alt=""><h1>Playsheet · <span>Defensa</span></h1><span class="club">Coruña Atlantics</span></div>
+  <div class="cuerpo def">{cara_defensa()}</div>
 </section>
 <script>{JS}</script>
 </body></html>

@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""Wristband de ataque y carátula de la de defensa, a tamaño real para imprimir.
+"""Wristbands de ataque y de defensa, a tamaño real para imprimir.
 
 Tres ventanas: la de arriba es una carátula (no deja ver las jugadas) y las
 jugadas, numeradas por formación, van repartidas en las otras dos.
@@ -17,10 +17,11 @@ with contextlib.redirect_stdout(io.StringIO()):     # generar.py imprime lo que 
     import generar as g
 
 # Tamaño de la tarjeta que entra en cada ventana, en mm. La ventana de la
-# muñequera mide 130 x 70 por fuera, con su marco: la tarjeta va 2 mm más
-# corta por cada lado para que entre, y MARGEN es la franja que tapa el marco,
-# donde no se pone nada que haya que leer.
-ANCHO, ALTO, MARGEN = 128, 68, 4
+# muñequera mide 90 x 70 por dentro: la tarjeta va 1 mm más corta por cada
+# lado para que entre, y MARGEN es la franja que tapa el marco, donde no se
+# pone nada que haya que leer.
+VENTANA = (90, 70)
+ANCHO, ALTO, MARGEN = VENTANA[0] - 2, VENTANA[1] - 2, 4
 
 # Ventana 2 y ventana 3: qué formaciones van en cada una.
 VENTANAS = [["Spread"], ["Twins", "Trips", "Bunch", "Trips Stacked"]]
@@ -68,7 +69,7 @@ def ventana_jugadas(formas):
             cas.append(casilla(DECENA[form] + i, form, g.REGISTRO[nombre]))
     leyenda = "".join(f'<span class="f{DECENA[f]}"><b>{DECENA[f] + 1}{"–" + str(DECENA[f] + len(FORMS[f])) if len(FORMS[f]) > 1 else ""}</b> {f}</span>'
                       for f in formas)
-    cols = 3 if len(cas) <= 6 else 4          # 6 jugadas: 3 x 2, más grandes
+    cols = 2 if len(cas) <= 6 else 3          # la tarjeta es estrecha: pocas columnas, dibujos más anchos
     return (f'<div class="ventana jugadas"><div class="leyenda">{leyenda}</div>'
             f'<div class="rejilla" style="grid-template-columns:repeat({cols},1fr)">{"".join(cas)}</div></div>')
 
@@ -76,6 +77,46 @@ def ventana_jugadas(formas):
 def caratula(titulo):
     return (f'<div class="ventana caratula"><img src="{ESCUDO}" alt="">'
             f'<div><span>Coruña Atlantics</span><h1>{titulo}</h1><em>#WeAreAtlantics</em></div></div>')
+
+
+# --- defensa: las coberturas del capítulo 6, por nombre (es lo que se canta)
+DEF_VENTANAS = [["Rocco", "Jonas", "Simon", "Ramone", "Salomé"], ["Bunch", "Joachim", "Valhalla"]]
+
+
+def dibujo_def(svg):
+    """La cobertura del playbook en una casilla: sin rótulos de yardas, sin la zona
+    del QB (la flecha del rush se entiende igual) y con los triángulos más grandes."""
+    import re
+    svg = svg.replace('viewBox="0 0 300 166"', 'viewBox="12 0 276 120"', 1)
+    svg = re.sub(r'<text[^>]*>[0-9]+ yd</text>', '', svg)
+
+    def grande(m):
+        x, y = float(m.group("x")), float(m.group("ty")) - 0.5
+        f = 1.6
+        tri = (f'<path d="M{x - 9 * f:.1f} {y - 7 * f:.1f} L{x + 9 * f:.1f} {y - 7 * f:.1f} L{x:.1f} {y + 8 * f:.1f} z" '
+               f'fill="{m.group("c")}" stroke="#fff" stroke-width="1.2"/>')
+        txt = (f'<text x="{x:.1f}" y="{y - 1:.1f}" font-family="Barlow Condensed, sans-serif" font-weight="700" '
+               f'font-size="{12 if len(m.group("k")) > 1 else 14}" text-anchor="middle" fill="#fff" class="tri">{m.group("k")}</text>')
+        return tri + txt
+    return re.sub(r'<path d="M[\d.]+ [\d.]+ L[\d.]+ [\d.]+ L[\d.]+ [\d.]+ z" fill="(?P<c>#[0-9a-fA-F]+)" stroke="#fff" stroke-width="1"/>'
+                  r'<text x="(?P<x>[\d.]+)" y="(?P<ty>[\d.]+)"[^>]*>(?P<k>[A-Z]+)</text>', grande, svg)
+
+
+def casilla_def(c):
+    extra = "sin rush" if "Sin rush" in c["sub"] else ""
+    return (f'<div class="cas fdef"><div class="cab"><b>{g.DNUM[c["nombre"]]}</b><span>{c["nombre"]}</span><em>{extra}</em></div>'
+            f'<div class="dib">{dibujo_def(c["svg"])}</div></div>')
+
+
+def leyenda_def():
+    filas = "".join(f'<li><i style="background:{g.DCOL[k]}"></i><b>{k}</b> {g.DNOMBRE[k]}</li>' for k in g.DCOL)
+    return f'<div class="cas fdef ley"><ul>{filas}</ul></div>'
+
+
+def ventana_def(nombres, titulo, cols, leyenda=False):
+    cas = [casilla_def(g.COBERTURAS[n]) for n in nombres] + ([leyenda_def()] if leyenda else [])
+    return (f'<div class="ventana jugadas"><div class="leyenda"><span class="fdef"><b>{titulo}</b></span></div>'
+            f'<div class="rejilla" style="grid-template-columns:repeat({cols},1fr)">{"".join(cas)}</div></div>')
 
 
 CSS = f"""
@@ -94,11 +135,11 @@ body {{ background:#cfd8da; font-family:'Barlow',sans-serif; color:#040d12; }}
 /* La ventana: tamaño real y línea de corte discontinua alrededor */
 .ventana {{ width:{ANCHO}mm; height:{ALTO}mm; outline:.25mm dashed #9aa9ae; outline-offset:1.5mm; overflow:hidden; }}
 
-.caratula {{ background:#040d12; color:#fff; display:flex; align-items:center; justify-content:center; gap:5mm; padding:{MARGEN}mm; border-bottom:2mm solid #D4A843; position:relative; }}
+.caratula {{ background:#040d12; color:#fff; display:flex; align-items:center; justify-content:center; gap:3mm; padding:{MARGEN}mm; border-bottom:2mm solid #D4A843; position:relative; }}
 .caratula::before {{ content:''; position:absolute; left:0; right:0; top:{MARGEN + 1}mm; height:1.2mm; background:#006E82; }}
-.caratula img {{ height:44mm; width:auto; margin-top:3mm; }}
+.caratula img {{ height:34mm; width:auto; margin-top:3mm; }}
 .caratula span {{ font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:8pt; letter-spacing:.32em; text-transform:uppercase; color:#4ECDC4; }}
-.caratula h1 {{ font-family:'Anton',sans-serif; font-weight:400; font-size:30pt; line-height:1; letter-spacing:.03em; text-transform:uppercase; margin:1mm 0 2mm; }}
+.caratula h1 {{ font-family:'Anton',sans-serif; font-weight:400; font-size:24pt; line-height:1; letter-spacing:.03em; text-transform:uppercase; margin:1mm 0 2mm; }}
 .caratula em {{ font-family:'Barlow Condensed',sans-serif; font-style:normal; font-weight:700; font-size:8pt; letter-spacing:.24em; color:#D4A843; }}
 
 .jugadas {{ background:#040d12; display:flex; flex-direction:column; padding:{MARGEN}mm; }}
@@ -126,6 +167,24 @@ body {{ background:#cfd8da; font-family:'Barlow',sans-serif; color:#040d12; }}
 .f30 {{ border-color:#006E82; }} .f30 .cab b {{ color:#006E82; }} .leyenda .f30 b {{ background:#4ECDC4; }}
 .f40 {{ border-color:#D4A843; }} .f40 .cab b {{ color:#9a7414; }} .leyenda .f40 b {{ background:#D4A843; }}
 .f50 {{ border-color:#040d12; }} .f50 .cab b {{ color:#040d12; }} .leyenda .f50 b {{ background:#fff; }}
+
+/* Defensa: zonas con su borde fino, triángulos sin engordar y solo las flechas más gruesas */
+.fdef {{ border-color:#c0392b; }}
+.leyenda .fdef b {{ font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:7pt; letter-spacing:.14em; background:#c0392b; color:#fff; padding:0 1.5mm; }}
+.fdef .cab b {{ color:#c0392b; }}
+.fdef .cab span {{ font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:7pt; text-transform:uppercase; }}
+.fdef .cab em {{ margin-left:auto; font-family:'Barlow Condensed',sans-serif; font-style:normal; font-weight:700; font-size:6.5pt; color:#9a7414; white-space:nowrap; }}
+.fdef .dib path {{ stroke-width:1.2 !important; }}
+.fdef .dib path[marker-end] {{ stroke-width:3.4 !important; }}
+.fdef .dib circle {{ r:8px; stroke-width:1.6 !important; }}
+.fdef .dib rect[width="14"] {{ width:14px; height:14px; transform:none; stroke-width:1.6 !important; }}
+.fdef .dib text {{ font-size:9px !important; }}
+.fdef .dib text.tri {{ font-size:13px !important; }}
+.ley {{ border-top-color:#040d12; justify-content:center; }}
+.ley ul {{ list-style:none; padding:1mm 2mm; display:grid; gap:.6mm; }}
+.ley li {{ font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:7pt; display:flex; align-items:center; gap:1.2mm; }}
+.ley li i {{ width:2.4mm; height:2.4mm; border-radius:50%; flex:none; }}
+.ley li b {{ font-weight:700; width:4.5mm; }}
 """
 
 html = f"""<!DOCTYPE html>
@@ -135,7 +194,7 @@ html = f"""<!DOCTYPE html>
 {g.DEFS}
 <section class="hoja">
   <h2>Wristband · Ataque</h2>
-  <p>Tamaño real: cada tarjeta mide {ANCHO} × {ALTO} mm, para una ventana de 130 × 70 mm; los {MARGEN} mm del borde quedan bajo el marco. Imprimir al 100 % (sin «ajustar a la página») y recortar por la línea discontinua.</p>
+  <p>Tamaño real: cada tarjeta mide {ANCHO} × {ALTO} mm, para una ventana de {VENTANA[0]} × {VENTANA[1]} mm; los {MARGEN} mm del borde quedan bajo el marco. Imprimir al 100 % (sin «ajustar a la página») y recortar por la línea discontinua.</p>
   <div class="juego">
     <div class="fila"><small>Ventana 1 · arriba</small>{caratula("Ataque")}</div>
     <div class="fila"><small>Ventana 2</small>{ventana_jugadas(VENTANAS[0])}</div>
@@ -144,9 +203,11 @@ html = f"""<!DOCTYPE html>
 </section>
 <section class="hoja">
   <h2>Wristband · Defensa</h2>
-  <p>Carátula para la ventana de arriba. Las ventanas de jugadas se añaden cuando estén las defensas.</p>
+  <p>Mismo tamaño que la de ataque. Cada cobertura lleva su número de call (del 1 al 8), para poder mandarla con el número; las jugadas de ataque van del 11 al 51.</p>
   <div class="juego">
     <div class="fila"><small>Ventana 1 · arriba</small>{caratula("Defensa")}</div>
+    <div class="fila"><small>Ventana 2 · zona</small>{ventana_def(DEF_VENTANAS[0], "1–5 · Zona", 2)}</div>
+    <div class="fila"><small>Ventana 3 · hombre</small>{ventana_def(DEF_VENTANAS[1], "6–8 · Hombre a hombre", 2, leyenda=True)}</div>
   </div>
 </section>
 <script>
