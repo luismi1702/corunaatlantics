@@ -694,3 +694,19 @@ derrama a mitad de liga, y un colchón deja ayudar a un compañero sin tocar las
 **Alternativas descartadas:** bajar o anular el extra tras el patrocinio (217 € de margen, poco para
 dietas y licencia de staff); pedir solo los ≈ 45 € justos; descontar la cuota de quien adelantó gastos
 de lo que se le debe, que lía las cuentas.
+
+## [2026-10-20] — Pedido de equipaciones: 13 + 13 y pantalón liso con tridente
+
+**Decisión:** a David (Phenix) se le piden 13 conjuntos de cada equipación (26 en total, 546 USD ≈
+478 € si mantiene los 21 USD): uno por cada una de las 10 personas de la plantilla y 3 de reserva con
+número y sin nombre (1 en M, 13 en L, 85 en XL), iguales en local y visitante. El pantalón pasa a ser
+liso (negro en la local, blanco en la visitante), sin la banda teal ni el vivo oro, con el tridente
+en oro de ≈ 8 cm delante en la pernera izquierda. El tridente va siempre en sus colores normales.
+Con esto, los gastos con árbitros quedan en ≈ 2.898 € y el margen en ≈ 990 €.
+
+**Motivo:** la norma de la liga no permite líneas en los laterales del pantalón. Las reservas sin
+nombre valen para cualquiera que entre y se cobran a quien las use; pedir después cuesta un mínimo de
+3 conjuntos más el envío y 3-4 semanas.
+
+**Alternativas descartadas:** 10 o 12 de cada (justo o 2 de reserva); 2 camisetas de la local para
+los patrocinadores (se deja para más adelante); tridente en teal sobre el pantalón blanco.

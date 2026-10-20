@@ -123,6 +123,14 @@ iría por Alibaba con Trade Assurance.
 - **17/10, 11:47 — bocetos buenos**: logo del ancho del número en las dos equipaciones.
   **"Same price"** (sigue en 504 USD los 24 conjuntos). Del plazo no dijo nada (antes, 3-4
   semanas). Lo siguiente es mandarle las tallas y pagar.
+- **20/10, 21:01 — pedido final y cambio del pantalón.** Por norma de la liga el pantalón no puede
+  llevar líneas a los lados: se le pide quitar la banda teal y el vivo oro (local negro liso,
+  visitante blanco liso) y poner el tridente en oro, ≈ 8 cm, delante en la pernera izquierda, en los
+  dos. Se le mandó `equipacion/shorts-no-side-lines.pdf` (sale de `generar_pantalon.py`).
+  Pedido: **13 local + 13 visitante = 26 conjuntos**, la misma lista en los dos: los 10 de la
+  plantilla con nombre, dorsal y talla, más 3 de reserva sin nombre (1 en M, 13 en L, 85 en XL).
+  Pantalón de la misma talla que la camiseta. Se le pide confirmar **26 × 21 = 546 USD** con envío,
+  aranceles e IVA, bocetos nuevos antes de producir, plazo y pago por Trade Assurance.
 - Gloria mandó fotos y vídeos de prendas suyas (15:04-15:06); la primera es una réplica de
   camiseta de fútbol de marca, no una prenda de equipo personalizada.
 

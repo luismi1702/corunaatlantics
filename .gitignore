@@ -22,3 +22,4 @@ vapid.txt
 
 # Cache de Python (playbook/generar.py y demas scripts)
 __pycache__/
+docs/nerion/

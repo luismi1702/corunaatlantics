@@ -1,5 +1,31 @@
 # Changelog — Coruña Atlantics Web
 
+## [2026-10-20] — Cuentas de la temporada, pedido a David, acuerdo con Nerion y wristband grande
+
+**Qué se hizo:**
+- **Cuentas rehechas:** gastos fijos ≈ 2.591 € (≈ 2.898 € con árbitros y 26 conjuntos), con las licencias FEFA con seguro (9 × 125) que faltaban. Ingresos ≈ 3.888 €: 8 cuotas cobradas y la de Luis, ROJO 500, Artabro 1.008 (388 cobrados vía Dan + 620), equipación de Yllanes 40 y 90 € más por jugador. Margen ≈ 990 €; los 90 € se cobran igual y lo que sobre ayuda a quien no pueda pagar. Decisión registrada (commit `bc1b93d`, sin push)
+- **Pantalón sin líneas a los lados** (norma de la liga): negro y blanco lisos con el tridente en oro delante, pernera izquierda. Simulación en castellano y en inglés con `equipacion/generar_pantalon.py`
+- **Pedido mandado a David** por Alibaba (21:01) con el PDF: 13 local + 13 visitante, los 10 de la plantilla (leídos de la vista `tallas_pedido`, ya ejecutada) y 3 de reserva sin nombre (1 M, 13 L, 85 XL). Se le pide confirmar 546 USD, bocetos, plazo y pago
+- **Acuerdo con Nerion:** el documento que mandaron es idéntico al del 15. Mensaje para Javier con lo que no se acepta: 5.a (imagen de los jugadores y "período razonable" tras terminar) y 2.d (buscarles compradores). Versiones reescritas en `docs/nerion/`, fuera de git
+- **Wristband grande** para la muñequera de ventana de 17 × 12 cm (`playbook/wristband_grande.py`): carátula, ataque entero y defensa entera; la de 9 × 7 no se toca
+- De paso: gastos en texto para el chat del grupo y el glosario de false start enviado
+
+**Archivos modificados:** `docs/decisiones.md`, `docs/pendiente.md`, `docs/proveedores-equipacion.md`, `.gitignore`, `CHANGELOG.md`, `playbook/wristband_grande.py`, `wristband-grande.html` y `.pdf` (nuevos). Fuera de git: `equipacion/generar_pantalon.py`, `pantalon-sin-lineas.pdf`, `shorts-no-side-lines.pdf` y sus PNG, `docs/nerion/`.
+
+**Pendiente:** revisar los bocetos nuevos de David, aprobarlos y pagar 546 USD el mismo día (llegada ≈ 11-18 nov); fecha del primer partido (creen que a finales de noviembre) al calendario; mandar a Javier el mensaje de 5.a y 2.d; pagar tu cuota y devolverte los 300 €; cobrar los 90 €, ROJO y Artabro; medir la ventana de la muñequera grande cuando llegue; `drop view tallas_pedido` tras el pedido.
+
+## [2026-10-19] — Wristband a la medida de la muñequera y defensa subida
+
+**Qué se hizo:**
+- **Wristband más pequeña:** la ventana real mide 90 × 70 mm por dentro, así que las tarjetas pasan de 128 × 68 a 88 × 68 mm (1 mm de holgura por lado). La medida sale de `VENTANA` en `wristband.py`
+- Jugadas repartidas en menos columnas para que no queden diminutas: Spread 2 × 3, ventana 3 de ataque 3 × 4, zona de defensa 2 columnas; carátula con cabeza y título algo más pequeños
+- PDF de la wristband regenerado
+- **Commit y push** (`c662b09`) del playbook con el capítulo 6 de defensa, CHANGELOG, CLAUDE.md y decisiones. `docs/pendiente.md` se queda fuera a propósito (nombres e importes de jugadores; repo público)
+
+**Archivos modificados:** `playbook/wristband.py`, `wristband.html`, `wristband.pdf`, `CHANGELOG.md`.
+
+**Pendiente:** imprimir una wristband de prueba al 100 % y comprobar que la ventana 3 se lee en la muñeca; decidir qué hacer con las 5 PNG borradas de la raíz, `docs/correo-fefapa.md` y `playbook$f.pdf`, que siguen sin subir.
+
 ## [2026-10-18] — Playbook: nombres, jugadas nuevas, app, wristband, playsheet y defensa
 
 **Qué se hizo:**
