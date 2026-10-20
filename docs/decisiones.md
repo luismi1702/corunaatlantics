@@ -666,3 +666,31 @@ permiten mandar el call desde la banda.
 
 **Alternativas descartadas:** ponerles nombres propios a las coberturas; una sola alineación de zona
 para todas; repartir las jugadas de ataque en dos ventanas Spread + Twins / resto (no se leían).
+
+## [2026-10-20] — Cuentas de la temporada rehechas: 90 € más por jugador
+
+**Decisión:** se rehace el presupuesto del 15 de octubre (1.481 € de gastos fijos, 719 € de margen),
+que contaba las licencias a 15 € por jugador. Desde el 17 de octubre se sabe que cada jugador necesita
+además la licencia de FEFA con seguro (Flag Senior, 125 €). Con 9 jugadores:
+
+- **Gastos fijos ≈ 2.591 €:** inscripción FEFAPA 400, fianza 100 (se recupera), licencia de club FEFA
+  300, licencias FEFAPA 135 (9 × 15), licencias FEFA con seguro 1.125 (9 × 125), equipación ≈ 441 y
+  material de local ≈ 90. Con los árbitros de las 3 jornadas de local (≈ 270 €), **≈ 2.861 €**.
+- **Ingresos 3.888 €:** 9 cuotas de 170 € (1.530), patrocinio de ROJO 500, patrocinio de Artabro
+  1.008 (388 ya cobrados y 620 más el 20 oct), una equipación suelta 40 y **90 € más por jugador** (810).
+- **Margen ≈ 1.027 €** (≈ 1.127 € con la fianza devuelta), para dietas de árbitros, licencia de staff
+  (85 €), partes de accidente (30 € cada uno) y la cuenta del banco.
+
+Los 90 € se cobran aunque con el último patrocinio ya no hagan falta para lo fijo (sin ellos
+quedarían ≈ 217 €). Lo que sobre sirve para ayudar a quien no pueda pagar su parte.
+
+La cuota la pagan todos, también quien ha adelantado gastos, y lo adelantado (la licencia de club,
+300 €) se devuelve aparte, para no mezclar cuota y reembolso.
+
+**Motivo:** el extra se pidió antes de llegar el patrocinio de 620 €, cuando sin él faltaban ≈ 403 €.
+Se mantiene por la misma razón que la cuota de 170: es más fácil devolver lo que sobre que pedir otra
+derrama a mitad de liga, y un colchón deja ayudar a un compañero sin tocar las cuentas.
+
+**Alternativas descartadas:** bajar o anular el extra tras el patrocinio (217 € de margen, poco para
+dietas y licencia de staff); pedir solo los ≈ 45 € justos; descontar la cuota de quien adelantó gastos
+de lo que se le debe, que lía las cuentas.
