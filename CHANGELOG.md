@@ -1,5 +1,27 @@
 # Changelog — Coruña Atlantics Web
 
+## [2026-10-22] — Licencias FEFA en Clupik, convocatoria de usos del Concello y cuentas fuera del repo
+
+**Qué se hizo:**
+- **9 jugadores inscritos en Clupik** (Liga Norte de FEFAPA) con la licencia FEFA Nacional Flag Senior, todos menos Yllanes. Datos del DNI, más el email y el móvil de la app; quedan en revisión de la federación. Guía y trucos del formulario en `docs/inscribir-licencias-fefa.md`, con el manual de Clupik en PDF
+- **App:** corregidos el nombre y la fecha de nacimiento de un jugador según su DNI
+- **Convocatoria de usos de las IDM:** contacto del Servicio Municipal de Deportes (981 189 800), plazos de la 2026-27 y trámite de uso puntual, en `docs/usos-idm-concello.md`
+- **Privacidad:** el repo es público y la web sirve `docs/`, así que las cuentas con nombres e importes pasan de `pendiente.md` a `docs/privado/cuentas.md` (fuera de git). También quedan fuera de git `entrenos/` y `redes/`, como dice CLAUDE.md
+
+**Pendiente:** que la FEFA valide las licencias y saber cómo se pagan; quitar el aviso "Pendiente de pago: Equipo" de Clupik antes de enviar el equipo a revisión; subir la defensa del playbook cuando se decida.
+
+## [2026-10-21] — Countdown, propuesta de sedes de la Liga Norte, cuentas al día y pedido a Nerion
+
+**Qué se hizo:**
+- **Jugada Countdown** (Trips derecha, 5432) añadida al playbook: A4, móvil (artifact republicado), app, wristbands y playsheet regenerados
+- **Propuesta de sedes de la Liga Norte** (optimización con scipy milp): sin tocar partidos, local/visitante ni jornadas, la B mantiene el tamaño de cada jornada y baja de 12.188 a 8.828 km (−28 %) y de 33 a 25 viajes sin que ningún equipo empeore. Detalle en `docs/liga-norte-sedes.md` y los dos PNG
+- **Cuentas cuadradas con el extracto del banco** (detalle en `docs/privado/cuentas.md`, fuera de git). Primera jornada en principio el domingo 22 nov
+- **Pedido a Nerion:** bolsa Wilson de 60 € (SKU WSBLWFB) en `ORDERS ATLANTICS.xlsx`; balón recomendado KS1 GD1 (talla oficial, 109,90 €). Su hoja aplica bien el 12 % (176,53 €), pero el total retailer omite la camiseta y falta el balón
+
+**Archivos modificados:** `playbook/generar.py`, `wristband_grande.py`, HTML y PDF del playbook, `app/js/playbook-datos.js`, `docs/pendiente.md`, `docs/liga-norte-sedes.md` y `docs/liga-norte-propuesta-1.png` / `-2.png` (nuevos), `CHANGELOG.md`. Fuera del repo: `Downloads/ORDERS ATLANTICS.xlsx`.
+
+**Pendiente:** saber qué significa el asterisco de las sedes y mandar la propuesta a la liga; pedir a Nerion que añada el balón y confirmar que 176,53 € es con IVA; color del Vapor Grip y talla del Playcoach; cobrar 8 × 90 € y los 500 € de ROJO; licencias FEFA y FEFAPA antes del 15 nov; confirmar pedido y bocetos de David; mirar en el reglamento la talla de balón de la liga mixta; sede de la primera jornada.
+
 ## [2026-10-20] — Cuentas de la temporada, pedido a David, acuerdo con Nerion y wristband grande
 
 **Qué se hizo:**

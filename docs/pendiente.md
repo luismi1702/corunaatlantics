@@ -6,6 +6,26 @@ borra de aquí.
 
 Última revisión: 19 de septiembre de 2026.
 
+## Próxima sesión (20 oct)
+
+- [ ] David: revisar los bocetos nuevos del pantalón (liso, tridente oro en la pernera izquierda), aprobarlos y pagar los 546 USD el mismo día. Llegada ≈ 11-18 nov
+- [ ] Fecha del primer partido (creen que a finales de noviembre): apuntarla en el calendario. Si es antes del 25 nov, avisar a David
+- [ ] Nerion: firmar el acuerdo nuevo (21/10, se acepta tal cual). Antes, confirmar la junta en el Registro. Como la 5.a sigue cediendo "imagen", no mandarles fotos de jugadores sin su ok; los balones KS1 pedirlos como pedido de club (12 %, no 10 %). Después: anuncio en redes (2.f), logo en cartelería y streams (2.g), historia semanal (2.a) y un post cada 50 días (2.e)
+- [ ] Muñequera grande: medir el plástico de la ventana por dentro; si no es 17 × 12 cm, cambiar `VENTANA` en `playbook/wristband_grande.py`
+- [ ] Con el pedido hecho: `drop view if exists tallas_pedido;`
+
+## Cuentas y cobros
+
+Las cuentas de la temporada, los Bizums recibidos y quién debe qué están en
+`docs/privado/cuentas.md`, fuera de git: el repo es público y la web sirve `docs/`.
+
+Cómo dar de alta a cada jugador en Clupik para la licencia FEFA: `inscribir-licencias-fefa.md`.
+
+- [x] 8 jugadores inscritos en Clupik con la licencia FEFA Nacional Flag Senior (22 oct); todos menos Yllanes
+- [ ] Esperar a que la federación las valide (ahora están "en revisión") y ver cómo se pagan los 125 €
+- [x] Corregidos el nombre y la fecha de nacimiento de Dan en la app, según su DNI (22 oct)
+- [x] Luis inscrito también (22 oct): ya son 9 en Clupik
+
 ## Certificados para la Fundación Deporte Galego (17 oct)
 
 1. ~~Pedir la certificación de inscripción en el REDEGA~~ — pedida el 17 oct por solicitud genérica
@@ -109,8 +129,10 @@ al principio es normal: solo cuenta a quien tenga las notificaciones activadas.
 Convocatoria de la Liga Norte Senior Mixta 5x5, temporada 26-27 (FEFAPA, Asturias).
 Contacto: competiciones@fefapa.es · pagos: tesoreria@fefapa.es.
 
+**Primera jornada: domingo 22 de noviembre de 2026** (en principio, dicho el 21 oct; falta saber la sede).
+
 - [ ] **Antes del 18 oct, 23:59 — inscripción** del club y del equipo en el portal
-      LEVERADE de FEFAPA, con los justificantes de pago subidos.
+      Clupik (no LEVERADE, según el presidente, 17 oct), con los justificantes de pago subidos.
 - [ ] **Preguntar a FEFAPA** qué piden a un club gallego para estar "integrado en FEFA"
       (¿basta con AGFA?). Borrador en `correo-fefapa.md`.
 - [x] **Federación:** ya federados en FEFA, con documento (15 oct). Nadie ha pedido ningún
@@ -130,7 +152,7 @@ Contacto: competiciones@fefapa.es · pagos: tesoreria@fefapa.es.
   Flag 2026-2027* (fefapa.es → Descargas) no dice qué papeles ni en qué formato hay que
   presentar para sacar la licencia. Solo dice que cada licencia se inscribe por persona
   (art. 7) y que en el partido vale la licencia o, si no ha llegado, **DNI, NIE, pasaporte o
-  carnet de conducir** (art. 27). El trámite va por LEVERADE: al hacer la inscripción, mirar
+  carnet de conducir** (art. 27). El trámite va por Clupik (la convocatoria dice LEVERADE; corregido por el presidente el 17 oct): al hacer la inscripción, mirar
   qué archivos pide la ficha de cada jugador y en qué formato (imagen o PDF).
 - [ ] **Material de local**: cámara para grabar, marcador de downs, marcador y pilones,
       2 petos amarillos.
@@ -179,7 +201,10 @@ La comparativa completa, con la ficha de cada empresa, está en `proveedores-equ
    cambian de fuente (ahora Graduate).
 4. Antes de pagar: que el pedido diga **"DDP, import duties and Spanish VAT included"** y vaya
    con Trade Assurance.
-5. **Acuerdo con Nerion (15/10/2026):** antes de firmar, pedir que la licencia cubra solo el nombre y
+5. **Acuerdo con Nerion (20/10/2026):** el documento que mandaron sigue igual que el del 15. Se le pide a
+   Javier solo el cambio de la 5.a (imagen): `docs/nerion/` (fuera de git) tiene la versión con solo ese
+   cambio y otra con todos. Antes de firmar como presidente, confirmar la junta en el Registro.
+   Revisión del 15/10, por si se retoma: antes de firmar, pedir que la licencia cubra solo el nombre y
    el logo del club (fotos de jugadores con su consentimiento), que la terminación valga para las dos
    partes con plazo para corregir, quitar la 2.d (buscarles compradores), CIF y domicilio de las dos
    partes, el 12 % en los balones KS1, un % concreto en la ropa, tribunales de A Coruña y quitar los
@@ -245,3 +270,13 @@ Mensaje preparado para su WhatsApp:
 - **Decidir si `redes/` entra en git** (unos 30 MB).
 - Opcional: "Enviar como" atlantics@corunaatlantics.com en el Gmail del club con el SMTP de Brevo
   (y SPF con `include:spf.brevo.com` + DKIM) para que los correos salgan con el dominio.
+
+## Playbook: defensa sin subir (18/10/2026)
+
+- **Subir el capítulo 6 (Defensa) del playbook.** Está hecho en `playbook/` (`generar.py`, PDF y los
+  dos HTML) pero sin commit: al subirlo el PDF queda público en corunaatlantics.com/playbook/. Se
+  quedó en esperar. La app sigue enseñando solo el ataque, y así se quiere de momento.
+- **Hombre a hombre, profundidad del S:** el PDF de los Ducs dice 8-9 yd en el texto y 5-6 en el
+  dibujo; se ha seguido el texto. Confirmarlo con su autora.
+- **Wristband:** medir el hueco transparente de la ventana para ajustar el margen (ahora 4 mm).
+- **Playsheet de ataque:** revisar el reparto de jugadas por situación (es un borrador).

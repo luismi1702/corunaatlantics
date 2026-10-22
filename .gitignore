@@ -23,3 +23,16 @@ vapid.txt
 # Cache de Python (playbook/generar.py y demas scripts)
 __pycache__/
 docs/nerion/
+
+# Documentos de identidad de los jugadores para las licencias. Nunca a GitHub.
+fefapa/
+
+# Cuentas del club con nombres e importes. El repo es publico y la web sirve docs/.
+docs/privado/
+
+# Fuera de git segun CLAUDE.md: hojas de entreno y material de redes (pesa ~360 MB).
+entrenos/
+redes/
+
+# Tipografias de terceros: su licencia puede no permitir redistribuirlas en un repo publico.
+equipacion/fuentes/
