@@ -392,6 +392,10 @@
       transition: border-color .3s, transform .3s;
     }
     .patro-item:hover { border-color: var(--gold); transform: translateY(-3px); }
+    /* Si son impares, el último no se estira: mismo ancho que los demás y centrado */
+    @media (min-width: 700px) {
+      .patro-item:last-child:nth-child(odd) { flex-grow: 0; flex-basis: calc(50% - 0.75rem); }
+    }
     .patro-item img { height: 80px; width: 260px; max-width: 100%; object-fit: contain; }
     .patro-item span {
       font-family: 'Barlow Condensed', sans-serif; font-weight: 600;
@@ -847,6 +851,10 @@
         <a href="https://instagram.com/rojosmashburger_" target="_blank" rel="noopener" class="patro-item" aria-label="ROJO en Instagram">
           <img src="web/patrocinador-rojo.png" alt="ROJO" width="80" height="80" loading="lazy">
           <span>Smash burgers</span>
+        </a>
+        <a href="https://instagram.com/nerionathletics" target="_blank" rel="noopener" class="patro-item" aria-label="Nerion Athletics en Instagram">
+          <img src="web/patrocinador-nerion.png" alt="Nerion Athletics" width="94" height="80" loading="lazy">
+          <span>Equipación de fútbol americano</span>
         </a>
       </div>
       <p class="patro-cta">¿Quieres ver tu marca aquí? <a href="mailto:atlantics@corunaatlantics.com?subject=Patrocinio">Escríbenos</a></p>

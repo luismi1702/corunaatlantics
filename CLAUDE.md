@@ -29,6 +29,8 @@ Hashtag: #WeAreAtlantics · Mascota: Poseidón (teal, tridente dorado)
 - docs/decisiones.md — registro de decisiones técnicas
 - docs/pendiente.md — lo que tiene que hacer él a mano (Supabase, pruebas en el móvil)
 - docs/contacto-esn-coruna.md — textos de contacto con ESN y universidades
+- docs/colegios/ — sesiones de flag en colegios: plan, lista de centros, dossier PDF y correos
+- docs/privado/ — fuera de git (el repo es público y la web sirve docs/): cuentas con nombres e importes y listas con correos de personas. Nunca datos personales en docs/ fuera de esta carpeta
 - videos/GUION_REEL_HYPE.md — guión y flujo de montaje de Reels
 - equipacion/ — bocetos de ropa: uniformes (generar.py), sudaderas y chándales (generar_ropa.py, rondas en rondaN/, definitivas con mejoras.py), varsity (generar_varsity.py) y renders/fichas para el proveedor (generar_render.py, ficha_proveedor.py)
 - playbook/ — playbook del club (generar.py saca el A4, la versión del móvil y app/js/playbook-datos.js; wristband.py y playsheet.py, las de ataque y defensa; wristband_grande.py, la de la muñequera de 17 × 12 cm); entrenos/ — hojas de entrenamiento para imprimir (fuera de git)

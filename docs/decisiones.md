@@ -710,3 +710,30 @@ nombre valen para cualquiera que entre y se cobran a quien las use; pedir despu�
 
 **Alternativas descartadas:** 10 o 12 de cada (justo o 2 de reserva); 2 camisetas de la local para
 los patrocinadores (se deja para más adelante); tridente en teal sobre el pantalón blanco.
+
+## [2026-10-22] — Datos personales fuera del repo: docs/privado/
+
+**Decisión:** las cuentas con nombres e importes (Bizums, quién debe qué, patrocinios) y las
+listas con correos de personas concretas van en `docs/privado/`, que está en `.gitignore`.
+`pendiente.md` y el CHANGELOG solo llevan cifras del club en total. Lo mismo para `fefapa/`
+(DNI y fotos de los jugadores), `entrenos/`, `redes/` y las tipografías de `equipacion/fuentes/`.
+
+**Motivo:** el repo es público y GitHub Pages sirve también `docs/`, así que cualquier cosa
+commiteada ahí se lee en corunaatlantics.com/docs/. Las tipografías tienen licencias que pueden
+no permitir redistribuirlas.
+
+**Alternativas descartadas:** borrar la tabla de pagos de `pendiente.md` (se perdía el
+seguimiento); hacer el repo privado (GitHub Pages gratis necesita repo público).
+
+## [2026-10-22] — Correos a colegios: uno por centro con dossier adjunto
+
+**Decisión:** un correo personalizado por centro (nombre en asunto y saludo, versión según la
+etapa) con un dossier PDF de tres páginas, enviado desde coruna.atlantics@gmail.com. Si el
+centro publica un correo de EF o uno propio (concertados), va ahí; si no, al oficial de la
+Xunta con "A la atención del Departamento de Educación Física".
+
+**Motivo:** el correo es la vía que llega a más centros con menos esfuerzo; personalizado y con
+dossier se ve trabajado y no como envío masivo.
+
+**Alternativas descartadas:** llamar primero a cada centro (más lento para 67); un único correo
+con todos en copia oculta.

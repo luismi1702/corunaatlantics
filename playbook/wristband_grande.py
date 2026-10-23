@@ -3,7 +3,7 @@
 como un librito (varias páginas). Convive con la de 9 × 7 de wristband.py, que
 no se toca.
 
-Tres páginas: carátula (la que queda a la vista cerrada), ataque entero (las 17
+Tres páginas: carátula (la que queda a la vista cerrada), ataque entero (todas las
 jugadas, 11-51) y defensa entera (las 8 coberturas y la leyenda).
 
 Uso: python wristband_grande.py  ->  wristband-grande.html y wristband-grande.pdf
@@ -25,7 +25,7 @@ ANCHO, ALTO, MARGEN = VENTANA[0] - 2, VENTANA[1] - 2, 5
 
 
 def ataque():
-    """Las 17 jugadas en una página, en orden de call: 4 columnas, como las
+    """Todas las jugadas en una página, en orden de call: 4 columnas, como las
     casillas de la wristband pequeña (los dibujos son más anchos que altos)."""
     cas = [w.casilla(w.DECENA[f] + i, f, g.REGISTRO[n])
            for f, _, nombres in g.APP_FORMACIONES for i, n in enumerate(nombres, start=1)]

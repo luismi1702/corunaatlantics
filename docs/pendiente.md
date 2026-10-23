@@ -8,11 +8,28 @@ borra de aquí.
 
 ## Próxima sesión (20 oct)
 
-- [ ] David: revisar los bocetos nuevos del pantalón (liso, tridente oro en la pernera izquierda), aprobarlos y pagar los 546 USD el mismo día. Llegada ≈ 11-18 nov
+- [x] David: pedido pagado el 23/10, 557 USD (≈ 516 €). Prometió recibirlo antes del 18 nov; por contrato, envío garantizado el 19 nov
+- [ ] David: dice que sale el 10-12 nov; si el 12 nov no ha dicho que está enviado, reclamárselo
 - [ ] Fecha del primer partido (creen que a finales de noviembre): apuntarla en el calendario. Si es antes del 25 nov, avisar a David
 - [ ] Nerion: firmar el acuerdo nuevo (21/10, se acepta tal cual). Antes, confirmar la junta en el Registro. Como la 5.a sigue cediendo "imagen", no mandarles fotos de jugadores sin su ok; los balones KS1 pedirlos como pedido de club (12 %, no 10 %). Después: anuncio en redes (2.f), logo en cartelería y streams (2.g), historia semanal (2.a) y un post cada 50 días (2.e)
+- [ ] Nerion: pagar la factura NA2026035 (456,99 €) y cobrar su parte a los dos jugadores que pidieron con el club (reparto en `docs/privado/cuentas.md`)
+- [x] David: dirección y camiseta local extra incluidas en el pedido
+- [ ] NFL: esperar respuesta de los Dolphins y del formulario de NFL FLAG (2-3 semanas); LinkedIn a Rafa De Los Santos cuando quieras
 - [ ] Muñequera grande: medir el plástico de la ventana por dentro; si no es 17 × 12 cm, cambiar `VENTANA` en `playbook/wristband_grande.py`
 - [ ] Con el pedido hecho: `drop view if exists tallas_pedido;`
+
+## Flag en los colegios (22 oct)
+
+Plan, correos y lista de 83 centros en `docs/colegios/`.
+
+- [ ] Sacar el certificado negativo de delitos sexuales (Luis y quien vaya a ir)
+- [ ] Preguntar a la FEFA si la licencia de club incluye seguro de responsabilidad civil
+- [ ] Preguntar en el grupo quién puede alguna mañana
+- [ ] Hoja para casa con QR y la lista de interesados para el grupo infantil
+- [x] Correos enviados a 115 centros el 22/10 (A Coruña + Oleiros, Arteixo, Culleredo, Cambre, Sada,
+      Carral, Abegondo y Bergondo), con el dossier. Lista y estado en `docs/privado/colegios/envios.csv`
+- [ ] Apuntar las respuestas en `envios.csv` y llamar a los que no contesten en una semana
+- [ ] Contestar la semana del 26 oct a los 5 centros que respondieron (resumen en `docs/privado/colegios/respuestas.md`)
 
 ## Cuentas y cobros
 
@@ -156,6 +173,48 @@ Contacto: competiciones@fefapa.es · pagos: tesoreria@fefapa.es.
   qué archivos pide la ficha de cada jugador y en qué formato (imagen o PDF).
 - [ ] **Material de local**: cámara para grabar, marcador de downs, marcador y pilones,
       2 petos amarillos.
+      Pylons: **8 por campo**, 4 en cada end zone (art. 21.5 del Reglamento de competiciones de
+      Flag 2026-27 de FEFAPA). Quién los pone en cada sede lo fija el calendario definitivo.
+      Decidido el 23 oct: 4 este año y 4 el que viene. Más baratos en networldsports.es (FORZA, 46 cm,
+      base con arena, relleno blando): pack de 4 a 54,99 €, pack de 8 a 99,99 €; sin stock hasta el
+      17 nov (se puede reservar). En Amazon, GoSports pack de 4 a 77,61 €.
+  - Marcador de downs: FORZA "Marca jugada" en networldsports.es, 74,99 €, 2,2 m, en stock
+      (en Amazon.de el mismo cuesta 129,99 € + 27,13 € de envío).
+  - Simulado el 23 oct en networldsports.es con el código SAVE15 (−15 %, caducaba hacia el 25-26 oct):
+    solo 8 pylons = 99,99 − 15,00 + 12,99 envío + 1,30 combustible = **99,28 €**; 8 pylons +
+    marcador = 174,98 − 26,25 + 19,99 + 2,00 = **170,72 €** (envío 4-8 días laborables; los pylons
+    salen cuando haya stock, ≈ 17 nov). Quedó en el carrito sin comprar.
+  - Marcador del resultado (art. 21.12, obligatorio, visible para la grada): si el campo no tiene,
+    uno manual de 4 dígitos (≈ 39 × 23 cm) en Amazon a 20-22 € (B0F2DP52BH 19,99 €; QWORK B0CZHKLDT1
+    21,98 €). Confirmar con la instalación si tiene marcador
+- **Más normas del Reglamento de competiciones (repaso completo, 23 oct):**
+  - [ ] Calendario (art. 18): 15 días naturales desde que se publica para pedir cambios de fecha.
+        Llegó el 22 oct ("Calendario y organización Sedes temporada 26-27") → hasta ≈ 6 nov
+  - Si organizamos sede (art. 18.1): comunicar instalación y horarios a competiciones@ con 15 días
+    de antelación como mínimo. Cambiar una fecha ya fijada (art. 19): avisar con 15 días
+  - Pagos (art. 38): facturas de árbitros en 4 días laborables; si no, se cobran de la fianza, y
+    sin la fianza completa el **miércoles** antes del partido, se pierde como incomparecencia
+  - Auxiliar del down marker (art. 21.6 y 28): con licencia, en nuestro roster y mayor de 16 →
+    licencia de staff
+  - [ ] Canal de YouTube del club para subir los vídeos en privado (art. 36); los enlaces deben
+        seguir activos hasta 10 días después de la final (art. 37)
+  - Fotógrafo o quien grabe del club: acreditado por FEFAPA y con peto amarillo (art. 21.11 y 26)
+  - Delegado (art. 22.3): con los árbitros media hora antes; al acabar, los dos delegados revisan
+    el acta en menos de 30 min o hay sanción
+  - Lesionados en el área de equipo (art. 27): con la camiseta de juego puesta
+  - Entrenador con licencia de personal técnico (art. 5): pide titulación homologada por FEFAPA
+- **Lo que pide el Reglamento de competiciones de Flag 2026-27 (repasado el 23 oct):**
+  - Siempre (art. 22): cinturón y 2 flags tipo POP de 5 × 38 cm, sin cortar, de un color que
+    contraste con el pantalón (negro en la local, blanco en la visitante); uniforme idéntico
+    salvo el número; un delegado por partido; revisión de licencias 5 min antes
+  - Balón (art. 13): de cuero, o Wilson Revo. Composite solo sub-13
+  - Bucal (art. 25): recomendable en senior, no obligatorio
+  - Si organizamos sede (art. 21 y 36): campo de hierba marcado con mediocampo, 8 pylons,
+    marcador de downs con auxiliar con licencia y peto, áreas de equipo iguales, grada de dos
+    alturas, marcador visible, petos amarillos para prensa, y grabar el partido (720p 30 fps,
+    plano elevado) y subirlo a YouTube privado antes del lunes 23:59
+  - Cámara y trípode/pértiga: esta temporada se piden prestados; comprarlos la temporada 2027-28
+  - [ ] Conseguir quién nos presta cámara y trípode antes del primer partido de local
 - Presupuesto con 10 jugadores: 650 € de entrada, más árbitros de local (mínimo 3, se pagan
   en 4 días laborables, con viaje y dietas si vienen de fuera) y desplazamientos a Asturias.
 - **Tarifas de arbitraje (respuesta de la liga, 10 oct):** arbitraje 30 € por partido; dieta

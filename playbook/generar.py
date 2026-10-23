@@ -647,6 +647,20 @@ J_TRIPS_3 = jugada("Delay", "Trips", {
     {"X": "Option: amaga izquierda, rompe derecha", "Y": "Corner largo", "Z": "Comeback a 9 yd", "C": "Out a 5 yd, con retraso"},
     "Jugada de engaño. Z hace un Comeback a unas 9 yardas e Y un Corner largo: dos opciones profundas si hace falta el primer down. X hace una Option a unas 5 yardas, amagando a la izquierda y rompiendo a la derecha. La defensa acaba siguiéndole y el center queda solo en un Out a 5 yardas. El center debe esperar un par de segundos antes de salir.")
 
+J_COUNTDOWN = jugada("Countdown", "Trips", None, {
+    "X": "Vertical a 5 yd y corte hacia fuera hasta la línea de Z",
+    "Y": "Vertical a 5 yd y Post",
+    "Z": "Fly",
+    "C": "Stop hasta el blitz y Comeback a 5 yd, ligeramente a la derecha"},
+    "El center se queda parado hasta que sale el blitz y luego hace un Comeback ligeramente hacia la derecha, para que al CB izquierdo le cueste llegar a cubrirle. Lectura: pase a X si el CB sigue a los otros receptores. Si no, pase al receptor que quede libre. Si no hay un pase rápido claro, al center en el medio.",
+    svg=jugada_libre(
+        {"C": (150, LOS), "X": (170, 108), "Y": (196, 108), "Z": (226, 108), "Q": (150, 152)},
+        [("X", "M170 100 L170 64 L220 64"),
+         ("Y", "M196 100 L196 64 L148 26"),
+         ("Z", "M226 100 L226 16"),
+         ("C", "M150 96 L150 64 L160 68")],
+        extra=f'<line x1="143" y1="91" x2="157" y2="91" stroke="{COL["C"]}" stroke-width="2.4" stroke-linecap="round"/>'))
+
 J_TWINS_1 = jugada("Doble Post", "Twins", {
     "Z": ([(0, 6.5), (2.2, 8.5), (-3.5, 11.3)], F), "Y": ([(0, 6.3), (-4.5, 9.7)], F),
     "X": ([(0, 1.8), (9, 2.3)], F), "C": ([(0, 1.3), (-7, 4.6)], F)},
@@ -767,8 +781,8 @@ pag("5 · Jugadas · Twins", forma(2, "Twins", F_TWINS_D, 4) + """
 <div class="jugadas">""" + J_TWINS_1 + J_TWINS_2 + J_TWINS_3 + J_MESH + """</div>
 """)
 
-pag("5 · Jugadas · Trips", forma(3, "Trips", F_TRIPS_D, 3) + """
-<div class="jugadas">""" + J_TRIPS_1 + J_TRIPS_2 + J_TRIPS_3 + """</div>
+pag("5 · Jugadas · Trips", forma(3, "Trips", F_TRIPS_D, 4) + """
+<div class="jugadas">""" + J_TRIPS_1 + J_TRIPS_2 + J_TRIPS_3 + J_COUNTDOWN + """</div>
 """)
 
 pag("5 · Jugadas · Bunch", forma(4, "Bunch", F_BUNCH_D, 3) + """
@@ -1280,7 +1294,7 @@ import json
 APP_FORMACIONES = [
     ("Spread", F_SPREAD_D, ["Fly Out", "In", "Slant Go", "Dagger", "Doble Pase", "Read Option"]),
     ("Twins", F_TWINS_D, ["Doble Post", "Choice", "Silla", "Mesh"]),
-    ("Trips", F_TRIPS_D, ["Flood", "Cruce", "Delay"]),
+    ("Trips", F_TRIPS_D, ["Flood", "Cruce", "Delay", "Countdown"]),
     ("Bunch", F_BUNCH_D, ["Tijera", "Out Cruzado", "Doble Corner"]),
     ("Trips Stacked", F_STACKED_D, ["Slant Swing"]),
 ]

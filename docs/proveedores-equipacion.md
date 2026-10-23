@@ -131,6 +131,24 @@ iría por Alibaba con Trade Assurance.
   plantilla con nombre, dorsal y talla, más 3 de reserva sin nombre (1 en M, 13 en L, 85 en XL).
   Pantalón de la misma talla que la camiseta. Se le pide confirmar **26 × 21 = 546 USD** con envío,
   aranceles e IVA, bocetos nuevos antes de producir, plazo y pago por Trade Assurance.
+- **23/10, 04:46 — pedido de Trade Assurance mal hecho** (n.º 320132502001025774): 1.103 USD (993,72 €)
+  y envío 60 días tras el pago. Cobra 27 camisetas azules a 11 USD (297), 26 "uniformes" blancos a
+  21 USD (546) y 26 pantalones a 10 USD (260): los 546 del conjunto completo más la local y el
+  pantalón otra vez. Lo correcto: 546 USD + 1 camiseta local extra, en 3-4 semanas.
+  Dirección, teléfono y DDP bien. **Sin pagar.** Se le pidió el 23/10 corregir precio y plazo
+  (los bocetos finales ya los había mandado).
+- **23/10, 08:10 — pedido corregido: 557 USD (501,82 €)**, envío 28 días tras el pago + ≈ 10 días
+  de transporte exprés, DDP, sin gastos de envío. Líneas: 14 camisetas azules × 11 USD + 13 pantalones
+  × 10 USD (13 conjuntos local + la camiseta extra) y 13 conjuntos blancos × 21 USD. Cuadra con
+  546 + 11. Pagando el 23/10 llegaría hacia el 30 nov.
+- **23/10, 08:12-08:19** — David explica que al principio contó 26 conjuntos de cada color. Se le pide
+  adelantar el envío: **"I will rush it and you will receive before November 18"**. Recuerda que se
+  siga su tabla de tallas (la misma del 17/10, ver abajo).
+- **23/10 — PAGADO: 557 USD** con Apple Pay (≈ 516 € con la comisión de tarjeta), Trade Assurance.
+  El pedido quedó con el plazo de 28 días: **envío garantizado el 19/11** (llegada ≈ 29/11 por
+  contrato). Se le pidió poner 10 días hábiles en el pedido; contestó (08:33) que no lo cambia porque
+  en Alibaba dejan margen por si el cliente añade o cambia algo, pero que **lo terminan y envían hacia
+  el 10-12 nov y se recibe antes del 18 nov ("I promise")**. Luis le avisó del pago a las 08:35.
 - Gloria mandó fotos y vídeos de prendas suyas (15:04-15:06); la primera es una réplica de
   camiseta de fútbol de marca, no una prenda de equipo personalizada.
 

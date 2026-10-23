@@ -1,5 +1,46 @@
 # Changelog — Coruña Atlantics Web
 
+## [2026-10-23] — Pedido de equipaciones pagado
+
+**Qué se hizo:**
+- **Pedido de David revisado:** lo había puesto en 1.103 USD y 60 días (contó 26 conjuntos de cada color). Tras reclamarlo lo dejó en **557 USD** (546 de los 26 conjuntos + 11 de una camiseta local extra), DDP, sin gastos de envío
+- Pide que se siga su tabla de tallas (la del 17/10). Promete recibirlo **antes del 18 nov**; en el pedido, envío garantizado el 19 nov
+- **Pagado** con Apple Pay: 557 USD ≈ 516 € con la comisión de tarjeta
+- **Web:** Nerion Athletics añadido a patrocinadores (`web/patrocinador-nerion.png`, logo blanco recortado); con un número impar de patrocinadores, el último ya no se estira a todo el ancho
+- **Reglamento de competiciones de Flag de FEFAPA** repasado entero: lo que hace falta (8 pylons, marcador de downs y del resultado, grabación, plazos) en `docs/pendiente.md`
+
+**Archivos modificados:** `index.html`, `web/patrocinador-nerion.png`, `docs/proveedores-equipacion.md`, `docs/pendiente.md`, `CHANGELOG.md`.
+
+**Pendiente:** seguir el envío; reclamar si el 10 nov no ha salido; `drop view tallas_pedido`; commit.
+
+## [2026-10-22] — Game Day, NFL FLAG, pedido a Nerion y camiseta extra a David
+
+**Qué se hizo:**
+- **Cartel de Game Day** del domingo 25 oct (Black Ravens, Towers, Canteiros y Krakens; 16:00, campo 11 Caballeros): `redes/plantillas/_editables/game-day_rivales-local.html` → `redes/plantillas/game-day/rivales-local.png`
+- **Post de Training Day** con la foto de flags sin usar y tres textos, en `redes/posts/training-day-flags/`
+- **NFL FLAG en España (sin la FEFA):** correo a international@dolphins.com y formulario de nueva liga de nflflag.com enviado, con la Cidade Deportiva da Torre como campo (la provincia no tiene España: se envió vacía). Todo en `docs/nfl-flag-espana.md`
+- **Pedido a Nerion:** factura NA2026035 revisada (456,99 €, 12 % de descuento bien aplicado) y repartida entre el club y dos jugadores en `docs/privado/cuentas.md`. La hoja de pedidos suma mal el total de tienda (se deja una camiseta y los guantes)
+- **David (Alibaba):** enviados la dirección de envío, el teléfono y una camiseta local extra
+
+**Archivos modificados:** `docs/nfl-flag-espana.md` (nuevo), `docs/pendiente.md`, `CHANGELOG.md`; fuera de git: `docs/privado/cuentas.md` y `redes/`.
+
+**Pendiente:** pagar a Nerion y cobrar a los dos jugadores su parte; confirmación de David; respuestas de NFL y LinkedIn a Rafa De Los Santos; commit.
+
+## [2026-10-22] — Flag en los colegios: lista de centros, dossier y correos
+
+**Qué se hizo:**
+- **Plan** de sesiones de flag en Educación Física (50 min, dos personas del club, material propio), requisitos (certificado negativo de delitos sexuales, seguro RC, fotos) y orden de contacto, en `docs/colegios/plan.md`
+- **83 centros de A Coruña** de los datos abiertos de la Xunta, con teléfono, correo y web, en `docs/colegios/centros-coruna.csv`; se escriben primero 67: 19 institutos y CIFP, 21 concertados y 27 CEIP
+- **Correos de deporte:** se rastrearon las webs de los centros. Solo el CEIP Curros Enríquez publica a sus dos profesores de EF; 9 concertados tienen correo propio; el resto va al oficial de la Xunta con "A la atención del Departamento de EF"
+- **Dossier para centros** (3 páginas, 2 MB) con la imagen del club: `redes/dossier/dossier-colegios.html` → `docs/colegios/Dossier-Colegios-Coruna-Atlantics.pdf`
+- **Correos** en cuatro versiones (institutos, FP, concertados, primaria), personalizados por centro, en `docs/colegios/correos.md`; destinatarios en `docs/privado/colegios/envios.csv` (fuera de git)
+
+**Archivos modificados:** `docs/colegios/` (plan, CSV, dossier, correos), `docs/privado/colegios/`, `redes/dossier/dossier-colegios.html` y sus imágenes ligeras, `docs/pendiente.md`, `CHANGELOG.md`.
+
+**Enviado el 22/10 por la tarde:** 115 correos (67 de A Coruña + Obradoiro, Anxela y 46 de los concellos de alrededor, lista en `docs/colegios/centros-alrededor.csv`) desde coruna.atlantics@gmail.com con Chrome. Antes se quitaron del dossier la hoja para familias y el bloque "Y después", y de los correos el trimestre. El remitente predeterminado de Gmail era atlantics@corunaatlantics.com y fallaba (SMTP caducado: rebotaba todo, también la inscripción en la Liga Norte del 17/10); ahora es coruna.atlantics@gmail.com.
+
+**Pendiente:** certificado negativo antes de la primera sesión; apuntar respuestas; commit.
+
 ## [2026-10-22] — Licencias FEFA en Clupik, convocatoria de usos del Concello y cuentas fuera del repo
 
 **Qué se hizo:**

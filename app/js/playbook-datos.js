@@ -391,6 +391,34 @@ export const PLAYBOOK = {
        "Out a 5 yd, con retraso"
       ]
      ]
+    },
+    {
+     "nombre": "Countdown",
+     "lado": "Derecha",
+     "svg": "<svg viewBox=\"0 0 300 166\" class=\"fig-jugada\"><rect x=\"0\" y=\"0\" width=\"300\" height=\"166\" rx=\"4\" fill=\"#eef6f7\"/><line x1=\"12\" y1=\"6\" x2=\"12\" y2=\"160\" stroke=\"#006E82\" stroke-width=\"1.4\" opacity=\".45\"/><line x1=\"288\" y1=\"6\" x2=\"288\" y2=\"160\" stroke=\"#006E82\" stroke-width=\"1.4\" opacity=\".45\"/><line x1=\"12\" y1=\"64\" x2=\"288\" y2=\"64\" stroke=\"#006E82\" stroke-width=\".7\" opacity=\".28\"/><text x=\"16\" y=\"62\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"600\" font-size=\"7\" fill=\"#5b6a70\">5 yd</text><line x1=\"12\" y1=\"24\" x2=\"288\" y2=\"24\" stroke=\"#006E82\" stroke-width=\".7\" opacity=\".28\"/><text x=\"16\" y=\"22\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"600\" font-size=\"7\" fill=\"#5b6a70\">10 yd</text><line x1=\"12\" y1=\"104\" x2=\"288\" y2=\"104\" stroke=\"#D4A843\" stroke-width=\"1.6\" stroke-dasharray=\"5 3\"/><path d=\"M170 100 L170 64 L220 64\" fill=\"none\" stroke=\"#006E82\" stroke-width=\"2.4\" stroke-linejoin=\"round\" stroke-linecap=\"round\" marker-end=\"url(#flecha-X)\"/><path d=\"M196 100 L196 64 L148 26\" fill=\"none\" stroke=\"#C9992E\" stroke-width=\"2.4\" stroke-linejoin=\"round\" stroke-linecap=\"round\" marker-end=\"url(#flecha-Y)\"/><path d=\"M226 100 L226 16\" fill=\"none\" stroke=\"#040d12\" stroke-width=\"2.4\" stroke-linejoin=\"round\" stroke-linecap=\"round\" marker-end=\"url(#flecha-Z)\"/><path d=\"M150 96 L150 64 L160 68\" fill=\"none\" stroke=\"#37B8AE\" stroke-width=\"2.4\" stroke-linejoin=\"round\" stroke-linecap=\"round\" marker-end=\"url(#flecha-C)\"/><line x1=\"143\" y1=\"91\" x2=\"157\" y2=\"91\" stroke=\"#37B8AE\" stroke-width=\"2.4\" stroke-linecap=\"round\"/><rect x=\"142.5\" y=\"96.5\" width=\"15\" height=\"15\" rx=\"2\" fill=\"#fff\" stroke=\"#37B8AE\" stroke-width=\"2.2\"/><text x=\"150\" y=\"107.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"10.5\" text-anchor=\"middle\" fill=\"#040d12\">C</text><circle cx=\"170\" cy=\"108\" r=\"7.5\" fill=\"#fff\" stroke=\"#006E82\" stroke-width=\"2.2\"/><text x=\"170\" y=\"111.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"10.5\" text-anchor=\"middle\" fill=\"#040d12\">X</text><circle cx=\"196\" cy=\"108\" r=\"7.5\" fill=\"#fff\" stroke=\"#C9992E\" stroke-width=\"2.2\"/><text x=\"196\" y=\"111.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"10.5\" text-anchor=\"middle\" fill=\"#040d12\">Y</text><circle cx=\"226\" cy=\"108\" r=\"7.5\" fill=\"#fff\" stroke=\"#040d12\" stroke-width=\"2.2\"/><text x=\"226\" y=\"111.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"10.5\" text-anchor=\"middle\" fill=\"#040d12\">Z</text><circle cx=\"150\" cy=\"152\" r=\"8\" fill=\"#D4A843\" stroke=\"#040d12\" stroke-width=\"1.8\"/><text x=\"150\" y=\"155.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"10.5\" text-anchor=\"middle\" fill=\"#040d12\">Q</text></svg>",
+     "texto": "El center se queda parado hasta que sale el blitz y luego hace un Comeback ligeramente hacia la derecha, para que al CB izquierdo le cueste llegar a cubrirle. Lectura: pase a X si el CB sigue a los otros receptores. Si no, pase al receptor que quede libre. Si no hay un pase rápido claro, al center en el medio.",
+     "rutas": [
+      [
+       "X",
+       "#006E82",
+       "Vertical a 5 yd y corte hacia fuera hasta la línea de Z"
+      ],
+      [
+       "Y",
+       "#C9992E",
+       "Vertical a 5 yd y Post"
+      ],
+      [
+       "Z",
+       "#040d12",
+       "Fly"
+      ],
+      [
+       "C",
+       "#37B8AE",
+       "Stop hasta el blitz y Comeback a 5 yd, ligeramente a la derecha"
+      ]
+     ]
     }
    ]
   },
