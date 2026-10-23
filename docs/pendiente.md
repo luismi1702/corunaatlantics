@@ -184,6 +184,9 @@ Contacto: competiciones@fefapa.es · pagos: tesoreria@fefapa.es.
     solo 8 pylons = 99,99 − 15,00 + 12,99 envío + 1,30 combustible = **99,28 €**; 8 pylons +
     marcador = 174,98 − 26,25 + 19,99 + 2,00 = **170,72 €** (envío 4-8 días laborables; los pylons
     salen cuando haya stock, ≈ 17 nov). Quedó en el carrito sin comprar.
+    Decidido el 23 oct: solo los 8 pylons (99,28 €); el marcador de downs se quita del carrito y queda pendiente
+    23 oct: reservados y pagados (99,28 €) desde el móvil (agotados, preorden; vuelve el stock el 17 nov, llegan a finales de nov).
+    Si la 1.ª jornada (22 nov) es en casa y no han llegado, pedirlos prestados. Gasto ya apuntado en la app
   - Marcador del resultado (art. 21.12, obligatorio, visible para la grada): si el campo no tiene,
     uno manual de 4 dígitos (≈ 39 × 23 cm) en Amazon a 20-22 € (B0F2DP52BH 19,99 €; QWORK B0CZHKLDT1
     21,98 €). Confirmar con la instalación si tiene marcador

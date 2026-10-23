@@ -1,5 +1,18 @@
 # Changelog — Coruña Atlantics Web
 
+## [2026-10-24] — Cuentas al día, bolsa y pylons comprados, pruebas de David
+
+**Qué se hizo:**
+- **Cuentas:** la bolsa de material (Under Armour 101 L, 35,99 €) y los pylons apuntados como gasto en la app. Caja: 463,33 €, igual que la app
+- **Pylons:** 8 FORZA en Net World Sports, 99,28 € con SAVE15; estaban agotados, así que es una reserva y llegan después del 17 nov
+- **Correo del club** ordenado con etiquetas y limpio; los filtros automáticos los crea él
+- **David:** mandó fotos de las pruebas de impresión, aprobadas; entra en producción el lunes 26 oct y desde ahí no se puede cambiar nada
+- Consejos para meter el recorte de las jugadas en el wristband (recortar más pequeño, guía de tarjeta, plastificar)
+
+**Archivos modificados:** `docs/pendiente.md`, `docs/proveedores-equipacion.md`, `docs/privado/cuentas.md` (fuera de git), `CHANGELOG.md`.
+
+**Pendiente:** cobrar los 90 € de extra que faltan; marcador de downs; contestar a los colegios la semana del 26 oct; reclamar a David si el 12 nov no ha enviado.
+
 ## [2026-10-23] — Pedido de equipaciones pagado
 
 **Qué se hizo:**

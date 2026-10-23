@@ -149,6 +149,10 @@ iría por Alibaba con Trade Assurance.
   contrato). Se le pidió poner 10 días hábiles en el pedido; contestó (08:33) que no lo cambia porque
   en Alibaba dejan margen por si el cliente añade o cambia algo, pero que **lo terminan y envían hacia
   el 10-12 nov y se recibe antes del 18 nov ("I promise")**. Luis le avisó del pago a las 08:35.
+- 23/10 12:28-12:30: David manda fotos de las pruebas de impresión (local teal con pantalón negro,
+  visitante blanca, mangas, parche del tridente y dos pruebas del tridente en oro). Luis responde
+  "Perfect!" a las 16:35. David: **entra en producción el lunes 26/10; desde ahí no se puede cambiar
+  nada sin pagar la reimpresión**.
 - Gloria mandó fotos y vídeos de prendas suyas (15:04-15:06); la primera es una réplica de
   camiseta de fútbol de marca, no una prenda de equipo personalizada.
 
