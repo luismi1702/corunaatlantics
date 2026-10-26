@@ -336,6 +336,7 @@ Mensaje preparado para su WhatsApp:
 ## Playbook: defensa sin subir (18/10/2026)
 
 - [x] **Capítulo 6 (Defensa) subido**, también a la app (Equipo → Playbook → Defensa) el 26/10/2026.
+- [ ] Ver la defensa en el móvil con la app instalada (si solo sale el ataque, cerrarla del todo y abrirla).
 - **Hombre a hombre, profundidad del S:** el PDF de los Ducs dice 8-9 yd en el texto y 5-6 en el
   dibujo; se ha seguido el texto. Confirmarlo con su autora.
 - **Wristband:** medir el hueco transparente de la ventana para ajustar el margen (ahora 4 mm).
