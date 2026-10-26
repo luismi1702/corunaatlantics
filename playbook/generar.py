@@ -1287,7 +1287,7 @@ print("playbook-movil.html: versión para publicar")
 # ------------------------------------------------------------------ datos para la app
 # La pantalla Playbook de la app (Equipo -> Playbook) lee este módulo. Va dentro
 # de app/js para que el service worker lo guarde con el resto de la app y se
-# pueda consultar en el campo sin cobertura. Mismo orden que el capítulo 5.
+# pueda consultar en el campo sin cobertura. Mismo orden que los capítulos 5 y 6.
 
 import json
 
@@ -1301,10 +1301,39 @@ APP_FORMACIONES = [
 _faltan = set(REGISTRO) - {n for _, _, ns in APP_FORMACIONES for n in ns}
 assert not _faltan, f"Jugadas que no salen en la app: {_faltan}"
 
+# Defensa (capítulo 6): las mismas fichas que el PDF, en tres grupos.
+APP_DEFENSA = [
+    ("Alineaciones", "Antes del snap", ALINEACIONES_FICHA,
+     ["Zona clásica", "Zona variante", "Zona trips", "Hombre a hombre", "Bunch"]),
+    ("Zona", "Coberturas", COBERTURAS, ["Rocco", "Jonas", "Simon", "Ramone", "Salomé"]),
+    ("Hombre", "Coberturas", COBERTURAS, ["Bunch", "Joachim", "Valhalla"]),
+]
+_faltan = (set(ALINEACIONES_FICHA) | set(COBERTURAS)) - {n for _, _, _, ns in APP_DEFENSA for n in ns}
+assert not _faltan, f"Fichas de defensa que no salen en la app: {_faltan}"
+
+
+def ficha_app(f, es_cobertura):
+    return {"nombre": f["nombre"], "sub": f["sub"], "svg": f["svg"], "notas": f["notas"],
+            "call": DNUM.get(f["nombre"]) if es_cobertura else None,
+            "lineas": [[k, DCOL[k], v] for k, v in f["lineas"].items()]}
+
+
 datos = {
-    "defs": DEFS.replace(MARCAS_DEF, ""),      # la app aún no enseña la defensa
+    "defs": DEFS,
     "formaciones": [{"nombre": nom, "fig": fig, "jugadas": [REGISTRO[n] for n in nombres]}
                     for nom, fig, nombres in APP_FORMACIONES],
+    "defensa": {
+        "posiciones": [
+            ["CS", DCOL["CS"], "Corner Strong", "Corner del lado fuerte: cubre a los receptores."],
+            ["CW", DCOL["CW"], "Corner Weak", "Corner del lado débil: cubre a los receptores."],
+            ["J", DCOL["J"], "Joker", "Cubre la zona que queda libre: profunda, media o exterior. Linebacker versátil y rápido; trabaja mucho con el CW."],
+            ["S", DCOL["S"], "Safety", "El último defensor, contra los pases largos."],
+            ["R", DCOL["R"], "Rusher", "Presiona al QB. Sale a 7 yardas de la LoS. Casi siempre hay rush, salvo que el QB se coloque muy atrás."],
+        ],
+        "grupos": [{"nombre": nom, "tipo": tipo,
+                    "fichas": [ficha_app(dic[n], dic is COBERTURAS) for n in nombres]}
+                   for nom, tipo, dic, nombres in APP_DEFENSA],
+    },
 }
 with open(os.path.join(AQUI, "..", "app", "js", "playbook-datos.js"), "w", encoding="utf-8") as f:
     f.write("// Generado por playbook/generar.py. No editar a mano: se sobrescribe.\n")

@@ -335,9 +335,7 @@ Mensaje preparado para su WhatsApp:
 
 ## Playbook: defensa sin subir (18/10/2026)
 
-- **Subir el capítulo 6 (Defensa) del playbook.** Está hecho en `playbook/` (`generar.py`, PDF y los
-  dos HTML) pero sin commit: al subirlo el PDF queda público en corunaatlantics.com/playbook/. Se
-  quedó en esperar. La app sigue enseñando solo el ataque, y así se quiere de momento.
+- [x] **Capítulo 6 (Defensa) subido**, también a la app (Equipo → Playbook → Defensa) el 26/10/2026.
 - **Hombre a hombre, profundidad del S:** el PDF de los Ducs dice 8-9 yd en el texto y 5-6 en el
   dibujo; se ha seguido el texto. Confirmarlo con su autora.
 - **Wristband:** medir el hueco transparente de la ventana para ajustar el margen (ahora 4 mm).

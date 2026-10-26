@@ -1,5 +1,40 @@
 # Changelog — Coruña Atlantics Web
 
+## [2026-10-26] — Defensa del playbook en la app
+
+**Qué se hizo:**
+- **Equipo → Playbook** tiene ahora un selector Ataque / Defensa. La defensa va en tres pestañas: Alineaciones (con las posiciones CS, CW, J, S, R), Zona (Rocco, Jonas, Simon, Ramone, Salomé) y Hombre (Bunch, Joachim, Valhalla). Cada cobertura lleva su número de call, el dibujo con las zonas, qué hace cada uno y su punto débil con la solución
+- `playbook/generar.py` exporta también el capítulo 6 a `app/js/playbook-datos.js` (mismos dibujos que el PDF; el PDF no cambia)
+- Service worker a v86 para que los móviles cojan la versión nueva
+
+**Archivos modificados:** `playbook/generar.py`, `app/js/playbook-datos.js`, `app/js/vistas/jug-playbook.js`, `app/css/app.css`, `app/sw.js`, `app/README.md`, `docs/pendiente.md`, `docs/decisiones.md`, `CHANGELOG.md`.
+
+**Pendiente:** verlo en el móvil con la app instalada (cerrarla y abrirla si sigue saliendo solo el ataque).
+
+## [2026-10-25] — Post de Game Day y música en Instagram
+
+**Qué se hizo:**
+- **Cartel de Game Day con escudos rivales borrado** (no gustó): fuera `redes/plantillas/game-day/rivales-local.png` y su editable. Los logos de Towers, Black Ravens y Canteiros se quedan en `_editables/`
+- **Post de Game Day del 25 oct** (16:00, campo 11 de Caballeros): cartel teal oscuro (tridente y tipográfica) y tres textos en `redes/posts/game-day-25oct/`
+- **Instagram sin música comercial:** la cuenta era de empresa, que solo tiene música libre de derechos. Se le explicó cómo pasarla a cuenta de creador (se puede volver a empresa cuando quiera)
+
+**Archivos modificados:** `CHANGELOG.md`; fuera de git: `redes/plantillas/` y `redes/posts/game-day-25oct/`.
+
+**Pendiente:** confirmar que con cuenta de creador sale la canción de Kanye; añadir las @ de los rivales al post si las pasa.
+
+## [2026-10-25] — Extra de Dan, norma del dinero y skills probadas
+
+**Qué se hizo:**
+- **Cuentas:** del segundo pago de Artabro (620,39), 90 € son el extra de Dan. Corregido en `cuentas.md` y en la app (ingreso de Artabro a 530,39 y pago de 90 en la cuota de Dan, que queda 260/260). El saldo sigue en 463,33, igual que la caja; el margen baja a ≈ 534 €
+- **Norma nueva:** todo cambio de dinero se hace a la vez en `cuentas.md` y en la tesorería de la app (desde Chrome con `db.js`), sin dejárselo a él
+- **Skill replica** instalada (11 skills en `~/.claude/skills/`). Probada con reseñas de apps de clubes (Spond, TeamSnap…); no salió nada útil y se borró lo generado
+- Descartados el repo REA (no es una skill) y el scouting de rivales con IA
+- Enviados el playbook y las dos wristbands en PDF
+
+**Archivos modificados:** `docs/privado/cuentas.md` (fuera de git), `CHANGELOG.md`.
+
+**Pendiente:** cobrar los 6 extras de 90 € que faltan; ROJO (500 €); devoluciones a Nerion de Dan (56,14) y Bárbara (183,75); licencias FEFAPA (135) y FEFA (1.125) antes del 15 nov.
+
 ## [2026-10-24] — Cuentas al día, bolsa y pylons comprados, pruebas de David
 
 **Qué se hizo:**

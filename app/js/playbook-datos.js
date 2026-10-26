@@ -1,6 +1,6 @@
 // Generado por playbook/generar.py. No editar a mano: se sobrescribe.
 export const PLAYBOOK = {
- "defs": "<svg width=\"0\" height=\"0\" style=\"position:absolute\"><defs>\n<marker id=\"flecha\" viewBox=\"0 0 10 10\" refX=\"8\" refY=\"5\" markerWidth=\"5\" markerHeight=\"5\" orient=\"auto-start-reverse\"><path d=\"M0 0 L10 5 L0 10 z\" fill=\"#006E82\"/></marker>\n<marker id=\"tope\" viewBox=\"0 0 10 10\" refX=\"5\" refY=\"5\" markerWidth=\"4.5\" markerHeight=\"4.5\"><circle cx=\"5\" cy=\"5\" r=\"4\" fill=\"#006E82\"/></marker>\n<marker id=\"flecha-X\" viewBox=\"0 0 10 10\" refX=\"8\" refY=\"5\" markerWidth=\"5\" markerHeight=\"5\" orient=\"auto-start-reverse\"><path d=\"M0 0 L10 5 L0 10 z\" fill=\"#006E82\"/></marker><marker id=\"tope-X\" viewBox=\"0 0 10 10\" refX=\"5\" refY=\"5\" markerWidth=\"4.5\" markerHeight=\"4.5\"><circle cx=\"5\" cy=\"5\" r=\"4\" fill=\"#006E82\"/></marker><marker id=\"flecha-Y\" viewBox=\"0 0 10 10\" refX=\"8\" refY=\"5\" markerWidth=\"5\" markerHeight=\"5\" orient=\"auto-start-reverse\"><path d=\"M0 0 L10 5 L0 10 z\" fill=\"#C9992E\"/></marker><marker id=\"tope-Y\" viewBox=\"0 0 10 10\" refX=\"5\" refY=\"5\" markerWidth=\"4.5\" markerHeight=\"4.5\"><circle cx=\"5\" cy=\"5\" r=\"4\" fill=\"#C9992E\"/></marker><marker id=\"flecha-Z\" viewBox=\"0 0 10 10\" refX=\"8\" refY=\"5\" markerWidth=\"5\" markerHeight=\"5\" orient=\"auto-start-reverse\"><path d=\"M0 0 L10 5 L0 10 z\" fill=\"#040d12\"/></marker><marker id=\"tope-Z\" viewBox=\"0 0 10 10\" refX=\"5\" refY=\"5\" markerWidth=\"4.5\" markerHeight=\"4.5\"><circle cx=\"5\" cy=\"5\" r=\"4\" fill=\"#040d12\"/></marker><marker id=\"flecha-C\" viewBox=\"0 0 10 10\" refX=\"8\" refY=\"5\" markerWidth=\"5\" markerHeight=\"5\" orient=\"auto-start-reverse\"><path d=\"M0 0 L10 5 L0 10 z\" fill=\"#37B8AE\"/></marker><marker id=\"tope-C\" viewBox=\"0 0 10 10\" refX=\"5\" refY=\"5\" markerWidth=\"4.5\" markerHeight=\"4.5\"><circle cx=\"5\" cy=\"5\" r=\"4\" fill=\"#37B8AE\"/></marker><marker id=\"flecha-Q\" viewBox=\"0 0 10 10\" refX=\"8\" refY=\"5\" markerWidth=\"5\" markerHeight=\"5\" orient=\"auto-start-reverse\"><path d=\"M0 0 L10 5 L0 10 z\" fill=\"#8a6a1c\"/></marker><marker id=\"tope-Q\" viewBox=\"0 0 10 10\" refX=\"5\" refY=\"5\" markerWidth=\"4.5\" markerHeight=\"4.5\"><circle cx=\"5\" cy=\"5\" r=\"4\" fill=\"#8a6a1c\"/></marker><marker id=\"flecha-R\" viewBox=\"0 0 10 10\" refX=\"8\" refY=\"5\" markerWidth=\"5\" markerHeight=\"5\" orient=\"auto-start-reverse\"><path d=\"M0 0 L10 5 L0 10 z\" fill=\"#c0392b\"/></marker><marker id=\"tope-R\" viewBox=\"0 0 10 10\" refX=\"5\" refY=\"5\" markerWidth=\"4.5\" markerHeight=\"4.5\"><circle cx=\"5\" cy=\"5\" r=\"4\" fill=\"#c0392b\"/></marker>\n</defs></svg>",
+ "defs": "<svg width=\"0\" height=\"0\" style=\"position:absolute\"><defs>\n<marker id=\"flecha\" viewBox=\"0 0 10 10\" refX=\"8\" refY=\"5\" markerWidth=\"5\" markerHeight=\"5\" orient=\"auto-start-reverse\"><path d=\"M0 0 L10 5 L0 10 z\" fill=\"#006E82\"/></marker>\n<marker id=\"tope\" viewBox=\"0 0 10 10\" refX=\"5\" refY=\"5\" markerWidth=\"4.5\" markerHeight=\"4.5\"><circle cx=\"5\" cy=\"5\" r=\"4\" fill=\"#006E82\"/></marker>\n<marker id=\"flecha-X\" viewBox=\"0 0 10 10\" refX=\"8\" refY=\"5\" markerWidth=\"5\" markerHeight=\"5\" orient=\"auto-start-reverse\"><path d=\"M0 0 L10 5 L0 10 z\" fill=\"#006E82\"/></marker><marker id=\"tope-X\" viewBox=\"0 0 10 10\" refX=\"5\" refY=\"5\" markerWidth=\"4.5\" markerHeight=\"4.5\"><circle cx=\"5\" cy=\"5\" r=\"4\" fill=\"#006E82\"/></marker><marker id=\"flecha-Y\" viewBox=\"0 0 10 10\" refX=\"8\" refY=\"5\" markerWidth=\"5\" markerHeight=\"5\" orient=\"auto-start-reverse\"><path d=\"M0 0 L10 5 L0 10 z\" fill=\"#C9992E\"/></marker><marker id=\"tope-Y\" viewBox=\"0 0 10 10\" refX=\"5\" refY=\"5\" markerWidth=\"4.5\" markerHeight=\"4.5\"><circle cx=\"5\" cy=\"5\" r=\"4\" fill=\"#C9992E\"/></marker><marker id=\"flecha-Z\" viewBox=\"0 0 10 10\" refX=\"8\" refY=\"5\" markerWidth=\"5\" markerHeight=\"5\" orient=\"auto-start-reverse\"><path d=\"M0 0 L10 5 L0 10 z\" fill=\"#040d12\"/></marker><marker id=\"tope-Z\" viewBox=\"0 0 10 10\" refX=\"5\" refY=\"5\" markerWidth=\"4.5\" markerHeight=\"4.5\"><circle cx=\"5\" cy=\"5\" r=\"4\" fill=\"#040d12\"/></marker><marker id=\"flecha-C\" viewBox=\"0 0 10 10\" refX=\"8\" refY=\"5\" markerWidth=\"5\" markerHeight=\"5\" orient=\"auto-start-reverse\"><path d=\"M0 0 L10 5 L0 10 z\" fill=\"#37B8AE\"/></marker><marker id=\"tope-C\" viewBox=\"0 0 10 10\" refX=\"5\" refY=\"5\" markerWidth=\"4.5\" markerHeight=\"4.5\"><circle cx=\"5\" cy=\"5\" r=\"4\" fill=\"#37B8AE\"/></marker><marker id=\"flecha-Q\" viewBox=\"0 0 10 10\" refX=\"8\" refY=\"5\" markerWidth=\"5\" markerHeight=\"5\" orient=\"auto-start-reverse\"><path d=\"M0 0 L10 5 L0 10 z\" fill=\"#8a6a1c\"/></marker><marker id=\"tope-Q\" viewBox=\"0 0 10 10\" refX=\"5\" refY=\"5\" markerWidth=\"4.5\" markerHeight=\"4.5\"><circle cx=\"5\" cy=\"5\" r=\"4\" fill=\"#8a6a1c\"/></marker><marker id=\"flecha-R\" viewBox=\"0 0 10 10\" refX=\"8\" refY=\"5\" markerWidth=\"5\" markerHeight=\"5\" orient=\"auto-start-reverse\"><path d=\"M0 0 L10 5 L0 10 z\" fill=\"#c0392b\"/></marker><marker id=\"tope-R\" viewBox=\"0 0 10 10\" refX=\"5\" refY=\"5\" markerWidth=\"4.5\" markerHeight=\"4.5\"><circle cx=\"5\" cy=\"5\" r=\"4\" fill=\"#c0392b\"/></marker><marker id=\"flecha-dCS\" viewBox=\"0 0 10 10\" refX=\"8\" refY=\"5\" markerWidth=\"5\" markerHeight=\"5\" orient=\"auto-start-reverse\"><path d=\"M0 0 L10 5 L0 10 z\" fill=\"#006E82\"/></marker><marker id=\"flecha-dCW\" viewBox=\"0 0 10 10\" refX=\"8\" refY=\"5\" markerWidth=\"5\" markerHeight=\"5\" orient=\"auto-start-reverse\"><path d=\"M0 0 L10 5 L0 10 z\" fill=\"#37B8AE\"/></marker><marker id=\"flecha-dJ\" viewBox=\"0 0 10 10\" refX=\"8\" refY=\"5\" markerWidth=\"5\" markerHeight=\"5\" orient=\"auto-start-reverse\"><path d=\"M0 0 L10 5 L0 10 z\" fill=\"#C9992E\"/></marker><marker id=\"flecha-dS\" viewBox=\"0 0 10 10\" refX=\"8\" refY=\"5\" markerWidth=\"5\" markerHeight=\"5\" orient=\"auto-start-reverse\"><path d=\"M0 0 L10 5 L0 10 z\" fill=\"#040d12\"/></marker><marker id=\"flecha-dR\" viewBox=\"0 0 10 10\" refX=\"8\" refY=\"5\" markerWidth=\"5\" markerHeight=\"5\" orient=\"auto-start-reverse\"><path d=\"M0 0 L10 5 L0 10 z\" fill=\"#c0392b\"/></marker>\n</defs></svg>",
  "formaciones": [
   {
    "nombre": "Spread",
@@ -546,5 +546,501 @@ export const PLAYBOOK = {
     }
    ]
   }
- ]
+ ],
+ "defensa": {
+  "posiciones": [
+   [
+    "CS",
+    "#006E82",
+    "Corner Strong",
+    "Corner del lado fuerte: cubre a los receptores."
+   ],
+   [
+    "CW",
+    "#37B8AE",
+    "Corner Weak",
+    "Corner del lado débil: cubre a los receptores."
+   ],
+   [
+    "J",
+    "#C9992E",
+    "Joker",
+    "Cubre la zona que queda libre: profunda, media o exterior. Linebacker versátil y rápido; trabaja mucho con el CW."
+   ],
+   [
+    "S",
+    "#040d12",
+    "Safety",
+    "El último defensor, contra los pases largos."
+   ],
+   [
+    "R",
+    "#c0392b",
+    "Rusher",
+    "Presiona al QB. Sale a 7 yardas de la LoS. Casi siempre hay rush, salvo que el QB se coloque muy atrás."
+   ]
+  ],
+  "grupos": [
+   {
+    "nombre": "Alineaciones",
+    "tipo": "Antes del snap",
+    "fichas": [
+     {
+      "nombre": "Zona clásica",
+      "sub": "Alineación",
+      "svg": "<svg viewBox=\"0 0 300 166\" class=\"fig-jugada\"><rect x=\"0\" y=\"0\" width=\"300\" height=\"166\" rx=\"4\" fill=\"#eef6f7\"/><line x1=\"12\" y1=\"2\" x2=\"12\" y2=\"164\" stroke=\"#006E82\" stroke-width=\"1.4\" opacity=\".45\"/><line x1=\"288\" y1=\"2\" x2=\"288\" y2=\"164\" stroke=\"#006E82\" stroke-width=\"1.4\" opacity=\".45\"/><line x1=\"12\" y1=\"64\" x2=\"288\" y2=\"64\" stroke=\"#006E82\" stroke-width=\".6\" opacity=\".25\"/><text x=\"16\" y=\"62\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"600\" font-size=\"7\" fill=\"#5b6a70\">5 yd</text><line x1=\"12\" y1=\"48\" x2=\"288\" y2=\"48\" stroke=\"#006E82\" stroke-width=\".6\" opacity=\".25\"/><text x=\"16\" y=\"46\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"600\" font-size=\"7\" fill=\"#5b6a70\">7 yd</text><line x1=\"12\" y1=\"24\" x2=\"288\" y2=\"24\" stroke=\"#006E82\" stroke-width=\".6\" opacity=\".25\"/><text x=\"16\" y=\"22\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"600\" font-size=\"7\" fill=\"#5b6a70\">10 yd</text><line x1=\"12\" y1=\"104\" x2=\"288\" y2=\"104\" stroke=\"#D4A843\" stroke-width=\"1.6\" stroke-dasharray=\"5 3\"/><circle cx=\"45\" cy=\"108\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"45\" y=\"110.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">WR</text><circle cx=\"98\" cy=\"108\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"98\" y=\"110.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">WS</text><rect x=\"143\" y=\"97\" width=\"14\" height=\"14\" rx=\"2\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"150\" y=\"106.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#8a9ba1\">C</text><circle cx=\"257\" cy=\"108\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"257\" y=\"110.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">WR</text><circle cx=\"150\" cy=\"152\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"150\" y=\"154.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">QB</text><path d=\"M69 53.0 L87 53.0 L78 68.0 z\" fill=\"#006E82\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"78\" y=\"60.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#fff\">CS</text><path d=\"M235 53.0 L253 53.0 L244 68.0 z\" fill=\"#37B8AE\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"244\" y=\"60.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#fff\">CW</text><path d=\"M189 41 L207 41 L198 56 z\" fill=\"#C9992E\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"198\" y=\"48.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#fff\">J</text><path d=\"M53 29.0 L71 29.0 L62 44.0 z\" fill=\"#040d12\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"62\" y=\"36.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#fff\">S</text><path d=\"M128 41 L146 41 L137 56 z\" fill=\"#c0392b\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"137\" y=\"48.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#fff\">R</text></svg>",
+      "notas": "",
+      "call": null,
+      "lineas": [
+       [
+        "CS",
+        "#006E82",
+        "Centro interior entre WR y WS, a 5-6 yd"
+       ],
+       [
+        "CW",
+        "#37B8AE",
+        "Hombro interior del WR, a 5-6 yd"
+       ],
+       [
+        "J",
+        "#C9992E",
+        "Centro interior entre WR y C, a 7 yd"
+       ],
+       [
+        "S",
+        "#040d12",
+        "Centro exterior entre WS y WR, a 8-9 yd"
+       ],
+       [
+        "R",
+        "#c0392b",
+        "Frente al brazo fuerte del QB, a 7 yd"
+       ]
+      ]
+     },
+     {
+      "nombre": "Zona variante",
+      "sub": "Alineación",
+      "svg": "<svg viewBox=\"0 0 300 166\" class=\"fig-jugada\"><rect x=\"0\" y=\"0\" width=\"300\" height=\"166\" rx=\"4\" fill=\"#eef6f7\"/><line x1=\"12\" y1=\"2\" x2=\"12\" y2=\"164\" stroke=\"#006E82\" stroke-width=\"1.4\" opacity=\".45\"/><line x1=\"288\" y1=\"2\" x2=\"288\" y2=\"164\" stroke=\"#006E82\" stroke-width=\"1.4\" opacity=\".45\"/><line x1=\"12\" y1=\"64\" x2=\"288\" y2=\"64\" stroke=\"#006E82\" stroke-width=\".6\" opacity=\".25\"/><text x=\"16\" y=\"62\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"600\" font-size=\"7\" fill=\"#5b6a70\">5 yd</text><line x1=\"12\" y1=\"48\" x2=\"288\" y2=\"48\" stroke=\"#006E82\" stroke-width=\".6\" opacity=\".25\"/><text x=\"16\" y=\"46\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"600\" font-size=\"7\" fill=\"#5b6a70\">7 yd</text><line x1=\"12\" y1=\"24\" x2=\"288\" y2=\"24\" stroke=\"#006E82\" stroke-width=\".6\" opacity=\".25\"/><text x=\"16\" y=\"22\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"600\" font-size=\"7\" fill=\"#5b6a70\">10 yd</text><line x1=\"12\" y1=\"104\" x2=\"288\" y2=\"104\" stroke=\"#D4A843\" stroke-width=\"1.6\" stroke-dasharray=\"5 3\"/><circle cx=\"45\" cy=\"108\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"45\" y=\"110.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">WR</text><circle cx=\"98\" cy=\"108\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"98\" y=\"110.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">WS</text><rect x=\"143\" y=\"97\" width=\"14\" height=\"14\" rx=\"2\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"150\" y=\"106.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#8a9ba1\">C</text><circle cx=\"257\" cy=\"108\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"257\" y=\"110.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">WR</text><circle cx=\"150\" cy=\"152\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"150\" y=\"154.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">QB</text><path d=\"M69 53.0 L87 53.0 L78 68.0 z\" fill=\"#006E82\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"78\" y=\"60.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#fff\">CS</text><path d=\"M188 53.0 L206 53.0 L197 68.0 z\" fill=\"#37B8AE\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"197\" y=\"60.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#fff\">CW</text><path d=\"M235 41 L253 41 L244 56 z\" fill=\"#C9992E\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"244\" y=\"48.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#fff\">J</text><path d=\"M103 29.0 L121 29.0 L112 44.0 z\" fill=\"#040d12\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"112\" y=\"36.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#fff\">S</text><path d=\"M128 41 L146 41 L137 56 z\" fill=\"#c0392b\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"137\" y=\"48.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#fff\">R</text></svg>",
+      "notas": "",
+      "call": null,
+      "lineas": [
+       [
+        "CS",
+        "#006E82",
+        "Como en la zona clásica"
+       ],
+       [
+        "CW",
+        "#37B8AE",
+        "Centro interior entre WR y C, a 5-6 yd"
+       ],
+       [
+        "J",
+        "#C9992E",
+        "Hombro interior del WR, a 7 yd"
+       ],
+       [
+        "S",
+        "#040d12",
+        "Hombro interior del WS, a 8-9 yd"
+       ],
+       [
+        "R",
+        "#c0392b",
+        "Como en la zona clásica"
+       ]
+      ]
+     },
+     {
+      "nombre": "Zona trips",
+      "sub": "Alineación",
+      "svg": "<svg viewBox=\"0 0 300 166\" class=\"fig-jugada\"><rect x=\"0\" y=\"0\" width=\"300\" height=\"166\" rx=\"4\" fill=\"#eef6f7\"/><line x1=\"12\" y1=\"2\" x2=\"12\" y2=\"164\" stroke=\"#006E82\" stroke-width=\"1.4\" opacity=\".45\"/><line x1=\"288\" y1=\"2\" x2=\"288\" y2=\"164\" stroke=\"#006E82\" stroke-width=\"1.4\" opacity=\".45\"/><line x1=\"12\" y1=\"64\" x2=\"288\" y2=\"64\" stroke=\"#006E82\" stroke-width=\".6\" opacity=\".25\"/><text x=\"16\" y=\"62\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"600\" font-size=\"7\" fill=\"#5b6a70\">5 yd</text><line x1=\"12\" y1=\"48\" x2=\"288\" y2=\"48\" stroke=\"#006E82\" stroke-width=\".6\" opacity=\".25\"/><text x=\"16\" y=\"46\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"600\" font-size=\"7\" fill=\"#5b6a70\">7 yd</text><line x1=\"12\" y1=\"24\" x2=\"288\" y2=\"24\" stroke=\"#006E82\" stroke-width=\".6\" opacity=\".25\"/><text x=\"16\" y=\"22\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"600\" font-size=\"7\" fill=\"#5b6a70\">10 yd</text><line x1=\"12\" y1=\"104\" x2=\"288\" y2=\"104\" stroke=\"#D4A843\" stroke-width=\"1.6\" stroke-dasharray=\"5 3\"/><circle cx=\"45\" cy=\"108\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"45\" y=\"110.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">WR</text><circle cx=\"81\" cy=\"108\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"81\" y=\"110.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">WS</text><circle cx=\"117\" cy=\"108\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"117\" y=\"110.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">WR</text><rect x=\"143\" y=\"97\" width=\"14\" height=\"14\" rx=\"2\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"150\" y=\"106.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#8a9ba1\">C</text><circle cx=\"150\" cy=\"152\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"150\" y=\"154.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">QB</text><path d=\"M58 53.0 L76 53.0 L67 68.0 z\" fill=\"#006E82\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"67\" y=\"60.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#fff\">CS</text><path d=\"M156 53.0 L174 53.0 L165 68.0 z\" fill=\"#37B8AE\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"165\" y=\"60.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#fff\">CW</text><path d=\"M127 41 L145 41 L136 56 z\" fill=\"#C9992E\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"136\" y=\"48.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#fff\">J</text><path d=\"M49 29.0 L67 29.0 L58 44.0 z\" fill=\"#040d12\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"58\" y=\"36.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#fff\">S</text><path d=\"M94 41 L112 41 L103 56 z\" fill=\"#c0392b\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"103\" y=\"48.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#fff\">R</text></svg>",
+      "notas": "<p>Contra trips el rusher sale lejos del QB: primero molesta las rutas y luego va a por el QB.</p>",
+      "call": null,
+      "lineas": [
+       [
+        "CS",
+        "#006E82",
+        "Hombro exterior del WS, a 5-6 yd"
+       ],
+       [
+        "CW",
+        "#37B8AE",
+        "Hombro exterior del C, a 5-6 yd"
+       ],
+       [
+        "J",
+        "#C9992E",
+        "Entre el WR y el C, a 7 yd"
+       ],
+       [
+        "S",
+        "#040d12",
+        "Hombro interior del WR, a 8-9 yd"
+       ],
+       [
+        "R",
+        "#c0392b",
+        "Hombro exterior del WR, a 7 yd"
+       ]
+      ]
+     },
+     {
+      "nombre": "Hombre a hombre",
+      "sub": "Alineación",
+      "svg": "<svg viewBox=\"0 0 300 166\" class=\"fig-jugada\"><rect x=\"0\" y=\"0\" width=\"300\" height=\"166\" rx=\"4\" fill=\"#eef6f7\"/><line x1=\"12\" y1=\"2\" x2=\"12\" y2=\"164\" stroke=\"#006E82\" stroke-width=\"1.4\" opacity=\".45\"/><line x1=\"288\" y1=\"2\" x2=\"288\" y2=\"164\" stroke=\"#006E82\" stroke-width=\"1.4\" opacity=\".45\"/><line x1=\"12\" y1=\"64\" x2=\"288\" y2=\"64\" stroke=\"#006E82\" stroke-width=\".6\" opacity=\".25\"/><text x=\"16\" y=\"62\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"600\" font-size=\"7\" fill=\"#5b6a70\">5 yd</text><line x1=\"12\" y1=\"48\" x2=\"288\" y2=\"48\" stroke=\"#006E82\" stroke-width=\".6\" opacity=\".25\"/><text x=\"16\" y=\"46\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"600\" font-size=\"7\" fill=\"#5b6a70\">7 yd</text><line x1=\"12\" y1=\"24\" x2=\"288\" y2=\"24\" stroke=\"#006E82\" stroke-width=\".6\" opacity=\".25\"/><text x=\"16\" y=\"22\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"600\" font-size=\"7\" fill=\"#5b6a70\">10 yd</text><line x1=\"12\" y1=\"104\" x2=\"288\" y2=\"104\" stroke=\"#D4A843\" stroke-width=\"1.6\" stroke-dasharray=\"5 3\"/><circle cx=\"45\" cy=\"108\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"45\" y=\"110.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">WR</text><circle cx=\"98\" cy=\"108\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"98\" y=\"110.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">WS</text><rect x=\"143\" y=\"97\" width=\"14\" height=\"14\" rx=\"2\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"150\" y=\"106.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#8a9ba1\">C</text><circle cx=\"257\" cy=\"108\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"257\" y=\"110.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">WR</text><circle cx=\"150\" cy=\"152\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"150\" y=\"154.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">QB</text><path d=\"M49 29.0 L67 29.0 L58 44.0 z\" fill=\"#040d12\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"58\" y=\"36.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#fff\">S</text><path d=\"M103 41 L121 41 L112 56 z\" fill=\"#C9992E\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"112\" y=\"48.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#fff\">J</text><path d=\"M156 53.0 L174 53.0 L165 68.0 z\" fill=\"#006E82\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"165\" y=\"60.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#fff\">CS</text><path d=\"M235 53.0 L253 53.0 L244 68.0 z\" fill=\"#37B8AE\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"244\" y=\"60.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#fff\">CW</text><path d=\"M128 41 L146 41 L137 56 z\" fill=\"#c0392b\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"137\" y=\"48.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#fff\">R</text></svg>",
+      "notas": "",
+      "call": null,
+      "lineas": [
+       [
+        "CS",
+        "#006E82",
+        "Hombro «exterior» del C, a 5-6 yd"
+       ],
+       [
+        "CW",
+        "#37B8AE",
+        "Hombro interior del WR, a 5-6 yd"
+       ],
+       [
+        "J",
+        "#C9992E",
+        "Hombro interior del WS, a 7 yd"
+       ],
+       [
+        "S",
+        "#040d12",
+        "Hombro interior del WR, a 8-9 yd"
+       ],
+       [
+        "R",
+        "#c0392b",
+        "Frente al brazo fuerte del QB, a 7 yd"
+       ]
+      ]
+     },
+     {
+      "nombre": "Bunch",
+      "sub": "Alineación",
+      "svg": "<svg viewBox=\"0 0 300 166\" class=\"fig-jugada\"><rect x=\"0\" y=\"0\" width=\"300\" height=\"166\" rx=\"4\" fill=\"#eef6f7\"/><line x1=\"12\" y1=\"2\" x2=\"12\" y2=\"164\" stroke=\"#006E82\" stroke-width=\"1.4\" opacity=\".45\"/><line x1=\"288\" y1=\"2\" x2=\"288\" y2=\"164\" stroke=\"#006E82\" stroke-width=\"1.4\" opacity=\".45\"/><line x1=\"12\" y1=\"64\" x2=\"288\" y2=\"64\" stroke=\"#006E82\" stroke-width=\".6\" opacity=\".25\"/><text x=\"16\" y=\"62\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"600\" font-size=\"7\" fill=\"#5b6a70\">5 yd</text><line x1=\"12\" y1=\"48\" x2=\"288\" y2=\"48\" stroke=\"#006E82\" stroke-width=\".6\" opacity=\".25\"/><text x=\"16\" y=\"46\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"600\" font-size=\"7\" fill=\"#5b6a70\">7 yd</text><line x1=\"12\" y1=\"24\" x2=\"288\" y2=\"24\" stroke=\"#006E82\" stroke-width=\".6\" opacity=\".25\"/><text x=\"16\" y=\"22\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"600\" font-size=\"7\" fill=\"#5b6a70\">10 yd</text><line x1=\"12\" y1=\"104\" x2=\"288\" y2=\"104\" stroke=\"#D4A843\" stroke-width=\"1.6\" stroke-dasharray=\"5 3\"/><circle cx=\"106\" cy=\"108\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"106\" y=\"110.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">WR</text><circle cx=\"128\" cy=\"108\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"128\" y=\"110.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">WS</text><rect x=\"143\" y=\"97\" width=\"14\" height=\"14\" rx=\"2\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"150\" y=\"106.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#8a9ba1\">C</text><circle cx=\"172\" cy=\"108\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"172\" y=\"110.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">WR</text><circle cx=\"150\" cy=\"152\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"150\" y=\"154.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">QB</text><path d=\"M84 53.0 L102 53.0 L93 68.0 z\" fill=\"#006E82\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"93\" y=\"60.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#fff\">CS</text><path d=\"M178 53.0 L196 53.0 L187 68.0 z\" fill=\"#37B8AE\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"187\" y=\"60.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#fff\">CW</text><path d=\"M106 41 L124 41 L115 56 z\" fill=\"#040d12\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"115\" y=\"48.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#fff\">S</text><path d=\"M128 41 L146 41 L137 56 z\" fill=\"#c0392b\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"137\" y=\"48.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#fff\">R</text><path d=\"M156 41 L174 41 L165 56 z\" fill=\"#C9992E\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"165\" y=\"48.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#fff\">J</text></svg>",
+      "notas": "",
+      "call": null,
+      "lineas": [
+       [
+        "CS",
+        "#006E82",
+        "Hombro exterior del WR, a 5-6 yd"
+       ],
+       [
+        "CW",
+        "#37B8AE",
+        "Hombro exterior del WR, a 5-6 yd"
+       ],
+       [
+        "J",
+        "#C9992E",
+        "Entre C y WR, a 7 yd"
+       ],
+       [
+        "S",
+        "#040d12",
+        "Entre el WR y el WS, a 7 yd"
+       ],
+       [
+        "R",
+        "#c0392b",
+        "Lado fuerte, a 7 yd"
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "nombre": "Zona",
+    "tipo": "Coberturas",
+    "fichas": [
+     {
+      "nombre": "Rocco",
+      "sub": "Cobertura 22 · Zona clásica",
+      "svg": "<svg viewBox=\"0 0 300 166\" class=\"fig-jugada\"><rect x=\"0\" y=\"0\" width=\"300\" height=\"166\" rx=\"4\" fill=\"#eef6f7\"/><line x1=\"12\" y1=\"2\" x2=\"12\" y2=\"164\" stroke=\"#006E82\" stroke-width=\"1.4\" opacity=\".45\"/><line x1=\"288\" y1=\"2\" x2=\"288\" y2=\"164\" stroke=\"#006E82\" stroke-width=\"1.4\" opacity=\".45\"/><path d=\"M14 102 L146 102 L146 40 L14 40 z\" fill=\"#006E82\" fill-opacity=\".14\" stroke=\"#006E82\" stroke-opacity=\".55\" stroke-width=\"1\" stroke-dasharray=\"3 2\" stroke-linejoin=\"round\"/><path d=\"M14 40 L146 40 L146 3 L14 3 z\" fill=\"#040d12\" fill-opacity=\".14\" stroke=\"#040d12\" stroke-opacity=\".55\" stroke-width=\"1\" stroke-dasharray=\"3 2\" stroke-linejoin=\"round\"/><path d=\"M146 102 L176 102 L176 40 L255 40 L255 3 L146 3 z\" fill=\"#C9992E\" fill-opacity=\".14\" stroke=\"#C9992E\" stroke-opacity=\".55\" stroke-width=\"1\" stroke-dasharray=\"3 2\" stroke-linejoin=\"round\"/><path d=\"M176 102 L286 102 L286 3 L255 3 L255 40 L176 40 z\" fill=\"#37B8AE\" fill-opacity=\".14\" stroke=\"#37B8AE\" stroke-opacity=\".55\" stroke-width=\"1\" stroke-dasharray=\"3 2\" stroke-linejoin=\"round\"/><line x1=\"12\" y1=\"64\" x2=\"288\" y2=\"64\" stroke=\"#006E82\" stroke-width=\".6\" opacity=\".25\"/><text x=\"16\" y=\"62\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"600\" font-size=\"7\" fill=\"#5b6a70\">5 yd</text><line x1=\"12\" y1=\"48\" x2=\"288\" y2=\"48\" stroke=\"#006E82\" stroke-width=\".6\" opacity=\".25\"/><text x=\"16\" y=\"46\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"600\" font-size=\"7\" fill=\"#5b6a70\">7 yd</text><line x1=\"12\" y1=\"24\" x2=\"288\" y2=\"24\" stroke=\"#006E82\" stroke-width=\".6\" opacity=\".25\"/><text x=\"16\" y=\"22\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"600\" font-size=\"7\" fill=\"#5b6a70\">10 yd</text><line x1=\"12\" y1=\"104\" x2=\"288\" y2=\"104\" stroke=\"#D4A843\" stroke-width=\"1.6\" stroke-dasharray=\"5 3\"/><path d=\"M137 55 L148 141\" fill=\"none\" stroke=\"#c0392b\" stroke-width=\"2.2\" stroke-linecap=\"round\" marker-end=\"url(#flecha-dR)\"/><circle cx=\"45\" cy=\"108\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"45\" y=\"110.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">WR</text><circle cx=\"98\" cy=\"108\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"98\" y=\"110.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">WS</text><rect x=\"143\" y=\"97\" width=\"14\" height=\"14\" rx=\"2\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"150\" y=\"106.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#8a9ba1\">C</text><circle cx=\"257\" cy=\"108\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"257\" y=\"110.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">WR</text><circle cx=\"150\" cy=\"152\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"150\" y=\"154.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">QB</text><path d=\"M69 53.0 L87 53.0 L78 68.0 z\" fill=\"#006E82\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"78\" y=\"60.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#fff\">CS</text><path d=\"M235 53.0 L253 53.0 L244 68.0 z\" fill=\"#37B8AE\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"244\" y=\"60.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#fff\">CW</text><path d=\"M189 41 L207 41 L198 56 z\" fill=\"#C9992E\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"198\" y=\"48.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#fff\">J</text><path d=\"M53 29.0 L71 29.0 L62 44.0 z\" fill=\"#040d12\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"62\" y=\"36.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#fff\">S</text><path d=\"M128 41 L146 41 L137 56 z\" fill=\"#c0392b\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"137\" y=\"48.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#fff\">R</text></svg>",
+      "notas": "<p>La más habitual. El CW tiene prioridad sobre el WR: si corre un Fly, se va con él; si no, se queda en la zona corta. Así el J protege el fondo con prioridad en el centro, y aún puede cubrir una ruta profunda del WR, como un Post.</p><p class=\"debil\"><b>Punto débil</b> Caso 1: dos jugadores en la zona del J. Caso 2: tres jugadores en profundo.</p><p class=\"solucion\"><b>Solución</b> Caso 1: el S ayuda y el J cubre esa zona. Caso 2: el CW cubre esa zona.</p>",
+      "call": 1,
+      "lineas": [
+       [
+        "CS",
+        "#006E82",
+        "Corto"
+       ],
+       [
+        "CW",
+        "#37B8AE",
+        "Corto exterior y profundo exterior"
+       ],
+       [
+        "J",
+        "#C9992E",
+        "Corto centro y profundo"
+       ],
+       [
+        "S",
+        "#040d12",
+        "Profundo"
+       ],
+       [
+        "R",
+        "#c0392b",
+        "Rush al QB"
+       ]
+      ]
+     },
+     {
+      "nombre": "Jonas",
+      "sub": "Cobertura 22 · Zona variante",
+      "svg": "<svg viewBox=\"0 0 300 166\" class=\"fig-jugada\"><rect x=\"0\" y=\"0\" width=\"300\" height=\"166\" rx=\"4\" fill=\"#eef6f7\"/><line x1=\"12\" y1=\"2\" x2=\"12\" y2=\"164\" stroke=\"#006E82\" stroke-width=\"1.4\" opacity=\".45\"/><line x1=\"288\" y1=\"2\" x2=\"288\" y2=\"164\" stroke=\"#006E82\" stroke-width=\"1.4\" opacity=\".45\"/><path d=\"M14 102 L152 102 L152 40 L14 40 z\" fill=\"#006E82\" fill-opacity=\".14\" stroke=\"#006E82\" stroke-opacity=\".55\" stroke-width=\"1\" stroke-dasharray=\"3 2\" stroke-linejoin=\"round\"/><path d=\"M14 40 L172 40 L172 3 L14 3 z\" fill=\"#040d12\" fill-opacity=\".14\" stroke=\"#040d12\" stroke-opacity=\".55\" stroke-width=\"1\" stroke-dasharray=\"3 2\" stroke-linejoin=\"round\"/><path d=\"M152 102 L252 102 L252 40 L152 40 z\" fill=\"#37B8AE\" fill-opacity=\".14\" stroke=\"#37B8AE\" stroke-opacity=\".55\" stroke-width=\"1\" stroke-dasharray=\"3 2\" stroke-linejoin=\"round\"/><path d=\"M252 102 L286 102 L286 3 L172 3 L172 40 L252 40 z\" fill=\"#C9992E\" fill-opacity=\".14\" stroke=\"#C9992E\" stroke-opacity=\".55\" stroke-width=\"1\" stroke-dasharray=\"3 2\" stroke-linejoin=\"round\"/><line x1=\"12\" y1=\"64\" x2=\"288\" y2=\"64\" stroke=\"#006E82\" stroke-width=\".6\" opacity=\".25\"/><text x=\"16\" y=\"62\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"600\" font-size=\"7\" fill=\"#5b6a70\">5 yd</text><line x1=\"12\" y1=\"48\" x2=\"288\" y2=\"48\" stroke=\"#006E82\" stroke-width=\".6\" opacity=\".25\"/><text x=\"16\" y=\"46\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"600\" font-size=\"7\" fill=\"#5b6a70\">7 yd</text><line x1=\"12\" y1=\"24\" x2=\"288\" y2=\"24\" stroke=\"#006E82\" stroke-width=\".6\" opacity=\".25\"/><text x=\"16\" y=\"22\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"600\" font-size=\"7\" fill=\"#5b6a70\">10 yd</text><line x1=\"12\" y1=\"104\" x2=\"288\" y2=\"104\" stroke=\"#D4A843\" stroke-width=\"1.6\" stroke-dasharray=\"5 3\"/><path d=\"M137 55 L148 141\" fill=\"none\" stroke=\"#c0392b\" stroke-width=\"2.2\" stroke-linecap=\"round\" marker-end=\"url(#flecha-dR)\"/><circle cx=\"45\" cy=\"108\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"45\" y=\"110.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">WR</text><circle cx=\"98\" cy=\"108\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"98\" y=\"110.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">WS</text><rect x=\"143\" y=\"97\" width=\"14\" height=\"14\" rx=\"2\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"150\" y=\"106.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#8a9ba1\">C</text><circle cx=\"257\" cy=\"108\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"257\" y=\"110.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">WR</text><circle cx=\"150\" cy=\"152\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"150\" y=\"154.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">QB</text><path d=\"M69 53.0 L87 53.0 L78 68.0 z\" fill=\"#006E82\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"78\" y=\"60.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#fff\">CS</text><path d=\"M188 53.0 L206 53.0 L197 68.0 z\" fill=\"#37B8AE\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"197\" y=\"60.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#fff\">CW</text><path d=\"M235 41 L253 41 L244 56 z\" fill=\"#C9992E\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"244\" y=\"48.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#fff\">J</text><path d=\"M103 29.0 L121 29.0 L112 44.0 z\" fill=\"#040d12\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"112\" y=\"36.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#fff\">S</text><path d=\"M128 41 L146 41 L137 56 z\" fill=\"#c0392b\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"137\" y=\"48.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#fff\">R</text></svg>",
+      "notas": "<p>Contra equipos que juegan corto y atacan por el centro.</p><p class=\"debil\"><b>Punto débil</b> Tres jugadores en profundo.</p><p class=\"solucion\"><b>Solución</b> El CW cubre esa zona.</p>",
+      "call": 2,
+      "lineas": [
+       [
+        "CS",
+        "#006E82",
+        "Corto"
+       ],
+       [
+        "CW",
+        "#37B8AE",
+        "Corto centro, corto y profundo centro"
+       ],
+       [
+        "J",
+        "#C9992E",
+        "Profundo exterior y corto exterior"
+       ],
+       [
+        "S",
+        "#040d12",
+        "Profundo y ayuda en el profundo centro"
+       ],
+       [
+        "R",
+        "#c0392b",
+        "Rush al QB"
+       ]
+      ]
+     },
+     {
+      "nombre": "Simon",
+      "sub": "Cobertura 31 · Zona clásica",
+      "svg": "<svg viewBox=\"0 0 300 166\" class=\"fig-jugada\"><rect x=\"0\" y=\"0\" width=\"300\" height=\"166\" rx=\"4\" fill=\"#eef6f7\"/><line x1=\"12\" y1=\"2\" x2=\"12\" y2=\"164\" stroke=\"#006E82\" stroke-width=\"1.4\" opacity=\".45\"/><line x1=\"288\" y1=\"2\" x2=\"288\" y2=\"164\" stroke=\"#006E82\" stroke-width=\"1.4\" opacity=\".45\"/><path d=\"M14 102 L105 102 L105 40 L14 40 z\" fill=\"#006E82\" fill-opacity=\".14\" stroke=\"#006E82\" stroke-opacity=\".55\" stroke-width=\"1\" stroke-dasharray=\"3 2\" stroke-linejoin=\"round\"/><path d=\"M105 102 L195 102 L195 40 L105 40 z\" fill=\"#C9992E\" fill-opacity=\".14\" stroke=\"#C9992E\" stroke-opacity=\".55\" stroke-width=\"1\" stroke-dasharray=\"3 2\" stroke-linejoin=\"round\"/><path d=\"M195 102 L286 102 L286 40 L195 40 z\" fill=\"#37B8AE\" fill-opacity=\".14\" stroke=\"#37B8AE\" stroke-opacity=\".55\" stroke-width=\"1\" stroke-dasharray=\"3 2\" stroke-linejoin=\"round\"/><path d=\"M14 40 L286 40 L286 3 L14 3 z\" fill=\"#040d12\" fill-opacity=\".14\" stroke=\"#040d12\" stroke-opacity=\".55\" stroke-width=\"1\" stroke-dasharray=\"3 2\" stroke-linejoin=\"round\"/><line x1=\"12\" y1=\"64\" x2=\"288\" y2=\"64\" stroke=\"#006E82\" stroke-width=\".6\" opacity=\".25\"/><text x=\"16\" y=\"62\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"600\" font-size=\"7\" fill=\"#5b6a70\">5 yd</text><line x1=\"12\" y1=\"48\" x2=\"288\" y2=\"48\" stroke=\"#006E82\" stroke-width=\".6\" opacity=\".25\"/><text x=\"16\" y=\"46\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"600\" font-size=\"7\" fill=\"#5b6a70\">7 yd</text><line x1=\"12\" y1=\"24\" x2=\"288\" y2=\"24\" stroke=\"#006E82\" stroke-width=\".6\" opacity=\".25\"/><text x=\"16\" y=\"22\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"600\" font-size=\"7\" fill=\"#5b6a70\">10 yd</text><line x1=\"12\" y1=\"104\" x2=\"288\" y2=\"104\" stroke=\"#D4A843\" stroke-width=\"1.6\" stroke-dasharray=\"5 3\"/><path d=\"M137 55 L148 141\" fill=\"none\" stroke=\"#c0392b\" stroke-width=\"2.2\" stroke-linecap=\"round\" marker-end=\"url(#flecha-dR)\"/><circle cx=\"45\" cy=\"108\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"45\" y=\"110.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">WR</text><circle cx=\"98\" cy=\"108\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"98\" y=\"110.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">WS</text><rect x=\"143\" y=\"97\" width=\"14\" height=\"14\" rx=\"2\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"150\" y=\"106.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#8a9ba1\">C</text><circle cx=\"257\" cy=\"108\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"257\" y=\"110.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">WR</text><circle cx=\"150\" cy=\"152\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"150\" y=\"154.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">QB</text><path d=\"M69 53.0 L87 53.0 L78 68.0 z\" fill=\"#006E82\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"78\" y=\"60.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#fff\">CS</text><path d=\"M235 53.0 L253 53.0 L244 68.0 z\" fill=\"#37B8AE\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"244\" y=\"60.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#fff\">CW</text><path d=\"M189 41 L207 41 L198 56 z\" fill=\"#C9992E\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"198\" y=\"48.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#fff\">J</text><path d=\"M53 29.0 L71 29.0 L62 44.0 z\" fill=\"#040d12\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"62\" y=\"36.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#fff\">S</text><path d=\"M128 41 L146 41 L137 56 z\" fill=\"#c0392b\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"137\" y=\"48.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#fff\">R</text></svg>",
+      "notas": "<p class=\"debil\"><b>Punto débil</b> Más de un jugador en el fondo.</p><p class=\"solucion\"><b>Solución</b> El CW o el CS cubren la zona libre.</p>",
+      "call": 3,
+      "lineas": [
+       [
+        "CS",
+        "#006E82",
+        "Corto"
+       ],
+       [
+        "CW",
+        "#37B8AE",
+        "Corto exterior y ayuda en el profundo exterior"
+       ],
+       [
+        "J",
+        "#C9992E",
+        "Corto centro"
+       ],
+       [
+        "S",
+        "#040d12",
+        "Profundo"
+       ],
+       [
+        "R",
+        "#c0392b",
+        "Rush al QB"
+       ]
+      ]
+     },
+     {
+      "nombre": "Ramone",
+      "sub": "Cobertura 32 · Zona clásica · Sin rush",
+      "svg": "<svg viewBox=\"0 0 300 166\" class=\"fig-jugada\"><rect x=\"0\" y=\"0\" width=\"300\" height=\"166\" rx=\"4\" fill=\"#eef6f7\"/><line x1=\"12\" y1=\"2\" x2=\"12\" y2=\"164\" stroke=\"#006E82\" stroke-width=\"1.4\" opacity=\".45\"/><line x1=\"288\" y1=\"2\" x2=\"288\" y2=\"164\" stroke=\"#006E82\" stroke-width=\"1.4\" opacity=\".45\"/><path d=\"M14 102 L105 102 L105 40 L14 40 z\" fill=\"#006E82\" fill-opacity=\".14\" stroke=\"#006E82\" stroke-opacity=\".55\" stroke-width=\"1\" stroke-dasharray=\"3 2\" stroke-linejoin=\"round\"/><path d=\"M105 102 L194 102 L194 40 L105 40 z\" fill=\"#c0392b\" fill-opacity=\".14\" stroke=\"#c0392b\" stroke-opacity=\".55\" stroke-width=\"1\" stroke-dasharray=\"3 2\" stroke-linejoin=\"round\"/><path d=\"M194 102 L286 102 L286 40 L194 40 z\" fill=\"#37B8AE\" fill-opacity=\".14\" stroke=\"#37B8AE\" stroke-opacity=\".55\" stroke-width=\"1\" stroke-dasharray=\"3 2\" stroke-linejoin=\"round\"/><path d=\"M14 40 L152 40 L152 3 L14 3 z\" fill=\"#040d12\" fill-opacity=\".14\" stroke=\"#040d12\" stroke-opacity=\".55\" stroke-width=\"1\" stroke-dasharray=\"3 2\" stroke-linejoin=\"round\"/><path d=\"M152 40 L286 40 L286 3 L152 3 z\" fill=\"#C9992E\" fill-opacity=\".14\" stroke=\"#C9992E\" stroke-opacity=\".55\" stroke-width=\"1\" stroke-dasharray=\"3 2\" stroke-linejoin=\"round\"/><line x1=\"12\" y1=\"64\" x2=\"288\" y2=\"64\" stroke=\"#006E82\" stroke-width=\".6\" opacity=\".25\"/><text x=\"16\" y=\"62\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"600\" font-size=\"7\" fill=\"#5b6a70\">5 yd</text><line x1=\"12\" y1=\"48\" x2=\"288\" y2=\"48\" stroke=\"#006E82\" stroke-width=\".6\" opacity=\".25\"/><text x=\"16\" y=\"46\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"600\" font-size=\"7\" fill=\"#5b6a70\">7 yd</text><line x1=\"12\" y1=\"24\" x2=\"288\" y2=\"24\" stroke=\"#006E82\" stroke-width=\".6\" opacity=\".25\"/><text x=\"16\" y=\"22\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"600\" font-size=\"7\" fill=\"#5b6a70\">10 yd</text><line x1=\"12\" y1=\"104\" x2=\"288\" y2=\"104\" stroke=\"#D4A843\" stroke-width=\"1.6\" stroke-dasharray=\"5 3\"/><circle cx=\"45\" cy=\"108\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"45\" y=\"110.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">WR</text><circle cx=\"98\" cy=\"108\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"98\" y=\"110.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">WS</text><rect x=\"143\" y=\"97\" width=\"14\" height=\"14\" rx=\"2\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"150\" y=\"106.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#8a9ba1\">C</text><circle cx=\"257\" cy=\"108\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"257\" y=\"110.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">WR</text><circle cx=\"150\" cy=\"152\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"150\" y=\"154.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">QB</text><path d=\"M69 53.0 L87 53.0 L78 68.0 z\" fill=\"#006E82\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"78\" y=\"60.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#fff\">CS</text><path d=\"M235 53.0 L253 53.0 L244 68.0 z\" fill=\"#37B8AE\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"244\" y=\"60.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#fff\">CW</text><path d=\"M189 41 L207 41 L198 56 z\" fill=\"#C9992E\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"198\" y=\"48.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#fff\">J</text><path d=\"M53 29.0 L71 29.0 L62 44.0 z\" fill=\"#040d12\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"62\" y=\"36.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#fff\">S</text><path d=\"M128 41 L146 41 L137 56 z\" fill=\"#c0392b\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"137\" y=\"48.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#fff\">R</text></svg>",
+      "notas": "<p class=\"debil\"><b>Punto débil</b> Tres jugadores en profundo. Sin rush, el QB tiene más tiempo para lanzar.</p><p class=\"solucion\"><b>Solución</b> El R cubre esa zona.</p>",
+      "call": 4,
+      "lineas": [
+       [
+        "CS",
+        "#006E82",
+        "Corto exterior"
+       ],
+       [
+        "CW",
+        "#37B8AE",
+        "Corto exterior y ayuda en el profundo exterior"
+       ],
+       [
+        "J",
+        "#C9992E",
+        "Profundo centro y profundo exterior"
+       ],
+       [
+        "S",
+        "#040d12",
+        "Profundo exterior"
+       ],
+       [
+        "R",
+        "#c0392b",
+        "Corto centro"
+       ]
+      ]
+     },
+     {
+      "nombre": "Salomé",
+      "sub": "Cobertura 23 · Zona clásica · Sin rush",
+      "svg": "<svg viewBox=\"0 0 300 166\" class=\"fig-jugada\"><rect x=\"0\" y=\"0\" width=\"300\" height=\"166\" rx=\"4\" fill=\"#eef6f7\"/><line x1=\"12\" y1=\"2\" x2=\"12\" y2=\"164\" stroke=\"#006E82\" stroke-width=\"1.4\" opacity=\".45\"/><line x1=\"288\" y1=\"2\" x2=\"288\" y2=\"164\" stroke=\"#006E82\" stroke-width=\"1.4\" opacity=\".45\"/><path d=\"M14 102 L151 102 L151 40 L14 40 z\" fill=\"#006E82\" fill-opacity=\".14\" stroke=\"#006E82\" stroke-opacity=\".55\" stroke-width=\"1\" stroke-dasharray=\"3 2\" stroke-linejoin=\"round\"/><path d=\"M151 102 L286 102 L286 40 L151 40 z\" fill=\"#c0392b\" fill-opacity=\".14\" stroke=\"#c0392b\" stroke-opacity=\".55\" stroke-width=\"1\" stroke-dasharray=\"3 2\" stroke-linejoin=\"round\"/><path d=\"M14 40 L105 40 L105 3 L14 3 z\" fill=\"#040d12\" fill-opacity=\".14\" stroke=\"#040d12\" stroke-opacity=\".55\" stroke-width=\"1\" stroke-dasharray=\"3 2\" stroke-linejoin=\"round\"/><path d=\"M105 40 L195 40 L195 3 L105 3 z\" fill=\"#C9992E\" fill-opacity=\".14\" stroke=\"#C9992E\" stroke-opacity=\".55\" stroke-width=\"1\" stroke-dasharray=\"3 2\" stroke-linejoin=\"round\"/><path d=\"M195 40 L286 40 L286 3 L195 3 z\" fill=\"#37B8AE\" fill-opacity=\".14\" stroke=\"#37B8AE\" stroke-opacity=\".55\" stroke-width=\"1\" stroke-dasharray=\"3 2\" stroke-linejoin=\"round\"/><line x1=\"12\" y1=\"64\" x2=\"288\" y2=\"64\" stroke=\"#006E82\" stroke-width=\".6\" opacity=\".25\"/><text x=\"16\" y=\"62\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"600\" font-size=\"7\" fill=\"#5b6a70\">5 yd</text><line x1=\"12\" y1=\"48\" x2=\"288\" y2=\"48\" stroke=\"#006E82\" stroke-width=\".6\" opacity=\".25\"/><text x=\"16\" y=\"46\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"600\" font-size=\"7\" fill=\"#5b6a70\">7 yd</text><line x1=\"12\" y1=\"24\" x2=\"288\" y2=\"24\" stroke=\"#006E82\" stroke-width=\".6\" opacity=\".25\"/><text x=\"16\" y=\"22\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"600\" font-size=\"7\" fill=\"#5b6a70\">10 yd</text><line x1=\"12\" y1=\"104\" x2=\"288\" y2=\"104\" stroke=\"#D4A843\" stroke-width=\"1.6\" stroke-dasharray=\"5 3\"/><circle cx=\"45\" cy=\"108\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"45\" y=\"110.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">WR</text><circle cx=\"98\" cy=\"108\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"98\" y=\"110.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">WS</text><rect x=\"143\" y=\"97\" width=\"14\" height=\"14\" rx=\"2\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"150\" y=\"106.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#8a9ba1\">C</text><circle cx=\"257\" cy=\"108\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"257\" y=\"110.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">WR</text><circle cx=\"150\" cy=\"152\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"150\" y=\"154.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">QB</text><path d=\"M69 53.0 L87 53.0 L78 68.0 z\" fill=\"#006E82\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"78\" y=\"60.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#fff\">CS</text><path d=\"M235 53.0 L253 53.0 L244 68.0 z\" fill=\"#37B8AE\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"244\" y=\"60.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#fff\">CW</text><path d=\"M189 41 L207 41 L198 56 z\" fill=\"#C9992E\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"198\" y=\"48.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#fff\">J</text><path d=\"M53 29.0 L71 29.0 L62 44.0 z\" fill=\"#040d12\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"62\" y=\"36.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#fff\">S</text><path d=\"M128 41 L146 41 L137 56 z\" fill=\"#c0392b\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"137\" y=\"48.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#fff\">R</text></svg>",
+      "notas": "<p class=\"debil\"><b>Punto débil</b> Tres jugadores en profundo. Sin rush, el QB tiene más tiempo para lanzar.</p><p class=\"solucion\"><b>Solución</b> El CW cubre esa zona.</p>",
+      "call": 5,
+      "lineas": [
+       [
+        "CS",
+        "#006E82",
+        "Corto exterior"
+       ],
+       [
+        "CW",
+        "#37B8AE",
+        "Profundo exterior"
+       ],
+       [
+        "J",
+        "#C9992E",
+        "Profundo centro"
+       ],
+       [
+        "S",
+        "#040d12",
+        "Profundo exterior"
+       ],
+       [
+        "R",
+        "#c0392b",
+        "Corto exterior"
+       ]
+      ]
+     }
+    ]
+   },
+   {
+    "nombre": "Hombre",
+    "tipo": "Coberturas",
+    "fichas": [
+     {
+      "nombre": "Bunch",
+      "sub": "Cobertura 0 · Alineación bunch · Sin rush",
+      "svg": "<svg viewBox=\"0 0 300 166\" class=\"fig-jugada\"><rect x=\"0\" y=\"0\" width=\"300\" height=\"166\" rx=\"4\" fill=\"#eef6f7\"/><line x1=\"12\" y1=\"2\" x2=\"12\" y2=\"164\" stroke=\"#006E82\" stroke-width=\"1.4\" opacity=\".45\"/><line x1=\"288\" y1=\"2\" x2=\"288\" y2=\"164\" stroke=\"#006E82\" stroke-width=\"1.4\" opacity=\".45\"/><path d=\"M14 102 L118 102 L118 66 L14 66 z\" fill=\"#006E82\" fill-opacity=\".14\" stroke=\"#006E82\" stroke-opacity=\".55\" stroke-width=\"1\" stroke-dasharray=\"3 2\" stroke-linejoin=\"round\"/><path d=\"M118 102 L182 102 L182 66 L118 66 z\" fill=\"#c0392b\" fill-opacity=\".14\" stroke=\"#c0392b\" stroke-opacity=\".55\" stroke-width=\"1\" stroke-dasharray=\"3 2\" stroke-linejoin=\"round\"/><path d=\"M182 102 L286 102 L286 66 L182 66 z\" fill=\"#37B8AE\" fill-opacity=\".14\" stroke=\"#37B8AE\" stroke-opacity=\".55\" stroke-width=\"1\" stroke-dasharray=\"3 2\" stroke-linejoin=\"round\"/><path d=\"M64 66 L148 66 L148 3 L64 3 z\" fill=\"#040d12\" fill-opacity=\".14\" stroke=\"#040d12\" stroke-opacity=\".55\" stroke-width=\"1\" stroke-dasharray=\"3 2\" stroke-linejoin=\"round\"/><path d=\"M148 66 L233 66 L233 3 L148 3 z\" fill=\"#C9992E\" fill-opacity=\".14\" stroke=\"#C9992E\" stroke-opacity=\".55\" stroke-width=\"1\" stroke-dasharray=\"3 2\" stroke-linejoin=\"round\"/><line x1=\"12\" y1=\"64\" x2=\"288\" y2=\"64\" stroke=\"#006E82\" stroke-width=\".6\" opacity=\".25\"/><text x=\"16\" y=\"62\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"600\" font-size=\"7\" fill=\"#5b6a70\">5 yd</text><line x1=\"12\" y1=\"48\" x2=\"288\" y2=\"48\" stroke=\"#006E82\" stroke-width=\".6\" opacity=\".25\"/><text x=\"16\" y=\"46\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"600\" font-size=\"7\" fill=\"#5b6a70\">7 yd</text><line x1=\"12\" y1=\"24\" x2=\"288\" y2=\"24\" stroke=\"#006E82\" stroke-width=\".6\" opacity=\".25\"/><text x=\"16\" y=\"22\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"600\" font-size=\"7\" fill=\"#5b6a70\">10 yd</text><line x1=\"12\" y1=\"104\" x2=\"288\" y2=\"104\" stroke=\"#D4A843\" stroke-width=\"1.6\" stroke-dasharray=\"5 3\"/><path d=\"M137 55 L138 84\" fill=\"none\" stroke=\"#c0392b\" stroke-width=\"2.2\" stroke-linecap=\"round\" marker-end=\"url(#flecha-dR)\"/><circle cx=\"106\" cy=\"108\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"106\" y=\"110.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">WR</text><circle cx=\"128\" cy=\"108\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"128\" y=\"110.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">WS</text><rect x=\"143\" y=\"97\" width=\"14\" height=\"14\" rx=\"2\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"150\" y=\"106.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#8a9ba1\">C</text><circle cx=\"172\" cy=\"108\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"172\" y=\"110.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">WR</text><circle cx=\"150\" cy=\"152\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"150\" y=\"154.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">QB</text><path d=\"M84 53.0 L102 53.0 L93 68.0 z\" fill=\"#006E82\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"93\" y=\"60.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#fff\">CS</text><path d=\"M178 53.0 L196 53.0 L187 68.0 z\" fill=\"#37B8AE\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"187\" y=\"60.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#fff\">CW</text><path d=\"M106 41 L124 41 L115 56 z\" fill=\"#040d12\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"115\" y=\"48.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#fff\">S</text><path d=\"M128 41 L146 41 L137 56 z\" fill=\"#c0392b\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"137\" y=\"48.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#fff\">R</text><path d=\"M156 41 L174 41 L165 56 z\" fill=\"#C9992E\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"165\" y=\"48.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#fff\">J</text></svg>",
+      "notas": "<p>Sea cual sea la cobertura cantada, en cuanto el ataque sale en bunch se pasa a esta.</p><p class=\"debil\"><b>Punto débil</b> El CS o el CW pierden a su jugador por dentro.</p><p class=\"solucion\"><b>Solución</b> El R cubre esa zona: está para eso.</p><p class=\"debil\"><b>Punto débil</b> El S o el J se quedan con dos jugadores de su lado.</p><p class=\"solucion\"><b>Solución</b> El S o el J cubren al jugador libre.</p>",
+      "call": 6,
+      "lineas": [
+       [
+        "CS",
+        "#006E82",
+        "Coge al primer jugador que sale"
+       ],
+       [
+        "CW",
+        "#37B8AE",
+        "Coge al primer jugador que sale"
+       ],
+       [
+        "J",
+        "#C9992E",
+        "Coge al jugador que queda de su lado"
+       ],
+       [
+        "S",
+        "#040d12",
+        "Coge al jugador que queda de su lado"
+       ],
+       [
+        "R",
+        "#c0392b",
+        "Amaga el rush y luego coge los cruces por delante"
+       ]
+      ]
+     },
+     {
+      "nombre": "Joachim",
+      "sub": "Cobertura 0 · Hombre a hombre",
+      "svg": "<svg viewBox=\"0 0 300 166\" class=\"fig-jugada\"><rect x=\"0\" y=\"0\" width=\"300\" height=\"166\" rx=\"4\" fill=\"#eef6f7\"/><line x1=\"12\" y1=\"2\" x2=\"12\" y2=\"164\" stroke=\"#006E82\" stroke-width=\"1.4\" opacity=\".45\"/><line x1=\"288\" y1=\"2\" x2=\"288\" y2=\"164\" stroke=\"#006E82\" stroke-width=\"1.4\" opacity=\".45\"/><line x1=\"12\" y1=\"64\" x2=\"288\" y2=\"64\" stroke=\"#006E82\" stroke-width=\".6\" opacity=\".25\"/><text x=\"16\" y=\"62\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"600\" font-size=\"7\" fill=\"#5b6a70\">5 yd</text><line x1=\"12\" y1=\"48\" x2=\"288\" y2=\"48\" stroke=\"#006E82\" stroke-width=\".6\" opacity=\".25\"/><text x=\"16\" y=\"46\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"600\" font-size=\"7\" fill=\"#5b6a70\">7 yd</text><line x1=\"12\" y1=\"24\" x2=\"288\" y2=\"24\" stroke=\"#006E82\" stroke-width=\".6\" opacity=\".25\"/><text x=\"16\" y=\"22\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"600\" font-size=\"7\" fill=\"#5b6a70\">10 yd</text><line x1=\"12\" y1=\"104\" x2=\"288\" y2=\"104\" stroke=\"#D4A843\" stroke-width=\"1.6\" stroke-dasharray=\"5 3\"/><path d=\"M58 44 L47 98\" fill=\"none\" stroke=\"#040d12\" stroke-width=\"2.2\" stroke-linecap=\"round\" marker-end=\"url(#flecha-dS)\"/><path d=\"M112 56 L100 98\" fill=\"none\" stroke=\"#C9992E\" stroke-width=\"2.2\" stroke-linecap=\"round\" marker-end=\"url(#flecha-dJ)\"/><path d=\"M165 67 L155 96\" fill=\"none\" stroke=\"#006E82\" stroke-width=\"2.2\" stroke-linecap=\"round\" marker-end=\"url(#flecha-dCS)\"/><path d=\"M244 67 L255 98\" fill=\"none\" stroke=\"#37B8AE\" stroke-width=\"2.2\" stroke-linecap=\"round\" marker-end=\"url(#flecha-dCW)\"/><path d=\"M137 55 L148 141\" fill=\"none\" stroke=\"#c0392b\" stroke-width=\"2.2\" stroke-linecap=\"round\" marker-end=\"url(#flecha-dR)\"/><circle cx=\"45\" cy=\"108\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"45\" y=\"110.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">WR</text><circle cx=\"98\" cy=\"108\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"98\" y=\"110.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">WS</text><rect x=\"143\" y=\"97\" width=\"14\" height=\"14\" rx=\"2\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"150\" y=\"106.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#8a9ba1\">C</text><circle cx=\"257\" cy=\"108\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"257\" y=\"110.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">WR</text><circle cx=\"150\" cy=\"152\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"150\" y=\"154.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">QB</text><path d=\"M49 29.0 L67 29.0 L58 44.0 z\" fill=\"#040d12\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"58\" y=\"36.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#fff\">S</text><path d=\"M103 41 L121 41 L112 56 z\" fill=\"#C9992E\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"112\" y=\"48.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#fff\">J</text><path d=\"M156 53.0 L174 53.0 L165 68.0 z\" fill=\"#006E82\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"165\" y=\"60.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#fff\">CS</text><path d=\"M235 53.0 L253 53.0 L244 68.0 z\" fill=\"#37B8AE\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"244\" y=\"60.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#fff\">CW</text><path d=\"M128 41 L146 41 L137 56 z\" fill=\"#c0392b\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"137\" y=\"48.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#fff\">R</text></svg>",
+      "notas": "<p>El CS coge al center porque suele ser el DB más lento.</p><p class=\"debil\"><b>Punto débil</b> Cruces en las 3-5 primeras yardas.</p><p class=\"solucion\"><b>Solución</b> Cantar «switch»: cuando dos receptores se cruzan, los dos defensores se intercambian los jugadores en vez de perseguirlos entre el tráfico, y cada uno se queda con el que entra en su lado. Mentalidad de zona a hombre, no de hombre a hombre.</p>",
+      "call": 7,
+      "lineas": [
+       [
+        "CS",
+        "#006E82",
+        "Coge al C"
+       ],
+       [
+        "CW",
+        "#37B8AE",
+        "Coge al WR"
+       ],
+       [
+        "J",
+        "#C9992E",
+        "Coge al WS"
+       ],
+       [
+        "S",
+        "#040d12",
+        "Coge al WR"
+       ],
+       [
+        "R",
+        "#c0392b",
+        "Rush al QB"
+       ]
+      ]
+     },
+     {
+      "nombre": "Valhalla",
+      "sub": "Cobertura 0 · Hombre a hombre · Sin rush",
+      "svg": "<svg viewBox=\"0 0 300 166\" class=\"fig-jugada\"><rect x=\"0\" y=\"0\" width=\"300\" height=\"166\" rx=\"4\" fill=\"#eef6f7\"/><line x1=\"12\" y1=\"2\" x2=\"12\" y2=\"164\" stroke=\"#006E82\" stroke-width=\"1.4\" opacity=\".45\"/><line x1=\"288\" y1=\"2\" x2=\"288\" y2=\"164\" stroke=\"#006E82\" stroke-width=\"1.4\" opacity=\".45\"/><path d=\"M14 102 L286 102 L286 64 L14 64 z\" fill=\"#c0392b\" fill-opacity=\".14\" stroke=\"#c0392b\" stroke-opacity=\".55\" stroke-width=\"1\" stroke-dasharray=\"3 2\" stroke-linejoin=\"round\"/><line x1=\"12\" y1=\"64\" x2=\"288\" y2=\"64\" stroke=\"#006E82\" stroke-width=\".6\" opacity=\".25\"/><text x=\"16\" y=\"62\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"600\" font-size=\"7\" fill=\"#5b6a70\">5 yd</text><line x1=\"12\" y1=\"48\" x2=\"288\" y2=\"48\" stroke=\"#006E82\" stroke-width=\".6\" opacity=\".25\"/><text x=\"16\" y=\"46\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"600\" font-size=\"7\" fill=\"#5b6a70\">7 yd</text><line x1=\"12\" y1=\"24\" x2=\"288\" y2=\"24\" stroke=\"#006E82\" stroke-width=\".6\" opacity=\".25\"/><text x=\"16\" y=\"22\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"600\" font-size=\"7\" fill=\"#5b6a70\">10 yd</text><line x1=\"12\" y1=\"104\" x2=\"288\" y2=\"104\" stroke=\"#D4A843\" stroke-width=\"1.6\" stroke-dasharray=\"5 3\"/><path d=\"M58 44 L47 98\" fill=\"none\" stroke=\"#040d12\" stroke-width=\"2.2\" stroke-linecap=\"round\" marker-end=\"url(#flecha-dS)\"/><path d=\"M112 56 L100 98\" fill=\"none\" stroke=\"#C9992E\" stroke-width=\"2.2\" stroke-linecap=\"round\" marker-end=\"url(#flecha-dJ)\"/><path d=\"M165 67 L155 96\" fill=\"none\" stroke=\"#006E82\" stroke-width=\"2.2\" stroke-linecap=\"round\" marker-end=\"url(#flecha-dCS)\"/><path d=\"M244 67 L255 98\" fill=\"none\" stroke=\"#37B8AE\" stroke-width=\"2.2\" stroke-linecap=\"round\" marker-end=\"url(#flecha-dCW)\"/><circle cx=\"45\" cy=\"108\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"45\" y=\"110.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">WR</text><circle cx=\"98\" cy=\"108\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"98\" y=\"110.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">WS</text><rect x=\"143\" y=\"97\" width=\"14\" height=\"14\" rx=\"2\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"150\" y=\"106.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#8a9ba1\">C</text><circle cx=\"257\" cy=\"108\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"257\" y=\"110.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">WR</text><circle cx=\"150\" cy=\"152\" r=\"7\" fill=\"#fff\" stroke=\"#8a9ba1\" stroke-width=\"1.6\"/><text x=\"150\" y=\"154.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#8a9ba1\">QB</text><path d=\"M49 29.0 L67 29.0 L58 44.0 z\" fill=\"#040d12\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"58\" y=\"36.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#fff\">S</text><path d=\"M103 41 L121 41 L112 56 z\" fill=\"#C9992E\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"112\" y=\"48.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#fff\">J</text><path d=\"M156 53.0 L174 53.0 L165 68.0 z\" fill=\"#006E82\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"165\" y=\"60.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#fff\">CS</text><path d=\"M235 53.0 L253 53.0 L244 68.0 z\" fill=\"#37B8AE\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"244\" y=\"60.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"7\" text-anchor=\"middle\" fill=\"#fff\">CW</text><path d=\"M128 41 L146 41 L137 56 z\" fill=\"#c0392b\" stroke=\"#fff\" stroke-width=\"1\"/><text x=\"137\" y=\"48.5\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"8.5\" text-anchor=\"middle\" fill=\"#fff\">R</text></svg>",
+      "notas": "<p>Contra ataques que lanzan mucho y que desde la alineación normal de hombre a hombre cuestan de cubrir.</p><p class=\"debil\"><b>Punto débil</b> Responde al punto débil de Joachim, pero sin rush el QB tiene más tiempo para lanzar.</p><p class=\"solucion\"><b>Solución</b> El R cubre al jugador que se escapa.</p>",
+      "call": 8,
+      "lineas": [
+       [
+        "CS",
+        "#006E82",
+        "Coge al C"
+       ],
+       [
+        "CW",
+        "#37B8AE",
+        "Coge al WR"
+       ],
+       [
+        "J",
+        "#C9992E",
+        "Coge al WS"
+       ],
+       [
+        "S",
+        "#040d12",
+        "Coge al WR"
+       ],
+       [
+        "R",
+        "#c0392b",
+        "Corto centro"
+       ]
+      ]
+     }
+    ]
+   }
+  ]
+ }
 };

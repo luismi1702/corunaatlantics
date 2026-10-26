@@ -1794,6 +1794,40 @@ body.club .marca-pantalla { display: none; }
 .pb-jugada p { margin: 0; color: var(--muted); line-height: 1.5; }
 .pb-pdf { margin-top: 1rem; }
 
+/* Ataque / Defensa: dos mitades, para que no se confunda con las pestañas de
+   debajo (formaciones o grupos de defensa). */
+.pb-lado {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 3px; padding: 3px; margin-bottom: .7rem;
+  background: var(--deep); border: 1px solid var(--line); border-radius: 999px;
+}
+.pb-lado button {
+  font-family: 'Anton', sans-serif; font-size: 1rem; letter-spacing: .08em; text-transform: uppercase;
+  padding: .5rem; border-radius: 999px; border: 0; background: transparent; color: var(--muted);
+}
+.pb-lado button[aria-pressed="true"] { background: var(--equip); color: #fff; }
+
+.pb-forma.pb-solo { grid-template-columns: 1fr; }
+.pb-call {
+  font-style: normal; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: .78rem;
+  letter-spacing: .1em; text-transform: uppercase; padding: .1rem .5rem; border-radius: 999px;
+  background: var(--gold); color: var(--ink);
+}
+.pb-def .pb-rutas li { grid-template-columns: 14px 2.3rem 1fr; }
+.pb-def .pb-rutas i { align-self: start; margin-top: .45em; }
+.pb-def .pb-rutas strong { color: var(--text); font-weight: 600; }
+.pb-aviso {
+  margin: 0 0 .9rem; padding: .7rem .9rem; border-left: 3px solid var(--gold);
+  background: var(--surf); border-radius: 0 var(--r) var(--r) 0; color: var(--muted); line-height: 1.5;
+}
+.pb-aviso b { color: var(--gold); }
+.pb-notas { display: grid; gap: .45rem; }
+.pb-notas .debil, .pb-notas .solucion { padding-left: .7rem; border-left: 3px solid var(--bad); }
+.pb-notas .solucion { border-left-color: var(--ok); }
+.pb-notas .debil b, .pb-notas .solucion b {
+  font-family: 'Barlow Condensed', sans-serif; letter-spacing: .08em; text-transform: uppercase;
+  font-size: .8rem; margin-right: .3rem; color: var(--text);
+}
+
 @media (max-width: 420px) {
   .pb-forma { grid-template-columns: 1fr; }
 }

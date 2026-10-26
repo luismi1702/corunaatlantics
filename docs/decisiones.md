@@ -651,6 +651,18 @@ sea público se asume: en flag 5 contra 5 el riesgo es pequeño y las jugadas de
 **Alternativas descartadas:** tabla en Supabase con permisos (privado, pero obliga a pegar SQL en
 cada cambio); subida automática con la clave de servicio guardada en local.
 
+## [2026-10-26] — Defensa en la app, en tres pestañas
+
+**Decisión:** la app enseña también el capítulo 6. Selector Ataque / Defensa arriba y, en defensa,
+tres pestañas: Alineaciones (con las posiciones), Zona y Hombre. Cada cobertura lleva su número de
+call, igual que la wristband.
+
+**Motivo:** el playbook ya es público en el PDF, así que no había razón para esconderlo en la app;
+separar zona y hombre deja cada pestaña corta y coincide con cómo se cantan las coberturas.
+
+**Alternativas descartadas:** una sola lista con las 13 fichas; poner la defensa como otra
+"formación" más en las pestañas del ataque.
+
 ## [2026-10-18] — Defensa: el sistema de los Ducs, y números de call para todo
 
 **Decisión:** la defensa del playbook es la de los Ducs (playbook 2025), con sus nombres de cobertura
