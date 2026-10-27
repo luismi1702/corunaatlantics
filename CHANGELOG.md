@@ -8,10 +8,11 @@
 - **Bolsa de material** (Under Armour de 101 L): separadores de polipropileno alveolar sin tapa, con sitio para los 8 pylons. Medidas, piezas y precios en `docs/bolsa-material.md`
 - **BuildMyJersey** apuntado en `docs/proveedores-equipacion.md`: unos 45 USD por camiseta bordada desde 10 unidades, sin pantalón. Sirve para camisetas sueltas, no para la equipación
 - Revisada una web de anuncio (Gridiron Coach Elite): 14 USD de entrada y luego 27 USD a la semana. Descartada
+- **NFL:** los Dolphins contestaron. Nos pasan con su Country Manager en España, que puede abrirnos la puerta de NFL España (aún sin compromiso). Se le respondió a todos desde coruna.atlantics@, ofreciendo acoger un clinic y sin pedir llamada. En Gmail hay una etiqueta nueva, **NFL**, con este hilo y la confirmación del formulario de NFL FLAG; los dos están archivados
 
-**Archivos modificados:** `playbook/generar.py`, `playbook/playbook.html`, `playbook/playbook.pdf`, `playbook/playbook-movil.html`, `app/js/playbook-datos.js`, `app/sw.js`, `docs/bolsa-material.md`, `docs/proveedores-equipacion.md`, `CHANGELOG.md`.
+**Archivos modificados:** `playbook/generar.py`, `playbook/playbook.html`, `playbook/playbook.pdf`, `playbook/playbook-movil.html`, `app/js/playbook-datos.js`, `app/sw.js`, `docs/bolsa-material.md`, `docs/proveedores-equipacion.md`, `docs/nfl-flag-espana.md`, `docs/pendiente.md`, `docs/privado/contactos-nfl.md` (fuera de git), `CHANGELOG.md`.
 
-**Pendiente:** medir la bolsa por dentro y probar la cremallera con los pylons antes de cortar el suelo falso; medir los conos altos.
+**Pendiente:** medir la bolsa por dentro y probar la cremallera con los pylons antes de cortar el suelo falso; medir los conos altos; esperar la respuesta del Country Manager de los Dolphins.
 
 ## [2026-10-26] — Defensa del playbook en la app
 

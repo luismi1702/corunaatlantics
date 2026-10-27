@@ -15,6 +15,7 @@ borra de aquí.
 - [ ] Nerion: pagar la factura NA2026035 (456,99 €) y cobrar su parte a los dos jugadores que pidieron con el club (reparto en `docs/privado/cuentas.md`)
 - [x] David: dirección y camiseta local extra incluidas en el pedido
 - [ ] NFL: los Dolphins contestaron el 27/10 y nos pasan con su Country Manager en España (hilo del correo del club); respondido el 27/10, esperar su contestación. Falta el formulario de NFL FLAG (2-3 semanas); LinkedIn a Rafa De Los Santos cuando quieras
+- [ ] Bolsa de material: medir la Under Armour por dentro y probar la cremallera con los pylons antes de comprar la plancha y cortar (medidas en `docs/bolsa-material.md`); medir y contar los conos altos
 - [ ] Muñequera grande: medir el plástico de la ventana por dentro; si no es 17 × 12 cm, cambiar `VENTANA` en `playbook/wristband_grande.py`
 - [ ] Con el pedido hecho: `drop view if exists tallas_pedido;`
 
