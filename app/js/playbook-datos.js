@@ -63,6 +63,34 @@ export const PLAYBOOK = {
      ]
     },
     {
+     "nombre": "Drive",
+     "lado": "Derecha",
+     "svg": "<svg viewBox=\"0 0 300 166\" class=\"fig-jugada\"><rect x=\"0\" y=\"0\" width=\"300\" height=\"166\" rx=\"4\" fill=\"#eef6f7\"/><line x1=\"12\" y1=\"6\" x2=\"12\" y2=\"160\" stroke=\"#006E82\" stroke-width=\"1.4\" opacity=\".45\"/><line x1=\"288\" y1=\"6\" x2=\"288\" y2=\"160\" stroke=\"#006E82\" stroke-width=\"1.4\" opacity=\".45\"/><line x1=\"12\" y1=\"64\" x2=\"288\" y2=\"64\" stroke=\"#006E82\" stroke-width=\".7\" opacity=\".28\"/><text x=\"16\" y=\"62\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"600\" font-size=\"7\" fill=\"#5b6a70\">5 yd</text><line x1=\"12\" y1=\"24\" x2=\"288\" y2=\"24\" stroke=\"#006E82\" stroke-width=\".7\" opacity=\".28\"/><text x=\"16\" y=\"22\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"600\" font-size=\"7\" fill=\"#5b6a70\">10 yd</text><line x1=\"12\" y1=\"104\" x2=\"288\" y2=\"104\" stroke=\"#D4A843\" stroke-width=\"1.6\" stroke-dasharray=\"5 3\"/><path d=\"M150 104 L163.2 92.0 L227.3 92.0\" fill=\"none\" stroke=\"#37B8AE\" stroke-width=\"2.4\" stroke-linejoin=\"round\" stroke-linecap=\"round\" marker-end=\"url(#flecha-C)\"/><path d=\"M67 108 L67.0 36.0 L100.1 13.6\" fill=\"none\" stroke=\"#006E82\" stroke-width=\"2.4\" stroke-linejoin=\"round\" stroke-linecap=\"round\" marker-end=\"url(#flecha-X)\"/><path d=\"M200 120 L200.0 44.0 L150.3 44.0\" fill=\"none\" stroke=\"#C9992E\" stroke-width=\"2.4\" stroke-linejoin=\"round\" stroke-linecap=\"round\" marker-end=\"url(#flecha-Y)\"/><path d=\"M233 108 L216.4 94.4 L166.8 84.8 L100.5 77.6\" fill=\"none\" stroke=\"#040d12\" stroke-width=\"2.4\" stroke-linejoin=\"round\" stroke-linecap=\"round\" marker-end=\"url(#flecha-Z)\"/><circle cx=\"67\" cy=\"108\" r=\"7.5\" fill=\"#fff\" stroke=\"#006E82\" stroke-width=\"2.2\"/><text x=\"67\" y=\"111.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"10.5\" text-anchor=\"middle\" fill=\"#040d12\">X</text><circle cx=\"200\" cy=\"120\" r=\"7.5\" fill=\"#fff\" stroke=\"#C9992E\" stroke-width=\"2.2\"/><text x=\"200\" y=\"123.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"10.5\" text-anchor=\"middle\" fill=\"#040d12\">Y</text><circle cx=\"233\" cy=\"108\" r=\"7.5\" fill=\"#fff\" stroke=\"#040d12\" stroke-width=\"2.2\"/><text x=\"233\" y=\"111.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"10.5\" text-anchor=\"middle\" fill=\"#040d12\">Z</text><rect x=\"142.5\" y=\"96.5\" width=\"15\" height=\"15\" rx=\"2\" fill=\"#fff\" stroke=\"#37B8AE\" stroke-width=\"2.2\"/><text x=\"150\" y=\"107.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"10.5\" text-anchor=\"middle\" fill=\"#040d12\">C</text><circle cx=\"150\" cy=\"152\" r=\"8\" fill=\"#D4A843\" stroke=\"#040d12\" stroke-width=\"1.8\"/><text x=\"150\" y=\"155.8\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"11\" text-anchor=\"middle\" fill=\"#040d12\">Q</text></svg>",
+     "texto": "Concepto drive. Z cruza en corto hacia la izquierda por debajo del In de Y, en la misma dirección: dos receptores a distinta altura por el medio, y el defensor de esa zona no puede cubrir a los dos. X en Post se lleva al defensor profundo y el center sale en Out corto a la derecha.",
+     "rutas": [
+      [
+       "X",
+       "#006E82",
+       "Post"
+      ],
+      [
+       "Y",
+       "#C9992E",
+       "In a 7 yd"
+      ],
+      [
+       "Z",
+       "#040d12",
+       "Cruce corto a la izquierda, por debajo del In"
+      ],
+      [
+       "C",
+       "#37B8AE",
+       "Out corto a la derecha"
+      ]
+     ]
+    },
+    {
      "nombre": "Slant Go",
      "lado": "Derecha",
      "svg": "<svg viewBox=\"0 0 300 166\" class=\"fig-jugada\"><rect x=\"0\" y=\"0\" width=\"300\" height=\"166\" rx=\"4\" fill=\"#eef6f7\"/><line x1=\"12\" y1=\"6\" x2=\"12\" y2=\"160\" stroke=\"#006E82\" stroke-width=\"1.4\" opacity=\".45\"/><line x1=\"288\" y1=\"6\" x2=\"288\" y2=\"160\" stroke=\"#006E82\" stroke-width=\"1.4\" opacity=\".45\"/><line x1=\"12\" y1=\"64\" x2=\"288\" y2=\"64\" stroke=\"#006E82\" stroke-width=\".7\" opacity=\".28\"/><text x=\"16\" y=\"62\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"600\" font-size=\"7\" fill=\"#5b6a70\">5 yd</text><line x1=\"12\" y1=\"24\" x2=\"288\" y2=\"24\" stroke=\"#006E82\" stroke-width=\".7\" opacity=\".28\"/><text x=\"16\" y=\"22\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"600\" font-size=\"7\" fill=\"#5b6a70\">10 yd</text><line x1=\"12\" y1=\"104\" x2=\"288\" y2=\"104\" stroke=\"#D4A843\" stroke-width=\"1.6\" stroke-dasharray=\"5 3\"/><path d=\"M67 100 L67 66 L24 66\" fill=\"none\" stroke=\"#006E82\" stroke-width=\"2.4\" stroke-linejoin=\"round\" stroke-linecap=\"round\" marker-end=\"url(#flecha-X)\"/><path d=\"M150 96 L152 62 L241 62\" fill=\"none\" stroke=\"#37B8AE\" stroke-width=\"2.4\" stroke-linejoin=\"round\" stroke-linecap=\"round\" marker-end=\"url(#flecha-C)\"/><path d=\"M200 112 C200 70, 220 50, 222 11\" fill=\"none\" stroke=\"#C9992E\" stroke-width=\"2.4\" stroke-linejoin=\"round\" stroke-linecap=\"round\" marker-end=\"url(#flecha-Y)\"/><path d=\"M228 103 L145 70 L132 21\" fill=\"none\" stroke=\"#040d12\" stroke-width=\"2.4\" stroke-linejoin=\"round\" stroke-linecap=\"round\" marker-end=\"url(#flecha-Z)\"/><circle cx=\"67\" cy=\"108\" r=\"7.5\" fill=\"#fff\" stroke=\"#006E82\" stroke-width=\"2.2\"/><text x=\"67\" y=\"111.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"10.5\" text-anchor=\"middle\" fill=\"#040d12\">X</text><rect x=\"142.5\" y=\"96.5\" width=\"15\" height=\"15\" rx=\"2\" fill=\"#fff\" stroke=\"#37B8AE\" stroke-width=\"2.2\"/><text x=\"150\" y=\"107.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"10.5\" text-anchor=\"middle\" fill=\"#040d12\">C</text><circle cx=\"200\" cy=\"120\" r=\"7.5\" fill=\"#fff\" stroke=\"#C9992E\" stroke-width=\"2.2\"/><text x=\"200\" y=\"123.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"10.5\" text-anchor=\"middle\" fill=\"#040d12\">Y</text><circle cx=\"233\" cy=\"108\" r=\"7.5\" fill=\"#fff\" stroke=\"#040d12\" stroke-width=\"2.2\"/><text x=\"233\" y=\"111.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"10.5\" text-anchor=\"middle\" fill=\"#040d12\">Z</text><circle cx=\"150\" cy=\"152\" r=\"8\" fill=\"#D4A843\" stroke=\"#040d12\" stroke-width=\"1.8\"/><text x=\"150\" y=\"155.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"10.5\" text-anchor=\"middle\" fill=\"#040d12\">Q</text></svg>",
@@ -507,6 +535,34 @@ export const PLAYBOOK = {
        "C",
        "#37B8AE",
        "Out a 5 yd a la izquierda"
+      ]
+     ]
+    },
+    {
+     "nombre": "Aspa",
+     "lado": "Derecha",
+     "svg": "<svg viewBox=\"0 0 300 166\" class=\"fig-jugada\"><rect x=\"0\" y=\"0\" width=\"300\" height=\"166\" rx=\"4\" fill=\"#eef6f7\"/><line x1=\"12\" y1=\"6\" x2=\"12\" y2=\"160\" stroke=\"#006E82\" stroke-width=\"1.4\" opacity=\".45\"/><line x1=\"288\" y1=\"6\" x2=\"288\" y2=\"160\" stroke=\"#006E82\" stroke-width=\"1.4\" opacity=\".45\"/><line x1=\"12\" y1=\"64\" x2=\"288\" y2=\"64\" stroke=\"#006E82\" stroke-width=\".7\" opacity=\".28\"/><text x=\"16\" y=\"62\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"600\" font-size=\"7\" fill=\"#5b6a70\">5 yd</text><line x1=\"12\" y1=\"24\" x2=\"288\" y2=\"24\" stroke=\"#006E82\" stroke-width=\".7\" opacity=\".28\"/><text x=\"16\" y=\"22\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"600\" font-size=\"7\" fill=\"#5b6a70\">10 yd</text><line x1=\"12\" y1=\"104\" x2=\"288\" y2=\"104\" stroke=\"#D4A843\" stroke-width=\"1.6\" stroke-dasharray=\"5 3\"/><path d=\"M150 104 L150.0 76.0 L139.0 81.6\" fill=\"none\" stroke=\"#37B8AE\" stroke-width=\"2.4\" stroke-linejoin=\"round\" stroke-linecap=\"round\" marker-end=\"url(#flecha-C)\"/><path d=\"M131 108 L131.0 64 L31.6 64\" fill=\"none\" stroke=\"#006E82\" stroke-width=\"2.4\" stroke-linejoin=\"round\" stroke-linecap=\"round\" marker-end=\"url(#flecha-X)\"/><path d=\"M169 108 L169.0 70.4 L282.7 13.6\" fill=\"none\" stroke=\"#C9992E\" stroke-width=\"2.4\" stroke-linejoin=\"round\" stroke-linecap=\"round\" marker-end=\"url(#flecha-Y)\"/><path d=\"M188 108 L188.0 79.2 L46.7 12.0\" fill=\"none\" stroke=\"#040d12\" stroke-width=\"2.4\" stroke-linejoin=\"round\" stroke-linecap=\"round\" marker-end=\"url(#flecha-Z)\"/><circle cx=\"131\" cy=\"108\" r=\"7.5\" fill=\"#fff\" stroke=\"#006E82\" stroke-width=\"2.2\"/><text x=\"131\" y=\"111.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"10.5\" text-anchor=\"middle\" fill=\"#040d12\">X</text><circle cx=\"169\" cy=\"108\" r=\"7.5\" fill=\"#fff\" stroke=\"#C9992E\" stroke-width=\"2.2\"/><text x=\"169\" y=\"111.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"10.5\" text-anchor=\"middle\" fill=\"#040d12\">Y</text><circle cx=\"188\" cy=\"108\" r=\"7.5\" fill=\"#fff\" stroke=\"#040d12\" stroke-width=\"2.2\"/><text x=\"188\" y=\"111.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"10.5\" text-anchor=\"middle\" fill=\"#040d12\">Z</text><rect x=\"142.5\" y=\"96.5\" width=\"15\" height=\"15\" rx=\"2\" fill=\"#fff\" stroke=\"#37B8AE\" stroke-width=\"2.2\"/><text x=\"150\" y=\"107.6\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"10.5\" text-anchor=\"middle\" fill=\"#040d12\">C</text><circle cx=\"150\" cy=\"152\" r=\"8\" fill=\"#D4A843\" stroke=\"#040d12\" stroke-width=\"1.8\"/><text x=\"150\" y=\"155.8\" font-family=\"Barlow Condensed, sans-serif\" font-weight=\"700\" font-size=\"11\" text-anchor=\"middle\" fill=\"#040d12\">Q</text></svg>",
+     "texto": "Y y Z se cruzan en profundo, cada uno hacia una esquina. Por debajo, X hace un Out a la izquierda y el center un Stick.",
+     "rutas": [
+      [
+       "X",
+       "#006E82",
+       "Out a 5 yd"
+      ],
+      [
+       "Y",
+       "#C9992E",
+       "Sube 4 yd y diagonal profunda hacia la esquina derecha"
+      ],
+      [
+       "Z",
+       "#040d12",
+       "Sube 3 yd y diagonal profunda hacia la esquina izquierda, cruzándose con Y"
+      ],
+      [
+       "C",
+       "#37B8AE",
+       "Stick: sube unas 3 yd, se gira hacia fuera y se queda parado mirando al QB"
       ]
      ]
     }

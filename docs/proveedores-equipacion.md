@@ -207,3 +207,37 @@ La de la camiseta es su tabla genérica "Replica A" (sale otra camiseta de ejemp
 | Bajo de la pernera | 33 | 34 | 36 | 37 | 38 |
 
 Cinturilla de 4 cm. Ojo: el pantalón no tiene 3XL ni más.
+
+## BuildMyJersey (web, guardada el 27/10/2026)
+
+Tienda online de camisetas de football personalizadas, sin mínimo de pedido. Se vio en su Instagram.
+Web: https://www.buildmyjersey.com · contacto: Support@buildmyjersey.com.
+Ficha vista: "Custom Black White-Scarlet Mesh Authentic Football Jersey"
+(`/products/custom-black-white-scarlet-mesh-authentic-football-jersey-fiitg`).
+
+**Precio por camiseta (USD; la tienda cobra en EUR al cambio)**
+
+| Concepto | USD |
+|---|---|
+| Camiseta base (sin nombre ni número) | 22,95 |
+| Bordado (STITCHED) / estampado (PRINT) | +11,99 / +3,99 |
+| Nombre del equipo delante | +3,99 |
+| Número delante | +4,99 |
+| Nombre detrás | +3,99 |
+| Número detrás | +4,99 |
+| Número en el hombro | +3,99 |
+| Logo propio (pecho izquierdo/derecho o nuca), por logo | +3,99 |
+
+- Bordada, con equipo, números delante y detrás y nombre: **52,90 USD**. Con logo: 56,89. Con número en el hombro: 60,88.
+- Estampada, con lo mismo: **44,90 USD**.
+- Descuentos: BMJ10 −10 % desde 5 prendas y BMJ15 −15 % desde 10. FAN10 −10 % en el primer pedido (no consta que se sumen).
+- 15 bordadas con BMJ15: 52,90 × 0,85 = 44,97 USD/ud → **unos 675 USD**, solo la camiseta.
+- Comparación: Phenix (David) daba el conjunto de camiseta y pantalón a 21 USD con envío y tasas.
+
+**Condiciones**
+- Material: cuerpo de poliéster reciclado, laterales y mangas de nailon con elastano. Corte "authentic", ceñido. Nombres y números en tackle twill cosido.
+- Tallas de hombre de S a 7XL, de mujer de S a 4XL, de niño y de preescolar.
+- Producción: 7-9 días laborables. Envío gratis a todo el mundo, más el envío urgente (DHL/FedEx/UPS, 3-5 días tras producir) que se elige al pagar.
+- Devoluciones: cada prenda lleva 20 USD de "personalización" que no se devuelven. Solo se cancela si no ha entrado en producción, y la devolución la paga el cliente.
+- Sin datos de empresa ni dirección en la web. Las páginas de políticas dan 404 fuera de la ficha. Parece fabricación en China ("Imported"): IVA y aduana a la entrada por confirmar.
+- Colores del club: hay modelos en teal con oro ("Custom Teal Gold-White", "Teal White-Gold", "Teal Black-Gold"). Son plantillas de la tienda, no un diseño propio, y el teal no tiene por qué coincidir con el #006E82.

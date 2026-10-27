@@ -611,6 +611,12 @@ J_SPREAD_2 = jugada("In", "Spread", {
     {"X": "Out a 5 yd", "Y": "In a 7 yd", "Z": "Post", "C": "Out corto a la derecha"},
     "Para cuando la defensa flojea por la izquierda. X hace un Out rápido hacia la banda izquierda y arrastra a la defensa a ese lado. Eso abre el In de Y y el Post de Z para ganar muchas yardas. Si toda la defensa se va a la izquierda, el center sale en Out corto a la derecha.")
 
+J_DRIVE = jugada("Drive", "Spread", {
+    "X": ([(0, 8.5), (3, 11.3)], F), "Y": ([(0, 7.5), (-4.5, 7.5)], F),
+    "Z": ([(-1.5, 1.2), (-6, 2.4), (-12, 3.3)], F), "C": C_CORTO},
+    {"X": "Post", "Y": "In a 7 yd", "Z": "Cruce corto a la izquierda, por debajo del In", "C": "Out corto a la derecha"},
+    "Concepto drive. Z cruza en corto hacia la izquierda por debajo del In de Y, en la misma dirección: dos receptores a distinta altura por el medio, y el defensor de esa zona no puede cubrir a los dos. X en Post se lleva al defensor profundo y el center sale en Out corto a la derecha.")
+
 J_BUNCH_1 = jugada("Tijera", "Bunch", {
     "C": ([(-0.6, 2), (-0.6, 8), (2, 10.8)], F), "Y": ([(0, 8), (-2.8, 10.8)], F),
     "X": ([(0, 2), (5, 2), (10, 4.5)], F), "Z": ([(0, 3.3), (-6.5, 3.3)], F)},
@@ -628,6 +634,15 @@ J_BUNCH_3 = jugada("Doble Corner", "Bunch", {
     "Z": ([(0, 5), (5.5, 5)], F), "C": ([(0, 5), (-10, 5)], F)},
     {"X": "Corner a 7 yd", "Y": "Corner a 7 yd", "Z": "Out a 5 yd", "C": "Out a 5 yd a la izquierda"},
     "La idea es que la defensa se enrede en el centro y luego abrirse a distintos puntos del campo. X e Y corren 7 yardas y cortan en Corner: son la opción para ganar muchas yardas. Z y el center hacen Out a 5 yardas hacia las bandas, que quedan libres cuando la defensa recula.")
+
+J_BUNCH_4 = jugada("Aspa", "Bunch", {
+    "X": ([(0, 5), (-9, 5)], F), "C": ([(0, 3.5), (-1, 2.8)], F),
+    "Y": ([(0, 4.2), (10.3, 11.3)], F), "Z": ([(0, 3.1), (-12.8, 11.5)], F)},
+    {"X": "Out a 5 yd",
+     "Y": "Sube 4 yd y diagonal profunda hacia la esquina derecha",
+     "Z": "Sube 3 yd y diagonal profunda hacia la esquina izquierda, cruzándose con Y",
+     "C": "Stick: sube unas 3 yd, se gira hacia fuera y se queda parado mirando al QB"},
+    "Y y Z se cruzan en profundo, cada uno hacia una esquina. Por debajo, X hace un Out a la izquierda y el center un Stick.")
 
 J_TRIPS_1 = jugada("Flood", "Trips", {
     "C": ([(0, 5), (1.6, 9.5), (4.5, 9.5)], F), "X": ([(0, 6.2), (-1.5, 5), (1.8, 5)], F),
@@ -769,8 +784,8 @@ def forma(num, nombre, fig, n):
 
 pag("5 · Jugadas", cap(5, "Jugadas") + """
 <p>Jugadas adaptadas del playbook 5 contra 5 de NFL FLAG y de otros equipos, agrupadas por formación: cada formación empieza en una página nueva. Salvo que se indique lo contrario, están dibujadas hacia la derecha; al otro lado se juegan en espejo. La línea dorada es la LoS y las líneas finas marcan las 5 y las 10 yardas. Las flechas rojas discontinuas son el snap y los laterales; la línea discontinua sin flecha es un motion.</p>
-""" + forma(1, "Spread", F_SPREAD_D, 6) + """
-<div class="jugadas">""" + J_SPREAD_1 + J_SPREAD_2 + """</div>
+""" + forma(1, "Spread", F_SPREAD_D, 7) + """
+<div class="jugadas">""" + J_SPREAD_1 + J_SPREAD_2 + J_DRIVE + """</div>
 """)
 
 pag("5 · Jugadas · Spread", """
@@ -785,8 +800,8 @@ pag("5 · Jugadas · Trips", forma(3, "Trips", F_TRIPS_D, 4) + """
 <div class="jugadas">""" + J_TRIPS_1 + J_TRIPS_2 + J_TRIPS_3 + J_COUNTDOWN + """</div>
 """)
 
-pag("5 · Jugadas · Bunch", forma(4, "Bunch", F_BUNCH_D, 3) + """
-<div class="jugadas">""" + J_BUNCH_1 + J_BUNCH_2 + J_BUNCH_3 + """</div>
+pag("5 · Jugadas · Bunch", forma(4, "Bunch", F_BUNCH_D, 4) + """
+<div class="jugadas">""" + J_BUNCH_1 + J_BUNCH_2 + J_BUNCH_3 + J_BUNCH_4 + """</div>
 """)
 
 pag("5 · Jugadas · Trips Stacked", forma(5, "Trips Stacked", F_STACKED_D, 1) + """
@@ -1292,10 +1307,10 @@ print("playbook-movil.html: versión para publicar")
 import json
 
 APP_FORMACIONES = [
-    ("Spread", F_SPREAD_D, ["Fly Out", "In", "Slant Go", "Dagger", "Doble Pase", "Read Option"]),
+    ("Spread", F_SPREAD_D, ["Fly Out", "In", "Drive", "Slant Go", "Dagger", "Doble Pase", "Read Option"]),
     ("Twins", F_TWINS_D, ["Doble Post", "Choice", "Silla", "Mesh"]),
     ("Trips", F_TRIPS_D, ["Flood", "Cruce", "Delay", "Countdown"]),
-    ("Bunch", F_BUNCH_D, ["Tijera", "Out Cruzado", "Doble Corner"]),
+    ("Bunch", F_BUNCH_D, ["Tijera", "Out Cruzado", "Doble Corner", "Aspa"]),
     ("Trips Stacked", F_STACKED_D, ["Slant Swing"]),
 ]
 _faltan = set(REGISTRO) - {n for _, _, ns in APP_FORMACIONES for n in ns}

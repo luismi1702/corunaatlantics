@@ -1,5 +1,18 @@
 # Changelog — Coruña Atlantics Web
 
+## [2026-10-27] — Drive y Aspa en el playbook, bolsa de material y BuildMyJersey
+
+**Qué se hizo:**
+- **Playbook:** dos jugadas nuevas, copiadas de imágenes que pasó él. **Drive** (Spread): X Post, Y In a 7 yd, Z cruce corto por debajo del In y el center Out corto a la derecha. Va después de "In", que se queda. **Aspa** (Bunch): Y y Z se cruzan en profundo hacia las esquinas, X Out a 5 yd y el center Stick. Spread pasa a 7 jugadas y Bunch a 4; las dos páginas caben
+- Regenerados `playbook.html`, el PDF, la versión del móvil (republicada en su artifact) y `app/js/playbook-datos.js`. Service worker a v87
+- **Bolsa de material** (Under Armour de 101 L): separadores de polipropileno alveolar sin tapa, con sitio para los 8 pylons. Medidas, piezas y precios en `docs/bolsa-material.md`
+- **BuildMyJersey** apuntado en `docs/proveedores-equipacion.md`: unos 45 USD por camiseta bordada desde 10 unidades, sin pantalón. Sirve para camisetas sueltas, no para la equipación
+- Revisada una web de anuncio (Gridiron Coach Elite): 14 USD de entrada y luego 27 USD a la semana. Descartada
+
+**Archivos modificados:** `playbook/generar.py`, `playbook/playbook.html`, `playbook/playbook.pdf`, `playbook/playbook-movil.html`, `app/js/playbook-datos.js`, `app/sw.js`, `docs/bolsa-material.md`, `docs/proveedores-equipacion.md`, `CHANGELOG.md`.
+
+**Pendiente:** medir la bolsa por dentro y probar la cremallera con los pylons antes de cortar el suelo falso; medir los conos altos.
+
 ## [2026-10-26] — Defensa del playbook en la app
 
 **Qué se hizo:**
