@@ -34,3 +34,12 @@ chicagobears.com (liga femenina); fefa.es/descargas-flag-football; spanishbowl.c
   Iglesias 2, 15002. El desplegable de provincia no tiene España: se quitó el "obligatorio" y se dejó vacío,
   con una nota en la descripción (provincia A Coruña, Galicia). Dicen que contestan en 2-3 semanas.
 - LinkedIn a Rafa De Los Santos: pendiente.
+
+## Respuesta de los Dolphins (27 oct 2026)
+- Contestó international@dolphins.com (sin firma de persona). Les gusta lo que hacemos en Galicia y nos ponen
+  en contacto con su **Country Manager para España** de los Dolphins, en copia en el mismo hilo. Él puede
+  conectarnos con la NFL en España, "subject to our internal alignment on the opportunity": todavía no hay sí.
+- Su nombre y correo, en `docs/privado/contactos-nfl.md`.
+- Respondido el 27/10 (20:25) a todos en el mismo hilo, desde coruna.atlantics@: gracias por la presentación,
+  qué hacemos con los colegios, que queremos hacerlo dentro de NFL FLAG y la School League, y que podemos
+  acoger un clinic en A Coruña. Sin pedir llamada. Toca esperar su respuesta.

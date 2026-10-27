@@ -14,7 +14,7 @@ borra de aquí.
 - [ ] Nerion: firmar el acuerdo nuevo (21/10, se acepta tal cual). Antes, confirmar la junta en el Registro. Como la 5.a sigue cediendo "imagen", no mandarles fotos de jugadores sin su ok; los balones KS1 pedirlos como pedido de club (12 %, no 10 %). Después: anuncio en redes (2.f), logo en cartelería y streams (2.g), historia semanal (2.a) y un post cada 50 días (2.e)
 - [ ] Nerion: pagar la factura NA2026035 (456,99 €) y cobrar su parte a los dos jugadores que pidieron con el club (reparto en `docs/privado/cuentas.md`)
 - [x] David: dirección y camiseta local extra incluidas en el pedido
-- [ ] NFL: esperar respuesta de los Dolphins y del formulario de NFL FLAG (2-3 semanas); LinkedIn a Rafa De Los Santos cuando quieras
+- [ ] NFL: los Dolphins contestaron el 27/10 y nos pasan con su Country Manager en España (hilo del correo del club); respondido el 27/10, esperar su contestación. Falta el formulario de NFL FLAG (2-3 semanas); LinkedIn a Rafa De Los Santos cuando quieras
 - [ ] Muñequera grande: medir el plástico de la ventana por dentro; si no es 17 × 12 cm, cambiar `VENTANA` en `playbook/wristband_grande.py`
 - [ ] Con el pedido hecho: `drop view if exists tallas_pedido;`
 
