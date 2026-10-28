@@ -18,6 +18,8 @@ borra de aquí.
 - [ ] Bolsa de material: medir la Under Armour por dentro y probar la cremallera con los pylons antes de comprar la plancha y cortar (medidas en `docs/bolsa-material.md`); medir y contar los conos altos
 - [ ] Muñequera grande: medir el plástico de la ventana por dentro; si no es 17 × 12 cm, cambiar `VENTANA` en `playbook/wristband_grande.py`
 - [ ] Con el pedido hecho: `drop view if exists tallas_pedido;`
+- [ ] Subvenciones: confirmar la segunda alerta de InfoSubvenciones (n.º 298650, la del Estado) con el enlace del correo que llegó a coruna.atlantics@. La de Galicia ya está activada
+- [ ] Redes: publicar el post de Halloween el 31/10 (`redes/posts/fechas/`) y el Reel con la portada genérica local (`redes/posts/reel-training-day-local/`); al publicarlos, decirlo para apuntarlo en `redes/LEEME.md`
 
 ## Flag en los colegios (22 oct)
 

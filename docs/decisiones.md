@@ -749,3 +749,22 @@ dossier se ve trabajado y no como envío masivo.
 
 **Alternativas descartadas:** llamar primero a cada centro (más lento para 67); un único correo
 con todos en copia oculta.
+
+## [2026-10-28] — Alertas de subvenciones: InfoSubvenciones (gratis) y no BOE Alerta
+
+**Decisión:** alerta en el Sistema Nacional de Publicidad de Subvenciones (infosubvenciones.es,
+pestaña Alertas) con la cuenta coruna.atlantics@gmail.com. Alerta n.º 298649. Criterios: título
+con alguna de las palabras "deporte deportes deportiva deportivas deportivo deportivos"; región
+ES11 Galicia; beneficiario "personas jurídicas que no desarrollan actividad económica" y "sin
+información específica"; instrumento "subvención y entrega dineraria". Convocante y finalidad,
+todos. La contraseña la tiene él.
+
+**Motivo:** toda convocatoria pública (Estado, Xunta, Diputación, Concello) se registra por ley
+en la BDNS antes de salir en el boletín, así que su alerta cubre lo mismo que BOE Alerta
+(4,99 €/mes o 49 €/año) sin coste. El BORME no le sirve a un club.
+
+**Segunda alerta (n.º 298650):** las convocatorias estatales para toda España no entran por el
+filtro de Galicia, así que hay otra con las mismas palabras, beneficiarios e instrumento, pero
+con convocante "Administración del Estado" (todos los ministerios) y sin filtro de región.
+
+**Alternativas descartadas:** BOE Alerta (de pago); revisar los boletines a mano.

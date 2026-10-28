@@ -1,5 +1,17 @@
 # Changelog — Coruña Atlantics Web
 
+## [2026-10-28] — Reel, Halloween y alertas de subvenciones gratis
+
+**Qué se hizo:**
+- **Reel de Training Day:** se eligió la portada genérica en local (la anterior fue en visitante) y se escribieron tres textos nuevos (directa, corta y para captar). Todo en `redes/posts/reel-training-day-local/`, fuera de git
+- **Halloween:** el post ya estaba hecho en `redes/posts/fechas/` (imagen y texto); sin publicar, para el 31/10
+- **BOE Alerta** (4,99 €/mes) descartado: lo mismo sale gratis con las alertas oficiales de InfoSubvenciones, donde se registran por ley todas las convocatorias públicas
+- Dos alertas creadas con coruna.atlantics@ (el registro con contraseña lo hizo él): n.º 298649 para Galicia (activada) y n.º 298650 para las del Estado en toda España. Las dos buscan "deporte/deportivo" en el título, para entidades sin actividad económica y solo subvenciones de dinero
+
+**Archivos modificados:** `docs/decisiones.md`, `docs/pendiente.md`, `CHANGELOG.md`; fuera de git, `redes/posts/reel-training-day-local/`.
+
+**Pendiente:** activar la alerta 298650 con el enlace del correo; publicar Halloween el 31/10 y el Reel.
+
 ## [2026-10-27] — Drive y Aspa en el playbook, bolsa de material y BuildMyJersey
 
 **Qué se hizo:**
