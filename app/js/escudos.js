@@ -11,6 +11,7 @@ const ARCHIVOS = {
   'coruna atlantics':  './img/cabeza.webp',
   'cambre towers':     './img/equipos/cambre-towers.webp',
   'santiago ravens':   './img/equipos/santiago-ravens.webp',
+  'santiago black ravens': './img/equipos/santiago-ravens.webp',
   'gijon nortenos':    './img/equipos/gijon-nortenos.webp',
   'gijon mariners':    './img/equipos/gijon-mariners.webp',
   'gijon mariners m':  './img/equipos/gijon-mariners.webp',

@@ -1834,8 +1834,8 @@ body.club .marca-pantalla { display: none; }
 
 /* Escudos de los equipos de la liga: pequeños, delante del nombre. */
 .escudo {
-  display: inline-block; width: 1.35em; height: 1.35em; object-fit: contain;
-  vertical-align: -.32em; margin-right: .35em; flex: none;
+  display: inline-block; width: 1.15em; height: 1.15em; object-fit: contain;
+  vertical-align: -.2em; margin-right: .35em; flex: none;
 }
 .escudo.sin {
   display: inline-grid; place-items: center; border-radius: 50%;
@@ -1843,5 +1843,8 @@ body.club .marca-pantalla { display: none; }
   font-family: 'Barlow Condensed', sans-serif; font-size: .62em; font-weight: 700;
   width: 2.1em; height: 2.1em; vertical-align: .05em;
 }
-.fila > .escudo { width: 2.1rem; height: 2.1rem; margin: 0; }
-.fila > .escudo.sin { font-size: .8rem; width: 2.1rem; height: 2.1rem; }
+.fila > .escudo { width: 1.7rem; height: 1.7rem; margin: 0; }
+.fila > .escudo.sin { font-size: .7rem; width: 1.7rem; height: 1.7rem; }
+/* En los partidos de la liga, un equipo por línea: dos escudos y dos nombres
+   en una sola no caben en el móvil y el segundo se cortaba. */
+.fila .info .nom + .nom { margin-top: .15rem; }

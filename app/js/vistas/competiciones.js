@@ -96,7 +96,8 @@ async function abrirCompeticion(ctx, comp, alGuardar) {
         ${partidos.length ? partidos.map(p => html`
           <button class="fila ${esNuestro(p) ? 'destacada' : ''}" data-partido="${p.id}">
             <div class="info">
-              <div class="nom">${escudo(nombreDe(p.local_id))}${nombreDe(p.local_id)} — ${escudo(nombreDe(p.visitante_id))}${nombreDe(p.visitante_id)}</div>
+              <div class="nom">${escudo(nombreDe(p.local_id))}${nombreDe(p.local_id)}</div>
+              <div class="nom">${escudo(nombreDe(p.visitante_id))}${nombreDe(p.visitante_id)}</div>
               <div class="meta">
                 ${p.jornada ? 'J' + p.jornada + ' · ' : ''}${p.fecha ? cuando(p.fecha) : 'Sin fecha'}
               </div>
