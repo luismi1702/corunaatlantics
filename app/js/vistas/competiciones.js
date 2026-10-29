@@ -13,6 +13,7 @@ import {
   html, crudo, $, $$, cuando, hoja, confirmar, avisar, fallo, cargando, vacio, descargarCSV
 } from '../ui.js';
 import { abrirEstadisticas } from './stats-partido.js';
+import { escudo } from '../escudos.js';
 
 const TIPOS = { liga: 'Liga', torneo: 'Torneo', amistoso: 'Amistosos' };
 
@@ -79,6 +80,7 @@ async function abrirCompeticion(ctx, comp, alGuardar) {
     <div class="lista">
       ${equipos.length ? equipos.map(e => html`
         <button class="fila" data-equipo="${e.id}">
+          ${escudo(e.nombre)}
           <div class="info">
             <div class="nom">${e.nombre}</div>
             ${e.es_nuestro ? crudo('<div class="meta">Nosotros</div>') : ''}
@@ -94,7 +96,7 @@ async function abrirCompeticion(ctx, comp, alGuardar) {
         ${partidos.length ? partidos.map(p => html`
           <button class="fila ${esNuestro(p) ? 'destacada' : ''}" data-partido="${p.id}">
             <div class="info">
-              <div class="nom">${nombreDe(p.local_id)} — ${nombreDe(p.visitante_id)}</div>
+              <div class="nom">${escudo(nombreDe(p.local_id))}${nombreDe(p.local_id)} — ${escudo(nombreDe(p.visitante_id))}${nombreDe(p.visitante_id)}</div>
               <div class="meta">
                 ${p.jornada ? 'J' + p.jornada + ' · ' : ''}${p.fecha ? cuando(p.fecha) : 'Sin fecha'}
               </div>
@@ -114,7 +116,7 @@ async function abrirCompeticion(ctx, comp, alGuardar) {
           ${tabla.map((f, i) => html`
             <div class="fila-clas ${f.es_nuestro ? 'nuestro' : ''}">
               <span class="pos">${i + 1}</span>
-              <span class="equipo">${f.equipo}</span>
+              <span class="equipo">${escudo(f.equipo)}${f.equipo}</span>
               <span class="dato">${f.jugados}</span>
               <span class="dato">${f.ganados}</span>
               <span class="dato">${f.perdidos}</span>

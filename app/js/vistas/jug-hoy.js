@@ -5,6 +5,7 @@
 // respuesta. Todo lo demás va después y en tono menor.
 
 import * as db from '../db.js';
+import { escudo } from '../escudos.js';
 import {
   html, crudo, $, $$, euros, cuando, hora, hoyISO, fechaCorta, diasHasta, DIAS,
   unidadDe, esDeUnidad, NOMBRE_UNIDAD, OPCIONES_ASISTENCIA as OPCIONES, DICHO_ASISTENCIA as DICHO, conRespaldo,
@@ -120,7 +121,7 @@ export async function render(ctx, cont) {
             <p class="tipo">${evento.tipo === 'partido'
               ? (evento.competicion_id ? 'Competición' : 'Partido')
               : TIPOS_EVENTO[claseEvento(evento)].etiqueta}</p>
-            <h3>${titulo(evento)}</h3>
+            <h3>${evento.tipo === 'partido' && evento.rival ? escudo(evento.rival) : ''}${titulo(evento)}</h3>
             <p class="detalle fuerte">
               ${cuentaAtras(evento.fecha)}${evento.hora ? ' · ' + hora(evento.hora) : ''}
             </p>
@@ -163,7 +164,7 @@ export async function render(ctx, cont) {
       <a class="siguiente" href="#/agenda">
         ${crudo(relieveEvento(siguiente))}
         <span class="et">Y después</span>
-        <span class="que">${titulo(siguiente)}</span>
+        <span class="que">${siguiente.tipo === 'partido' && siguiente.rival ? escudo(siguiente.rival) : ''}${titulo(siguiente)}</span>
         <span class="cuando">${cuando(siguiente.fecha)}${siguiente.hora ? ' · ' + hora(siguiente.hora) : ''}</span>
       </a>`) : ''}
 

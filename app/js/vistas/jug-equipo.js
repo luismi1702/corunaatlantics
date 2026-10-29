@@ -12,6 +12,7 @@
 import * as db from '../db.js';
 import { camiseta } from './camiseta.js';
 import { pintarPlaybook } from './jug-playbook.js';
+import { escudo } from '../escudos.js';
 import {
   html, crudo, $, $$, nombreCompleto, tag, TAG_JUGADOR,
   ESTADISTICAS, ESTADISTICA, conRespaldo, cargando, vacio
@@ -65,7 +66,7 @@ export async function render(ctx, cont) {
           ${tabla.map((f, i) => html`
             <div class="fila-clas ${f.es_nuestro ? 'nuestro' : ''}">
               <span class="pos">${i + 1}</span>
-              <span class="equipo">${f.equipo}</span>
+              <span class="equipo">${escudo(f.equipo)}${f.equipo}</span>
               <span class="dato">${f.jugados}</span>
               <span class="dato">${f.ganados}</span>
               <span class="dato">${f.perdidos}</span>

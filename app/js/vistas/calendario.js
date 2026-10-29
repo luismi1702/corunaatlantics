@@ -4,6 +4,7 @@
 // cancelar sesiones sueltas. Tocar un evento lleva a pasar lista.
 
 import * as db from '../db.js';
+import { escudo } from '../escudos.js';
 import {
   html, crudo, $, $$, cuando, fecha, hora, hoyISO, diasHasta, esDeUnidad,
   hoja, avisar, contarEnvio, fallo, cargando, vacio, conRespaldo, TIPOS_EVENTO, claseEvento, marcaEvento
@@ -85,7 +86,7 @@ export async function render(ctx, cont) {
           </div>
           <div class="info">
             <div class="nom">
-              ${e.tipo === 'partido'
+              ${e.tipo === 'partido' && e.rival ? escudo(e.rival) : ''}${e.tipo === 'partido'
                 ? (e.rival ? (e.es_local ? 'vs ' : 'en ') + e.rival : 'Partido')
                 : TIPOS_EVENTO[claseEvento(e)].etiqueta}
               ${e.unidad !== 'todos' ? ' · ' + ETIQUETA_UNIDAD[e.unidad] : ''}

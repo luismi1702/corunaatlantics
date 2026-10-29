@@ -1831,3 +1831,17 @@ body.club .marca-pantalla { display: none; }
 @media (max-width: 420px) {
   .pb-forma { grid-template-columns: 1fr; }
 }
+
+/* Escudos de los equipos de la liga: pequeños, delante del nombre. */
+.escudo {
+  display: inline-block; width: 1.35em; height: 1.35em; object-fit: contain;
+  vertical-align: -.32em; margin-right: .35em; flex: none;
+}
+.escudo.sin {
+  display: inline-grid; place-items: center; border-radius: 50%;
+  background: var(--line); color: var(--muted);
+  font-family: 'Barlow Condensed', sans-serif; font-size: .62em; font-weight: 700;
+  width: 2.1em; height: 2.1em; vertical-align: .05em;
+}
+.fila > .escudo { width: 2.1rem; height: 2.1rem; margin: 0; }
+.fila > .escudo.sin { font-size: .8rem; width: 2.1rem; height: 2.1rem; }

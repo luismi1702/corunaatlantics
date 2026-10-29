@@ -4,6 +4,7 @@
 // final fue. No puede crear ni cambiar nada del calendario.
 
 import * as db from '../db.js';
+import { escudo } from '../escudos.js';
 import {
   html, crudo, $, $$, cuando, hora, hoyISO, esDeUnidad, NOMBRE_UNIDAD,
   OPCIONES_ASISTENCIA as OPCIONES, DICHO_ASISTENCIA as DICHO, avisar, fallo, cargando, vacio, TIPOS_EVENTO, claseEvento, relieveEvento
@@ -54,7 +55,7 @@ export async function render(ctx, cont) {
           ${crudo(relieveEvento(e))}
           <div style="display:flex;align-items:flex-start;gap:.8rem">
             <div class="info">
-              <div class="nom" style="font-size:1.1rem">${titulo(e)}</div>
+              <div class="nom" style="font-size:1.1rem">${e.tipo === 'partido' && e.rival ? escudo(e.rival) : ''}${titulo(e)}</div>
               <div class="meta">
                 ${cuando(e.fecha)}${e.hora ? ' · ' + hora(e.hora) : ''}${e.lugar ? ' · ' + e.lugar : ''}
               </div>
