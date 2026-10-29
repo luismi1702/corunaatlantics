@@ -151,6 +151,13 @@ Contacto: competiciones@fefapa.es · pagos: tesoreria@fefapa.es.
 
 **Primera jornada: domingo 22 de noviembre de 2026** (en principio, dicho el 21 oct; falta saber la sede).
 
+**Calendario propuesto (correo de competiciones@ del 22 oct, PDF "Convocatoria calendario - organización
+de sedes"):** alegaciones hasta el **31/10 a las 23:59**; el definitivo sale el **01/11**. Jornadas (fin de
+semana): J1 21-22 nov · J2 12-13 dic · J3 19-20 dic · J4 16-17 ene · J5 23-24 ene · J6 30-31 ene ·
+J7 13-14 feb · J8 27-28 feb · J9 13-14 mar · J10 10-11 abr · semis 24-25 abr / 8-9 may · finales 22-23 may.
+Cada jornada es una sede (J1 Towers ... J10 Bisons; J3 en casa). Metido en la app el 29 oct con fecha en
+domingo: al salir el definitivo, revisar fechas, día y sedes. Quien paga los árbitros de una sede es su organizador.
+
 - [ ] **Antes del 18 oct, 23:59 — inscripción** del club y del equipo en el portal
       Clupik (no LEVERADE, según el presidente, 17 oct), con los justificantes de pago subidos.
 - [ ] **Preguntar a FEFAPA** qué piden a un club gallego para estar "integrado en FEFA"

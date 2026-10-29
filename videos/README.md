@@ -65,3 +65,11 @@ ffmpeg -ss 5 -to 35 -i brutos\clip.mp4 -c copy output\corte.mp4
 # Poner el logo (sin fondo) en una esquina
 ffmpeg -i brutos\clip.mp4 -i "..\circular sin fondo.png" -filter_complex "[1:v]scale=200:-1[logo];[0:v][logo]overlay=W-w-40:60" output\con_logo.mp4
 ```
+
+## Intro de logo (neón → logo → #WEAREATLANTICS)
+
+`python generar_intro_logo.py` (5,5 s, 1080×1920, con efectos de sonido sintetizados).
+Poseidón aparece en neón teal con chispazos (tridente y corona en oro), se rellena con un
+fogonazo y rayos de luz, y debajo #WEAREATLANTICS se ilumina con una barra de carga.
+`--texto` cambia el texto de abajo. Idea sacada del intro de los Salamanca Falcons (oct. 2026).
+Primera versión: `output/2026-10-29_intro-logo_reel.mp4`.
