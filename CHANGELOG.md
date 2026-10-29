@@ -1,5 +1,18 @@
 # Changelog — Coruña Atlantics Web
 
+## [2026-10-29] — Respuestas de los colegios y calendario hasta enero
+
+**Qué se hizo:**
+- Revisados los correos de los colegios en coruna.atlantics@: ya son **13 centros interesados**. Desde el 23 se sumaron Manuel Murguía, Vila de Rutis, Vicente Otero (Carral), O Mosteirón (Sada), Liceo La Paz, CIFP Someso (llegó a Spam), María Barbeito (Diego, que se cambió de centro y contestó desde el hilo del Curros) y una profesora, María Mareque, que no dice de qué centro es
+- Calendario de noviembre a enero, contando con que él tiene todas las mañanas libres: dos centros por semana, unas 90 sesiones en unas 30 mañanas. Sada y sus Contornos queda para el 3.er trimestre
+- **13 borradores de respuesta** en el Gmail del club, desde coruna.atlantics@ y con fechas y horas concretas. No se ha enviado ninguno. Al de Someso no se respondió desde Spam (Gmail avisa de un enlace): es un correo nuevo a la dirección de vicedirección
+- Registro de cada centro (contacto, grupos, horarios y el de EF de Carral sacado de su PDF) en `docs/privado/colegios/respuestas.md`
+- Calendario escolar 2026-27 (borrador): 7 dic Día do Ensino, 8 festivo, Navidad del 22 dic al 7 ene
+
+**Archivos modificados:** `docs/pendiente.md`, `CHANGELOG.md`; fuera de git, `docs/privado/colegios/respuestas.md`.
+
+**Pendiente:** revisar y enviar los 13 borradores (Cidade Vella y Murguía primero, porque van para la semana del 3 de noviembre); sacar el certificado de delitos sexuales antes del martes 3; buscar quién va cada mañana; contar los cinturones para los grupos de 30 del Liceo.
+
 ## [2026-10-28] — Reel, Halloween y alertas de subvenciones gratis
 
 **Qué se hizo:**

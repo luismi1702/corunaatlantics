@@ -27,12 +27,12 @@ Plan, correos y lista de 83 centros en `docs/colegios/`.
 
 - [ ] Sacar el certificado negativo de delitos sexuales (Luis y quien vaya a ir)
 - [ ] Preguntar a la FEFA si la licencia de club incluye seguro de responsabilidad civil
-- [ ] Preguntar en el grupo quién puede alguna mañana
+- [ ] Preguntar en el grupo quién puede alguna mañana (hacen falta dos por sesión, unas 30 mañanas de noviembre a enero)
 - [ ] Hoja para casa con QR y la lista de interesados para el grupo infantil
 - [x] Correos enviados a 115 centros el 22/10 (A Coruña + Oleiros, Arteixo, Culleredo, Cambre, Sada,
       Carral, Abegondo y Bergondo), con el dossier. Lista y estado en `docs/privado/colegios/envios.csv`
 - [ ] Apuntar las respuestas en `envios.csv` y llamar a los que no contesten en una semana
-- [ ] Contestar la semana del 26 oct a los 5 centros que respondieron (resumen en `docs/privado/colegios/respuestas.md`)
+- [ ] Revisar y enviar los 13 borradores de respuesta a los colegios que hay en el Gmail del club (29 oct; calendario en `docs/privado/colegios/respuestas.md`)
 
 ## Cuentas y cobros
 
