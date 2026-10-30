@@ -32,7 +32,12 @@ Plan, correos y lista de 83 centros en `docs/colegios/`.
 - [x] Correos enviados a 115 centros el 22/10 (A Coruña + Oleiros, Arteixo, Culleredo, Cambre, Sada,
       Carral, Abegondo y Bergondo), con el dossier. Lista y estado en `docs/privado/colegios/envios.csv`
 - [ ] Apuntar las respuestas en `envios.csv` y llamar a los que no contesten en una semana
-- [ ] Revisar y enviar los 13 borradores de respuesta a los colegios que hay en el Gmail del club (29 oct; calendario en `docs/privado/colegios/respuestas.md`)
+- [x] 30 oct: enviadas las respuestas a los 9 colegios de A Coruña y alrededor (un colegio por día; primera sesión el martes 10 de noviembre en Cidade Vella; calendario y PNG en `docs/privado/colegios/`)
+- [ ] Llamar a Novo Mesoiro y preguntar por Martín (lunes a jueves, 11:30-12:20)
+- [ ] Esperar a que Murguía confirme si el grupo del viernes 27 a las 13:10 es 4º
+- [ ] Antes del 10 nov: certificado de delitos sexuales y una segunda persona para cada sesión
+- [ ] FEFA: los correos de licencias del 21-22 oct rebotaron (administrador@fefa.es no existe); reenviarlos a competiciones@fefa.es
+- [ ] Más adelante: O Mosteirón y Sada y sus Contornos (Sada), Cruz do Sar (Bergondo); sus borradores siguen en Gmail. Carral descartado por distancia (borrador sin enviar: contestar a Borja o descartarlo)
 
 ## Cuentas y cobros
 

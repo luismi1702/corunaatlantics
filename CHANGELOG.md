@@ -1,5 +1,18 @@
 # Changelog — Coruña Atlantics Web
 
+## [2026-10-30] — Respuestas enviadas a los colegios, Gmail ordenado y caja cuadrada
+
+**Qué se hizo:**
+- **Colegios:** fechas retrasadas una semana, un colegio por día y primero A Coruña y alrededor. Enviadas las respuestas a 9 centros (la primera sesión es el 10 nov en Cidade Vella) y después las de Curros y Murguía con sus horas. Vila de Rutis ya ha confirmado. Carral descartado por distancia; Sada y Bergondo, para más adelante
+- PNG del calendario en `docs/privado/colegios/calendario-colegios.png`
+- **Gmail del club:** bandeja vacía. Se crearon las etiquetas Subvenciones, Instalaciones y Jugadores. Las alertas de subvenciones que llegaron no servían
+- **Dinero:** David, Iago, Óscar y Alejandro pagaron sus 90 €. Bárbara pagó 210 € (183,75 de Nerion y 26,25 de donación). La caja da **1.033,33 €**, igual en el banco, la app y `cuentas.md`. No hay que pasar nada de la cuenta personal
+- **Vídeo de Halloween** con el logo sonriendo: se hizo pero él lo dejó (`videos/halloween/`, sin subir a git). Se usa el post de imagen ya hecho
+
+**Archivos modificados:** `docs/pendiente.md`, `CHANGELOG.md`; fuera de git, `docs/privado/colegios/respuestas.md`, `docs/privado/cuentas.md`, `docs/privado/colegios/calendario-colegios.png`, `videos/halloween/`.
+
+**Pendiente:** llamar a Novo Mesoiro (Martín); esperar la respuesta de Murguía sobre el grupo de 4º; tener el certificado de delitos sexuales y una segunda persona por sesión antes del 10 nov; reenviar las licencias a FEFA; publicar el post de Halloween el 31.
+
 ## [2026-10-29] — Respuestas de los colegios y calendario hasta enero
 
 **Qué se hizo:**
