@@ -1,5 +1,98 @@
 # Changelog — Coruña Atlantics Web
 
+## [2026-11-13] — Wheel y Drag en el playbook, Iván entra y FEFAPA pagada
+
+**Qué se hizo:**
+- **Playbook:** añadidas Wheel y Drag; todas las jugadas pasan a dibujarse en su formación Derecha (la izquierda se juega en espejo). Regenerados el A4, la wristband, la playsheet, la versión del móvil (artifact republicado) y `app/js/playbook-datos.js`
+- **Iván, jugador nuevo:** pagó 140 € de los 260 € de cuota y extra. Apuntado en la app y en `cuentas.md`. Todavía no ha subido el DNI ni la foto
+- **FEFA:** pidió los datos de facturación del club y se le contestó desde coruna.atlantics@
+- **FEFAPA:** pagadas desde la Revolut del club las 10 licencias de la Liga Norte (las 9 de antes y la de Iván, 150 €). El justificante y la lista se enviaron a secretaria@fefapa.es, avisando de que Iván está pendiente de la aprobación de la FEFA
+- **Caja: 242,95 €**, la misma cifra en la app y en `cuentas.md`
+- Los pylons se compraron en Net World Sports: 8 FORZA por 99,28 €, en preventa, y llegan después del 17 nov
+
+**Archivos modificados:** `playbook/` (generar.py, wristband.py y los HTML/PDF), `app/js/playbook-datos.js`, `docs/pendiente.md`, `CHANGELOG.md`; fuera de git, `docs/privado/cuentas.md`.
+
+**Pendiente:** que Iván suba el DNI (por las dos caras) y la foto; después, pagar su licencia FEFA (125 €). Cobrarle los 120 € que faltan. Confirmar si su Bizum entró en la cuenta de Luis o en la Revolut del club.
+
+## [2026-11-09] — Carrusel del Madrid Game y Cidade Vella a la semana siguiente
+
+**Qué se hizo:**
+- **Redes, carrusel del NFL Madrid Game** (3 slides con estilo Atlantics: Madrid Game, NFL House y Bernabéu) en `redes/posts/madrid-game/`, con su texto. Sin publicar
+- Gente borrada de las fotos con YOLO + LaMa y retoques con OpenCV (`mejorar.py`). Las slides se rehacen con `generar.py`
+- **Cidade Vella:** cancelado el mar 10 y el jue 12 por motivos personales de uno de los que iban. Propuesto el mar 17 y el jue 19, a las mismas horas. Luis avisó a Marcos por WhatsApp
+- Calendario de coles republicado: el 17 y el 19 van como "Propuesta", y lo de Cidade Vella está en Por cerrar
+
+**Archivos modificados:** `CHANGELOG.md`. Fuera de git: `redes/posts/madrid-game/` (generar.py, mejorar.py, fotos/, 01-03.png, texto.txt), `redes/LEEME.md`, `docs/privado/colegios/` (calendario-confirmados.html, respuestas.md, envios.csv).
+
+**Pendiente:** respuesta de Marcos sobre el 17 y el 19; en la slide 03 todavía salen personas (borrarlas necesita su permiso para ejecutar el modelo); IES Pastoriza ya no puede ir el mar 17 ni el jue 19.
+
+## [2026-11-06] — Gmail al día, escudo para FEFAPA y primer partido de liga
+
+**Qué se hizo:**
+- **Gmail del club:** Montegrande (nuevo, pide información por teléfono) movido a Colegios/Por cerrar y el aviso de Clupik a Competiciones/FEFAPA. Bandeja vacía
+- **Primer partido de la Liga Norte:** sáb 21 nov contra CFA Cambre Towers en el Campo Dani Mallo (hora sin poner)
+- **Escudo:** el escudo del club es el de Poseidón (`avatar sin fondo v2.png`); enviado como documento PNG por WhatsApp a Aaron (FEFAPA), que lo pidió para redes
+- Revisados los 4 borradores de colegios aparcados (Mosteirón, Sada y sus Contornos, Cruz do Sar, Carral): se dejan sin enviar
+- Pasado el playbook en PDF
+
+**Archivos modificados:** `CHANGELOG.md`, `docs/pendiente.md`, `docs/privado/colegios/respuestas.md` (fuera de git).
+
+**Pendiente:** avisar a David de que el primer partido es el 21 nov y revisar su chat de Alibaba (pide iniciar sesión); llamar a Montegrande.
+
+## [2026-11-05] — Cuentas, Gmail de colegios en subetiquetas y calendario de coles fijado
+
+**Qué se hizo:**
+- **Dinero:** Santiago pagó sus 90 € extra y Luis gastó 5,38 € en IKEA en cosas para el equipo. La caja queda en **252,95 €**, igual en la app y en `cuentas.md`
+- **Gmail del club:** la etiqueta Colegios se divide en Confirmados, Por cerrar, Más adelante y Sin respuesta; ningún hilo queda sin subetiqueta. Someso sale de Spam
+- **José Cornide** (Avda. Sardiñeira) confirma la semana del 18 de enero; falta saber qué día es la hora de 3º y 4º de 9:50
+- **Calendario de coles:** página privada fijada en claude.ai con solo los colegios confirmados, el próximo día resaltado y lo que queda por cerrar
+- **Redes:** pasados los dos PNG de Training Day con sus textos. Nueva regla: con cada PNG va también el texto del post
+- **Entreno:** propuesta una sesión de 90 minutos para hoy y pasado el plan T1-T8 en PDF
+
+**Archivos modificados:** `docs/pendiente.md`, `CHANGELOG.md`; fuera de git, `docs/privado/cuentas.md`, `docs/privado/colegios/respuestas.md` y `docs/privado/colegios/calendario-confirmados.html`.
+
+**Pendiente:** apuntar en `redes/LEEME.md` qué Training Day se publicó; mandar el reparto a María Barbeito; contestar al IES Pastoriza; confirmar el 4º de Murguía; preguntar a José Cornide el día de las 9:50.
+
+## [2026-11-04] — Licencias FEFA pagadas, filtro de subvenciones y colegios nuevos
+
+**Qué se hizo:**
+- **FEFA:** él pagó 9 licencias Flag Senior (9 × 125 = 1.125 €) a la cuenta que confirmó administracion@fefa.es. Le enviamos el justificante desde coruna.atlantics@. Aún no han contestado. Los 135 € de FEFAPA, más adelante
+- **Dinero:** Luis pagó su cuota y su extra (260 €). Dan no paga sus 56,14 € de Nerion: salen del segundo pago del patrocinio de Artabro. La caja queda en **168,33 €**, igual en la app y en `cuentas.md`
+- **Gmail del club:** filtro nuevo para que las alertas de la BDNS vayan a Subvenciones sin pasar por Recibidos. Ya ha funcionado con la de hoy, que no traía nada para el club. Correos de colegios etiquetados y bandeja vacía
+- **Colegios:** confirmados Cidade Vella (10 y 12 nov), Curros (24 y 25 nov), Murguía (26 y 27 nov), Vila de Rutis (30 nov, 1 y 3 dic) y María Barbeito (semana del 14 dic, falta mandarle el reparto)
+- **IES Pastoriza (Arteixo)** escribe por su cuenta: quieren flag con 2º de ESO, 5 grupos, en pista exterior
+
+**Archivos modificados:** `docs/pendiente.md`, `CHANGELOG.md`; fuera de git, `docs/privado/cuentas.md` y `docs/privado/colegios/respuestas.md`.
+
+**Pendiente:** contestar a María Barbeito y al IES Pastoriza (mañana); pagar FEFAPA (135 €); llamar a Novo Mesoiro; insistir al Liceo La Paz; certificado de delitos sexuales antes del 10 nov.
+
+## [2026-11-02] — Calendario definitivo de la liga, correo a la FEFA y colegios
+
+**Qué se hizo:**
+- **Liga Norte:** llegó el calendario definitivo de FEFAPA. Las fechas no cambian; Mariners F–Ravens y Mariners M–Ravens pasan de la sede 2 a la nuestra, así que en casa (19-20 dic) hay 5 partidos y hacen falta dos campos. Corregido en la app (Supabase) y apuntado en `pendiente.md` con nuestros 9 partidos
+- En la J1 (Towers, 21-22 nov) nos toca llevar el material del campo 2 y un asistente con licencia
+- **FEFA:** encontrado el IBAN que dio el secretario general en julio; guardado en `docs/privado/cuentas.md`. La caja (1.033,33 €) llega para 8 licencias (1.000 €)
+- Enviado a administracion@fefa.es (desde coruna.atlantics@, sin rebote) un correo con tres preguntas antes de pagar: si es por transferencia a esa cuenta o por Clupik, el concepto y si se pueden pagar 8 ahora y la novena después, y si son 125 € por jugador
+- **Colegios:** Cidade Vella confirma el 10 y el 12 de noviembre; los demás, sin respuesta nueva. Apuntado en `respuestas.md` y `envios.csv`
+- **Gmail del club:** bandeja vacía; la alerta de subvenciones del 31 oct (Comité Olímpico, no sirve) etiquetada en Subvenciones
+- Revisada la oferta de Revolut Premium (2 meses gratis): descartada, no aporta nada al club y se renueva sola
+- **Secretaría Xeral para o Deporte:** no ha llegado el certificado del REDEGA; teléfono a llamar: 881 996 342
+
+**Archivos modificados:** `docs/pendiente.md`, `CHANGELOG.md`; fuera de git, `docs/privado/cuentas.md`, `docs/privado/colegios/respuestas.md`, `docs/privado/colegios/envios.csv`.
+
+**Pendiente:** esperar la respuesta de la FEFA y pagar las 8 licencias; llamar a la Secretaría (REDEGA y cambio de domicilio) y a Novo Mesoiro; preguntar a la FEFA por el seguro de responsabilidad civil y la certificación federativa; reservar dos campos para el 19-20 dic.
+
+## [2026-11-01] — Monograma AC y teal oficial nuevo
+
+**Qué se hizo:**
+- **Monograma AC** al estilo de los "NY" y "LA" de béisbol, tras varias rondas: varsity entrelazado en Graduate a una tinta, la A subida y por detrás de la C, y solo el pie de la A delante. Versiones teal y blanca en `monograma/definitivo/`, con formas cerradas para bordar o serigrafiar, en SVG y en PNG sin fondo. Las pruebas de color están en `monograma/svg/` y `monograma/png/`
+- Maqueta del monograma en una gorra, en 4 combinaciones de color, solo como artifact: https://claude.ai/artifact/8CAcPauEQUxcsnmfymBoyr. Hoja del monograma: https://claude.ai/artifact/C84MJcbfpw172HxvtRpWFS
+- **Teal oficial nuevo: Riverwalk Teal #038391** (RGB 3,131,145, CMYK 85,33,38,4), para todo lo que se haga a partir de ahora. Es el mismo tono que el #006E82 de las camisetas pero algo más claro; juntos se nota la diferencia. La web sigue con el #4ECDC4
+
+**Archivos modificados:** `CLAUDE.md`, `CHANGELOG.md`, `monograma/` (nuevo: `generar.py`, `definitivo.py`, `fuentes/`, `definitivo/`, `svg/`, `png/`, `hoja.html`).
+
+**Pendiente:** el monograma sigue en el teal antiguo #006E82; pasarlo al #038391 si él lo quiere. Comparar la camiseta de prueba con algo impreso en #038391.
+
 ## [2026-10-30] — Respuestas enviadas a los colegios, Gmail ordenado y caja cuadrada
 
 **Qué se hizo:**

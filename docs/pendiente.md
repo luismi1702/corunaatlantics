@@ -10,7 +10,7 @@ borra de aquí.
 
 - [x] David: pedido pagado el 23/10, 557 USD (≈ 516 €). Prometió recibirlo antes del 18 nov; por contrato, envío garantizado el 19 nov
 - [ ] David: dice que sale el 10-12 nov; si el 12 nov no ha dicho que está enviado, reclamárselo
-- [ ] Fecha del primer partido (creen que a finales de noviembre): apuntarla en el calendario. Si es antes del 25 nov, avisar a David
+- [ ] Primer partido: **sáb 21 nov vs CFA Cambre Towers, Campo Dani Mallo** (aviso de Clupik del 6/11, hora sin poner). Apuntarlo en el calendario y **avisar a David** (es antes del 25 nov); su chat de Alibaba está pendiente de revisar (hay que volver a iniciar sesión)
 - [ ] Nerion: firmar el acuerdo nuevo (21/10, se acepta tal cual). Antes, confirmar la junta en el Registro. Como la 5.a sigue cediendo "imagen", no mandarles fotos de jugadores sin su ok; los balones KS1 pedirlos como pedido de club (12 %, no 10 %). Después: anuncio en redes (2.f), logo en cartelería y streams (2.g), historia semanal (2.a) y un post cada 50 días (2.e)
 - [ ] Nerion: pagar la factura NA2026035 (456,99 €) y cobrar su parte a los dos jugadores que pidieron con el club (reparto en `docs/privado/cuentas.md`)
 - [x] David: dirección y camiseta local extra incluidas en el pedido
@@ -34,9 +34,14 @@ Plan, correos y lista de 83 centros en `docs/colegios/`.
 - [ ] Apuntar las respuestas en `envios.csv` y llamar a los que no contesten en una semana
 - [x] 30 oct: enviadas las respuestas a los 9 colegios de A Coruña y alrededor (un colegio por día; primera sesión el martes 10 de noviembre en Cidade Vella; calendario y PNG en `docs/privado/colegios/`)
 - [ ] Llamar a Novo Mesoiro y preguntar por Martín (lunes a jueves, 11:30-12:20)
+- [ ] Llamar a Montegrande: pidió información el 6/11 y prefiere teléfono (contacto en `docs/privado/colegios/respuestas.md`)
+- [ ] Borradores aparcados en Gmail (Mosteirón, Sada y sus Contornos, Cruz do Sar, Carral): se dejan así por ahora; el de Carral propone el 16 nov y Carral está descartado, no enviarlo tal cual
 - [ ] Esperar a que Murguía confirme si el grupo del viernes 27 a las 13:10 es 4º
-- [ ] Antes del 10 nov: certificado de delitos sexuales y una segunda persona para cada sesión
+- [ ] Antes del 17 nov (Cidade Vella pasa al mar 17 y jue 19, falta que Marcos confirme): certificado de delitos sexuales y una segunda persona para cada sesión
 - [ ] FEFA: los correos de licencias del 21-22 oct rebotaron (administrador@fefa.es no existe); reenviarlos a competiciones@fefa.es
+- [ ] Contestar a Diego (María Barbeito) con lun 14, mar 15 y mié 16 dic para los 12 grupos (reparto en `respuestas.md`)
+- [ ] Preguntar a José Cornide (María Mareque) qué día de la semana del 18 ene es la hora de 3º y 4º de 9:50 a 10:40
+- [ ] Contestar al IES Pastoriza (Arteixo): 2º ESO, 5 grupos, pista exterior. Huecos: lun 16 nov (17 y 19 ya son de Cidade Vella)
 - [ ] Más adelante: O Mosteirón y Sada y sus Contornos (Sada), Cruz do Sar (Bergondo); sus borradores siguen en Gmail. Carral descartado por distancia (borrador sin enviar: contestar a Borja o descartarlo)
 
 ## Cuentas y cobros
@@ -47,7 +52,13 @@ Las cuentas de la temporada, los Bizums recibidos y quién debe qué están en
 Cómo dar de alta a cada jugador en Clupik para la licencia FEFA: `inscribir-licencias-fefa.md`.
 
 - [x] 8 jugadores inscritos en Clupik con la licencia FEFA Nacional Flag Senior (22 oct); todos menos Yllanes
+- [x] 3 nov: pagadas a la FEFA 9 licencias Flag Senior (1.125 €) y enviado el justificante desde coruna.atlantics@
+- [x] 13 nov: pagadas a FEFAPA 10 licencias (150 €, con Iván) y enviado el justificante a secretaria@fefapa.es
+- [ ] Iván (nuevo): que suba DNI por las dos caras y foto a la app; después, inscribirlo en Clupik y pagar su licencia FEFA (125 €)
 - [ ] Esperar a que la federación las valide (ahora están "en revisión") y ver cómo se pagan los 125 €
+- [ ] 2 nov: preguntado a administracion@fefa.es (desde coruna.atlantics@) si se paga por transferencia a la cuenta
+      que dio Pascual en julio (en `docs/privado/cuentas.md`) o por Clupik, qué concepto, si vale pagar 8 ahora y la
+      novena después, y si son 125 € por jugador. Esperar respuesta antes de pagar (la caja da para 8: 1.000 de 1.033,33)
 - [x] Corregidos el nombre y la fecha de nacimiento de Dan en la app, según su DNI (22 oct)
 - [x] Luis inscrito también (22 oct): ya son 9 en Clupik
 
@@ -55,6 +66,8 @@ Cómo dar de alta a cada jugador en Clupik para la licencia FEFA: `inscribir-lic
 
 1. ~~Pedir la certificación de inscripción en el REDEGA~~ — pedida el 17 oct por solicitud genérica
    (PR004A) a la Secretaría Xeral para o Deporte. Si el 31 oct no ha llegado nada, llamar o escribirles.
+   **2 nov: no ha llegado nada.** Llamar al 881 996 342/343 (secretaria.deporte@xunta.gal; dato de 2022, puede haber cambiado)
+   y preguntar a la vez por el cambio de domicilio (punto 3).
 2. **Certificación federativa actualizada**: pedírsela a la FEFA (o ver si vale el documento del 15 oct).
 3. **Cambiar el domicilio en el REDEGA** (PR946A, cambio de domicilio social): allí sale Luis Quintáns
    Goyanes 4, 4º B, y el domicilio social es Fragas do Eume 28, 5º D, 15190.
@@ -161,7 +174,20 @@ de sedes"):** alegaciones hasta el **31/10 a las 23:59**; el definitivo sale el 
 semana): J1 21-22 nov · J2 12-13 dic · J3 19-20 dic · J4 16-17 ene · J5 23-24 ene · J6 30-31 ene ·
 J7 13-14 feb · J8 27-28 feb · J9 13-14 mar · J10 10-11 abr · semis 24-25 abr / 8-9 may · finales 22-23 may.
 Cada jornada es una sede (J1 Towers ... J10 Bisons; J3 en casa). Metido en la app el 29 oct con fecha en
-domingo: al salir el definitivo, revisar fechas, día y sedes. Quien paga los árbitros de una sede es su organizador.
+domingo. Quien paga los árbitros de una sede es su organizador.
+
+**Calendario DEFINITIVO (correo de competiciones@ del 02/11):** mismas fechas que la propuesta. Nuestros 9 partidos:
+J1 Towers (21-22 nov): Towers–Atlantics, campo 2 · J2 Norteños (12-13 dic): Atlantics–Phoenix y Atlantics–Norteños ·
+J3 en casa (19-20 dic): Mariners F, Mariners M y Ravens, los tres en el campo 1 · J4 MadBulls (16-17 ene): MadBulls–Atlantics ·
+J10 Bisons (10-11 abr): Atlantics–Bisons y Atlantics–Pumas. Cambio respecto a la propuesta: Mariners F–Ravens y
+Mariners M–Ravens pasan de la sede 2 a la nuestra (campo 2), así que en casa hay **5 partidos y hacen falta dos campos**.
+Corregido en la app el 02/11. El orden dentro de cada sede puede cambiar por el CTA.
+El equipo con asterisco lleva el material del campo 2 (4 pylons, conos, marcador, down marker y cámara) y el
+asistente del marcador de downs, **con licencia de jugador o de staff**: en la J1 (Towers) nos toca a nosotros;
+en nuestra sede, a Ravens.
+
+- [ ] J1 (21-22 nov): llevar el material del campo 2 y un asistente con licencia. El material no estará antes del 17 nov (pylons)
+- [ ] J3 en casa (19-20 dic): reservar dos campos para 5 partidos
 
 - [ ] **Antes del 18 oct, 23:59 — inscripción** del club y del equipo en el portal
       Clupik (no LEVERADE, según el presidente, 17 oct), con los justificantes de pago subidos.

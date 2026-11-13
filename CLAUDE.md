@@ -16,7 +16,7 @@ Usar SIEMPRE las versiones sin fondo (transparentes) para logos y mascotas en la
 Las versiones FONDO.png / CON FONDO.png son solo para uso fuera de la web.
 
 ## Identidad visual (rebranding mayo 2026)
-Colores: Teal #4ECDC4 (web) / #006E82 (equipación, CMYK C85 M35 Y28 K14) · Gold #D4A843 · Ink #040d12 (fondo de la web; en la equipación el negro solo va en el pantalón de la local)
+Colores: Teal #4ECDC4 (web) / #038391 Riverwalk Teal (diseños nuevos: equipación, merch, redes, impresos; RGB 3,131,145, CMYK 85,33,38,4; sustituye al #006E82 desde oct 2026) · Gold #D4A843 · Ink #040d12 (fondo de la web; en la equipación el negro solo va en el pantalón de la local)
 Tipografía: Anton (titulares) · Barlow Condensed (UI) · Barlow (cuerpo)
 Hashtag: #WeAreAtlantics · Mascota: Poseidón (teal, tridente dorado)
 
@@ -33,6 +33,7 @@ Hashtag: #WeAreAtlantics · Mascota: Poseidón (teal, tridente dorado)
 - docs/privado/ — fuera de git (el repo es público y la web sirve docs/): cuentas con nombres e importes y listas con correos de personas. Nunca datos personales en docs/ fuera de esta carpeta
 - videos/GUION_REEL_HYPE.md — guión y flujo de montaje de Reels
 - equipacion/ — bocetos de ropa: uniformes (generar.py), sudaderas y chándales (generar_ropa.py, rondas en rondaN/, definitivas con mejoras.py), varsity (generar_varsity.py) y renders/fichas para el proveedor (generar_render.py, ficha_proveedor.py)
+- monograma/ – monograma AC entrelazado estilo varsity. Elegido: Graduate a una tinta, en definitivo/ (definitivo.py, formas cerradas para bordar/serigrafiar, teal y blanco). generar.py saca las pruebas de color en svg/ y png/ y hoja.html
 - playbook/ — playbook del club (generar.py saca el A4, la versión del móvil y app/js/playbook-datos.js; wristband.py y playsheet.py, las de ataque y defensa; wristband_grande.py, la de la muñequera de 17 × 12 cm); entrenos/ — hojas de entrenamiento para imprimir (fuera de git)
 - redes/ — plantillas y posts de Instagram (fuera de git); índice en redes/LEEME.md, guía de marca en redes/guia-marca/
 

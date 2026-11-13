@@ -3,7 +3,7 @@
 
 Tres ventanas: la de arriba es una carátula (no deja ver las jugadas) y las
 jugadas, numeradas por formación, van repartidas en las otras dos.
-Numeración: 11-16 Spread, 21-24 Twins, 31-33 Trips, 41-43 Bunch, 51 Trips Stacked.
+Numeración: 11-19 Spread, 21-24 Twins, 31-34 Trips, 41-44 Bunch, 51 Trips Stacked.
 
 Uso: python wristband.py  ->  wristband.html (A4, con marcas de corte).
 Los dibujos salen de generar.py, así que la wristband y el playbook siempre

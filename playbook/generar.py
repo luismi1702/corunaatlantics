@@ -218,14 +218,14 @@ pag("Índice", """
   <li><span>4.2. Lista de rutas</span><b>11</b></li>
   <li class="n1"><span>5. Jugadas</span><b>14</b></li>
   <li><span>5.1. Spread</span><b>14</b></li>
-  <li><span>5.2. Twins</span><b>16</b></li>
-  <li><span>5.3. Trips</span><b>17</b></li>
-  <li><span>5.4. Bunch</span><b>18</b></li>
-  <li><span>5.5. Trips Stacked</span><b>19</b></li>
-  <li class="n1"><span>6. Defensa</span><b>20</b></li>
-  <li><span>6.1. Posiciones</span><b>20</b></li>
-  <li><span>6.2. Alineaciones</span><b>20</b></li>
-  <li><span>6.3. Coberturas</span><b>22</b></li>
+  <li><span>5.2. Twins</span><b>17</b></li>
+  <li><span>5.3. Trips</span><b>18</b></li>
+  <li><span>5.4. Bunch</span><b>19</b></li>
+  <li><span>5.5. Trips Stacked</span><b>20</b></li>
+  <li class="n1"><span>6. Defensa</span><b>21</b></li>
+  <li><span>6.1. Posiciones</span><b>21</b></li>
+  <li><span>6.2. Alineaciones</span><b>21</b></li>
+  <li><span>6.3. Coberturas</span><b>23</b></li>
 </ol>
 """)
 
@@ -704,21 +704,21 @@ J_STACKED_1 = jugada("Slant Swing", "Trips Stacked", {
 # --- jugadas añadidas en octubre de 2026 (dibujo libre: motion, laterales o ruta del QB)
 
 J_DOBLE_PASE = jugada("Doble Pase", "Spread", None, {
-    "X": "Motion por detrás de la línea de derecha a izquierda y sube por la banda (Wheel)",
-    "Y": "Vertical a 9 yd y Corner a la derecha",
-    "Z": "Corto hacia dentro y cruce hacia la derecha",
+    "X": "Motion por detrás de la línea de izquierda a derecha y sube por la banda (Wheel)",
+    "Y": "Vertical a 9 yd y Corner a la izquierda",
+    "Z": "Corto hacia dentro y cruce hacia la izquierda",
     "C": "Tras el snap va hacia atrás en vez de hacia delante; recibe el balón del QB y decide a quién lanzar",
-    "Q": "Recibe el snap, sale hacia la derecha y se la lanza al center"},
+    "Q": "Recibe el snap, sale hacia la izquierda y se la lanza al center"},
     "Snap normal al QB. El center, en vez de salir hacia delante, va hacia atrás y el QB se la lanza ahí. Desde ese momento el center decide a quién lanzar con el resto de rutas: X, Y o Z.",
-    lado="Izquierda", svg=jugada_libre(
-        {"Z": (67, 108), "Y": (100, 120), "C": (150, LOS), "X": (233, 108), "Q": (152, 138)},
-        [("Z", "M67 100 L67 90 Q70 81 88 79 L200 58"),
-         ("Y", "M100 112 L100 27 L164 7"),
-         ("X", "M227 112 C150 120, 95 118, 68 113 C45 102, 30 76, 27 40"),
-         ("C", "M146 111 L96 150"),
-         ("Q", "M160 139 L234 147"),
-         ("R", "M150 112 L152 129", 163, 124, "SNAP"),
-         ("R", "M176 143 L106 151", 150, 159, "LATERAL")]))
+    svg=jugada_libre(
+        {"Z": (233, 108), "Y": (200, 120), "C": (150, LOS), "X": (67, 108), "Q": (148, 138)},
+        [("Z", "M233 100 L233 90 Q230 81 212 79 L100 58"),
+         ("Y", "M200 112 L200 27 L136 7"),
+         ("X", "M73 112 C150 120, 205 118, 232 113 C255 102, 270 76, 273 40"),
+         ("C", "M154 111 L204 150"),
+         ("Q", "M140 139 L66 147"),
+         ("R", "M150 112 L148 129", 137, 124, "SNAP"),
+         ("R", "M124 143 L194 151", 150, 159, "LATERAL")]))
 
 J_SLANT_GO = jugada("Slant Go", "Spread", None, {
     "X": "Out a 5 yd a la izquierda", "Y": "Vertical abriéndose a la derecha",
@@ -742,27 +742,27 @@ J_DAGGER = jugada("Dagger", "Spread", None, {
          ("Y", "M200 112 L200 10"),
          ("Z", "M233 100 L233 26 L180 26")]))
 
-BALON = ('<g transform="translate(140 127) rotate(-30)"><ellipse rx="6" ry="3.6" fill="#7a3e1d" stroke="#fff" stroke-width="1"/>'
+BALON = ('<g transform="translate(160 127) rotate(30)"><ellipse rx="6" ry="3.6" fill="#7a3e1d" stroke="#fff" stroke-width="1"/>'
          '<line x1="-2.5" y1="0" x2="2.5" y2="0" stroke="#fff" stroke-width=".9"/></g>'
-         '<text x="140" y="142" font-family="Barlow Condensed, sans-serif" font-weight="700" font-size="8" text-anchor="middle" fill="#7a3e1d">OPTION</text>')
+         '<text x="160" y="142" font-family="Barlow Condensed, sans-serif" font-weight="700" font-size="8" text-anchor="middle" fill="#7a3e1d">OPTION</text>')
 
 J_READ_OPTION = jugada("Read Option", "Spread", None, {
     "X": "Recibe el snap y le lanza el balón a Z; al cruzarse con Z hacen la option",
     "Y": "Vertical",
-    "Z": "Motion por detrás de la línea hacia la derecha; recibe el balón de X y, al cruzarse con él, hacen la option",
+    "Z": "Motion por detrás de la línea hacia la izquierda; recibe el balón de X y, al cruzarse con él, hacen la option",
     "C": "Vertical profundo",
-    "Q": "Sale hacia la derecha"},
-    "Jugada de carrera. El snap va directo a X, que cruza por detrás de la línea hacia la izquierda mientras Z viene en motion hacia la derecha. X le lanza el balón a Z y, al cruzarse, X y Z hacen la option. Y y el center suben rectos y profundos.",
-    lado="Izquierda", svg=jugada_libre(
-        {"Z": (67, 108), "Y": (100, 120), "C": (150, LOS), "X": (233, 108), "Q": (150, 152)},
-        [("R", "M204 114 L114 119", 232, 122, "LATERAL"),
-         ("R", "M159 105 L222 107", 187, 99, "SNAP"),
+    "Q": "Sale hacia la izquierda"},
+    "Jugada de carrera. El snap va directo a X, que cruza por detrás de la línea hacia la derecha mientras Z viene en motion hacia la izquierda. X le lanza el balón a Z y, al cruzarse, X y Z hacen la option. Y y el center suben rectos y profundos.",
+    svg=jugada_libre(
+        {"Z": (233, 108), "Y": (200, 120), "C": (150, LOS), "X": (67, 108), "Q": (150, 152)},
+        [("R", "M96 114 L186 119", 68, 122, "LATERAL"),
+         ("R", "M141 105 L78 107", 113, 99, "SNAP"),
          ("C", "M150 96 L150 10"),
-         ("Y", "M100 112 C 103 72, 108 45, 108 26"),
-         ("X", "M227 112 C 180 124, 100 112, 26 28"),
-         ("Z", "M73 112 C 95 119, 115 122, 150 122", "motion"),
-         ("Z", "M150 122 C 185 122, 210 124, 238 127"),
-         ("Q", "M158 151 C 185 150, 205 145, 228 138")], BALON))
+         ("Y", "M200 112 C 197 72, 192 45, 192 26"),
+         ("X", "M73 112 C 120 124, 200 112, 274 28"),
+         ("Z", "M227 112 C 205 119, 185 122, 150 122", "motion"),
+         ("Z", "M150 122 C 115 122, 90 124, 62 127"),
+         ("Q", "M142 151 C 115 150, 95 145, 72 138")], BALON))
 
 J_MESH = jugada("Mesh", "Twins", None, {
     "X": "Cruce corto hacia la derecha (Mesh)", "Y": "Wheel: sale hacia la banda derecha y sube por ella",
@@ -775,6 +775,37 @@ J_MESH = jugada("Mesh", "Twins", None, {
          ("Y", "M193 120 C228 122, 258 106, 263 78 L263 10"),
          ("C", "M150 96 L150 56 L120 16")]))
 
+# --- jugadas añadidas en noviembre de 2026, sacadas de vídeos (en los vídeos venían hacia la izquierda; aquí, como todas, hacia la derecha)
+
+J_WHEEL = jugada("Wheel", "Spread", None, {
+    "X": "Sube 4 yd y corta hacia dentro (In a 6 yd)",
+    "Y": "Sale por detrás de la línea hacia la izquierda, entre el center y el QB, y sube en curva por la izquierda (Wheel)",
+    "Z": "Vertical a 10 yd y corta hacia dentro hasta el centro (In profundo)",
+    "C": "Diagonal hacia la derecha hasta 5 yd y sube pegado a la banda derecha"},
+    "Y cruza el backfield y sube en Wheel por la izquierda, por fuera del In de X. Por la derecha, el center se abre hacia la banda y Z corta hacia dentro a 10 yardas.",
+    svg=jugada_libre(
+        {"Z": (233, 108), "Y": (200, 120), "C": (150, LOS), "X": (67, 108), "Q": (150, 152)},
+        [("Z", "M233 100 L233 24 L218 13 L148 13"),
+         ("C", "M156 98 L206 66 L226 10"),
+         ("Y", "M192 120 L120 120 C96 120, 82 96, 78 43"),
+         ("X", "M67 100 L67 70 L71 61 L122 55")]))
+
+J_DRAG = jugada("Drag", "Spread", None, {
+    "X": "Motion hacia dentro antes del snap; vertical a 7 yd y diagonal profunda hacia la derecha",
+    "Y": "Sale en diagonal hacia fuera 5 yd y sube vertical",
+    "Z": "Sube 3 yd en diagonal hacia dentro y cruza el campo hacia la izquierda (Drag); recibe el pase",
+    "C": "Vertical a 7 yd y diagonal profunda hacia la derecha",
+    "Q": "Sale rolando hacia la izquierda"},
+    "X entra en motion hacia el center antes del snap. Y, el center y X suben y se van hacia la derecha a distintas alturas, y por debajo Z cruza en corto hacia la izquierda. El QB sale rolando hacia la izquierda, hacia donde va Z: el pase va a Z en el cruce.",
+    svg=jugada_libre(
+        {"Z": (233, 108), "Y": (200, 120), "C": (150, LOS), "X": (67, 108), "Q": (150, 152)},
+        [("X", "M75 108 L108 108", "motion"),
+         ("X", "M108 108 L108 52 Q108 45 115 42 L158 18"),
+         ("C", "M150 96 L150 52 Q150 45 157 42 L196 22"),
+         ("Y", "M200 112 L219 66 L219 10"),
+         ("Z", "M233 100 L217 80 L132 80"),
+         ("Q", "M142 152 C 128 152, 112 151, 98 148")]))
+
 
 def forma(num, nombre, fig, n):
     """Cabecera de cada formación en el capítulo 5: banda oscura con nombre, dibujo y número de jugadas."""
@@ -783,13 +814,17 @@ def forma(num, nombre, fig, n):
 
 
 pag("5 · Jugadas", cap(5, "Jugadas") + """
-<p>Jugadas adaptadas del playbook 5 contra 5 de NFL FLAG y de otros equipos, agrupadas por formación: cada formación empieza en una página nueva. Salvo que se indique lo contrario, están dibujadas hacia la derecha; al otro lado se juegan en espejo. La línea dorada es la LoS y las líneas finas marcan las 5 y las 10 yardas. Las flechas rojas discontinuas son el snap y los laterales; la línea discontinua sin flecha es un motion.</p>
-""" + forma(1, "Spread", F_SPREAD_D, 7) + """
+<p>Jugadas adaptadas del playbook 5 contra 5 de NFL FLAG y de otros equipos, agrupadas por formación: cada formación empieza en una página nueva. Todas están dibujadas hacia la derecha; al otro lado se juegan en espejo. La línea dorada es la LoS y las líneas finas marcan las 5 y las 10 yardas. Las flechas rojas discontinuas son el snap y los laterales; la línea discontinua sin flecha es un motion.</p>
+""" + forma(1, "Spread", F_SPREAD_D, 9) + """
 <div class="jugadas">""" + J_SPREAD_1 + J_SPREAD_2 + J_DRIVE + """</div>
 """)
 
 pag("5 · Jugadas · Spread", """
 <div class="jugadas">""" + J_SLANT_GO + J_DAGGER + J_DOBLE_PASE + J_READ_OPTION + """</div>
+""")
+
+pag("5 · Jugadas · Spread", """
+<div class="jugadas">""" + J_WHEEL + J_DRAG + """</div>
 """)
 
 pag("5 · Jugadas · Twins", forma(2, "Twins", F_TWINS_D, 4) + """
@@ -1307,7 +1342,7 @@ print("playbook-movil.html: versión para publicar")
 import json
 
 APP_FORMACIONES = [
-    ("Spread", F_SPREAD_D, ["Fly Out", "In", "Drive", "Slant Go", "Dagger", "Doble Pase", "Read Option"]),
+    ("Spread", F_SPREAD_D, ["Fly Out", "In", "Drive", "Slant Go", "Dagger", "Doble Pase", "Read Option", "Wheel", "Drag"]),
     ("Twins", F_TWINS_D, ["Doble Post", "Choice", "Silla", "Mesh"]),
     ("Trips", F_TRIPS_D, ["Flood", "Cruce", "Delay", "Countdown"]),
     ("Bunch", F_BUNCH_D, ["Tijera", "Out Cruzado", "Doble Corner", "Aspa"]),
