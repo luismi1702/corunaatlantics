@@ -1,5 +1,17 @@
 # Changelog — Coruña Atlantics Web
 
+## [2026-11-15] — Colegios aplazados y playbook publicado
+
+**Qué se hizo:**
+- **Colegios:** aplazadas hasta nuevo aviso todas las sesiones de flag. Avisados por correo, cada uno en su hilo, los 16 centros que habían respondido; sin rebotes. Calendario de coles republicado como aplazado
+- **Playbook en la app:** Wheel y Drag no salían porque el commit del 13 nov no se había subido. Subido; la app ya las tiene
+- **Caja:** apuntados los gastos del 14 nov en la app y en `cuentas.md`, con la misma cifra en los dos sitios
+- Portada de Reel de Training Day de las vallas, en azul, preparada en `redes/`
+
+**Archivos modificados:** `docs/pendiente.md`, `CHANGELOG.md`, `videos/halloween/` (scripts); fuera de git, `docs/privado/cuentas.md`, `docs/privado/colegios/`, `redes/`.
+
+**Pendiente:** avisar a Cidade Vella por WhatsApp.
+
 ## [2026-11-13] — Wheel y Drag en el playbook, Iván entra y FEFAPA pagada
 
 **Qué se hizo:**

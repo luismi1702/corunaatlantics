@@ -33,16 +33,10 @@ Plan, correos y lista de 83 centros en `docs/colegios/`.
       Carral, Abegondo y Bergondo), con el dossier. Lista y estado en `docs/privado/colegios/envios.csv`
 - [ ] Apuntar las respuestas en `envios.csv` y llamar a los que no contesten en una semana
 - [x] 30 oct: enviadas las respuestas a los 9 colegios de A Coruña y alrededor (un colegio por día; primera sesión el martes 10 de noviembre en Cidade Vella; calendario y PNG en `docs/privado/colegios/`)
-- [ ] Llamar a Novo Mesoiro y preguntar por Martín (lunes a jueves, 11:30-12:20)
-- [ ] Llamar a Montegrande: pidió información el 6/11 y prefiere teléfono (contacto en `docs/privado/colegios/respuestas.md`)
-- [ ] Borradores aparcados en Gmail (Mosteirón, Sada y sus Contornos, Cruz do Sar, Carral): se dejan así por ahora; el de Carral propone el 16 nov y Carral está descartado, no enviarlo tal cual
-- [ ] Esperar a que Murguía confirme si el grupo del viernes 27 a las 13:10 es 4º
-- [ ] Antes del 17 nov (Cidade Vella pasa al mar 17 y jue 19, falta que Marcos confirme): certificado de delitos sexuales y una segunda persona para cada sesión
+- [x] **15 nov: todas las sesiones aplazadas hasta nuevo aviso.** Avisados por correo los 16 centros que habían respondido; detalle en `docs/privado/colegios/respuestas.md`
+- [ ] Avisar también por WhatsApp a Cidade Vella (el cambio al 17 y el 19 se habló por ahí)
+- [ ] Al retomarlo: volver a escribir a cada centro para buscar fechas nuevas
 - [ ] FEFA: los correos de licencias del 21-22 oct rebotaron (administrador@fefa.es no existe); reenviarlos a competiciones@fefa.es
-- [ ] Contestar a Diego (María Barbeito) con lun 14, mar 15 y mié 16 dic para los 12 grupos (reparto en `respuestas.md`)
-- [ ] Preguntar a José Cornide (María Mareque) qué día de la semana del 18 ene es la hora de 3º y 4º de 9:50 a 10:40
-- [ ] Contestar al IES Pastoriza (Arteixo): 2º ESO, 5 grupos, pista exterior. Huecos: lun 16 nov (17 y 19 ya son de Cidade Vella)
-- [ ] Más adelante: O Mosteirón y Sada y sus Contornos (Sada), Cruz do Sar (Bergondo); sus borradores siguen en Gmail. Carral descartado por distancia (borrador sin enviar: contestar a Borja o descartarlo)
 
 ## Cuentas y cobros
 
