@@ -1,5 +1,16 @@
 # Changelog — Coruña Atlantics Web
 
+## [2026-11-15] — Plantillas para los uniformes de College Football 27
+
+**Qué se hizo:**
+- **Team Builder:** se intentó crear un uniforme nuevo, pero EA solo deja 5 (Home y Away fijos más 3 alternativos borrables) y ya están todos ocupados. Él decidió no borrar ninguno, así que no se ha tocado nada en el juego
+- Propuesta escrita de un alternativo "Riverwalk" (casco mate, números en los hombros, rayas de manga, nameplate) basada en las opciones reales del editor
+- **Plantillas para las Custom Layers:** 23 PNG sin fondo y recortados, generados con `equipacion/cfb27/generar.py`: "ATLANTICS" y "MARYLAND STATE" para el pecho (rectos y en arco), tiras para la nuca, tridente y monograma AC para la manga, letras MS, banderas de EE. UU. y Galicia, sello de la escuela y parche de capitán. Hoja de muestra en `equipacion/cfb27/hoja.png`
+
+**Archivos modificados:** `equipacion/cfb27/` (nuevo: `generar.py`, `png/`, `hoja.png`), `CLAUDE.md`, `CHANGELOG.md`.
+
+**Pendiente:** elegir qué alternativo se sustituye (si alguno) para montar el uniforme nuevo y subir las plantillas como Custom Layers.
+
 ## [2026-11-15] — Colegios aplazados y playbook publicado
 
 **Qué se hizo:**

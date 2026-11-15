@@ -32,7 +32,7 @@ Hashtag: #WeAreAtlantics · Mascota: Poseidón (teal, tridente dorado)
 - docs/colegios/ — sesiones de flag en colegios: plan, lista de centros, dossier PDF y correos
 - docs/privado/ — fuera de git (el repo es público y la web sirve docs/): cuentas con nombres e importes y listas con correos de personas. Nunca datos personales en docs/ fuera de esta carpeta
 - videos/GUION_REEL_HYPE.md — guión y flujo de montaje de Reels
-- equipacion/ — bocetos de ropa: uniformes (generar.py), sudaderas y chándales (generar_ropa.py, rondas en rondaN/, definitivas con mejoras.py), varsity (generar_varsity.py) y renders/fichas para el proveedor (generar_render.py, ficha_proveedor.py)
+- equipacion/ — bocetos de ropa: uniformes (generar.py), sudaderas y chándales (generar_ropa.py, rondas en rondaN/, definitivas con mejoras.py), varsity (generar_varsity.py) y renders/fichas para el proveedor (generar_render.py, ficha_proveedor.py); cfb27/ son plantillas PNG para las Custom Layers de los uniformes del Team Builder de College Football 27 (generar.py)
 - monograma/ – monograma AC entrelazado estilo varsity. Elegido: Graduate a una tinta, en definitivo/ (definitivo.py, formas cerradas para bordar/serigrafiar, teal y blanco). generar.py saca las pruebas de color en svg/ y png/ y hoja.html
 - playbook/ — playbook del club (generar.py saca el A4, la versión del móvil y app/js/playbook-datos.js; wristband.py y playsheet.py, las de ataque y defensa; wristband_grande.py, la de la muñequera de 17 × 12 cm); entrenos/ — hojas de entrenamiento para imprimir (fuera de git)
 - redes/ — plantillas y posts de Instagram (fuera de git); índice en redes/LEEME.md, guía de marca en redes/guia-marca/
