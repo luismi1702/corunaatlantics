@@ -7,10 +7,11 @@
 - **Playbook en la app:** Wheel y Drag no salían porque el commit del 13 nov no se había subido. Subido; la app ya las tiene
 - **Caja:** apuntados los gastos del 14 nov en la app y en `cuentas.md`, con la misma cifra en los dos sitios
 - Portada de Reel de Training Day de las vallas, en azul, preparada en `redes/`
+- **College Football 27 (Team Builder de EA):** el logo principal de Atlantics salía pequeño en el juego porque la imagen tenía dos tercios de margen transparente. Subido el escudo recortado en 1024×1024 y guardado (sin Submit). Uniformes sin tocar; propuestas para hacerlos más realistas dadas en el chat
 
 **Archivos modificados:** `docs/pendiente.md`, `CHANGELOG.md`, `videos/halloween/` (scripts); fuera de git, `docs/privado/cuentas.md`, `docs/privado/colegios/`, `redes/`.
 
-**Pendiente:** avisar a Cidade Vella por WhatsApp.
+**Pendiente:** avisar a Cidade Vella por WhatsApp; decidir si se hace Submit del equipo en el Team Builder y qué cambios de uniforme se aplican.
 
 ## [2026-11-13] — Wheel y Drag en el playbook, Iván entra y FEFAPA pagada
 
