@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 """Wristbands de ataque y de defensa, a tamaño real para imprimir.
 
-Tres ventanas: la de arriba es una carátula (no deja ver las jugadas) y las
-jugadas, numeradas por formación, van repartidas en las otras dos.
+Tres ventanas, las tres con jugadas (sin carátula desde el 21 nov 2026, para
+que quepan más holgadas). Las jugadas van numeradas por formación.
 Numeración: 11-19 Spread, 21-24 Twins, 31-34 Trips, 41-44 Bunch, 51 Trips Stacked.
 
-Uso: python wristband.py  ->  wristband.html (A4, con marcas de corte).
+Uso: python wristband.py  ->  wristband.html y wristband.pdf (A4, con marcas de corte).
 Los dibujos salen de generar.py, así que la wristband y el playbook siempre
 coinciden.
 """
@@ -23,8 +23,8 @@ with contextlib.redirect_stdout(io.StringIO()):     # generar.py imprime lo que 
 VENTANA = (90, 70)
 ANCHO, ALTO, MARGEN = VENTANA[0] - 2, VENTANA[1] - 2, 4
 
-# Ventana 2 y ventana 3: qué formaciones van en cada una.
-VENTANAS = [["Spread"], ["Twins", "Trips", "Bunch", "Trips Stacked"]]
+# Ventanas 1, 2 y 3: qué formaciones van en cada una.
+VENTANAS = [["Spread"], ["Twins", "Trips"], ["Bunch", "Trips Stacked"]]
 
 FORMS = {nom: nombres for nom, _, nombres in g.APP_FORMACIONES}
 DECENA = {nom: 10 * (i + 1) for i, (nom, _, _) in enumerate(g.APP_FORMACIONES)}
@@ -71,7 +71,15 @@ def ventana_jugadas(formas):
                       for f in formas)
     cols = 2 if len(cas) <= 6 else 3          # la tarjeta es estrecha: pocas columnas, dibujos más anchos
     return (f'<div class="ventana jugadas"><div class="leyenda">{leyenda}</div>'
-            f'<div class="rejilla" style="grid-template-columns:repeat({cols},1fr)">{"".join(cas)}</div></div>')
+            f'<div class="rejilla"{rejilla_estilo(len(cas), cols)}>{"".join(cas)}</div></div>')
+
+
+def rejilla_estilo(n, cols):
+    """Columnas de la rejilla; si la última fila no se llena, su última casilla
+    se estira hasta el final para que no quede un hueco gris."""
+    sobra = cols - n % cols if n % cols else 0
+    return f' style="grid-template-columns:repeat({cols},1fr);--ultima:span {sobra + 1}"'
+
 
 
 def caratula(titulo):
@@ -80,7 +88,7 @@ def caratula(titulo):
 
 
 # --- defensa: las coberturas del capítulo 6, por nombre (es lo que se canta)
-DEF_VENTANAS = [["Rocco", "Jonas", "Simon", "Ramone", "Salomé"], ["Bunch", "Joachim", "Valhalla"]]
+DEF_VENTANAS = [["Rocco", "Jonas", "Simon"], ["Ramone", "Salomé"], ["Bunch", "Joachim", "Valhalla"]]
 
 
 def dibujo_def(svg):
@@ -116,7 +124,7 @@ def leyenda_def():
 def ventana_def(nombres, titulo, cols, leyenda=False):
     cas = [casilla_def(g.COBERTURAS[n]) for n in nombres] + ([leyenda_def()] if leyenda else [])
     return (f'<div class="ventana jugadas"><div class="leyenda"><span class="fdef"><b>{titulo}</b></span></div>'
-            f'<div class="rejilla" style="grid-template-columns:repeat({cols},1fr)">{"".join(cas)}</div></div>')
+            f'<div class="rejilla"{rejilla_estilo(len(cas), cols)}>{"".join(cas)}</div></div>')
 
 
 CSS = f"""
@@ -180,6 +188,7 @@ body {{ background:#cfd8da; font-family:'Barlow',sans-serif; color:#040d12; }}
 .fdef .dib rect[width="14"] {{ width:14px; height:14px; transform:none; stroke-width:1.6 !important; }}
 .fdef .dib text {{ font-size:9px !important; }}
 .fdef .dib text.tri {{ font-size:13px !important; }}
+.rejilla > .cas:last-child {{ grid-column:var(--ultima, auto); }}
 .ley {{ border-top-color:#040d12; justify-content:center; }}
 .ley ul {{ list-style:none; padding:1mm 2mm; display:grid; gap:.6mm; }}
 .ley li {{ font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:7pt; display:flex; align-items:center; gap:1.2mm; }}
@@ -196,18 +205,18 @@ html = f"""<!DOCTYPE html>
   <h2>Wristband · Ataque</h2>
   <p>Tamaño real: cada tarjeta mide {ANCHO} × {ALTO} mm, para una ventana de {VENTANA[0]} × {VENTANA[1]} mm; los {MARGEN} mm del borde quedan bajo el marco. Imprimir al 100 % (sin «ajustar a la página») y recortar por la línea discontinua.</p>
   <div class="juego">
-    <div class="fila"><small>Ventana 1 · arriba</small>{caratula("Ataque")}</div>
-    <div class="fila"><small>Ventana 2</small>{ventana_jugadas(VENTANAS[0])}</div>
-    <div class="fila"><small>Ventana 3</small>{ventana_jugadas(VENTANAS[1])}</div>
+    <div class="fila"><small>Ventana 1 · arriba</small>{ventana_jugadas(VENTANAS[0])}</div>
+    <div class="fila"><small>Ventana 2</small>{ventana_jugadas(VENTANAS[1])}</div>
+    <div class="fila"><small>Ventana 3</small>{ventana_jugadas(VENTANAS[2])}</div>
   </div>
 </section>
 <section class="hoja">
   <h2>Wristband · Defensa</h2>
   <p>Mismo tamaño que la de ataque. Cada cobertura lleva su número de call (del 1 al 8), para poder mandarla con el número; las jugadas de ataque van del 11 al 51.</p>
   <div class="juego">
-    <div class="fila"><small>Ventana 1 · arriba</small>{caratula("Defensa")}</div>
-    <div class="fila"><small>Ventana 2 · zona</small>{ventana_def(DEF_VENTANAS[0], "1–5 · Zona", 2)}</div>
-    <div class="fila"><small>Ventana 3 · hombre</small>{ventana_def(DEF_VENTANAS[1], "6–8 · Hombre a hombre", 2, leyenda=True)}</div>
+    <div class="fila"><small>Ventana 1 · zona</small>{ventana_def(DEF_VENTANAS[0], "1–3 · Zona", 2)}</div>
+    <div class="fila"><small>Ventana 2 · zona</small>{ventana_def(DEF_VENTANAS[1], "4–5 · Zona", 1)}</div>
+    <div class="fila"><small>Ventana 3 · hombre</small>{ventana_def(DEF_VENTANAS[2], "6–8 · Hombre a hombre", 2, leyenda=True)}</div>
   </div>
 </section>
 <script>
@@ -240,6 +249,19 @@ Object.values(grupos).forEach(svgs => {{
 </body></html>
 """
 
-with open(os.path.join(AQUI, "wristband.html"), "w", encoding="utf-8") as f:
+ruta = os.path.join(AQUI, "wristband.html")
+with open(ruta, "w", encoding="utf-8") as f:
     f.write(html)
 print("wristband.html")
+
+if __name__ == "__main__":
+    from pathlib import Path
+    from playwright.sync_api import sync_playwright
+    with sync_playwright() as p:
+        b = p.chromium.launch()
+        pg = b.new_page()
+        pg.goto(Path(ruta).as_uri()); pg.wait_for_load_state("networkidle")
+        pg.evaluate("document.fonts.ready"); pg.wait_for_timeout(500)
+        pg.pdf(path=os.path.join(AQUI, "wristband.pdf"), prefer_css_page_size=True, print_background=True)
+        b.close()
+    print("wristband.pdf")

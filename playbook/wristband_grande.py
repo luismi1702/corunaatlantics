@@ -37,7 +37,7 @@ def ataque():
 
 
 def defensa():
-    nombres = w.DEF_VENTANAS[0] + w.DEF_VENTANAS[1]
+    nombres = sum(w.DEF_VENTANAS, [])
     cas = [w.casilla_def(g.COBERTURAS[n]) for n in nombres] + [w.leyenda_def()]
     return (f'<div class="ventana xl jugadas"><div class="leyenda"><span class="fdef"><b>1–5 · Zona</b></span>'
             f'<span class="fdef"><b>6–8 · Hombre a hombre</b></span></div>'
