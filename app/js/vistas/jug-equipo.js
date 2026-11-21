@@ -17,6 +17,7 @@ import {
   html, crudo, $, $$, nombreCompleto, tag, TAG_JUGADOR,
   ESTADISTICAS, ESTADISTICA, conRespaldo, cargando, vacio
 } from '../ui.js';
+import { pct, notaClasificacion } from '../clasificacion.js';
 
 let vista = 'plantilla';
 let orden = 'td';
@@ -65,15 +66,16 @@ export async function render(ctx, cont) {
         <div class="tabla-clas">
           ${tabla.map((f, i) => html`
             <div class="fila-clas ${f.es_nuestro ? 'nuestro' : ''}">
-              <span class="pos">${i + 1}</span>
+              <span class="pos">${i + 1}${f.sorteo ? '*' : ''}</span>
               <span class="equipo">${escudo(f.equipo)}${f.equipo}</span>
               <span class="dato">${f.jugados}</span>
               <span class="dato">${f.ganados}</span>
               <span class="dato">${f.perdidos}</span>
-              <span class="dato fuerte">${f.puntos}</span>
+              <span class="dato fuerte">${pct(f)}</span>
             </div>`)}
         </div>
-        <p class="leyenda-clas"><span>Pos</span><span>Equipo</span><span>J</span><span>G</span><span>P</span><span>Pts</span></p>`)
+        <p class="leyenda-clas"><span>Pos</span><span>Equipo</span><span>J</span><span>G</span><span>P</span><span>%</span></p>
+        ${crudo(notaClasificacion(tabla))}`)
         : vacio('Todavía no hay resultados en esta competición.')}`;
 
   // De filas sueltas a una por jugador, con todos sus conceptos juntos.

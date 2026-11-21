@@ -9,6 +9,7 @@
 import { createClient } from './vendor/supabase-supabase-js-2.115.0.js';
 import { SUPABASE_URL, SUPABASE_ANON_KEY } from './config.js';
 import { hoyISO } from './ui.js';
+import { calcularClasificacion } from './clasificacion.js';
 
 export const sb = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
   auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true }
@@ -743,14 +744,12 @@ export const borrarPartidoCompeticion = (id) =>
 export const partidoDeEvento = (eventoId) =>
   sb.from('partidos_competicion').select('*').eq('evento_id', eventoId).maybeSingle().then(ok);
 
-// La tabla no se teclea: sale de los partidos. Se ordena por puntos y, a
-// igualdad, por diferencia de puntos, que es el desempate habitual.
-export const clasificacion = (competicionId) =>
-  sb.from('clasificacion').select('*').eq('competicion_id', competicionId)
-    .order('puntos', { ascending: false })
-    .order('diferencia', { ascending: false })
-    .order('puntos_favor', { ascending: false })
-    .then(ok);
+// La tabla no se teclea: sale de los partidos, con las reglas de FEFAPA
+// (porcentaje de victorias y su desempate). La cuenta está en clasificacion.js.
+export async function clasificacion(competicionId) {
+  const [equipos, partidos] = await Promise.all([equiposDe(competicionId), partidosDe(competicionId)]);
+  return calcularClasificacion(equipos, partidos);
+}
 
 // Nuestros partidos viven en dos sitios: en la tabla de la liga, que es de
 // donde sale la clasificacion, y en el calendario, que es donde se pasa lista y

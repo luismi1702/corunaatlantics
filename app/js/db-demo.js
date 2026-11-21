@@ -1,3 +1,4 @@
+import { calcularClasificacion } from './clasificacion.js';
 // Sustituto de db.js con datos inventados, para ver la app sin Supabase.
 // Lo carga demo.html mediante un import map. Nada de esto sale del navegador:
 // los cambios viven en memoria y se pierden al recargar.
@@ -735,38 +736,10 @@ export const borrarPartidoCompeticion = (id) => { const i = PARTIDOS_COMP.findIn
 
 export const partidoDeEvento = (eventoId) => demora(PARTIDOS_COMP.find(p => p.evento_id === eventoId) ?? null);
 
-// La misma cuenta que hace la vista de la base de datos, aqui a mano.
-export const clasificacion = (cid) => {
-  const comp = COMPETICIONES.find(c => c.id === cid);
-  const pv = comp?.puntos_victoria ?? 3;
-  const pe = comp?.puntos_empate ?? 1;
-
-  const filas = EQUIPOS_COMP.filter(e => e.competicion_id === cid).map(e => {
-    const suyos = PARTIDOS_COMP.filter(p => p.competicion_id === cid &&
-      p.puntos_local != null && p.puntos_visitante != null &&
-      (p.local_id === e.id || p.visitante_id === e.id));
-
-    const marcadores = suyos.map(p => p.local_id === e.id
-      ? { pf: p.puntos_local, pc: p.puntos_visitante }
-      : { pf: p.puntos_visitante, pc: p.puntos_local });
-
-    const ganados   = marcadores.filter(m => m.pf > m.pc).length;
-    const empatados = marcadores.filter(m => m.pf === m.pc).length;
-    const favor     = marcadores.reduce((s, m) => s + m.pf, 0);
-    const contra    = marcadores.reduce((s, m) => s + m.pc, 0);
-
-    return {
-      competicion_id: cid, equipo_id: e.id, equipo: e.nombre, es_nuestro: e.es_nuestro,
-      jugados: marcadores.length, ganados, empatados,
-      perdidos: marcadores.filter(m => m.pf < m.pc).length,
-      puntos_favor: favor, puntos_contra: contra, diferencia: favor - contra,
-      puntos: ganados * pv + empatados * pe
-    };
-  });
-
-  filas.sort((a, b) => b.puntos - a.puntos || b.diferencia - a.diferencia || b.puntos_favor - a.puntos_favor);
-  return demora(filas);
-};
+// La misma cuenta que la app de verdad (clasificacion.js).
+export const clasificacion = (cid) => demora(calcularClasificacion(
+  EQUIPOS_COMP.filter(e => e.competicion_id === cid),
+  PARTIDOS_COMP.filter(p => p.competicion_id === cid)));
 
 // En la demo el calendario tambien se mueve, para que se vea el enganche.
 export const sincronizarEventoDePartido = (partido, { equipos }) => {

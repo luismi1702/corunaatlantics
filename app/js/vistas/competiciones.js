@@ -14,6 +14,7 @@ import {
 } from '../ui.js';
 import { abrirEstadisticas } from './stats-partido.js';
 import { escudo } from '../escudos.js';
+import { pct, notaClasificacion } from '../clasificacion.js';
 
 const TIPOS = { liga: 'Liga', torneo: 'Torneo', amistoso: 'Amistosos' };
 
@@ -104,7 +105,7 @@ async function abrirCompeticion(ctx, comp, alGuardar) {
             </div>
             <div class="dcha">
               ${jugado(p)
-                ? crudo(html`<span class="marcador">${p.puntos_local}-${p.puntos_visitante}</span>`)
+                ? crudo(html`<span class="marcador">${p.puntos_local}-${p.puntos_visitante}${p.no_presentado ? ' NP' : ''}</span>`)
                 : crudo('<span class="tag n">Sin jugar</span>')}
             </div>
           </button>`) : vacio('Ningún partido apuntado todavía.')}
@@ -116,15 +117,16 @@ async function abrirCompeticion(ctx, comp, alGuardar) {
         <div class="tabla-clas">
           ${tabla.map((f, i) => html`
             <div class="fila-clas ${f.es_nuestro ? 'nuestro' : ''}">
-              <span class="pos">${i + 1}</span>
+              <span class="pos">${i + 1}${f.sorteo ? '*' : ''}</span>
               <span class="equipo">${escudo(f.equipo)}${f.equipo}</span>
               <span class="dato">${f.jugados}</span>
               <span class="dato">${f.ganados}</span>
               <span class="dato">${f.perdidos}</span>
-              <span class="dato fuerte">${f.puntos}</span>
+              <span class="dato fuerte">${pct(f)}</span>
             </div>`)}
         </div>
-        <p class="leyenda-clas"><span>Pos</span><span>Equipo</span><span>J</span><span>G</span><span>P</span><span>Pts</span></p>`)
+        <p class="leyenda-clas"><span>Pos</span><span>Equipo</span><span>J</span><span>G</span><span>P</span><span>%</span></p>
+        ${crudo(notaClasificacion(tabla))}`)
         : vacio('La tabla saldrá sola en cuanto apuntes algún resultado.')}`)}
 
     ${nuestro ? crudo(html`
@@ -149,17 +151,18 @@ async function abrirCompeticion(ctx, comp, alGuardar) {
   $('#csv', panel).addEventListener('click', () => descargarCSV(
     'atlantics-' + comp.nombre.replace(/[^\wáéíóúñÁÉÍÓÚÑ ]+/g, '').trim() + '-' + ctx.temporada.nombre,
     [['Clasificación', comp.nombre, TIPOS[comp.tipo], ctx.temporada.nombre],
-     ['Pos','Equipo','J','G','E','P','PF','PC','Dif','Pts'],
+     ['Pos','Equipo','J','G','P','% victorias','PF','PC','Dif','No presentado'],
      ...tabla.map((f, i) => [
-       i + 1, f.equipo, f.jugados, f.ganados, f.empatados, f.perdidos,
-       f.puntos_favor, f.puntos_contra, f.diferencia, f.puntos
+       i + 1 + (f.sorteo ? '*' : ''), f.equipo, f.jugados, f.ganados, f.perdidos, pct(f),
+       f.puntos_favor, f.puntos_contra, f.diferencia, f.incomparecencias || ''
      ]),
      [],
      ['Partidos'],
-     ['Jornada','Fecha','Local','Visitante','Puntos local','Puntos visitante','Nuestro'],
+     ['Jornada','Fecha','Local','Visitante','Puntos local','Puntos visitante','No se presentó','Nuestro'],
      ...partidos.map(p => [
        p.jornada, p.fecha, nombreDe(p.local_id), nombreDe(p.visitante_id),
-       p.puntos_local, p.puntos_visitante, esNuestro(p) ? 'Sí' : ''
+       p.puntos_local, p.puntos_visitante, p.no_presentado ? nombreDe(p.no_presentado) : '',
+       esNuestro(p) ? 'Sí' : ''
      ])]));
 
   $$('[data-equipo]', panel).forEach(b => b.addEventListener('click', () => {
@@ -297,7 +300,8 @@ function editarPartido(ctx, comp, partido, equipos, alGuardar) {
       <p class="eyebrow">Resultado</p>
       <p class="ayuda" style="margin:0 0 .7rem;line-height:1.6">
         Déjalo en blanco si aún no se ha jugado. En cuanto lo pongas, cuenta
-        para la clasificación.
+        para la clasificación. No hay empates: si se fue a la prórroga, súmale
+        un punto al ganador sobre el marcador del tiempo reglamentario.
       </p>
       <div class="dos">
         <div class="campo"><label>Local</label>
@@ -307,6 +311,13 @@ function editarPartido(ctx, comp, partido, equipos, alGuardar) {
           <input name="puntos_visitante" type="number" min="0" inputmode="numeric"
                  value="${partido.puntos_visitante ?? ''}"></div>
       </div>
+
+      <div class="campo"><label>No se presentó</label>
+        <select name="no_presentado">
+          <option value="">Nadie, se jugó</option>
+          <option value="local" ${partido.no_presentado && partido.no_presentado === partido.local_id ? crudo('selected') : ''}>El local</option>
+          <option value="visitante" ${partido.no_presentado && partido.no_presentado === partido.visitante_id ? crudo('selected') : ''}>El visitante</option>
+        </select></div>
 
       ${partido.evento_id ? crudo(html`
         <button type="button" class="btn ancho" id="stats" style="margin-top:.4rem">
@@ -330,6 +341,15 @@ function editarPartido(ctx, comp, partido, equipos, alGuardar) {
       return fallo('Un equipo no puede jugar contra sí mismo.');
     }
 
+    // Incomparecencia: derrota 2-0 para el que no fue (art. 33).
+    const noFue = f.get('no_presentado');
+    if (noFue) {
+      f.set('puntos_local', noFue === 'local' ? '0' : '2');
+      f.set('puntos_visitante', noFue === 'local' ? '2' : '0');
+    } else if (f.get('puntos_local') !== '' && f.get('puntos_local') === f.get('puntos_visitante')) {
+      return fallo('En FEFAPA no hay empates: al ganador de la prórroga se le suma un punto al marcador.');
+    }
+
     const datos = {
       competicion_id: comp.id,
       local_id: f.get('local_id'),
@@ -341,6 +361,11 @@ function editarPartido(ctx, comp, partido, equipos, alGuardar) {
       puntos_local: cifra('puntos_local'),
       puntos_visitante: cifra('puntos_visitante')
     };
+    // Solo se manda si hace falta: así guardar sigue funcionando aunque la
+    // columna (34_fefapa.sql) aún no esté en la base de datos.
+    if (noFue || partido.no_presentado) {
+      datos.no_presentado = noFue ? f.get(noFue === 'local' ? 'local_id' : 'visitante_id') : null;
+    }
 
     try {
       const guardado = esNuevo
@@ -405,14 +430,10 @@ function editarCompeticion(ctx, comp, alGuardar) {
             <option value="${v}" ${(comp.tipo ?? 'liga') === v ? crudo('selected') : ''}>${t}</option>`)}
         </select></div>
 
-      <div class="dos">
-        <div class="campo"><label>Puntos por victoria</label>
-          <input name="puntos_victoria" type="number" min="0" inputmode="numeric"
-                 value="${comp.puntos_victoria ?? 3}"></div>
-        <div class="campo"><label>Por empate</label>
-          <input name="puntos_empate" type="number" min="0" inputmode="numeric"
-                 value="${comp.puntos_empate ?? 1}"></div>
-      </div>
+      <p class="ayuda" style="margin:0 0 1rem;line-height:1.6">
+        La clasificación sigue el reglamento de FEFAPA: porcentaje de victorias
+        y, si hay empate, enfrentamiento directo y puntos recibidos por partido.
+      </p>
 
       <div class="campo"><label>Notas</label>
         <textarea name="notas">${comp.notas ?? ''}</textarea></div>
@@ -433,8 +454,6 @@ function editarCompeticion(ctx, comp, alGuardar) {
       temporada_id: ctx.temporada.id,
       nombre: f.get('nombre'),
       tipo: f.get('tipo'),
-      puntos_victoria: Number(f.get('puntos_victoria')) || 0,
-      puntos_empate: Number(f.get('puntos_empate')) || 0,
       notas: f.get('notas') || null,
       activa: f.get('activa') === 'on'
     };
