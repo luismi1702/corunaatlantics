@@ -66,6 +66,12 @@ Trucos del formulario: al buscar "Atlantic" en Club sale también "[DEV] Atlanti
 hay que buscar "Coru". Los desplegables fallan si se pulsan muy seguidos, así que hay
 que revisar la pantalla de Confirmación antes de darle.
 
+### 16 nov 2026: Iván Castiñeira Díaz
+
+Mismo formulario y misma licencia. No había subido foto a la app, así que la foto del perfil
+es un recorte de la del DNI (`foto-licencia.jpg`). Antes de crear el perfil, buscarlo por DNI en
+"Seleccionar perfil existente": si no sale, "Crear perfil nuevo".
+
 ## Lo que el manual no dice
 
 - Qué documentos hay que subir (DNI, foto, reconocimiento médico) ni en qué formato:

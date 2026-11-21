@@ -29,6 +29,8 @@ Hashtag: #WeAreAtlantics · Mascota: Poseidón (teal, tridente dorado)
 - docs/decisiones.md — registro de decisiones técnicas
 - docs/pendiente.md — lo que tiene que hacer él a mano (Supabase, pruebas en el móvil)
 - docs/contacto-esn-coruna.md — textos de contacto con ESN y universidades
+- docs/liga-norte-reglas.md — reglas de clasificación, desempate y playoffs de la Liga Norte (FEFAPA) y cómo las aplica la app
+- docs/subvenciones-diputacion-2027.md — ayudas de la Diputación de A Coruña 2027: bases, requisitos y plan (solo encaja la FO103C)
 - docs/colegios/ — sesiones de flag en colegios: plan, lista de centros, dossier PDF y correos
 - docs/privado/ — fuera de git (el repo es público y la web sirve docs/): cuentas con nombres e importes y listas con correos de personas. Nunca datos personales en docs/ fuera de esta carpeta
 - videos/GUION_REEL_HYPE.md — guión y flujo de montaje de Reels

@@ -768,3 +768,30 @@ filtro de Galicia, así que hay otra con las mismas palabras, beneficiarios e in
 con convocante "Administración del Estado" (todos los ministerios) y sin filtro de región.
 
 **Alternativas descartadas:** BOE Alerta (de pago); revisar los boletines a mano.
+
+## [2026-11-16] — Subvenciones de la Diputación 2027: solo la FO103C
+
+**Decisión:** pedir solo la FO103C (competición federada nacional), si la Diputación confirma
+que la Liga Norte de FEFAPA cuenta. No presentar la FO103A del 18 dic "por si acaso".
+
+**Motivo:** FO103A, FO103B y FO104 exigen un presupuesto de gastos de al menos 5.000 € y el club
+no llega; la FO103C no tiene mínimo (importe fijo de hasta 15.000 €, con el tope del 80 % del
+gasto). Las cuatro son incompatibles entre sí desde que se presenta la solicitud, así que pedir
+una cierra las otras.
+
+**Alternativas descartadas:** FO103A en diciembre y FO103C en enero (incompatibles); FO103B (pide
+certificado de una federación gallega que no existe); FO104 (solo material inventariable).
+
+
+## [2026-11-21] — Clasificación de la liga calculada en el navegador
+
+**Decisión:** la clasificación se calcula en `app/js/clasificacion.js` con las reglas de FEFAPA
+(porcentaje de victorias, incomparecencia 2-0 y desempate del art. 34) y se borra la vista SQL
+`clasificacion`, que daba 3 puntos por victoria y 1 por empate.
+
+**Motivo:** el desempate por enfrentamiento directo depende de qué equipos estén empatados entre
+sí, y eso en una vista SQL queda ilegible. Con pocos equipos y partidos, calcularlo en el cliente
+cuesta nada, y la misma función la usan la consola, la app del jugador y la demo.
+
+**Alternativas descartadas:** reescribir la vista en SQL; mantener los puntos configurables por
+competición (FEFAPA no usa puntos).

@@ -10,14 +10,18 @@ borra de aquí.
 
 - [x] David: pedido pagado el 23/10, 557 USD (≈ 516 €). Prometió recibirlo antes del 18 nov; por contrato, envío garantizado el 19 nov
 - [ ] David: dice que sale el 10-12 nov; si el 12 nov no ha dicho que está enviado, reclamárselo
-- [ ] Primer partido: **sáb 21 nov vs CFA Cambre Towers, Campo Dani Mallo** (aviso de Clupik del 6/11, hora sin poner). Apuntarlo en el calendario y **avisar a David** (es antes del 25 nov); su chat de Alibaba está pendiente de revisar (hay que volver a iniciar sesión)
+- [ ] Equipaciones: el 19/11 en España, CTT (008280004101970074223) aún sin recibirlo; se esperan el 23-24 nov, no para el sáb 21. Reclamado a David el 19/11; mirar su respuesta y llevar plan B de camisetas a Cambre
+- [ ] Primer partido: **sáb 21 nov vs CFA Cambre Towers, Campo Dani Mallo, 14:30** (hora puesta en Clupik el 16/11). Apuntarlo en el calendario y **avisar a David** (es antes del 25 nov); su chat de Alibaba está pendiente de revisar (hay que volver a iniciar sesión)
 - [ ] Nerion: firmar el acuerdo nuevo (21/10, se acepta tal cual). Antes, confirmar la junta en el Registro. Como la 5.a sigue cediendo "imagen", no mandarles fotos de jugadores sin su ok; los balones KS1 pedirlos como pedido de club (12 %, no 10 %). Después: anuncio en redes (2.f), logo en cartelería y streams (2.g), historia semanal (2.a) y un post cada 50 días (2.e)
-- [ ] Nerion: pagar la factura NA2026035 (456,99 €) y cobrar su parte a los dos jugadores que pidieron con el club (reparto en `docs/privado/cuentas.md`)
+- [ ] Nerion: el pedido NA2026035 (pagado y cobrado) llegó el 20/11 incompleto. Faltan la camiseta UA y el Playcoach (del club), y una cinta D3 y los guantes Vapor Jet 9.0 (de Bárbara). Preguntar a Nerion si vienen aparte o reclamarlos (reparto en `docs/privado/cuentas.md`)
 - [x] David: dirección y camiseta local extra incluidas en el pedido
 - [ ] NFL: los Dolphins contestaron el 27/10 y nos pasan con su Country Manager en España (hilo del correo del club); respondido el 27/10, esperar su contestación. Falta el formulario de NFL FLAG (2-3 semanas); LinkedIn a Rafa De Los Santos cuando quieras
 - [ ] Bolsa de material: medir la Under Armour por dentro y probar la cremallera con los pylons antes de comprar la plancha y cortar (medidas en `docs/bolsa-material.md`); medir y contar los conos altos
 - [ ] Muñequera grande: medir el plástico de la ventana por dentro; si no es 17 × 12 cm, cambiar `VENTANA` en `playbook/wristband_grande.py`
 - [ ] Con el pedido hecho: `drop view if exists tallas_pedido;`
+- [ ] Subvenciones de la Diputación 2027 (`docs/subvenciones-diputacion-2027.md`): socios (piden 25; de eso se ocupa Luis), elegir una sola. Plazos: FO103A y FO104 hasta el 18 dic; FO103B/C hasta el 2 feb
+- [x] 16/11: consulta enviada a deportes@dacoruna.gal (981 415 783) desde coruna.atlantics@: si la Liga Norte es FO103C o FO103B, qué federación certifica y si cabe el FO103A. Esperar respuesta
+- [ ] Solo si hace falta sacar el certificado digital de representante del club (FNMT) o alguien lo pide: certificado de entidade e representante del REDEGA por PR946A (tasa 3,21 €). Para la solicitud de la Diputación no se pide
 - [ ] Subvenciones: confirmar la segunda alerta de InfoSubvenciones (n.º 298650, la del Estado) con el enlace del correo que llegó a coruna.atlantics@. La de Galicia ya está activada
 - [ ] Redes: publicar el post de Halloween el 31/10 (`redes/posts/fechas/`) y el Reel con la portada genérica local (`redes/posts/reel-training-day-local/`); al publicarlos, decirlo para apuntarlo en `redes/LEEME.md`
 
@@ -48,7 +52,10 @@ Cómo dar de alta a cada jugador en Clupik para la licencia FEFA: `inscribir-lic
 - [x] 8 jugadores inscritos en Clupik con la licencia FEFA Nacional Flag Senior (22 oct); todos menos Yllanes
 - [x] 3 nov: pagadas a la FEFA 9 licencias Flag Senior (1.125 €) y enviado el justificante desde coruna.atlantics@
 - [x] 13 nov: pagadas a FEFAPA 10 licencias (150 €, con Iván) y enviado el justificante a secretaria@fefapa.es
-- [ ] Iván (nuevo): que suba DNI por las dos caras y foto a la app; después, inscribirlo en Clupik y pagar su licencia FEFA (125 €)
+- [x] 20 nov: enviadas a secretaria@fefapa.es las autorizaciones de protección de datos y uso de imágenes de los 10 (dos PDF por jugador, firma con el nombre en letra Mr Dafoe con el ok de cada uno; copias en fefapa/envio-autorizaciones/). Esperar respuesta
+- [x] Iván (nuevo): inscrito en Clupik el 16/11 (licencia FEFA Nacional Flag Senior), con la foto recortada del DNI (el holograma tapa media cara: si la FEFA la rechaza, pedirle una foto). Ya son 10 en la plantilla de la Liga Norte
+- [x] Iván: licencia FEFA pagada (125 €, 16/11) y justificante enviado a administracion@fefa.es en el hilo "Pago de licencias Flag Senior", pidiendo que la validen antes del sábado 21
+- [ ] Esperar la validación de la licencia de Iván (y su factura de la FEFA)
 - [ ] Esperar a que la federación las valide (ahora están "en revisión") y ver cómo se pagan los 125 €
 - [ ] 2 nov: preguntado a administracion@fefa.es (desde coruna.atlantics@) si se paga por transferencia a la cuenta
       que dio Pascual en julio (en `docs/privado/cuentas.md`) o por Clupik, qué concepto, si vale pagar 8 ahora y la
@@ -182,6 +189,7 @@ en nuestra sede, a Ravens.
 
 - [ ] J1 (21-22 nov): llevar el material del campo 2 y un asistente con licencia. El material no estará antes del 17 nov (pylons)
 - [ ] J3 en casa (19-20 dic): reservar dos campos para 5 partidos
+  (pedido al Concello el 19/11 por Solicitude xeral, reg. n.º 93452; los entrenos, reg. n.º 93450. Si el ~1 dic no han contestado, llamar a Deportes 981 189 800. Detalle en docs/usos-idm-concello.md)
 
 - [ ] **Antes del 18 oct, 23:59 — inscripción** del club y del equipo en el portal
       Clupik (no LEVERADE, según el presidente, 17 oct), con los justificantes de pago subidos.

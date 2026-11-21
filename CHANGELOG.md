@@ -1,5 +1,93 @@
 # Changelog — Coruña Atlantics Web
 
+## [2026-11-21] — Wristband sin carátula, J1 de la Liga Norte y clasificación FEFAPA en la app
+
+**Qué se hizo:**
+- **Wristband** sin la carátula de ataque/defensa: las tres ventanas llevan jugadas. Solo la de ataque (8,8 × 6,8 cm) enviada en PDF desde el correo del club al personal
+- **Post del resultado** Towers 40 – 6 Atlantics (J1, Cambre), versión tipográfica visitante con tres textos
+- **Resultados de la J1** subidos a la app a partir de las stories de asturiasfootball
+- **Reglas de clasificación y playoffs** de FEFAPA resumidas en `docs/liga-norte-reglas.md` (porcentaje de victorias, sin empates, incomparecencia 2-0, desempate del art. 34; formato de playoffs aún sin concretar)
+- **App:** la clasificación se calcula con las reglas de FEFAPA (`app/js/clasificacion.js`) en la consola, la app del jugador y la demo; campo "No se presentó" en el partido, no deja guardar empates y ya no pide puntos por victoria/empate. Migración `34_fefapa.sql` ejecutada en Supabase (columna `no_presentado` y borrada la vista `clasificacion`); publicado (commit 3e54f5c) y comprobado en la web
+- **Cuota en la app** puesta a 260 € en la temporada, en la cuota de Manuel Etuba (pendiente) y en la de Bárbara (exenta); estaba a 170
+- **Balón y bucal:** FEFAPA (arts. 13 y 25) y la IFAF 2023 (regla 1): cuero o Wilson Revo, nada sobre rayas; el bucal, si se lleva, de color visible y no blanco (los transparentes no valen)
+
+**Archivos modificados:** `app/js/clasificacion.js` (nuevo), `app/js/db.js`, `app/js/db-demo.js`, `app/js/vistas/competiciones.js`, `app/js/vistas/jug-equipo.js`, `app/sw.js`, `app/db/34_fefapa.sql` (nuevo), `app/db/00_instalar.sql`, `app/db/generar_instalador.py`, `playbook/wristband.py`, `playbook/wristband_grande.py`, `playbook/wristband*.pdf/html`, `docs/liga-norte-reglas.md` (nuevo), `docs/pendiente.md`, `docs/decisiones.md`, `CLAUDE.md`, `CHANGELOG.md`; fuera de git, `docs/privado/cuentas.md` y `redes/posts/resultado-21nov/`.
+
+**Pendiente:** publicar el post del resultado y apuntarlo en `redes/LEEME.md`; confirmar si Bárbara debe seguir exenta; preguntar a FEFAPA por las rayas del balón si hace falta.
+
+## [2026-11-20] — Autorizaciones a FEFAPA, Game Day de Cambre y pedido de Nerion
+
+**Qué se hizo:**
+- **Autorizaciones FEFAPA** (protección de datos y uso de imagen) firmadas con el nombre de cada jugador (todos dieron el ok) en fuente manuscrita y enviadas a secretaria@fefapa.es: 9 jugadores + Luis, sin Yllanes
+- **Cartel de Game Day** del sáb 21 nov (Towers vs Atlantics, 14:30, Campo Dani Mallo): versión visitante con la cabeza de Poseidón difuminada de fondo, Towers primero por ser local. Texto A elegido
+- **Pedido de Nerion** llegado incompleto: faltan la camiseta UA y el Playcoach (club) y una cinta D3 y los guantes Vapor Jet 9.0 (Bárbara)
+- **Post de agradecimiento a Nerion** con la foto del material en el césped y el estilo de los Training Day; texto B elegido. Descartados el montaje de la caja sobre un campo dibujado y sobre césped generado
+- **Balón de cuero:** el reglamento de flag de FEFAPA (art. 13) obliga a cuero o Wilson Revo en senior, así que en el partido va el GD1
+- **App:** a un jugador nuevo le salió "No hay conexión con el servidor" al pedir el código. El auth de Supabase dio dos 555 lentos y luego respondió bien siempre; fallo puntual, pendiente de que lo reintente
+
+**Archivos modificados:** `docs/pendiente.md`, `CHANGELOG.md`; fuera de git, `fefapa/`, `redes/LEEME.md`, `redes/posts/game-day-21nov/`, `redes/posts/gracias-nerion/`, `redes/plantillas/_editables/game-day-21nov_tridente-visitante.html`, `gracias-nerion_campo.html`, `cabeza-grande.png` y `foto-nerion-material.png`.
+
+**Pendiente:** respuesta de FEFAPA; reclamar a Nerion lo que falta; publicar el Game Day y el post de Nerion y apuntarlo en `redes/LEEME.md` (la foto del material parece retocada con IA: nota mal escrita y una caja de sleeves de más); confirmar que el jugador nuevo ya pudo registrarse.
+
+## [2026-11-19] — Training Day de los flags en local con textos nuevos
+
+**Qué se hizo:**
+- **Training Day de los flags** pasado en la versión local (azul noche), sin generar nada; la visitante ya se había pasado
+- Tres textos nuevos, menos repetitivos (reto, pregunta y dato), añadidos a `redes/posts/training-day-flags/texto.txt`
+- Sacado sin pedirlo el Training Day de los conos (los 4 colores); se queda en `redes/posts/training-day-conos/` con tres textos
+- `redes/LEEME.md`: flag y flags constan como pasados el 11 nov; conos, como preparado; sin usar quedan muralla y recepción
+
+**Archivos modificados:** `CHANGELOG.md`; fuera de git, `redes/LEEME.md`, `redes/posts/training-day-flags/texto.txt`, `redes/posts/training-day-conos/` (nuevo) y `redes/plantillas/training-day/foto-conos-*.png`.
+
+**Pendiente:** apuntar en `redes/LEEME.md` el día en que se publique el de los flags en local.
+
+## [2026-11-19] — Campos al Concello por Solicitude xeral y retraso de las equipaciones
+
+**Qué se hizo:**
+- **Dos solicitudes generales en la sede del Concello** (por indicación de Alex, técnico de Deportes), firmadas con Autofirma: entrenos semanales (campo o medio campo de fútbol gratis; pabellón como último recurso), reg. n.º 93450; y un campo completo 4 h el sáb 19 o dom 20 dic para la J3 en casa, reg. n.º 93452. En los motivos va que la convocatoria IDM 2026-27 se pidió en plazo y aún no hay resolución
+- Justificantes guardados en `docs/privado/`; cómo se tramita y el seguimiento, en `docs/usos-idm-concello.md`
+- **Equipaciones:** David decía que llegaban el 20 nov. El paquete está en España desde el 19 nov, pero en CTT Express (008280004101970074223) sigue "Pendiente de recepción": se calcula que llegarán el lun 23 o el mar 24. Avisado por Alibaba de que el sábado es el primer partido y recordado que prometió la entrega antes del 18 nov
+
+**Archivos modificados:** `CHANGELOG.md`, `docs/usos-idm-concello.md`, `docs/pendiente.md`; fuera de git, los dos justificantes en `docs/privado/`.
+
+**Pendiente:** respuesta de David (dijo que lo miraría por la mañana, hora de China); plan B de camisetas para el sáb 21 en Cambre; respuesta del Concello (si no llega hacia el 1 dic, llamar al 981 189 800; el campo de la J3 hay que comunicarlo a la federación antes del 4 dic).
+
+## [2026-11-19] — Factura de la licencia de Iván
+
+**Qué se hizo:**
+- **Factura FEFA n.º 2026-1000274** (19 nov, 125 €, "Licencia federativa Flag Senior"): es la licencia de Iván, pagada el 16 nov. Sin cambio de dinero
+- PDF guardado en `docs/privado/facturas/`, apuntada en `cuentas.md` y etiquetada Competiciones/FEFA y archivada en Gmail (bandeja vacía)
+- Regla nueva: todas las facturas de la FEFA se procesan así sin preguntar. Para bajar el PDF desde Chrome hay que usar el botón Descargar del visor del adjunto (las descargas por JS no llegan a disco)
+
+**Archivos modificados:** `CHANGELOG.md`; fuera de git, `docs/privado/cuentas.md` y `docs/privado/facturas/FEFA-2026-1000274-licencia-Ivan.pdf`.
+
+**Pendiente:** cobrar a Iván los 120 € que faltan; validación de su licencia en Clupik.
+
+## [2026-11-18] — Factura de la licencia de club, post de la Liga Norte y póster retro
+
+**Qué se hizo:**
+- **Papeleras de Gmail revisadas** (club, personal, La Mina y cuartaydato): no faltaba nada. La papelera del club (1.341 correos de la limpieza del 23 oct) se vacía sola hacia el 22 nov
+- **Factura de la licencia de club FEFA** (n.º 2026-1000267, 300 €, "Licencia Club Tackle 2026/27"): estaba archivada sin etiqueta. PDF guardado en `docs/privado/facturas/`, apuntada en `cuentas.md` (sin cambio de dinero) y etiquetada FEFA en Gmail
+- **Post de la Liga Norte** (`redes/posts/liga-norte/`): escudo de Poseidón, logo de FEFAPA (de fefapa.es) y los 8 rivales, cada uno sobre el color de su club (Bisons rojo y Mariners verde según Wikipedia; el resto, sacado de su escudo). Ravens pasa a llamarse Black Ravens. Texto del post y hora recomendada (hoy o jueves, 19:30-21:00)
+- **Póster retro** (`redes/plantillas/poster/retro.png`): "Atlantics" gigante en cursiva crema con sombra negra, fondo Riverwalk con grano, semitono y grada desenfocada. Al pie, Coruña, el tridente y WeAreAtlantics. `generar_poster.py` recorta al jugador con rembg y lo pone delante de las letras
+
+**Archivos modificados:** `CHANGELOG.md`; fuera de git, `docs/privado/cuentas.md`, `docs/privado/facturas/FEFA-2026-1000267-licencia-club.pdf`, `redes/LEEME.md`, `redes/posts/liga-norte/`, `redes/plantillas/poster/` y, en `redes/plantillas/_editables/`, `liga-norte_especial.html`, `ln/`, `poster_retro.html` y `generar_poster.py`.
+
+**Pendiente:** publicar el post de la Liga Norte (las cuentas de Instagram de FEFAPA y de los equipos, por mirar); confirmar los colores de Norteños, MadBulls, Phoenix y Pumas; primer póster con la foto de un jugador nuestro.
+
+## [2026-11-16] — Correo del club, licencia de Iván y subvenciones de la Diputación
+
+**Qué se hizo:**
+- **Correo:** revisado y ordenado (etiquetas de colegios, factura de la FEFA en FEFA, bandeja vacía). Guardada la factura de las 9 licencias (1.125 €)
+- **J1:** el partido contra Towers es el sábado 21 a las 14:30 en el Dani Mallo; corregido en la app (estaba el domingo, sin hora)
+- **Iván:** DNI bajado de la app, datos corregidos, PDF de FEFAPA rellenos, foto recortada del DNI e inscrito en Clupik (FEFA Nacional Flag Senior). Licencia pagada (125 €), apuntada en `cuentas.md` y en la app (caja 73,24 €) y justificante enviado a la FEFA
+- **Subvenciones de la Diputación 2027:** leídas las bases de FO103A/B/C, FO104 y D. La única realista es la FO103C (sin presupuesto mínimo); consulta enviada a deportes@dacoruna.gal sobre si la Liga Norte cuenta como nacional
+- **Estatutos y registro:** bajados del Drive y revisados (adaptados a la Ley 3/2012). La junta se cambió en 2021 (notificación de Notifica.gal); para confirmar, certificado PR946A
+
+**Archivos modificados:** `docs/subvenciones-diputacion-2027.md` (nuevo), `docs/pendiente.md`, `docs/inscribir-licencias-fefa.md`, `CHANGELOG.md`, `docs/decisiones.md`; fuera de git, `docs/privado/cuentas.md`, `docs/privado/facturas/`, `docs/privado/club/`, `fefapa/identidad/Ivan Castineira Diaz/`.
+
+**Pendiente:** respuesta de la Diputación; socios (Luis); certificado del REDEGA y cuenta del club; validación de la licencia de Iván.
+
 ## [2026-11-15] — Plantillas para los uniformes de College Football 27
 
 **Qué se hizo:**
